@@ -1,1 +1,5 @@
 node_modules
+cli/watchExec.json
+cli/watchExecCompleted.json
+lib
+out

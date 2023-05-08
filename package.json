@@ -1,6 +1,11 @@
 {
     "devDependencies": {
+        "esbuild": "^0.17.18",
         "typescript": "5.0.4"
+    },
+    "dependencies": {
+        "kill-port": "2.0.1",
+        "nodemon": "2.0.22"
     },
     "engines": {
         "npm": "9.5.1",
