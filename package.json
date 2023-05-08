@@ -7,6 +7,6 @@
         "node": "18.16.0"
     },
     "bin": {
-        "dev": "./cli/dev.js"
+        "pigeon dev": "./cli/dev.js"
     }
 }
