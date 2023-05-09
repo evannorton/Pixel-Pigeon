@@ -29,7 +29,7 @@ import("nanoid").then(({ nanoid }) => {
   app.get("/", (_req, res) => {
     res.send(html);
   });
-  app.use("/out", express.static("out"));
+  app.use("/out", express.static(join(__dirname, "out")));
 
   const server = new http.Server(app);
 
