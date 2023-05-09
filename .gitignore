@@ -1,5 +1,6 @@
 node_modules
 cli/watchExec.json
 cli/watchExecCompleted.json
-lib
+game-lib
+library-lib
 out
