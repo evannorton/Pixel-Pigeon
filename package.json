@@ -1,4 +1,8 @@
 {
+    "main": "./api/index.ts",
+    "browser": "./api/index.ts",
+    "module": "./api/index.ts",
+    "types": "./api/index.ts",
     "dependencies": {
         "esbuild": "0.17.18",
         "express": "4.18.2",
