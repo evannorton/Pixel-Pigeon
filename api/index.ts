@@ -1,1 +1,1 @@
-export { default as init } from './functions/init';
+export { default as init } from "./functions/init";

@@ -1,5 +1,5 @@
 const init = (): void => {
-  console.log('init');
+  console.log("init");
 };
 
 export default init;

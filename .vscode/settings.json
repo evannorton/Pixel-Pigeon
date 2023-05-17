@@ -12,9 +12,8 @@
     "powermode.shake": false,
     "powermode.combo.counterEnabled": "hide",
     "powermode.combo.timerEnabled": "hide",
-    "retrommo.kind": "localhost (dev)",
     "editor.tabSize": 2,
-    "[typescript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "eslint.format.enable": true,
+    "files.eol": "\n"
 }
