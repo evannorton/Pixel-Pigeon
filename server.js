@@ -1,21 +1,16 @@
 const express = require("express");
-const { readFileSync, writeFileSync } = require("fs");
+const { readFileSync } = require("fs");
 const http = require("http");
-const Mustache = require("mustache");
 const { join } = require("path");
 const socketio = require("socket.io");
 
 console.log("Running game server.");
 
+const runID = JSON.parse(readFileSync(join(__dirname, "run-id.json")));
+
 import("nanoid").then(({ nanoid }) => {
 
   const app = express();
-
-  const runID = nanoid();
-
-  const html = Mustache.render(readFileSync(join(__dirname, "template.mustache")).toString(), {
-    runID
-  });
 
   app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -26,10 +21,7 @@ import("nanoid").then(({ nanoid }) => {
     express.json()(req, res, next);
   });
 
-  app.get("/", (_req, res) => {
-    res.send(html);
-  });
-  app.use("/out", express.static(join(__dirname, "out")));
+  app.use("/", express.static(join("out")));
 
   const server = new http.Server(app);
 

@@ -1,6 +1,15 @@
-const { readFileSync, writeFileSync } = require("fs");
-const { join } = require("path");
+import("nanoid").then(({ nanoid }) => {
+  const { readFileSync, writeFileSync } = require("fs");
+  const { join } = require("path");
+  const Mustache = require("mustache");
+  
+  const runID = nanoid();
 
-const html = readFileSync(join(__dirname, "..", "template.mustache")).toString();
-
-writeFileSync(join(__dirname, "..", "out", "index.html"), html);
+  writeFileSync(join(__dirname, "..", "run-id.json"), JSON.stringify(runID));
+  
+  const html = Mustache.render(readFileSync(join(__dirname, "..", "template.mustache")).toString(), {
+    runID
+  });
+  
+  writeFileSync(join("out", "index.html"), html);
+});

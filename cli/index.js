@@ -12,6 +12,13 @@ if (!existsSync(join("src", "tsconfig.json"))) {
 }
 
 switch (process.argv[2]) {
+    case "build":
+        require("./build");
+        break;
     case "dev":
         require("./watch");
+        break;
+    default:
+        console.log("xD");
+        break;
 }

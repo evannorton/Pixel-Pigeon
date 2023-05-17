@@ -1,5 +1,5 @@
 const init = (): void => {
-  console.log("init");
+  console.log("PMGL game initialized.");
 };
 
 export default init;
