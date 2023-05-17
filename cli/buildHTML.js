@@ -11,5 +11,5 @@ import("nanoid").then(({ nanoid }) => {
     runID
   });
   
-  writeFileSync(join("out", "index.html"), html);
+  writeFileSync(join(__dirname, "..", "out", "index.html"), html);
 });

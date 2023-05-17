@@ -23,6 +23,7 @@
         "mustache": "4.2.0",
         "nanoid": "4.0.2",
         "nodemon": "2.0.22",
+        "npm-build-zip": "1.0.3",
         "socket.io": "4.6.1",
         "socket.io-client": "4.6.1",
         "typescript": "5.0.4"
