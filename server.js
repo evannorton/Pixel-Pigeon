@@ -21,7 +21,7 @@ import("nanoid").then(({ nanoid }) => {
     express.json()(req, res, next);
   });
 
-  app.use("/", express.static(join("out")));
+  app.use("/", express.static(join(__dirname, "out")));
 
   const server = new http.Server(app);
 
