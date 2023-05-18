@@ -1,4 +1,5 @@
 {
+    "name": "pigeon-mode-game-library",
     "main": "./api/index.ts",
     "browser": "./api/index.ts",
     "module": "./api/index.ts",
