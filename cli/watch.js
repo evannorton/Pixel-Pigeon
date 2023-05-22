@@ -3,7 +3,7 @@ const nodemon = require("nodemon");
 const { readFileSync, writeFileSync, existsSync } = require("fs");
 const { join, resolve, sep } = require("path");
 
-const build = `node ./node_modules/pigeon-mode-game-library/cli/createLib && tsc --preserveWatchOutput --p ./src/tsconfig.json --outDir ./node_modules/pigeon-mode-game-library/game-lib && tsc --preserveWatchOutput --p ./node_modules/pigeon-mode-game-library/hot-reload/tsconfig.json --outDir ./node_modules/pigeon-mode-game-library/hot-reload-lib && esbuild ./node_modules/pigeon-mode-game-library/game-lib/index.js --bundle --sourcemap --outfile=./node_modules/pigeon-mode-game-library/out/game-script.js && esbuild ./node_modules/pigeon-mode-game-library/hot-reload-lib/index.js --bundle --sourcemap --outfile=./node_modules/pigeon-mode-game-library/out/library-script.js && node ./node_modules/pigeon-mode-game-library/cli/buildHTML`;
+const build = `node ./node_modules/pigeon-mode-game-library/cli/createLib && tsc --preserveWatchOutput --p ./src/tsconfig.json --outDir ./node_modules/pigeon-mode-game-library/game-lib && tsc --preserveWatchOutput --p ./node_modules/pigeon-mode-game-library/hot-reload/tsconfig.json --outDir ./node_modules/pigeon-mode-game-library/hot-reload-lib && esbuild ./node_modules/pigeon-mode-game-library/game-lib/index.js --bundle --sourcemap --outfile=./node_modules/pigeon-mode-game-library/out/game-script.js && esbuild ./node_modules/pigeon-mode-game-library/hot-reload-lib/index.js --bundle --sourcemap --outfile=./node_modules/pigeon-mode-game-library/out/library-script.js && node ./node_modules/pigeon-mode-game-library/cli/buildHTML && node ./node_modules/pigeon-mode-game-library/cli/build-config.js`;
 
 writeFileSync(join(__dirname, "watchExec.json"), JSON.stringify([build]));
 writeFileSync(join(__dirname, "watchExecCompleted.json"), JSON.stringify(false));
@@ -18,7 +18,8 @@ const watcher = nodemon({
     "./src/",
     "./node-modules/",
     "./package.json",
-    "./package-lock.json"
+    "./package-lock.json",
+    "./pmgl.json"
   ]
 });
 
@@ -66,6 +67,9 @@ watcher.addListener("restart", (files) => {
       return true;
     }
     if (joinedFilePieces === "package-lock.json") {
+      return true;
+    }
+    if (joinedFilePieces === "pmgl.json") {
       return true;
     }
     if (filePieces.length === 2 && filePieces[0] === "scripts") {

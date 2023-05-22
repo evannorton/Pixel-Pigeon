@@ -1,8 +1,9 @@
-node_modules
+api/interfaces/Config.ts
 cli/watchExec.json
 cli/watchExecCompleted.json
 cli/watchModifiedFiles.json
 game-lib
 hot-reload-lib
+node_modules
 run-id.json
 out

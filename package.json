@@ -28,7 +28,9 @@
         "pixi.js": "7.2.4",
         "socket.io": "4.6.1",
         "socket.io-client": "4.6.1",
-        "typescript": "5.0.4"
+        "typescript": "5.0.4",
+        "zod": "3.21.4",
+        "zod-to-ts": "1.1.4"
     },
     "engines": {
         "npm": "9.5.1",
