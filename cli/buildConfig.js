@@ -1,12 +1,7 @@
 const { writeFileSync } = require('fs');
 const { join } = require('path');
-const { z } = require('zod');
 const { zodToTs, printNode } = require('zod-to-ts')
-
-const configSchema = z.object({
-	width: z.number(),
-  height: z.number(),
-});
+const { configSchema } = require('./configSchema');
 
 const { node } = zodToTs(configSchema, 'Config')
 

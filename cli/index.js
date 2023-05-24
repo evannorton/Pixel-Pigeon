@@ -1,10 +1,25 @@
 #!/usr/bin/env node
 
-const { existsSync, writeFileSync } = require("fs");
+const { existsSync, writeFileSync, readFileSync } = require("fs");
 const { join } = require("path");
+const { configSchema } = require('./configSchema');
 
 if (!existsSync(join("pmgl.json"))) {
     throw new Error("You must create a pmgl.json file for use with Pigeon Mode Game Library.");
+}
+
+const configString = readFileSync(join("pmgl.json")).toString();
+try {
+    JSON.parse(configString);
+}
+catch (error) {
+    throw new Error("Your pmgl.json file is not valid JSON.");
+}
+try {
+    configSchema.parse(JSON.parse(configString));
+}
+catch(error) {
+    throw new Error("Your pmgl.json file does not match the schema.");
 }
 
 if (!existsSync(join("src"))) {
