@@ -8,7 +8,7 @@ import("nanoid").then(({ nanoid }) => {
   writeFileSync(join(__dirname, "..", "run-id.json"), JSON.stringify(runID));
   
   const html = Mustache.render(readFileSync(join(__dirname, "..", "template.mustache")).toString(), {
-    config : JSON.parse(readFileSync(join(__dirname, "..", "..", "..", "pmgl.json")).toString()),
+    config : readFileSync(join(__dirname, "..", "..", "..", "pmgl.json")).toString(),
     runID
   });
   
