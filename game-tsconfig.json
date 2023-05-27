@@ -12,5 +12,8 @@
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
       "resolveJsonModule": true
-  }
+  },
+  "include": [
+      "../../src"
+  ]
 }
