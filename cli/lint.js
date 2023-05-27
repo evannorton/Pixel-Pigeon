@@ -1,9 +1,22 @@
-const { exec } = require("child_process");
+const { ESLint } = require("eslint");
+const { join } = require("path");
 
-const lintProcess = exec("eslint ../../src")
-lintProcess.stdout.on("data", (data) => {
-  console.log(data);
+const eslint = new ESLint({
+  cwd: join(__dirname, "..", "..", ".."),
+  overrideConfig: {
+    "parserOptions": {
+      "project": "./src/tsconfig.json"
+    },
+    "extends": [
+      "./node_modules/pigeon-mode-game-library/.eslintrc",
+    ],
+  }
 });
-lintProcess.stderr.on("data", (data) => {
-  console.error(data);
+
+eslint.lintFiles("./src/index.ts").then((results) => {
+  for (const result of results) {
+    for (const message of result.messages) {
+      console.error(`${result.filePath}:${message.line}:${message.column} ${message.message} (${message.ruleId})`);
+    }
+  }
 });
