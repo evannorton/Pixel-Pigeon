@@ -1,6 +1,3 @@
-const { z } = require('zod');
+const { generate } = require("ts-to-zod");
 
-module.exports.configSchema = z.object({
-	width: z.number(),
-  height: z.number(),
-});
+module.exports.configSchema = generate(readFileSync(join(__dirname, "..", "api", "interfaces", "Config.ts")).toString());

@@ -1,5 +1,3 @@
-api/config.json
-api/interfaces/Config.ts
 cli/watchExec.json
 cli/watchExecCompleted.json
 cli/watchModifiedFiles.json
