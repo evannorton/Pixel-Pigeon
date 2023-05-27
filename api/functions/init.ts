@@ -1,5 +1,5 @@
 import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
-import config from "../config.json";
+import config from "../config";
 
 const init = (): void => {
   console.log("PMGL game initialized.");
