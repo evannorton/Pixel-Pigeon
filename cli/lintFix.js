@@ -1,3 +1,5 @@
+const { exec } = require("child_process");
+
 const lintProcess = exec("eslint ../../src --fix")
 lintProcess.stdout.on("data", (data) => {
   console.log(data);
