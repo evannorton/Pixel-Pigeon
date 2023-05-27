@@ -5,7 +5,7 @@ const eslint = new ESLint({
   cwd: join(__dirname, "..", "..", ".."),
   overrideConfig: {
     "parserOptions": {
-      "project": "./src/tsconfig.json"
+      "project": "./node_modules/pigeon-mode-game-library/game-tsconfig.json"
     },
     "extends": [
       "./node_modules/pigeon-mode-game-library/.eslintrc",
