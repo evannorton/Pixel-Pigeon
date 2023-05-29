@@ -36,7 +36,7 @@ const validSlugCharacters: string[] = [
   "8",
   "9",
   "0",
-  "-"
+  "-",
 ];
 
 export default validSlugCharacters;

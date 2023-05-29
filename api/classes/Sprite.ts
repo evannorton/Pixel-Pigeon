@@ -1,6 +1,6 @@
+import { Assets, Texture } from "pixi.js";
 import Definable from "./Definable";
 import state from "../state";
-import { Assets, Texture } from "pixi.js";
 
 interface SpriteOptions {
   readonly x: number;
@@ -8,21 +8,25 @@ interface SpriteOptions {
 }
 
 class Sprite extends Definable {
-  private _options: SpriteOptions
+  private _options: SpriteOptions;
   private _texture: Texture | null = null;
 
   public constructor(slug: string, options: SpriteOptions) {
     super(slug);
     this._options = options;
-    Assets.load(`./images/${slug}.png`).then((texture): void => {
-      this._texture = texture;
-      state.loadedAssets++;
-    });
+    Assets.load(`./images/${slug}.png`)
+      .then((texture: Texture): void => {
+        this._texture = texture;
+        state.loadedAssets++;
+      })
+      .catch((e) => {
+        throw e;
+      });
   }
 
   public get options(): SpriteOptions {
     return {
-      ...this._options
+      ...this._options,
     };
   }
 
