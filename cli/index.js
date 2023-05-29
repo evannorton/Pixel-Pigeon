@@ -30,6 +30,10 @@ if (!existsSync(join("src"))) {
     throw new Error("You must create an src folder for use with Pigeon Mode Game Library.");
 }
 
+if (!existsSync(join("images"))) {
+    throw new Error("You must create an images folder for use with Pigeon Mode Game Library.");
+}
+
 switch (process.argv[2]) {
     case "build":
         require("./build");
