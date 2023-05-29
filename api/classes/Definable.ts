@@ -20,6 +20,14 @@ abstract class Definable {
       list.set(this._slug, this);
     }
   }
+
+  public get slug(): string {
+    return this._slug;
+  }
+
+  protected getAccessorErrorMessage(property: string): string {
+    return `Could not access ${this.constructor.name} "${this._slug}" ${property}.`;
+  }
 }
 
 export default Definable;

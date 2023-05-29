@@ -5,6 +5,9 @@ import drawRectangle from "./draw/drawRectangle";
 import drawText from "./draw/drawText";
 import getTotalAssets from "./getTotalAssets";
 import state from "../state";
+import getDefinables from "./getDefinables";
+import Sprite from "../classes/Sprite";
+import drawImage from "pigeon-mode-game-library/api/functions/draw/drawImage";
 
 const render = (): void => {
   app.stage.removeChildren();
@@ -31,6 +34,11 @@ const render = (): void => {
       "center",
       "middle"
     );
+  }
+  else {
+    getDefinables(Sprite).forEach((sprite): void => {
+      drawImage(sprite.slug, 1, 0, 0, sprite.texture.width, sprite.texture.height, sprite.options.x, sprite.options.y, sprite.texture.width, sprite.texture.height);
+    });
   }
 
   app.stage.sortChildren();
