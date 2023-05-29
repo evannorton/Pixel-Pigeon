@@ -1,3 +1,7 @@
+#screen {
+  cursor: url("./cursors/default.png"), default;
+}
+
 canvas {
   display: block;
 }
