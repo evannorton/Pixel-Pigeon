@@ -1,5 +1,5 @@
 import { Application } from "pixi.js";
-import config from "pigeon-mode-game-library/api/config";
+import config from "../api/config";
 
 const app = new Application({
   height: config.height,

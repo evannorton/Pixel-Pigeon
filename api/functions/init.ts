@@ -1,11 +1,10 @@
 import { Assets, BaseTexture, SCALE_MODES, settings } from "pixi.js";
-import app from "pigeon-mode-game-library/api/app";
-import sizeScreen from "pigeon-mode-game-library/api/functions/sizeScreen";
-import state from "pigeon-mode-game-library/api/state";
-import tick from "pigeon-mode-game-library/api/functions/tick";
+import app from "../app";
+import sizeScreen from "./sizeScreen";
+import state from "../state";
+import tick from "./tick";
 
 const init = (): void => {
-
   console.log("PMGL game initialized.");
 
   const screen = document.getElementById("screen");
@@ -21,21 +20,24 @@ const init = (): void => {
     e.preventDefault();
   });
   screen?.addEventListener("mousedown", () => {
-   if (!state.hasInteracted) {
-    state.hasInteracted = true;
-   }
+    if (!state.hasInteracted) {
+      state.hasInteracted = true;
+    }
   });
 
   screen?.appendChild(app.view as HTMLCanvasElement);
 
   sizeScreen();
-  
-  Assets.load("./fonts/RetroPixels.fnt").then((): void => {
-    state.loadedAssets++;
-  });
+
+  Assets.load("./fonts/RetroPixels.fnt")
+    .then((): void => {
+      state.loadedAssets++;
+    })
+    .catch((e) => {
+      throw e;
+    });
 
   app.ticker.add(tick);
-
 };
 
 export default init;

@@ -1,4 +1,4 @@
-import config from "pigeon-mode-game-library/api/config";
+import config from "../config";
 
 const sizeScreen = (): void => {
   const screen = document.getElementById("screen");

@@ -1,4 +1,4 @@
-import State from "pigeon-mode-game-library/api/interfaces/State";
+import State from "./interfaces/State";
 
 const state: State = {
   currentTime: 0,

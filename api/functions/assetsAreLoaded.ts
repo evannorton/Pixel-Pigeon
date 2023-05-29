@@ -1,4 +1,4 @@
-import getTotalAssets from "pigeon-mode-game-library/api/functions/getTotalAssets";
+import getTotalAssets from "./getTotalAssets";
 import state from "../state";
 
 const assetsAreLoaded = (): boolean => state.loadedAssets === getTotalAssets();
