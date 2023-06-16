@@ -8,7 +8,7 @@ const getDefinable = <T extends Definable>(
   const definable = getDefinables(prototype).get(slug);
   if (typeof definable === "undefined") {
     throw new Error(
-      `Definable ${slug} of type ${prototype.name} does not exist.`
+      `${prototype.name} "${slug}" does not exist.`
     );
   }
   return definable;
