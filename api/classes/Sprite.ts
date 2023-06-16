@@ -19,8 +19,8 @@ class Sprite extends Definable {
         this._texture = texture;
         state.loadedAssets++;
       })
-      .catch((e) => {
-        throw e;
+      .catch((): void => {
+        throw new Error(`Sprite "${slug}" could not be loaded.`);
       });
   }
 
