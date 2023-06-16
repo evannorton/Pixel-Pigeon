@@ -1,11 +1,11 @@
 import { Assets, BaseTexture, SCALE_MODES, settings } from "pixi.js";
+import DOMElement from "../classes/DOMElement";
+import InputHandler from "../classes/InputHandler";
 import app from "../app";
+import getDefinables from "./getDefinables";
 import sizeScreen from "./sizeScreen";
 import state from "../state";
 import tick from "./tick";
-import DOMElement from "../classes/DOMElement";
-import getDefinables from "./getDefinables";
-import InputHandler from "../classes/InputHandler";
 
 const init = (): void => {
   console.log("PMGL game initialized.");

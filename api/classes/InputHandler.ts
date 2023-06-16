@@ -1,6 +1,6 @@
 import DOMElement from "./DOMElement";
-import getDefinable from "../functions/getDefinable";
 import Definable from "./Definable";
+import getDefinable from "../functions/getDefinable";
 import getToken from "../functions/getToken";
 
 interface Options {
