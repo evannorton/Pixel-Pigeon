@@ -1,4 +1,8 @@
-import State from "./interfaces/State";
+interface State {
+  currentTime: number;
+  hasInteracted: boolean;
+  loadedAssets: number;
+}
 
 const state: State = {
   currentTime: 0,

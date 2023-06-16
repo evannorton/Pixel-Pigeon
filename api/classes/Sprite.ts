@@ -8,7 +8,7 @@ interface SpriteOptions {
 }
 
 class Sprite extends Definable {
-  private _options: SpriteOptions;
+  private readonly _options: SpriteOptions;
   private _texture: Texture | null = null;
 
   public constructor(slug: string, options: SpriteOptions) {

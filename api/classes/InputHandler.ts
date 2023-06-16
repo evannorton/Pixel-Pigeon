@@ -10,7 +10,7 @@ interface Options {
 }
 
 class InputHandler extends Definable {
-  private _options: Options;
+  private readonly _options: Options;
 
   public constructor(options: Options) {
     super(getToken());
