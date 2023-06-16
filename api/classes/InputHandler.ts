@@ -37,7 +37,10 @@ class InputHandler extends Definable {
   }
 
   private attemptInput(): void {
-    if (typeof this._options.condition === "undefined" || this._options.condition()) {
+    if (
+      typeof this._options.condition === "undefined" ||
+      this._options.condition()
+    ) {
       this._options.onInput();
     }
   }

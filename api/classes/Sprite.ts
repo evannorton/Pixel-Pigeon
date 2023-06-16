@@ -1,7 +1,7 @@
 import { Assets, Texture } from "pixi.js";
 import Definable from "./Definable";
-import state from "../state";
 import drawImage from "../functions/draw/drawImage";
+import state from "../state";
 
 interface SpriteOptions {
   readonly condition?: () => boolean;
@@ -27,7 +27,10 @@ class Sprite extends Definable {
   }
 
   public attemptDraw(): void {
-    if (typeof this._options.condition === "undefined" || this._options.condition()) {
+    if (
+      typeof this._options.condition === "undefined" ||
+      this._options.condition()
+    ) {
       drawImage(
         this.texture,
         1,

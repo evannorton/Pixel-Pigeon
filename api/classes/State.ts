@@ -4,16 +4,16 @@ class State<Schema> {
   constructor(initialState: Schema) {
     this._values = initialState;
   }
-  
+
   public get values(): Schema {
-    return { ...this._values};
+    return { ...this._values };
   }
 
   public setValues(values: Partial<Schema>): void {
     this._values = {
       ...this._values,
-      ...values
-    }
+      ...values,
+    };
   }
 }
 
