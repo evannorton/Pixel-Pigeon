@@ -1,8 +1,10 @@
 import { Assets, Texture } from "pixi.js";
 import Definable from "./Definable";
 import state from "../state";
+import drawImage from "../functions/draw/drawImage";
 
 interface SpriteOptions {
+  readonly condition?: () => boolean;
   readonly x: number;
   readonly y: number;
 }
@@ -24,13 +26,24 @@ class Sprite extends Definable {
       });
   }
 
-  public get options(): SpriteOptions {
-    return {
-      ...this._options,
-    };
+  public attemptDraw(): void {
+    if (typeof this._options.condition === "undefined" || this._options.condition()) {
+      drawImage(
+        this.texture,
+        1,
+        0,
+        0,
+        this.texture.width,
+        this.texture.height,
+        this._options.x,
+        this._options.y,
+        this.texture.width,
+        this.texture.height
+      );
+    }
   }
 
-  public get texture(): Texture {
+  private get texture(): Texture {
     if (this._texture !== null) {
       return this._texture;
     }

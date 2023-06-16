@@ -12,7 +12,7 @@ class State<Schema> {
   public setValues(values: Partial<Schema>): void {
     this._values = {
       ...this._values,
-      values
+      ...values
     }
   }
 }

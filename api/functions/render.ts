@@ -2,7 +2,6 @@ import Sprite from "../classes/Sprite";
 import app from "../app";
 import assetsAreLoaded from "./assetsAreLoaded";
 import config from "../config";
-import drawImage from "./draw/drawImage";
 import drawRectangle from "./draw/drawRectangle";
 import drawText from "./draw/drawText";
 import getDefinables from "./getDefinables";
@@ -36,18 +35,7 @@ const render = (): void => {
     );
   } else {
     getDefinables(Sprite).forEach((sprite): void => {
-      drawImage(
-        sprite.slug,
-        1,
-        0,
-        0,
-        sprite.texture.width,
-        sprite.texture.height,
-        sprite.options.x,
-        sprite.options.y,
-        sprite.texture.width,
-        sprite.texture.height
-      );
+      sprite.attemptDraw();
     });
   }
 

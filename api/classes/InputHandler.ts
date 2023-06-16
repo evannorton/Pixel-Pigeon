@@ -4,9 +4,10 @@ import getDefinable from "../functions/getDefinable";
 import getToken from "../functions/getToken";
 
 interface Options {
-  leftClick?: boolean;
-  rightClick?: boolean;
-  onInput(): void;
+  readonly condition?: () => boolean;
+  readonly leftClick?: boolean;
+  readonly rightClick?: boolean;
+  readonly onInput: () => void;
 }
 
 class InputHandler extends Definable {
@@ -22,16 +23,22 @@ class InputHandler extends Definable {
     if (this._options.leftClick) {
       screen.addEventListener("mousedown", (event: MouseEvent): void => {
         if (event.button === 0) {
-          this._options.onInput();
+          this.attemptInput();
         }
       });
     }
     if (this._options.rightClick) {
       screen.addEventListener("mousedown", (event: MouseEvent): void => {
         if (event.button === 2) {
-          this._options.onInput();
+          this.attemptInput();
         }
       });
+    }
+  }
+
+  private attemptInput(): void {
+    if (typeof this._options.condition === "undefined" || this._options.condition()) {
+      this._options.onInput();
     }
   }
 }

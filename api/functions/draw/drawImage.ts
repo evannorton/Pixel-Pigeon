@@ -1,11 +1,9 @@
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
-import Sprite from "../../classes/Sprite";
 import app from "../../app";
 import config from "../../config";
-import getDefinable from "../getDefinable";
 
 const drawImage = (
-  spriteSlug: string,
+  texture: Texture,
   opacity: number,
   sourceX: number,
   sourceY: number,
@@ -16,7 +14,6 @@ const drawImage = (
   width: number,
   height: number
 ): void => {
-  const sprite = getDefinable(Sprite, spriteSlug);
   const chopX: number = Math.max(x * -1, 0);
   const chopY: number = Math.max(y * -1, 0);
   const adjustedX: number = Math.max(x, 0);
@@ -41,7 +38,7 @@ const drawImage = (
   );
   const pixiSprite: PixiSprite = new PixiSprite(
     new Texture(
-      sprite.texture.baseTexture,
+      texture.baseTexture,
       new Rectangle(
         adjustedSourceX,
         adjustedSourceY,
