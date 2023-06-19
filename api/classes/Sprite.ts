@@ -19,7 +19,7 @@ class Sprite extends Definable {
     Assets.load(`./images/${slug}.png`)
       .then((texture: Texture): void => {
         this._texture = texture;
-        state.loadedAssets++;
+        state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
       })
       .catch((): void => {
         throw new Error(`Sprite "${slug}" could not be loaded.`);

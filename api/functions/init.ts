@@ -22,12 +22,27 @@ const init = (): void => {
   app.renderer.view.addEventListener?.("contextmenu", (e: Event): void => {
     e.preventDefault();
   });
-  screen.addEventListener("mousedown", () => {
-    if (!state.hasInteracted) {
-      state.hasInteracted = true;
+  screen.addEventListener("mousedown", (event: MouseEvent) => {
+    if (!state.values.hasInteracted) {
+      state.setValues({ hasInteracted: true });
+    }
+    else {
       getDefinables(InputHandler).forEach((inputHandler) => {
-        inputHandler.listen();
+        inputHandler.handleMousedown(event);
       });
+    }
+  });
+  screen.addEventListener("keydown", (event: KeyboardEvent): void => {
+    if (!state.values.heldKeys.includes(event.code)) {
+      state.setValues({ heldKeys: [...state.values.heldKeys, event.code] });
+      getDefinables(InputHandler).forEach((inputHandler) => {
+        inputHandler.handleKeydown(event);
+      });
+    }
+  });
+  screen.addEventListener("keyup", (e: KeyboardEvent): void => {
+    if (state.values.heldKeys.includes(e.code)) {
+      state.setValues({ heldKeys: state.values.heldKeys.filter((key) => key !== e.code) });
     }
   });
 
@@ -37,7 +52,7 @@ const init = (): void => {
 
   Assets.load("./fonts/RetroPixels.fnt")
     .then((): void => {
-      state.loadedAssets++;
+      state.setValues({ loadedAssets: state.values.loadedAssets +1 });
     })
     .catch((e) => {
       throw e;

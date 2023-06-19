@@ -12,7 +12,7 @@ const render = (): void => {
   app.stage.removeChildren();
   drawRectangle("#000000", 1, 0, 0, config.width, config.height);
   if (!assetsAreLoaded()) {
-    const current: number = state.loadedAssets;
+    const current: number = state.values.loadedAssets;
     const total: number = getTotalAssets();
     const percent: number = current / total;
     const width: number = Math.floor(config.width * 0.625);
@@ -21,7 +21,7 @@ const render = (): void => {
     const y: number = Math.floor((config.height - height) / 2);
     drawRectangle("#343434", 1, x, y, width, height);
     drawRectangle("#7b7b7b", 1, x, y, Math.floor(width * percent), height);
-  } else if (!state.hasInteracted) {
+  } else if (!state.values.hasInteracted) {
     drawText(
       "Click to focus",
       "#ffffff",
