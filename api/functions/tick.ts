@@ -4,7 +4,9 @@ import state from "../state";
 import update from "./update";
 
 const tick = (): void => {
-  state.setValues({ currentTime: state.values.currentTime + app.ticker.deltaMS });
+  state.setValues({
+    currentTime: state.values.currentTime + app.ticker.deltaMS,
+  });
   update();
   render();
 };

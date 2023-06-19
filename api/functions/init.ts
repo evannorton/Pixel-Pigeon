@@ -25,8 +25,7 @@ const init = (): void => {
   screen.addEventListener("mousedown", (event: MouseEvent) => {
     if (!state.values.hasInteracted) {
       state.setValues({ hasInteracted: true });
-    }
-    else {
+    } else {
       getDefinables(InputHandler).forEach((inputHandler) => {
         inputHandler.handleMousedown(event);
       });
@@ -42,7 +41,9 @@ const init = (): void => {
   });
   screen.addEventListener("keyup", (e: KeyboardEvent): void => {
     if (state.values.heldKeys.includes(e.code)) {
-      state.setValues({ heldKeys: state.values.heldKeys.filter((key) => key !== e.code) });
+      state.setValues({
+        heldKeys: state.values.heldKeys.filter((key) => key !== e.code),
+      });
     }
   });
 
@@ -52,7 +53,7 @@ const init = (): void => {
 
   Assets.load("./fonts/RetroPixels.fnt")
     .then((): void => {
-      state.setValues({ loadedAssets: state.values.loadedAssets +1 });
+      state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
     })
     .catch((e) => {
       throw e;

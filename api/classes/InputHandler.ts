@@ -18,13 +18,19 @@ class InputHandler extends Definable {
   }
 
   public handleMousedown(event: MouseEvent): void {
-    if ((this._options.leftClick && event.button === 0) || (this._options.rightClick && event.button === 2)) {
+    if (
+      (this._options.leftClick && event.button === 0) ||
+      (this._options.rightClick && event.button === 2)
+    ) {
       this.attemptInput();
     }
   }
 
   public handleKeydown(event: KeyboardEvent): void {
-    if (typeof this._options.keys !== "undefined" && this._options.keys.includes(event.code)) {
+    if (
+      typeof this._options.keys !== "undefined" &&
+      this._options.keys.includes(event.code)
+    ) {
       this.attemptInput();
     }
   }
