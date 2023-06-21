@@ -37,7 +37,8 @@ class InputHandler extends Definable {
   }
 
   public handleGamepadButton(button: number): void {
-    if (typeof this._options.gamepadButtons !== "undefined" &&
+    if (
+      typeof this._options.gamepadButtons !== "undefined" &&
       this._options.gamepadButtons.includes(button)
     ) {
       this.attemptInput();
