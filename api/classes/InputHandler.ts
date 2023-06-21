@@ -6,6 +6,7 @@ interface Options {
   readonly leftClick?: boolean;
   readonly rightClick?: boolean;
   readonly keys?: string[];
+  readonly gamepadButtons: number[];
   readonly onInput: () => void;
 }
 
@@ -17,19 +18,27 @@ class InputHandler extends Definable {
     this._options = options;
   }
 
-  public handleMousedown(event: MouseEvent): void {
+  public handleClick(button: number): void {
     if (
-      (this._options.leftClick && event.button === 0) ||
-      (this._options.rightClick && event.button === 2)
+      (this._options.leftClick && button === 0) ||
+      (this._options.rightClick && button === 2)
     ) {
       this.attemptInput();
     }
   }
 
-  public handleKeydown(event: KeyboardEvent): void {
+  public handleKey(button: string): void {
     if (
       typeof this._options.keys !== "undefined" &&
-      this._options.keys.includes(event.code)
+      this._options.keys.includes(button)
+    ) {
+      this.attemptInput();
+    }
+  }
+
+  public handleGamepadButton(button: number): void {
+    if (typeof this._options.gamepadButtons !== "undefined" &&
+      this._options.gamepadButtons.includes(button)
     ) {
       this.attemptInput();
     }

@@ -19,15 +19,15 @@ const init = (): void => {
   }
 
   addEventListener("resize", sizeScreen);
-  app.renderer.view.addEventListener?.("contextmenu", (e: Event): void => {
-    e.preventDefault();
+  app.renderer.view.addEventListener?.("contextmenu", (event: Event): void => {
+    event.preventDefault();
   });
   screen.addEventListener("mousedown", (event: MouseEvent) => {
     if (!state.values.hasInteracted) {
       state.setValues({ hasInteracted: true });
     } else {
       getDefinables(InputHandler).forEach((inputHandler) => {
-        inputHandler.handleMousedown(event);
+        inputHandler.handleClick(event.button);
       });
     }
   });
@@ -35,16 +35,26 @@ const init = (): void => {
     if (!state.values.heldKeys.includes(event.code)) {
       state.setValues({ heldKeys: [...state.values.heldKeys, event.code] });
       getDefinables(InputHandler).forEach((inputHandler) => {
-        inputHandler.handleKeydown(event);
+        inputHandler.handleKey(event.code);
       });
     }
   });
-  screen.addEventListener("keyup", (e: KeyboardEvent): void => {
-    if (state.values.heldKeys.includes(e.code)) {
+  screen.addEventListener("keyup", (event: KeyboardEvent): void => {
+    if (state.values.heldKeys.includes(event.code)) {
       state.setValues({
-        heldKeys: state.values.heldKeys.filter((key) => key !== e.code),
+        heldKeys: state.values.heldKeys.filter((key) => key !== event.code),
       });
     }
+  });
+  addEventListener("gamepadconnected", (e) => {
+    const gamepads = [...state.values.gamepads];
+    gamepads[e.gamepad.index] = e.gamepad;
+    state.setValues({ gamepads });
+  });
+  addEventListener("gamepaddisconnected", (e) => {
+    const gamepads = [...state.values.gamepads];
+    delete gamepads[e.gamepad.index];
+    state.setValues({ gamepads });
   });
 
   screen.appendChild(app.view as HTMLCanvasElement);
