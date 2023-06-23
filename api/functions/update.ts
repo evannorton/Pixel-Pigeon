@@ -1,6 +1,6 @@
+import InputHandler from "../classes/InputHandler";
 import getDefinables from "./getDefinables";
 import state from "../state";
-import InputHandler from "../classes/InputHandler";
 
 const update = (): void => {
   if (state.values.hasInteracted) {
