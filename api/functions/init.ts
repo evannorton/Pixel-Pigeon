@@ -46,16 +46,6 @@ const init = (): void => {
       });
     }
   });
-  addEventListener("gamepadconnected", (e) => {
-    const gamepads = [...state.values.gamepads];
-    gamepads[e.gamepad.index] = e.gamepad;
-    state.setValues({ gamepads });
-  });
-  addEventListener("gamepaddisconnected", (e) => {
-    const gamepads = [...state.values.gamepads];
-    delete gamepads[e.gamepad.index];
-    state.setValues({ gamepads });
-  });
 
   screen.appendChild(app.view as HTMLCanvasElement);
 
