@@ -6,7 +6,7 @@ interface Options {
   readonly leftClick?: boolean;
   readonly rightClick?: boolean;
   readonly keys?: string[];
-  readonly gamepadButtons: number[];
+  readonly gamepadButtons?: number[];
   readonly onInput: () => void;
 }
 
