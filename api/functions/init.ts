@@ -1,15 +1,12 @@
-import { Assets, BaseTexture, SCALE_MODES, settings } from "pixi.js";
+import { BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import DOMElement from "../classes/DOMElement";
 import InputHandler from "../classes/InputHandler";
-import Level from "../classes/Level";
-import OgmoProject from "../interfaces/ogmo/OgmoProject";
-import Sprite from "../classes/Sprite";
-import Tileset from "../classes/Tileset";
 import app from "../app";
 import getDefinables from "./getDefinables";
 import sizeScreen from "./sizeScreen";
 import state from "../state";
 import tick from "./tick";
+import load from "./load";
 
 const init = (): void => {
   if (state.values.isInitialized) {
@@ -19,6 +16,8 @@ const init = (): void => {
   console.log("Pigeon Mode Game Library initialized.");
 
   state.setValues({ isInitialized: true });
+
+  load()
 
   const screen = new DOMElement("screen").getElement();
 
@@ -60,45 +59,6 @@ const init = (): void => {
   screen.appendChild(app.view as HTMLCanvasElement);
 
   sizeScreen();
-
-  Assets.load("./fonts/RetroPixels.fnt")
-    .then((): void => {
-      state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
-    })
-    .catch((e) => {
-      throw e;
-    });
-
-  fetch("./project.ogmo")
-    .then((res): void => {
-      res
-        .json()
-        .then((ogmo: OgmoProject): void => {
-          state.setValues({
-            loadedAssets: state.values.loadedAssets + 1,
-          });
-          for (const ogmoTileset of ogmo.tilesets) {
-            new Tileset({
-              id: ogmoTileset.label.toLowerCase(),
-              imagePath: ogmoTileset.path.substring(7),
-            });
-          }
-        })
-        .catch((e): void => {
-          throw e;
-        });
-    })
-    .catch((e) => {
-      throw e;
-    });
-
-  getDefinables(Sprite).forEach((sprite) => {
-    sprite.loadTexture();
-  });
-
-  getDefinables(Level).forEach((level) => {
-    level.loadOgmoLevel();
-  });
 
   app.ticker.add(tick);
 };

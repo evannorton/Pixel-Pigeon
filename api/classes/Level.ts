@@ -2,14 +2,25 @@ import Definable from "./Definable";
 import OgmoLevel from "../interfaces/ogmo/OgmoLevel";
 import getToken from "../functions/getToken";
 import state from "../state";
+import getDefinable from "../functions/getDefinable";
+import Tileset from "./Tileset";
 
 interface LevelOptions {
   readonly condition?: () => boolean;
   readonly file: string;
 }
 
+interface LevelLayer {
+  readonly tileCoords: {
+    readonly x: number;
+    readonly y: number;
+  }[][];
+  readonly tilesetID: string;
+}
+
 class Level extends Definable {
   private readonly _options: LevelOptions;
+  private _layers: LevelLayer[] = [];
 
   public constructor(options: LevelOptions) {
     if (state.values.isInitialized) {
@@ -26,6 +37,15 @@ class Level extends Definable {
       typeof this._options.condition === "undefined" ||
       this._options.condition()
     ) {
+      for (const layer of this._layers) {
+        const tileset = getDefinable(Tileset, layer.tilesetID);
+        layer.tileCoords.forEach((rowTileCoords, y: number): void => {
+          rowTileCoords.forEach((tileCoords, x: number): void => {
+            tileset.drawTile(tileCoords.x, tileCoords.y, x, y);
+          });
+        })
+        
+      }
     }
   }
 
@@ -36,7 +56,15 @@ class Level extends Definable {
           .json()
           .then((ogmoLevel: OgmoLevel): void => {
             state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
-            console.log(ogmoLevel);
+            this._layers = ogmoLevel.layers.map((ogmoLevelLayer): LevelLayer => ({
+              tileCoords: ogmoLevelLayer.dataCoords2D.map((dataCoords2D): LevelLayer["tileCoords"][0] => dataCoords2D.map(
+                ([x, y]): LevelLayer["tileCoords"][0][0] => ({
+                  x,
+                  y,
+                })
+              )),
+              tilesetID: ogmoLevelLayer.tileset.toLowerCase(),
+            }));
           })
           .catch((e) => {
             throw e;
