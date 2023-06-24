@@ -17,9 +17,7 @@ class Sprite extends Definable {
 
   public constructor(options: SpriteOptions) {
     if (state.values.isInitialized) {
-      throw new Error(
-        "A Definable was attempted to be constructed after initialization."
-      );
+      throw new Error("A Definable was attempted to be constructed after initialization.");
     }
     super(getToken());
     this._options = options;

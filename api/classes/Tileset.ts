@@ -1,10 +1,13 @@
 import { Assets, Texture } from "pixi.js";
 import Definable from "./Definable";
 import state from "../state";
+import drawImage from "../functions/draw/drawImage";
 
 interface TilesetOptions {
   readonly id: string;
   readonly imagePath: string;
+  readonly tileHeight: number;
+  readonly tileWidth: number;
 }
 
 class Tileset extends Definable {
@@ -14,7 +17,19 @@ class Tileset extends Definable {
   public constructor(options: TilesetOptions) {
     super(options.id);
     this._options = options;
-    console.log(this._options);
+  }
+
+  public drawTile(unscaledSourceX: number, unscaledSourceY: number, unscaledX: number, unscaledY: number): void {
+    const opacity: number = 1;
+    const sourceX: number = unscaledSourceX * this._options.tileWidth;
+    const sourceY: number = unscaledSourceY * this._options.tileHeight;
+    const sourceWidth: number = this._options.tileWidth;
+    const sourceHeight: number = this._options.tileHeight;
+    const x: number = unscaledX * this._options.tileWidth;
+    const y: number = unscaledY * this._options.tileHeight;
+    const width: number = this._options.tileWidth;
+    const height: number = this._options.tileHeight;
+    drawImage(this.texture, opacity, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
   }
 
   public loadTexture(): void {
@@ -22,11 +37,17 @@ class Tileset extends Definable {
       .then((texture: Texture): void => {
         this._texture = texture;
         state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
-        console.log(this._texture);
       })
       .catch((e): void => {
         throw e;
       });
+  }
+
+  private get texture(): Texture {
+    if (this._texture !== null) {
+      return this._texture;
+    }
+    throw new Error(this.getAccessorErrorMessage("texture"));
   }
 }
 

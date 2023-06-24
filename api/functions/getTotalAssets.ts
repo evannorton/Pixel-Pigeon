@@ -1,5 +1,6 @@
 import Level from "../classes/Level";
 import Sprite from "../classes/Sprite";
+import Tileset from "../classes/Tileset";
 import getDefinables from "./getDefinables";
 
 const getTotalAssets = (): number =>
@@ -7,6 +8,8 @@ const getTotalAssets = (): number =>
   getDefinables(Sprite).size +
   // Levels
   getDefinables(Level).size +
+  // Tilesets
+  getDefinables(Tileset).size +
   // RetroPixels font
   1 +
   // Ogmo project
