@@ -14,6 +14,9 @@ Run the linter on your game's source code.
 ### `pigeon lint:fix`
 Run the linter on your game's source code and automatically fix some errors.
 
+## Example games
+- [EvanMMO - Moon Squid](https://github.com/evannorton/Moon-Squid)
+
 ## ESLint VS Code extension
 Create an `.eslintrc` with the following contents to use this extension. 
 ```json
