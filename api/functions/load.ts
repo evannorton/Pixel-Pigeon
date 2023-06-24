@@ -8,17 +8,16 @@ import state from "../state";
 
 const load = (): void => {
   fetch("./project.ogmo")
-    .then((res): void => {
-      res
+    .then((response: Response): void => {
+      response
         .json()
         .then((ogmo: OgmoProject): void => {
           state.setValues({
             loadedAssets: state.values.loadedAssets + 1,
           });
-
           for (const ogmoTileset of ogmo.tilesets) {
-            const trimmedPath = ogmoTileset.path.substring(7);
-            const tileset = new Tileset({
+            const trimmedPath: string = ogmoTileset.path.substring(7);
+            const tileset: Tileset = new Tileset({
               id: ogmoTileset.label.toLowerCase(),
               imagePath: trimmedPath.substring(0, trimmedPath.length - 4),
               tileHeight: ogmoTileset.tileHeight,
@@ -26,30 +25,27 @@ const load = (): void => {
             });
             tileset.loadTexture();
           }
-
           Assets.load("./fonts/RetroPixels.fnt")
-          .then((): void => {
-            state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
-          })
-          .catch((e) => {
-            throw e;
-          });
-
-          getDefinables(Sprite).forEach((sprite) => {
+            .then((): void => {
+              state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
+            })
+            .catch((error: Error): void => {
+              throw error;
+            });
+          getDefinables(Sprite).forEach((sprite: Sprite): void => {
             sprite.loadTexture();
           });
-
-          getDefinables(Level).forEach((level) => {
+          getDefinables(Level).forEach((level: Level): void => {
             level.loadOgmoLevel();
           });
         })
-        .catch((e): void => {
-          throw e;
+        .catch((error: Error): void => {
+          throw error;
         });
     })
-    .catch((e) => {
-      throw e;
+    .catch((error: Error): void => {
+      throw error;
     });
 };
 
-export default load; 
+export default load;

@@ -1,5 +1,5 @@
 interface OgmoLevel {
-  readonly height: number,
+  readonly height: number;
   readonly layers: {
     readonly arrayMode: 1;
     readonly dataCoords2D: [number, number][][];
@@ -9,7 +9,7 @@ interface OgmoLevel {
   readonly offsetX: 0;
   readonly offsetY: 0;
   readonly ogmoVersion: "3.4.0";
-  readonly width: number,
+  readonly width: number;
 }
 
 export default OgmoLevel;

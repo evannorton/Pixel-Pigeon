@@ -1,7 +1,7 @@
 class State<StateSchema> {
   private _values: StateSchema;
 
-  constructor(initialState: StateSchema) {
+  public constructor(initialState: StateSchema) {
     this._values = initialState;
   }
 

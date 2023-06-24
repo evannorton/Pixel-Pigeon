@@ -1,9 +1,9 @@
 interface OgmoProject {
-  readonly anglesRadians: true,
-  readonly directoryDepth: 1,
-  readonly defaultExportMode: ".json",
+  readonly anglesRadians: true;
+  readonly directoryDepth: 1;
+  readonly defaultExportMode: ".json";
   readonly levelPaths: string[];
-  readonly ogmoVersion: "3.4.0",
+  readonly ogmoVersion: "3.4.0";
   readonly tilesets: {
     readonly label: string;
     readonly path: string;

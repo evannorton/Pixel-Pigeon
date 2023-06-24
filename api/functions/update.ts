@@ -10,7 +10,7 @@ const update = (): void => {
           (button: GamepadButton, buttonIndex: number): void => {
             if (
               !state.values.heldGamepadButtons.includes(buttonIndex) &&
-              !!button.pressed
+              Boolean(button.pressed)
             ) {
               state.setValues({
                 heldGamepadButtons: [
@@ -18,9 +18,11 @@ const update = (): void => {
                   buttonIndex,
                 ],
               });
-              getDefinables(InputHandler).forEach((inputHandler): void => {
-                inputHandler.handleGamepadButton(buttonIndex);
-              });
+              getDefinables(InputHandler).forEach(
+                (inputHandler: InputHandler): void => {
+                  inputHandler.handleGamepadButton(buttonIndex);
+                }
+              );
             } else if (
               state.values.heldGamepadButtons.includes(buttonIndex) &&
               !button.pressed

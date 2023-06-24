@@ -10,7 +10,6 @@ interface InputHandlerOptions {
   readonly gamepadButtons?: number[];
   readonly onInput: () => void;
 }
-
 class InputHandler extends Definable {
   private readonly _options: InputHandlerOptions;
 
@@ -26,8 +25,8 @@ class InputHandler extends Definable {
 
   public handleClick(button: number): void {
     if (
-      (this._options.leftClick && button === 0) ||
-      (this._options.rightClick && button === 2)
+      (Boolean(this._options.leftClick) && button === 0) ||
+      (Boolean(this._options.rightClick) && button === 2)
     ) {
       this.attemptInput();
     }

@@ -35,14 +35,13 @@ const render = (): void => {
       "middle"
     );
   } else {
-    getDefinables(Sprite).forEach((sprite): void => {
+    getDefinables(Sprite).forEach((sprite: Sprite): void => {
       sprite.attemptDraw();
     });
-    getDefinables(Level).forEach((level): void => {
+    getDefinables(Level).forEach((level: Level): void => {
       level.attemptDraw();
     });
   }
-
   app.stage.sortChildren();
   app.render();
 };

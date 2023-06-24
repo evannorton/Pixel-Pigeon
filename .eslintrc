@@ -50,13 +50,6 @@
         }
       }
     ],
-    "@typescript-eslint/brace-style": [
-      "error",
-      "stroustrup",
-      {
-        "allowSingleLine": false
-      }
-    ],
     "@typescript-eslint/consistent-type-assertions": [
       "error",
       {
@@ -84,32 +77,6 @@
     "@typescript-eslint/func-call-spacing": [
       "error",
       "never"
-    ],
-    "@typescript-eslint/indent": [
-      "error",
-      2,
-      {
-        "ArrayExpression": 1,
-        "CallExpression": {
-          "arguments": 1
-        },
-        "FunctionDeclaration": {
-          "body": 1,
-          "parameters": 1
-        },
-        "FunctionExpression": {
-          "body": 1,
-          "parameters": 1
-        },
-        "ImportDeclaration": 1,
-        "MemberExpression": 0,
-        "ObjectExpression": 1,
-        "SwitchCase": 1,
-        "VariableDeclarator": 1,
-        "flatTernaryExpressions": false,
-        "ignoreComments": false,
-        "outerIIFEBody": 1
-      }
     ],
     "@typescript-eslint/member-delimiter-style": [
       "error",
@@ -172,17 +139,6 @@
       {
         "fixToUnknown": false,
         "ignoreRestArgs": false
-      }
-    ],
-    "@typescript-eslint/no-extra-parens": [
-      "error",
-      "all",
-      {
-        "conditionalAssign": true,
-        "enforceForArrowConditionals": true,
-        "enforceForSequenceExpressions": true,
-        "nestedBinaryExpressions": true,
-        "returnAssign": true
       }
     ],
     "@typescript-eslint/no-extraneous-class": [
@@ -372,10 +328,6 @@
         "getWithoutSet": false
       }
     ],
-    "array-bracket-newline": [
-      "error",
-      "consistent"
-    ],
     "array-bracket-spacing": [
       "error",
       "never",
@@ -475,10 +427,6 @@
       "error",
       "consistent"
     ],
-    "function-paren-newline": [
-      "error",
-      "never"
-    ],
     "generator-star-spacing": [
       "error",
       "before"
@@ -488,10 +436,6 @@
     ],
     "global-require": [
       "error"
-    ],
-    "implicit-arrow-linebreak": [
-      "error",
-      "beside"
     ],
     "init-declarations": [
       "error",
@@ -544,10 +488,6 @@
         "newIsCap": true,
         "properties": true
       }
-    ],
-    "new-parens": [
-      "error",
-      "never"
     ],
     "no-async-promise-executor": [
       "error"
@@ -955,10 +895,6 @@
     "operator-assignment": [
       "error",
       "always"
-    ],
-    "operator-linebreak": [
-      "error",
-      "before"
     ],
     "padded-blocks": [
       "error",

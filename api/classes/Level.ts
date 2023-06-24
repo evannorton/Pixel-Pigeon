@@ -1,15 +1,14 @@
 import Definable from "./Definable";
 import OgmoLevel from "../interfaces/ogmo/OgmoLevel";
+import Tileset from "./Tileset";
+import getDefinable from "../functions/getDefinable";
 import getToken from "../functions/getToken";
 import state from "../state";
-import getDefinable from "../functions/getDefinable";
-import Tileset from "./Tileset";
 
 interface LevelOptions {
   readonly condition?: () => boolean;
   readonly file: string;
 }
-
 interface LevelLayer {
   readonly tileCoords: {
     readonly x: number;
@@ -17,7 +16,6 @@ interface LevelLayer {
   }[][];
   readonly tilesetID: string;
 }
-
 class Level extends Definable {
   private readonly _options: LevelOptions;
   private _layers: LevelLayer[] = [];
@@ -38,36 +36,49 @@ class Level extends Definable {
       this._options.condition()
     ) {
       for (const layer of this._layers) {
-        const tileset = getDefinable(Tileset, layer.tilesetID);
-        layer.tileCoords.forEach((rowTileCoords, y: number): void => {
-          rowTileCoords.forEach((tileCoords, x: number): void => {
-            tileset.drawTile(tileCoords.x, tileCoords.y, x, y);
-          });
-        })
-        
+        const tileset: Tileset = getDefinable(Tileset, layer.tilesetID);
+        layer.tileCoords.forEach(
+          (rowTileCoords: LevelLayer["tileCoords"][0], y: number): void => {
+            rowTileCoords.forEach(
+              (tileCoords: LevelLayer["tileCoords"][0][0], x: number): void => {
+                tileset.drawTile(tileCoords.x, tileCoords.y, x, y);
+              }
+            );
+          }
+        );
       }
     }
   }
 
   public loadOgmoLevel(): void {
     fetch(`./levels/${this._options.file}.json`)
-      .then((res): void => {
-        res
+      .then((response: Response): void => {
+        response
           .json()
           .then((ogmoLevel: OgmoLevel): void => {
             state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
-            this._layers = ogmoLevel.layers.map((ogmoLevelLayer): LevelLayer => ({
-              tileCoords: ogmoLevelLayer.dataCoords2D.map((dataCoords2D): LevelLayer["tileCoords"][0] => dataCoords2D.map(
-                ([x, y]): LevelLayer["tileCoords"][0][0] => ({
-                  x,
-                  y,
-                })
-              )),
-              tilesetID: ogmoLevelLayer.tileset.toLowerCase(),
-            }));
+            this._layers = ogmoLevel.layers.map(
+              (ogmoLevelLayer: OgmoLevel["layers"][0]): LevelLayer => ({
+                tileCoords: ogmoLevelLayer.dataCoords2D.map(
+                  (
+                    dataCoords2D: OgmoLevel["layers"][0]["dataCoords2D"][0]
+                  ): LevelLayer["tileCoords"][0] =>
+                    dataCoords2D.map(
+                      ([
+                        x,
+                        y,
+                      ]: OgmoLevel["layers"][0]["dataCoords2D"][0][0]): LevelLayer["tileCoords"][0][0] => ({
+                        x,
+                        y,
+                      })
+                    )
+                ),
+                tilesetID: ogmoLevelLayer.tileset.toLowerCase(),
+              })
+            );
           })
-          .catch((e) => {
-            throw e;
+          .catch((error: Error): void => {
+            throw error;
           });
       })
       .catch((): void => {

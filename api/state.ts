@@ -1,6 +1,6 @@
 import State from "./classes/State";
 
-interface Schema {
+interface StateSchema {
   readonly currentTime: number;
   readonly hasInteracted: boolean;
   readonly heldGamepadButtons: number[];
@@ -8,8 +8,7 @@ interface Schema {
   readonly isInitialized: boolean;
   readonly loadedAssets: number;
 }
-
-const state = new State<Schema>({
+const state: State<StateSchema> = new State<StateSchema>({
   currentTime: 0,
   hasInteracted: false,
   heldGamepadButtons: [],

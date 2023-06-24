@@ -1,7 +1,7 @@
 import { Assets, Texture } from "pixi.js";
 import Definable from "./Definable";
-import state from "../state";
 import drawImage from "../functions/draw/drawImage";
+import state from "../state";
 
 interface TilesetOptions {
   readonly id: string;
@@ -9,7 +9,6 @@ interface TilesetOptions {
   readonly tileHeight: number;
   readonly tileWidth: number;
 }
-
 class Tileset extends Definable {
   private readonly _options: TilesetOptions;
   private _texture: Texture | null = null;
@@ -19,7 +18,19 @@ class Tileset extends Definable {
     this._options = options;
   }
 
-  public drawTile(unscaledSourceX: number, unscaledSourceY: number, unscaledX: number, unscaledY: number): void {
+  private get texture(): Texture {
+    if (this._texture !== null) {
+      return this._texture;
+    }
+    throw new Error(this.getAccessorErrorMessage("texture"));
+  }
+
+  public drawTile(
+    unscaledSourceX: number,
+    unscaledSourceY: number,
+    unscaledX: number,
+    unscaledY: number
+  ): void {
     const opacity: number = 1;
     const sourceX: number = unscaledSourceX * this._options.tileWidth;
     const sourceY: number = unscaledSourceY * this._options.tileHeight;
@@ -29,7 +40,18 @@ class Tileset extends Definable {
     const y: number = unscaledY * this._options.tileHeight;
     const width: number = this._options.tileWidth;
     const height: number = this._options.tileHeight;
-    drawImage(this.texture, opacity, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+    drawImage(
+      this.texture,
+      opacity,
+      sourceX,
+      sourceY,
+      sourceWidth,
+      sourceHeight,
+      x,
+      y,
+      width,
+      height
+    );
   }
 
   public loadTexture(): void {
@@ -38,16 +60,9 @@ class Tileset extends Definable {
         this._texture = texture;
         state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
       })
-      .catch((e): void => {
-        throw e;
+      .catch((error: Error): void => {
+        throw error;
       });
-  }
-
-  private get texture(): Texture {
-    if (this._texture !== null) {
-      return this._texture;
-    }
-    throw new Error(this.getAccessorErrorMessage("texture"));
   }
 }
 

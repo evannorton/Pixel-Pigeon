@@ -10,17 +10,25 @@ interface SpriteOptions {
   readonly x: number;
   readonly y: number;
 }
-
 class Sprite extends Definable {
   private readonly _options: SpriteOptions;
   private _texture: Texture | null = null;
 
   public constructor(options: SpriteOptions) {
     if (state.values.isInitialized) {
-      throw new Error("A Definable was attempted to be constructed after initialization.");
+      throw new Error(
+        "A Definable was attempted to be constructed after initialization."
+      );
     }
     super(getToken());
     this._options = options;
+  }
+
+  private get texture(): Texture {
+    if (this._texture !== null) {
+      return this._texture;
+    }
+    throw new Error(this.getAccessorErrorMessage("texture"));
   }
 
   public attemptDraw(): void {
@@ -49,16 +57,9 @@ class Sprite extends Definable {
         this._texture = texture;
         state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
       })
-      .catch((e): void => {
-        throw e;
+      .catch((error: Error): void => {
+        throw error;
       });
-  }
-
-  private get texture(): Texture {
-    if (this._texture !== null) {
-      return this._texture;
-    }
-    throw new Error(this.getAccessorErrorMessage("texture"));
   }
 }
 
