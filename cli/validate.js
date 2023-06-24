@@ -40,7 +40,6 @@ readdirSync(join("levels")).forEach((file) => {
         ogmoLevelSchema.parse(JSON.parse(levelString));
     }
     catch (error) {
-        console.log(error);
         throw new Error(`Level ${file} does not match the schema.`);
     }
 });
