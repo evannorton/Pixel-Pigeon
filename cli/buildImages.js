@@ -1,10 +1,9 @@
-const { copyFileSync, existsSync, mkdirSync, readdirSync } = require("fs");
-const { join, resolve } = require("path");
+const { copyDirectorySync } = require("./utils");
+const { join } = require("path");
+const { existsSync } = require("fs");
 
-if (!existsSync(resolve(join(__dirname, "..", "out", "images")))) {
-  mkdirSync(resolve(join(__dirname, "..", "out", "images")));
+if (!existsSync(join("images"))) {
+    throw new Error("You must create an images folder for use with Pigeon Mode Game Library.");
 }
 
-for (const file of readdirSync(resolve(join(__dirname, "..", "..", "..", "images")))) {
-  copyFileSync(resolve(join(__dirname, "..", "..", "..", "images", file)), resolve(join(__dirname, "..", "out", "images", file)))
-}
+copyDirectorySync(join(__dirname, "..", "..", "..", "images"), join(__dirname, "..", "out", "images"));

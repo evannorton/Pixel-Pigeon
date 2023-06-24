@@ -1,24 +1,10 @@
 import definables from "../definables";
-import validSlugCharacters from "../constants/validSlugCharacters";
+import getToken from "../functions/getToken";
 
 abstract class Definable {
-  protected readonly _slug: string;
+  private readonly _slug: string = getToken();
 
-  public constructor(slug: string) {
-    this._slug = slug;
-    if (
-      this._slug
-        .split("")
-        .some(
-          (character: string): boolean =>
-            character !== "/" &&
-            validSlugCharacters.includes(character) === false
-        )
-    ) {
-      throw new Error(
-        `${this.constructor.name} "${this._slug}" has an invalid slug.`
-      );
-    }
+  public constructor() {
     if (definables.has(this.constructor.name) === false) {
       definables.set(this.constructor.name, new Map());
     }
@@ -26,11 +12,6 @@ abstract class Definable {
       this.constructor.name
     );
     if (list) {
-      if (list.has(this._slug)) {
-        throw new Error(
-          `${this.constructor.name} "${this._slug}" already exists.`
-        );
-      }
       list.set(this._slug, this);
     }
   }

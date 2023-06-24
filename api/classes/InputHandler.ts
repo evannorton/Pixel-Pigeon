@@ -1,5 +1,4 @@
 import Definable from "./Definable";
-import getToken from "../functions/getToken";
 
 interface Options {
   readonly condition?: () => boolean;
@@ -14,7 +13,7 @@ class InputHandler extends Definable {
   private readonly _options: Options;
 
   public constructor(options: Options) {
-    super(getToken());
+    super();
     this._options = options;
   }
 

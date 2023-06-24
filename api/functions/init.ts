@@ -1,6 +1,7 @@
 import { Assets, BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import DOMElement from "../classes/DOMElement";
 import InputHandler from "../classes/InputHandler";
+import Ogmo from "../interfaces/Ogmo";
 import app from "../app";
 import getDefinables from "./getDefinables";
 import sizeScreen from "./sizeScreen";
@@ -58,6 +59,14 @@ const init = (): void => {
     .catch((e) => {
       throw e;
     });
+
+  fetch("./project.ogmo").then((res): void => {
+    res.json().then((ogmo: Ogmo): void => {
+      state.setValues({ loadedAssets: state.values.loadedAssets + 1, ogmo });
+    }).catch((): void => {
+      throw new Error("project.ogmo is not valid JSON.")
+    });
+  });
 
   app.ticker.add(tick);
 };

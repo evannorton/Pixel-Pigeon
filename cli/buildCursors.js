@@ -1,10 +1,5 @@
-const { copyFileSync, existsSync, mkdirSync, readdirSync } = require("fs");
 const { join, resolve } = require("path");
+const { copyDirectorySync } = require("./utils");
 
-if (!existsSync(resolve(join(__dirname, "..", "out", "cursors")))) {
-  mkdirSync(resolve(join(__dirname, "..", "out", "cursors")));
-}
+copyDirectorySync(resolve(join(__dirname, "..", "cursors")), resolve(join(__dirname, "..", "out", "cursors")));
 
-for (const file of readdirSync(resolve(join(__dirname, "..", "cursors")))) {
-  copyFileSync(resolve(join(__dirname, "..", "cursors", file)), resolve(join(__dirname, "..", "out", "cursors", file)))
-}

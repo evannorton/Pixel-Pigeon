@@ -1,16 +1,19 @@
 import Definable from "./Definable";
 
 class DOMElement extends Definable {
-  public constructor(slug: string) {
-    super(slug);
+  private _id: string;
+
+  public constructor(id: string) {
+    super();
+    this._id = id;
   }
 
   public getElement(): HTMLElement {
-    const element: HTMLElement | null = document.getElementById(this._slug);
+    const element: HTMLElement | null = document.getElementById(this._id);
     if (element !== null) {
       return element;
     }
-    throw new Error(`DOMElement "${this._slug}" does not have an element.`);
+    throw new Error(`DOMElement "${this._id}" does not have an element.`);
   }
 }
 

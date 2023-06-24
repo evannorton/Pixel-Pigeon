@@ -6,12 +6,11 @@ const { generate } = require("ts-to-zod");
 
 const configSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "interfaces", "Config.ts")).toString() }).getZodSchemasFile();
 writeFileSync(join(__dirname, "configSchema.js"), configSchemaText.replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { configSchema };");
-const { configSchema } = require('./configSchema');
+const { configSchema } = require("./configSchema");
 
 if (!existsSync(join("pmgl.json"))) {
     throw new Error("You must create a pmgl.json file for use with Pigeon Mode Game Library.");
 }
-
 const configString = readFileSync(join("pmgl.json")).toString();
 try {
     JSON.parse(configString);
@@ -26,21 +25,13 @@ catch (error) {
     throw new Error("Your pmgl.json file does not match the schema.");
 }
 
-if (!existsSync(join("src"))) {
-    throw new Error("You must create an src folder for use with Pigeon Mode Game Library.");
-}
-
-if (!existsSync(join("images"))) {
-    throw new Error("You must create an images folder for use with Pigeon Mode Game Library.");
-}
-
 switch (process.argv[2]) {
-    case "build":
-        require("./build");
-        break;
     case "dev":
         require("./watch");
         break;
+        case "zip":
+            require("./build");
+            break;
     case "lint":
         require("./lint");
         break;

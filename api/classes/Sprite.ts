@@ -5,6 +5,7 @@ import state from "../state";
 
 interface SpriteOptions {
   readonly condition?: () => boolean;
+  readonly file: string;
   readonly x: number;
   readonly y: number;
 }
@@ -13,16 +14,16 @@ class Sprite extends Definable {
   private readonly _options: SpriteOptions;
   private _texture: Texture | null = null;
 
-  public constructor(slug: string, options: SpriteOptions) {
-    super(slug);
+  public constructor(options: SpriteOptions) {
+    super();
     this._options = options;
-    Assets.load(`./images/${slug}.png`)
+    Assets.load(`./images/${this._options.file}.png`)
       .then((texture: Texture): void => {
         this._texture = texture;
         state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
       })
       .catch((): void => {
-        throw new Error(`Sprite "${slug}" could not be loaded.`);
+        throw new Error(`Sprite "${this._options.file}" could not be loaded.`);
       });
   }
 

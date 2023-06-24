@@ -1,4 +1,5 @@
 import Sprite from "../classes/Sprite";
+import Level from "../classes/Level";
 import app from "../app";
 import assetsAreLoaded from "./assetsAreLoaded";
 import config from "../config";
@@ -36,6 +37,9 @@ const render = (): void => {
   } else {
     getDefinables(Sprite).forEach((sprite): void => {
       sprite.attemptDraw();
+    });
+    getDefinables(Level).forEach((tileset): void => {
+      tileset.attemptDraw();
     });
   }
 
