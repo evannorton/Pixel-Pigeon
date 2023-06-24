@@ -74,9 +74,6 @@ watcher.addListener("restart", (files) => {
     if (joinedFilePieces === "pmgl.json") {
       return true;
     }
-    if (joinedFilePieces === "project.ogmo") {
-      return true;
-    }
     return false;
   });
 
@@ -87,15 +84,30 @@ watcher.addListener("restart", (files) => {
   else {
     const commands = [];
 
-    if (JSON.parse(readFileSync(join(__dirname, "watchExecCompleted.json")).toString()) === false || filesPieces.some((filePieces) => {
-      const joinedFilePieces = filePieces.join("/");
-      if (filePieces[0] === "src") {
-        return joinedFilePieces.substring(joinedFilePieces.length - 3) === ".ts"
-          || joinedFilePieces.substring(joinedFilePieces.length - 5) === ".json";
-      }
-      return false;
-    })) {
+    if (
+      JSON.parse(readFileSync(join(__dirname, "watchExecCompleted.json")).toString()) === false
+      || filesPieces.some((filePieces) => {
+        const joinedFilePieces = filePieces.join("/");
+        if (filePieces[0] === "src") {
+          return joinedFilePieces.substring(joinedFilePieces.length - 3) === ".ts"
+            || joinedFilePieces.substring(joinedFilePieces.length - 5) === ".json";
+        }
+        if (filePieces[0] === "levels") {
+          return joinedFilePieces.substring(joinedFilePieces.length - 5) === ".json"
+        }
+        if (filePieces[0] === "images") {
+          return joinedFilePieces.substring(joinedFilePieces.length - 4) === ".png"
+        }
+        if (joinedFilePieces === "project.ogmo") {
+          return true;
+        }
+        return false;
+      })
+    ) {
       commands.push(build);
+    }
+    else {
+      commands.push("node ./node_modules/pigeon-mode-game-library/cli/buildHTML")
     }
 
     writeFileSync(join(__dirname, "watchExec.json"), JSON.stringify(commands));
