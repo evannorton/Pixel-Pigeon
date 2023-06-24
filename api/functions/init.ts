@@ -60,13 +60,23 @@ const init = (): void => {
       throw e;
     });
 
-  fetch("./project.ogmo").then((res): void => {
-    res.json().then((ogmo: Ogmo): void => {
-      state.setValues({ loadedAssets: state.values.loadedAssets + 1, ogmo });
-    }).catch((): void => {
-      throw new Error("project.ogmo is not valid JSON.")
+  fetch("./project.ogmo")
+    .then((res): void => {
+      res
+        .json()
+        .then((ogmo: Ogmo): void => {
+          state.setValues({
+            loadedAssets: state.values.loadedAssets + 1,
+            ogmo,
+          });
+        })
+        .catch((): void => {
+          throw new Error("project.ogmo is not valid JSON.");
+        });
+    })
+    .catch((e) => {
+      throw e;
     });
-  });
 
   app.ticker.add(tick);
 };

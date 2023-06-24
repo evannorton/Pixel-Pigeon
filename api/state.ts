@@ -16,7 +16,7 @@ const state = new State<Schema>({
   heldGamepadButtons: [],
   heldKeys: [],
   loadedAssets: 0,
-  ogmo: null
+  ogmo: null,
 });
 
 export default state;

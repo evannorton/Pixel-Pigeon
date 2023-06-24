@@ -1,5 +1,5 @@
-import Sprite from "../classes/Sprite";
 import Level from "../classes/Level";
+import Sprite from "../classes/Sprite";
 import app from "../app";
 import assetsAreLoaded from "./assetsAreLoaded";
 import config from "../config";

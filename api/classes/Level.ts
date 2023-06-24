@@ -13,9 +13,14 @@ class Level extends Definable {
     this._options = options;
     fetch(`./levels/${this._options.file}.json`)
       .then((res): void => {
-        res.json().then((json): void => {
-          console.log(json);
-        });
+        res
+          .json()
+          .then((json): void => {
+            console.log(json);
+          })
+          .catch((e) => {
+            throw e;
+          });
       })
       .catch((): void => {
         throw new Error(`Level "${this._options.file}" could not be loaded.`);
