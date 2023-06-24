@@ -4,10 +4,6 @@ interface OgmoLevel {
     readonly arrayMode: 1;
     readonly dataCoords2D: [number, number][][];
     readonly exportMode: 1;
-    readonly gridSize: {
-      readonly x: 16;
-      readonly y: 16;
-    };
     readonly tileset: string;
   }[];
   readonly offsetX: 0;
