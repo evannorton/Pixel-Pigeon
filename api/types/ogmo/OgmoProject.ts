@@ -2,6 +2,13 @@ interface OgmoProject {
   readonly anglesRadians: true;
   readonly directoryDepth: 1;
   readonly defaultExportMode: ".json";
+  readonly entities: {
+    readonly color: string;
+    readonly size: {
+      readonly x: number;
+      readonly y: number;
+    };
+  }[];
   readonly levelPaths: string[];
   readonly ogmoVersion: "3.4.0";
   readonly tilesets: {

@@ -1,6 +1,7 @@
 import { Assets } from "pixi.js";
+import Entity from "../classes/Entity";
 import Level from "../classes/Level";
-import OgmoProject from "../interfaces/ogmo/OgmoProject";
+import OgmoProject from "../types/ogmo/OgmoProject";
 import Sprite from "../classes/Sprite";
 import Tileset from "../classes/Tileset";
 import getDefinables from "./getDefinables";
@@ -11,11 +12,11 @@ const load = (): void => {
     .then((response: Response): void => {
       response
         .json()
-        .then((ogmo: OgmoProject): void => {
+        .then((ogmoProject: OgmoProject): void => {
           state.setValues({
             loadedAssets: state.values.loadedAssets + 1,
           });
-          for (const ogmoTileset of ogmo.tilesets) {
+          for (const ogmoTileset of ogmoProject.tilesets) {
             const trimmedPath: string = ogmoTileset.path.substring(7);
             const tileset: Tileset = new Tileset({
               id: ogmoTileset.label.toLowerCase(),
@@ -25,6 +26,19 @@ const load = (): void => {
             });
             tileset.loadTexture();
           }
+          ogmoProject.entities.forEach(
+            (
+              ogmoEntity: OgmoProject["entities"][0],
+              ogmoEntityIndex: number
+            ): void => {
+              new Entity({
+                color: String(ogmoEntity.color.substring(0, 7)),
+                height: ogmoEntity.size.y,
+                id: String(ogmoEntityIndex),
+                width: ogmoEntity.size.x,
+              });
+            }
+          );
           Assets.load("./fonts/RetroPixels.fnt")
             .then((): void => {
               state.setValues({ loadedAssets: state.values.loadedAssets + 1 });

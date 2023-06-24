@@ -1,4 +1,4 @@
-import Config from "./interfaces/Config";
+import Config from "./types/Config";
 
 if (typeof document.body.dataset.config === "undefined") {
   throw new Error("No config found in template.");

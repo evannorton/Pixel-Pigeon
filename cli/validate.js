@@ -20,9 +20,9 @@ if (!existsSync(join("images"))) {
 
 // Validate levels
 
-const ogmoLevelSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "interfaces", "ogmo", "OgmoLevel.ts")).toString() }).getZodSchemasFile();
-writeFileSync(join(__dirname, "levelSchema.js"), ogmoLevelSchemaText.replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { ogmoLevelSchema };");
-const { ogmoLevelSchema } = require("./levelSchema");
+const ogmoLevelSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "types", "ogmo", "OgmoLevel.ts")).toString() }).getZodSchemasFile();
+writeFileSync(join(__dirname, "ogmoLevelSchema.js"), ogmoLevelSchemaText.replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { ogmoLevelSchema };");
+const { ogmoLevelSchema } = require("./ogmoLevelSchema");
 
 if (!existsSync(join("levels"))) {
   throw new Error("You must create a levels folder for use with Pigeon Mode Game Library.");
@@ -47,9 +47,9 @@ readdirSync(join("levels")).forEach((file) => {
 
 // Validate Ogmo project
 
-const ogmoProjectSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "interfaces", "ogmo", "OgmoProject.ts")).toString() }).getZodSchemasFile();
-writeFileSync(join(__dirname, "ogmoSchema.js"), ogmoProjectSchemaText.replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { ogmoProjectSchema };");
-const { ogmoProjectSchema } = require("./ogmoSchema");
+const ogmoProjectSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "types", "ogmo", "OgmoProject.ts")).toString() }).getZodSchemasFile();
+writeFileSync(join(__dirname, "ogmoProjectSchema.js"), ogmoProjectSchemaText.replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { ogmoProjectSchema };");
+const { ogmoProjectSchema } = require("./ogmoProjectSchema");
 
 if (!existsSync(join("project.ogmo"))) {
   throw new Error("You must create a project.ogmo file for use with Pigeon Mode Game Library.");
