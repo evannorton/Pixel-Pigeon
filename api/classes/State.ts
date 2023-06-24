@@ -1,15 +1,15 @@
-class State<Schema> {
-  private _values: Schema;
+class State<StateSchema> {
+  private _values: StateSchema;
 
-  constructor(initialState: Schema) {
+  constructor(initialState: StateSchema) {
     this._values = initialState;
   }
 
-  public get values(): Schema {
+  public get values(): StateSchema {
     return { ...this._values };
   }
 
-  public setValues(values: Partial<Schema>): void {
+  public setValues(values: Partial<StateSchema>): void {
     this._values = {
       ...this._values,
       ...values,
