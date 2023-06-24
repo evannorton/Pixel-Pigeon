@@ -29,19 +29,19 @@ if (!existsSync(join("levels"))) {
 }
 
 readdirSync(join("levels")).forEach((file) => {
-    const levelString = readFileSync(join("levels", file)).toString();
-    try {
-        JSON.parse(levelString);
-    }
-    catch (error) {
-        throw new Error(`Level ${file} is not valid JSON.`);
-    }
-    try {
-        ogmoLevelSchema.parse(JSON.parse(levelString));
-    }
-    catch (error) {
-        throw new Error(`Level ${file} does not match the schema.`);
-    }
+  const levelString = readFileSync(join("levels", file)).toString();
+  try {
+    JSON.parse(levelString);
+  }
+  catch (error) {
+    throw new Error(`Level ${file} is not valid JSON.`);
+  }
+  try {
+    ogmoLevelSchema.parse(JSON.parse(levelString));
+  }
+  catch (error) {
+    throw new Error(`Level ${file} does not match the schema.`);
+  }
 });
 
 // Validate Ogmo project

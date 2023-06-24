@@ -10,10 +10,10 @@ interface LevelOptions {
   readonly file: string;
 }
 interface LevelLayer {
-  readonly tileCoords: {
+  readonly tileCoords: ({
     readonly x: number;
     readonly y: number;
-  }[][];
+  } | null)[][];
   readonly tilesetID: string;
 }
 class Level extends Definable {
@@ -41,7 +41,9 @@ class Level extends Definable {
           (rowTileCoords: LevelLayer["tileCoords"][0], y: number): void => {
             rowTileCoords.forEach(
               (tileCoords: LevelLayer["tileCoords"][0][0], x: number): void => {
-                tileset.drawTile(tileCoords.x, tileCoords.y, x, y);
+                if (tileCoords !== null) {
+                  tileset.drawTile(tileCoords.x, tileCoords.y, x, y);
+                }
               }
             );
           }
@@ -64,13 +66,15 @@ class Level extends Definable {
                     dataCoords2D: OgmoLevel["layers"][0]["dataCoords2D"][0]
                   ): LevelLayer["tileCoords"][0] =>
                     dataCoords2D.map(
-                      ([
-                        x,
-                        y,
-                      ]: OgmoLevel["layers"][0]["dataCoords2D"][0][0]): LevelLayer["tileCoords"][0][0] => ({
-                        x,
-                        y,
-                      })
+                      (
+                        coords: OgmoLevel["layers"][0]["dataCoords2D"][0][0]
+                      ): LevelLayer["tileCoords"][0][0] =>
+                        typeof coords[1] === "number"
+                          ? {
+                              x: coords[0],
+                              y: coords[1],
+                            }
+                          : null
                     )
                 ),
                 tilesetID: ogmoLevelLayer.tileset.toLowerCase(),
