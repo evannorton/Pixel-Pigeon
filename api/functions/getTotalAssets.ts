@@ -4,12 +4,12 @@ import getDefinables from "./getDefinables";
 
 const getTotalAssets = (): number =>
   // Sprites
-  getDefinables(Sprite).size 
+  getDefinables(Sprite).size +
   // Levels
-  + getDefinables(Level).size 
+  getDefinables(Level).size +
   // RetroPixels font
-  + 1
+  1 +
   // Ogmo project
-  + 1;
+  1;
 
 export default getTotalAssets;
