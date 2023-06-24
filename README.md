@@ -39,15 +39,11 @@ node_modules
 game.zip
 ```
 
-4. Use the [Ogmo Editor](https://ogmo-editor-3.github.io/) to create a `project.ogmo` file at the root of your game's codebase.
+4. Create a `images` folder at the root of your game's codebase.
 
-5. Create a `levels` folder at the root of your game's codebase.
+5. Run `npm install`.
 
-6. Create a `images` folder at the root of your game's codebase.
-
-7. Run `npm install`.
-
-8. Run `npm run dev` to start a dev server with hot-reloading on port 3000.
+6. Run `npm run dev` to start a dev server with hot-reloading on port 3000.
 
 ## Command line interface
 

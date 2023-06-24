@@ -11,12 +11,11 @@ writeFileSync(join(__dirname, "watchExecCompleted.json"), JSON.stringify(false))
 const watcher = nodemon({
   delay: 1,
   exec: "node ./node_modules/pigeon-mode-game-library/cli/handleWatch || exit 1",
-  ext: "css,fnt,gif,js,json,mp3,mustache,png,ts,ttf,ogmo",
+  ext: "css,fnt,gif,js,json,mp3,mustache,png,ts,ttf",
   stdout: true,
   stderr: true,
   watch: [
     "./src/",
-    "./levels/",
     "./images/",
     "./node-modules/",
     "./package.json",
@@ -92,14 +91,8 @@ watcher.addListener("restart", (files) => {
           return joinedFilePieces.substring(joinedFilePieces.length - 3) === ".ts"
             || joinedFilePieces.substring(joinedFilePieces.length - 5) === ".json";
         }
-        if (filePieces[0] === "levels") {
-          return joinedFilePieces.substring(joinedFilePieces.length - 5) === ".json"
-        }
         if (filePieces[0] === "images") {
           return joinedFilePieces.substring(joinedFilePieces.length - 4) === ".png"
-        }
-        if (joinedFilePieces === "project.ogmo") {
-          return true;
         }
         return false;
       })

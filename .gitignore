@@ -1,6 +1,4 @@
 cli/configSchema.js
-cli/ogmoLevelSchema.js
-cli/ogmoProjectSchema.js
 cli/watchExec.json
 cli/watchExecCompleted.json
 cli/watchModifiedFiles.json

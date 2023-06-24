@@ -1,4 +1,3 @@
-import Level from "../classes/Level";
 import Sprite from "../classes/Sprite";
 import app from "../app";
 import assetsAreLoaded from "./assetsAreLoaded";
@@ -37,9 +36,6 @@ const render = (): void => {
   } else {
     getDefinables(Sprite).forEach((sprite: Sprite): void => {
       sprite.attemptDraw();
-    });
-    getDefinables(Level).forEach((level: Level): void => {
-      level.attemptDraw();
     });
   }
   app.stage.sortChildren();
