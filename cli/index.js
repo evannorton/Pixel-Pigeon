@@ -29,9 +29,9 @@ switch (process.argv[2]) {
     case "dev":
         require("./watch");
         break;
-        case "zip":
-            require("./build");
-            break;
+    case "zip":
+        require("./build");
+        break;
     case "lint":
         require("./lint");
         break;

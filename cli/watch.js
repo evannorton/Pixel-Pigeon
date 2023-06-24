@@ -16,6 +16,8 @@ const watcher = nodemon({
   stderr: true,
   watch: [
     "./src/",
+    "./levels/",
+    "./images/",
     "./node-modules/",
     "./package.json",
     "./package-lock.json",

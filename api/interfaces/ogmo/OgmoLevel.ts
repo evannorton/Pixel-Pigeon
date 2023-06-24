@@ -1,7 +1,7 @@
-interface Level {
+interface OgmoLevel {
   readonly layers: {
     readonly tileset: string;
   }[];
 }
 
-export default Level;
+export default OgmoLevel;

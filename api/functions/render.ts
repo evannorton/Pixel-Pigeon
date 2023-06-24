@@ -38,8 +38,8 @@ const render = (): void => {
     getDefinables(Sprite).forEach((sprite): void => {
       sprite.attemptDraw();
     });
-    getDefinables(Level).forEach((tileset): void => {
-      tileset.attemptDraw();
+    getDefinables(Level).forEach((level): void => {
+      level.attemptDraw();
     });
   }
 

@@ -1,10 +1,11 @@
+import getToken from "../functions/getToken";
 import Definable from "./Definable";
 
 class DOMElement extends Definable {
   private _id: string;
 
   public constructor(id: string) {
-    super();
+    super(getToken());
     this._id = id;
   }
 

@@ -1,15 +1,24 @@
 import { Assets, BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import DOMElement from "../classes/DOMElement";
 import InputHandler from "../classes/InputHandler";
-import Ogmo from "../interfaces/Ogmo";
+import Level from "../classes/Level";
+import Sprite from "../classes/Sprite";
+import OgmoProject from "../interfaces/ogmo/OgmoProject";
 import app from "../app";
 import getDefinables from "./getDefinables";
 import sizeScreen from "./sizeScreen";
 import state from "../state";
 import tick from "./tick";
+import Tileset from "../classes/Tileset";
 
 const init = (): void => {
-  console.log("PMGL game initialized.");
+  if (state.values.isInitialized) {
+    throw new Error("Initialization was attempted more than once.");
+  }
+
+  console.log("Pigeon Mode Game Library initialized.");
+
+  state.setValues({ isInitialized: true });
 
   const screen = new DOMElement("screen").getElement();
 
@@ -64,19 +73,32 @@ const init = (): void => {
     .then((res): void => {
       res
         .json()
-        .then((ogmo: Ogmo): void => {
+        .then((ogmo: OgmoProject): void => {
           state.setValues({
             loadedAssets: state.values.loadedAssets + 1,
-            ogmo,
           });
+          for (const ogmoTileset of ogmo.tilesets) {
+            new Tileset({
+              id: ogmoTileset.label.toLowerCase(),
+              imagePath: ogmoTileset.path.substring(7)
+            });
+          }
         })
-        .catch((): void => {
-          throw new Error("project.ogmo is not valid JSON.");
+        .catch((e): void => {
+          throw e
         });
     })
     .catch((e) => {
       throw e;
     });
+
+  getDefinables(Sprite).forEach((sprite) => {
+    sprite.loadTexture();
+  });
+
+  getDefinables(Level).forEach((level) => {
+    level.loadOgmoLevel();
+  });
 
   app.ticker.add(tick);
 };

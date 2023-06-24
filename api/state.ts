@@ -1,4 +1,3 @@
-import Ogmo from "pigeon-mode-game-library/api/interfaces/Ogmo";
 import State from "./classes/State";
 
 interface Schema {
@@ -6,7 +5,7 @@ interface Schema {
   readonly hasInteracted: boolean;
   readonly heldGamepadButtons: number[];
   readonly heldKeys: string[];
-  readonly ogmo: Ogmo | null;
+  readonly isInitialized: boolean;
   readonly loadedAssets: number;
 }
 
@@ -15,8 +14,8 @@ const state = new State<Schema>({
   hasInteracted: false,
   heldGamepadButtons: [],
   heldKeys: [],
+  isInitialized: false,
   loadedAssets: 0,
-  ogmo: null,
 });
 
 export default state;

@@ -1,35 +1,22 @@
 import Definable from "./Definable";
-import LevelData from "../interfaces/LevelData";
+import OgmoLevel from "../interfaces/ogmo/OgmoLevel";
 import state from "../state";
+import getToken from "../functions/getToken";
 
-interface Options {
+interface LevelOptions {
   readonly condition?: () => boolean;
   readonly file: string;
 }
 
 class Level extends Definable {
-  private _data: LevelData | null = null;
-  private readonly _options: Options;
+  private readonly _options: LevelOptions;
 
-  public constructor(options: Options) {
-    super();
+  public constructor(options: LevelOptions) {
+    if (state.values.isInitialized) {
+      throw new Error("A Definable was attempted to be constructed after initialization.");
+    }
+    super(getToken());
     this._options = options;
-    fetch(`./levels/${this._options.file}.json`)
-      .then((res): void => {
-        res
-          .json()
-          .then((levelData: LevelData): void => {
-            this._data = levelData;
-            state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
-            console.log(this._data);
-          })
-          .catch((e) => {
-            throw e;
-          });
-      })
-      .catch((): void => {
-        throw new Error(`Level "${this._options.file}" could not be loaded.`);
-      });
   }
 
   public attemptDraw(): void {
@@ -38,6 +25,24 @@ class Level extends Definable {
       this._options.condition()
     ) {
     }
+  }
+
+  public loadOgmoLevel(): void {
+    fetch(`./levels/${this._options.file}.json`)
+      .then((res): void => {
+        res
+          .json()
+          .then((ogmoLevel: OgmoLevel): void => {
+            state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
+            console.log(ogmoLevel);
+          })
+          .catch((e) => {
+            throw e;
+          });
+      })
+      .catch((): void => {
+        throw new Error(`Level "${this._options.file}" could not be loaded.`);
+      });
   }
 }
 

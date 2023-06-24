@@ -1,11 +1,12 @@
 import { Assets, Texture } from "pixi.js";
 import Definable from "./Definable";
 import drawImage from "../functions/draw/drawImage";
+import getToken from "../functions/getToken";
 import state from "../state";
 
 interface SpriteOptions {
   readonly condition?: () => boolean;
-  readonly file: string;
+  readonly imagePath: string;
   readonly x: number;
   readonly y: number;
 }
@@ -15,16 +16,11 @@ class Sprite extends Definable {
   private _texture: Texture | null = null;
 
   public constructor(options: SpriteOptions) {
-    super();
+    if (state.values.isInitialized) {
+      throw new Error("A Definable was attempted to be constructed after initialization.");
+    }
+    super(getToken());
     this._options = options;
-    Assets.load(`./images/${this._options.file}.png`)
-      .then((texture: Texture): void => {
-        this._texture = texture;
-        state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
-      })
-      .catch((): void => {
-        throw new Error(`Sprite "${this._options.file}" could not be loaded.`);
-      });
   }
 
   public attemptDraw(): void {
@@ -45,6 +41,17 @@ class Sprite extends Definable {
         this.texture.height
       );
     }
+  }
+
+  public loadTexture(): void {
+    Assets.load(`./images/${this._options.imagePath}.png`)
+      .then((texture: Texture): void => {
+        this._texture = texture;
+        state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
+      })
+      .catch((e): void => {
+        throw e;
+      });
   }
 
   private get texture(): Texture {

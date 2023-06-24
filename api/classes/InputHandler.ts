@@ -1,6 +1,8 @@
 import Definable from "./Definable";
+import getToken from "../functions/getToken";
+import state from "../state";
 
-interface Options {
+interface InputHandlerOptions {
   readonly condition?: () => boolean;
   readonly leftClick?: boolean;
   readonly rightClick?: boolean;
@@ -10,10 +12,13 @@ interface Options {
 }
 
 class InputHandler extends Definable {
-  private readonly _options: Options;
+  private readonly _options: InputHandlerOptions;
 
-  public constructor(options: Options) {
-    super();
+  public constructor(options: InputHandlerOptions) {
+    if (state.values.isInitialized) {
+      throw new Error("A Definable was attempted to be constructed after initialization.");
+    }
+    super(getToken());
     this._options = options;
   }
 
