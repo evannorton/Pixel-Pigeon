@@ -3,6 +3,52 @@ Game library for EvanMMO's typescript games
 
 ![funny-dancing-pigeon-bird-9ykm83a04cil1x1l](https://github.com/evannorton/pigeon-mode-game-library/assets/35230033/3af48e87-34b8-4d1c-8af4-a7d5dbc1ce35)
 
+## Getting started
+1. Create a `package.json` file at the root of your game's codebase.
+```json
+{
+  "scripts": {
+    "dev": "pigeon dev",
+    "lint": "pigeon lint",
+    "lint:fix": "pigeon lint:fix",
+    "zip": "pigeon zip"
+  },
+  "dependencies": {
+    "pigeon-mode-game-library": "evannorton/pigeon-mode-game-library"
+  },
+  "engines": {
+    "npm": "9.5.1",
+    "node": "18.16.0"
+  }
+}
+```
+
+2. Create a `pmgl.json` file at the root of your game's codebase.
+```json
+{
+  // Base height of your game in pixels
+  "height": 360,
+  // Base width of your game in pixels
+  "width": 640
+}
+```
+
+3. Create a `.gitignore` file at the root of your game's codebase.
+```
+node_modules
+game.zip
+```
+
+4. Use the [Ogmo Editor](https://ogmo-editor-3.github.io/) to create a `project.ogmo` file at the root of your game's codebase.
+
+5. Create a `levels` folder at the root of your game's codebase.
+
+6. Create a `images` folder at the root of your game's codebase.
+
+7. Run `npm install`.
+
+8. Run `npm run dev` to start a dev server with hot-reloading on port 3000.
+
 ## Command line interface
 
 ### `pigeon dev`
