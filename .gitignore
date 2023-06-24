@@ -1,4 +1,5 @@
 cli/configSchema.js
+cli/ldtkSchema.js
 cli/watchExec.json
 cli/watchExecCompleted.json
 cli/watchModifiedFiles.json
