@@ -1,20 +1,23 @@
 import Definable from "./Definable";
-import getToken from "../functions/getToken";
+
+interface DOMElementOptions {
+  readonly id: string;
+}
 
 class DOMElement extends Definable {
-  private readonly _id: string;
+  private readonly _options: DOMElementOptions;
 
-  public constructor(id: string) {
-    super(getToken());
-    this._id = id;
+  public constructor(options: DOMElementOptions) {
+    super(options.id);
+    this._options = options;
   }
 
   public getElement(): HTMLElement {
-    const element: HTMLElement | null = document.getElementById(this._id);
+    const element: HTMLElement | null = document.getElementById(this._options.id);
     if (element !== null) {
       return element;
     }
-    throw new Error(`DOMElement "${this._id}" does not have an element.`);
+    throw new Error(`DOMElement "${this._options.id}" does not have an element.`);
   }
 }
 
