@@ -1,5 +1,5 @@
-import getToken from "../functions/getToken";
 import Definable from "./Definable";
+import getToken from "../functions/getToken";
 
 class DOMElement extends Definable {
   private _id: string;

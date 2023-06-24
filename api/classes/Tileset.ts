@@ -28,7 +28,6 @@ class Tileset extends Definable {
         throw e;
       });
   }
-
 }
 
 export default Tileset;

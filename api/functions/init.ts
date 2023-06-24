@@ -2,14 +2,14 @@ import { Assets, BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import DOMElement from "../classes/DOMElement";
 import InputHandler from "../classes/InputHandler";
 import Level from "../classes/Level";
-import Sprite from "../classes/Sprite";
 import OgmoProject from "../interfaces/ogmo/OgmoProject";
+import Sprite from "../classes/Sprite";
+import Tileset from "../classes/Tileset";
 import app from "../app";
 import getDefinables from "./getDefinables";
 import sizeScreen from "./sizeScreen";
 import state from "../state";
 import tick from "./tick";
-import Tileset from "../classes/Tileset";
 
 const init = (): void => {
   if (state.values.isInitialized) {
@@ -80,12 +80,12 @@ const init = (): void => {
           for (const ogmoTileset of ogmo.tilesets) {
             new Tileset({
               id: ogmoTileset.label.toLowerCase(),
-              imagePath: ogmoTileset.path.substring(7)
+              imagePath: ogmoTileset.path.substring(7),
             });
           }
         })
         .catch((e): void => {
-          throw e
+          throw e;
         });
     })
     .catch((e) => {

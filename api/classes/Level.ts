@@ -1,7 +1,7 @@
 import Definable from "./Definable";
 import OgmoLevel from "../interfaces/ogmo/OgmoLevel";
-import state from "../state";
 import getToken from "../functions/getToken";
+import state from "../state";
 
 interface LevelOptions {
   readonly condition?: () => boolean;
@@ -13,7 +13,9 @@ class Level extends Definable {
 
   public constructor(options: LevelOptions) {
     if (state.values.isInitialized) {
-      throw new Error("A Definable was attempted to be constructed after initialization.");
+      throw new Error(
+        "A Definable was attempted to be constructed after initialization."
+      );
     }
     super(getToken());
     this._options = options;

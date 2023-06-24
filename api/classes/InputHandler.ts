@@ -16,7 +16,9 @@ class InputHandler extends Definable {
 
   public constructor(options: InputHandlerOptions) {
     if (state.values.isInitialized) {
-      throw new Error("A Definable was attempted to be constructed after initialization.");
+      throw new Error(
+        "A Definable was attempted to be constructed after initialization."
+      );
     }
     super(getToken());
     this._options = options;
