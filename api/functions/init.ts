@@ -15,7 +15,9 @@ const init = (): void => {
   console.log("Pigeon Mode Game Library initialized.");
   state.setValues({ isInitialized: true });
   load();
-  const screenElement: HTMLElement = new DOMElement({ id: "screen" }).getElement();
+  const screenElement: HTMLElement = new DOMElement({
+    id: "screen",
+  }).getElement();
   settings.ROUND_PIXELS = true;
   BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
   if (settings.RENDER_OPTIONS) {

@@ -3,7 +3,6 @@ import Definable from "./Definable";
 interface DOMElementOptions {
   readonly id: string;
 }
-
 class DOMElement extends Definable {
   private readonly _options: DOMElementOptions;
 
@@ -13,11 +12,15 @@ class DOMElement extends Definable {
   }
 
   public getElement(): HTMLElement {
-    const element: HTMLElement | null = document.getElementById(this._options.id);
+    const element: HTMLElement | null = document.getElementById(
+      this._options.id
+    );
     if (element !== null) {
       return element;
     }
-    throw new Error(`DOMElement "${this._options.id}" does not have an element.`);
+    throw new Error(
+      `DOMElement "${this._options.id}" does not have an element.`
+    );
   }
 }
 
