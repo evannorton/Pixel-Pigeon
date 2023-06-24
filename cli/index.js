@@ -22,7 +22,8 @@ try {
     configSchema.parse(JSON.parse(configString));
 }
 catch (error) {
-    throw new Error("Your pmgl.json file does not match the schema.");
+    console.error("Your pmgl.json file does not match the schema.");
+    throw error;
 }
 
 switch (process.argv[2]) {

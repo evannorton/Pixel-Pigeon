@@ -1,10 +1,10 @@
 interface OgmoLevel {
   readonly height: number;
   readonly layers: {
-    readonly arrayMode: 1;
-    readonly dataCoords2D: ([number, number] | [-1])[][];
-    readonly exportMode: 1;
-    readonly tileset: string;
+    readonly arrayMode?: 1;
+    readonly dataCoords2D?: ([number, number] | [-1])[][];
+    readonly exportMode?: 1;
+    readonly tileset?: string;
   }[];
   readonly offsetX: 0;
   readonly offsetY: 0;

@@ -14,7 +14,7 @@ interface LevelLayer {
     readonly x: number;
     readonly y: number;
   } | null)[][];
-  readonly tilesetID: string;
+  readonly tilesetID: string | null;
 }
 class Level extends Definable {
   private readonly _options: LevelOptions;
@@ -36,18 +36,23 @@ class Level extends Definable {
       this._options.condition()
     ) {
       for (const layer of this._layers) {
-        const tileset: Tileset = getDefinable(Tileset, layer.tilesetID);
-        layer.tileCoords.forEach(
-          (rowTileCoords: LevelLayer["tileCoords"][0], y: number): void => {
-            rowTileCoords.forEach(
-              (tileCoords: LevelLayer["tileCoords"][0][0], x: number): void => {
-                if (tileCoords !== null) {
-                  tileset.drawTile(tileCoords.x, tileCoords.y, x, y);
+        if (layer.tilesetID !== null) {
+          const tileset: Tileset = getDefinable(Tileset, layer.tilesetID);
+          layer.tileCoords.forEach(
+            (rowTileCoords: LevelLayer["tileCoords"][0], y: number): void => {
+              rowTileCoords.forEach(
+                (
+                  tileCoords: LevelLayer["tileCoords"][0][0],
+                  x: number
+                ): void => {
+                  if (tileCoords !== null) {
+                    tileset.drawTile(tileCoords.x, tileCoords.y, x, y);
+                  }
                 }
-              }
-            );
-          }
-        );
+              );
+            }
+          );
+        }
       }
     }
   }
@@ -61,23 +66,24 @@ class Level extends Definable {
             state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
             this._layers = ogmoLevel.layers.map(
               (ogmoLevelLayer: OgmoLevel["layers"][0]): LevelLayer => ({
-                tileCoords: ogmoLevelLayer.dataCoords2D.map(
-                  (
-                    dataCoords2D: OgmoLevel["layers"][0]["dataCoords2D"][0]
-                  ): LevelLayer["tileCoords"][0] =>
-                    dataCoords2D.map(
-                      (
-                        coords: OgmoLevel["layers"][0]["dataCoords2D"][0][0]
-                      ): LevelLayer["tileCoords"][0][0] =>
-                        typeof coords[1] === "number"
-                          ? {
-                              x: coords[0],
-                              y: coords[1],
-                            }
-                          : null
-                    )
-                ),
-                tilesetID: ogmoLevelLayer.tileset.toLowerCase(),
+                tileCoords:
+                  ogmoLevelLayer.dataCoords2D?.map(
+                    (
+                      dataCoords2D: ([number, number] | [-1])[]
+                    ): LevelLayer["tileCoords"][0] =>
+                      dataCoords2D.map(
+                        (
+                          coords: [number, number] | [-1]
+                        ): LevelLayer["tileCoords"][0][0] =>
+                          typeof coords[1] === "number"
+                            ? {
+                                x: coords[0],
+                                y: coords[1],
+                              }
+                            : null
+                      )
+                  ) ?? [],
+                tilesetID: ogmoLevelLayer.tileset?.toLowerCase() ?? null,
               })
             );
           })

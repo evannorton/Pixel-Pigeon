@@ -40,7 +40,8 @@ readdirSync(join("levels")).forEach((file) => {
     ogmoLevelSchema.parse(JSON.parse(levelString));
   }
   catch (error) {
-    throw new Error(`Level ${file} does not match the schema.`);
+    console.error(`Level ${file} does not match the schema.`);
+    throw error;
   }
 });
 
@@ -74,5 +75,6 @@ try {
   ogmoProjectSchema.parse(JSON.parse(ogmoProjectString));
 }
 catch (error) {
-  throw new Error("Your project.ogmo file does not match the schema.");
+  console.error("Your project.ogmo file does not match the schema.");
+  throw error;
 }
