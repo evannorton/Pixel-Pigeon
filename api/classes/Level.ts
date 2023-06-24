@@ -1,4 +1,6 @@
 import Definable from "./Definable";
+import LevelData from "../interfaces/LevelData";
+import state from "../state";
 
 interface Options {
   readonly condition?: () => boolean;
@@ -6,6 +8,7 @@ interface Options {
 }
 
 class Level extends Definable {
+  private _data: LevelData | null = null;
   private readonly _options: Options;
 
   public constructor(options: Options) {
@@ -15,8 +18,10 @@ class Level extends Definable {
       .then((res): void => {
         res
           .json()
-          .then((json): void => {
-            console.log(json);
+          .then((levelData: LevelData): void => {
+            this._data = levelData;
+            state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
+            console.log(this._data);
           })
           .catch((e) => {
             throw e;

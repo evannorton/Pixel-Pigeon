@@ -3,7 +3,7 @@ const { join } = require("path");
 const { existsSync, readdirSync, readFileSync, writeFileSync } = require("fs");
 const { generate } = require("ts-to-zod");
 
-const levelSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "interfaces", "Level.ts")).toString() }).getZodSchemasFile();
+const levelSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "interfaces", "LevelData.ts")).toString() }).getZodSchemasFile();
 writeFileSync(join(__dirname, "levelSchema.js"), levelSchemaText.replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { levelSchema };");
 const { levelSchema } = require("./levelSchema");
 
