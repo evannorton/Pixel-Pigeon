@@ -11,7 +11,7 @@ writeFileSync(join(__dirname, "watchExecCompleted.json"), JSON.stringify(false))
 const watcher = nodemon({
   delay: 1,
   exec: "node ./node_modules/pigeon-mode-game-library/cli/handleWatch || exit 1",
-  ext: "css,fnt,gif,js,json,mp3,mustache,png,ts,ttf",
+  ext: "css,fnt,gif,js,json,mp3,mustache,png,ts,ttf,json,pmgl,ldtk",
   stdout: true,
   stderr: true,
   watch: [
@@ -20,7 +20,7 @@ const watcher = nodemon({
     "./node-modules/",
     "./package.json",
     "./package-lock.json",
-    "./pmgl.json"
+    "./config.pmgl"
   ]
 });
 
@@ -70,7 +70,7 @@ watcher.addListener("restart", (files) => {
     if (joinedFilePieces === "package-lock.json") {
       return true;
     }
-    if (joinedFilePieces === "pmgl.json") {
+    if (joinedFilePieces === "config.pmgl") {
       return true;
     }
     return false;

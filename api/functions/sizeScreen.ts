@@ -1,18 +1,26 @@
 import DOMElement from "../classes/DOMElement";
-import config from "../config";
 import getDefinable from "./getDefinable";
+import state from "../state";
 
 const sizeScreen = (): void => {
+  if (state.values.config === null) {
+    throw new Error(
+      "An attempt was made to size screen before config was loaded."
+    );
+  }
   const screenElement: DOMElement = getDefinable(DOMElement, "screen");
-  const aspectRatio: number = config.width / config.height;
+  const aspectRatio: number =
+    state.values.config.width / state.values.config.height;
   const screenAspectRatio: number = window.innerWidth / window.innerHeight;
   const stretchedScale: number =
     aspectRatio >= screenAspectRatio
-      ? window.innerWidth / config.width
-      : window.innerHeight / config.height;
-  screenElement.getElement().style.width = `${config.width * stretchedScale}px`;
+      ? window.innerWidth / state.values.config.width
+      : window.innerHeight / state.values.config.height;
+  screenElement.getElement().style.width = `${
+    state.values.config.width * stretchedScale
+  }px`;
   screenElement.getElement().style.height = `${
-    config.height * stretchedScale
+    state.values.config.height * stretchedScale
   }px`;
 };
 

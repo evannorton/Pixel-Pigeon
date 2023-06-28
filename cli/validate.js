@@ -1,4 +1,4 @@
-const { existsSync, readdirSync, readFileSync, writeFileSync } = require("fs");
+const { existsSync, readFileSync, writeFileSync } = require("fs");
 const { join } = require("path");
 const { generate } = require("ts-to-zod");
 

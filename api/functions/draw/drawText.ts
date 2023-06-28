@@ -1,6 +1,6 @@
 import { BitmapText, TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
-import app from "../../app";
 import getBitmapText from "../getBitmapText";
+import state from "../../state";
 
 const drawText = (
   text: string,
@@ -13,6 +13,11 @@ const drawText = (
   horizontalAlignment: TextStyleAlign,
   verticalAlignment: TextStyleTextBaseline
 ): void => {
+  if (state.values.app === null) {
+    throw new Error(
+      "An attempt was made to draw a rectangle before app was created."
+    );
+  }
   const sprite: BitmapText = getBitmapText(
     text,
     color,
@@ -42,7 +47,7 @@ const drawText = (
       ? (size * 7) / 2 / (size * 7)
       : 0
   );
-  app.stage.addChild(sprite);
+  state.values.app.stage.addChild(sprite);
 };
 
 export default drawText;

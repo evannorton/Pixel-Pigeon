@@ -8,21 +8,21 @@ const configSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..
 writeFileSync(join(__dirname, "configSchema.js"), configSchemaText.replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { configSchema };");
 const { configSchema } = require("./configSchema");
 
-if (!existsSync(join("pmgl.json"))) {
-    throw new Error("You must create a pmgl.json file for use with Pigeon Mode Game Library.");
+if (!existsSync(join("config.pmgl"))) {
+    throw new Error("You must create a config.pmgl file for use with Pigeon Mode Game Library.");
 }
-const configString = readFileSync(join("pmgl.json")).toString();
+const configString = readFileSync(join("config.pmgl")).toString();
 try {
     JSON.parse(configString);
 }
 catch (error) {
-    throw new Error("Your pmgl.json file is not valid JSON.");
+    throw new Error("Your config.pmgl file is not valid JSON.");
 }
 try {
     configSchema.parse(JSON.parse(configString));
 }
 catch (error) {
-    console.error("Your pmgl.json file does not match the schema.");
+    console.error("Your config.pmgl file does not match the schema.");
     throw error;
 }
 

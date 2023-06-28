@@ -1,6 +1,5 @@
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
-import app from "../../app";
-import config from "../../config";
+import state from "../../state";
 
 const drawImage = (
   texture: Texture,
@@ -14,17 +13,27 @@ const drawImage = (
   width: number,
   height: number
 ): void => {
+  if (state.values.app === null) {
+    throw new Error(
+      "An attempt was made to draw an image before app was created."
+    );
+  }
+  if (state.values.config === null) {
+    throw new Error(
+      "An attempt was made to draw an image before config was loaded."
+    );
+  }
   const chopX: number = Math.max(x * -1, 0);
   const chopY: number = Math.max(y * -1, 0);
   const adjustedX: number = Math.max(x, 0);
   const adjustedY: number = Math.max(y, 0);
   const adjustedWidth: number = Math.min(
     width - chopX,
-    config.width - adjustedX
+    state.values.config.width - adjustedX
   );
   const adjustedHeight: number = Math.min(
     height - chopY,
-    config.height - adjustedY
+    state.values.config.height - adjustedY
   );
   const adjustedSourceX: number = chopX + sourceX;
   const adjustedSourceY: number = chopY + sourceY;
@@ -52,7 +61,7 @@ const drawImage = (
   pixiSprite.width = adjustedWidth;
   pixiSprite.height = adjustedHeight;
   pixiSprite.alpha = opacity;
-  app.stage.addChild(pixiSprite);
+  state.values.app.stage.addChild(pixiSprite);
 };
 
 export default drawImage;

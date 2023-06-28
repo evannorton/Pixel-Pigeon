@@ -23,7 +23,7 @@ Game library for EvanMMO's typescript games
 }
 ```
 
-2. Create a `pmgl.json` file at the root of your game's codebase.
+2. Create a `config.pmgl` file at the root of your game's codebase.
 ```json
 {
   // Base height of your game in pixels
