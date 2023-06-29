@@ -34,11 +34,11 @@ const getCameraCoordinates = (): CameraCoordinates => {
         if (entity.id === state.values.cameraLockedEntityID) {
           return {
             x:
-              entity.x +
+              Math.floor(entity.x) +
               Math.floor(entity.width / 2) -
               Math.floor(state.values.config.width / 2),
             y:
-              entity.y +
+              Math.floor(entity.y) +
               Math.floor(entity.height / 2) -
               Math.floor(state.values.config.height / 2),
           };

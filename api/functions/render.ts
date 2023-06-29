@@ -96,8 +96,8 @@ const render = (): void => {
           drawRectangle(
             entity.color,
             1,
-            Math.round(layerEntity.x - cameraCoordinates.x),
-            Math.round(layerEntity.y - cameraCoordinates.y),
+            Math.floor(layerEntity.x) - cameraCoordinates.x,
+            Math.floor(layerEntity.y) - cameraCoordinates.y,
             layerEntity.width,
             layerEntity.height
           );

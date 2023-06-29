@@ -34,12 +34,8 @@ const moveEntity = (
         (layerEntity: WorldLayerEntity): boolean => layerEntity.id === entityID
       ) ?? null;
     if (entity !== null) {
-      const newX: number =
-        entity.x + velocityX * (state.values.app.ticker.deltaMS / 1000);
-      const newY: number =
-        entity.y + velocityY * (state.values.app.ticker.deltaMS / 1000);
-      entity.x = newX;
-      entity.y = newY;
+      entity.x += velocityX * (state.values.app.ticker.deltaMS / 1000);
+      entity.y += velocityY * (state.values.app.ticker.deltaMS / 1000);
     }
   }
 };
