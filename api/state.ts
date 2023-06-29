@@ -1,6 +1,7 @@
 import { Application } from "pixi.js";
 import Config from "./types/Config";
 import State from "./classes/State";
+import World from "./types/World";
 
 interface StateSchema {
   readonly app: Application | null;
@@ -12,6 +13,7 @@ interface StateSchema {
   readonly isInitialized: boolean;
   readonly levelID: string | null;
   readonly loadedAssets: number;
+  readonly world: World | null;
 }
 const state: State<StateSchema> = new State<StateSchema>({
   app: null,
@@ -23,6 +25,7 @@ const state: State<StateSchema> = new State<StateSchema>({
   isInitialized: false,
   levelID: null,
   loadedAssets: 0,
+  world: null,
 });
 
 export default state;

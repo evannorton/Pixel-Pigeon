@@ -20,7 +20,8 @@ const watcher = nodemon({
     "./node-modules/",
     "./package.json",
     "./package-lock.json",
-    "./config.pmgl"
+    "./config.pmgl",
+    "./project.ldtk"
   ]
 });
 
@@ -93,6 +94,9 @@ watcher.addListener("restart", (files) => {
         }
         if (filePieces[0] === "images") {
           return joinedFilePieces.substring(joinedFilePieces.length - 4) === ".png"
+        }
+        if (joinedFilePieces === "project.ldtk") {
+          return true;
         }
         return false;
       })

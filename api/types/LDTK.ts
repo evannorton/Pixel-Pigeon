@@ -88,33 +88,31 @@ interface LDTK {
       readonly uid: number;
     }[];
     readonly levelFields: [];
-    readonly tilesets: [
-      {
-        readonly __cHei: number;
-        readonly __cWid: number;
-        readonly cachedPixelData: {
-          readonly opaqueTiles: string;
-          readonly averageColors: string;
-        };
-        readonly customData: {
-          readonly tileId: number;
-          readonly data: string;
-        }[];
-        readonly embedAtlas: null;
-        readonly enumTags: [];
-        readonly identifier: string;
-        readonly padding: 0;
-        readonly pxHei: number;
-        readonly pxWid: number;
-        readonly relPath: string;
-        readonly savedSelections: [];
-        readonly spacing: 0;
-        readonly tags: [];
-        readonly tagsSourceEnumUid: null;
-        readonly tileGridSize: number;
-        readonly uid: number;
-      }
-    ];
+    readonly tilesets: {
+      readonly __cHei: number;
+      readonly __cWid: number;
+      readonly cachedPixelData: {
+        readonly opaqueTiles: string;
+        readonly averageColors: string;
+      };
+      readonly customData: {
+        readonly tileId: number;
+        readonly data: string;
+      }[];
+      readonly embedAtlas: null;
+      readonly enumTags: [];
+      readonly identifier: string;
+      readonly padding: 0;
+      readonly pxHei: number;
+      readonly pxWid: number;
+      readonly relPath: string;
+      readonly savedSelections: [];
+      readonly spacing: 0;
+      readonly tags: [];
+      readonly tagsSourceEnumUid: null;
+      readonly tileGridSize: number;
+      readonly uid: number;
+    }[];
   };
   readonly dummyWorldIid: string;
   readonly exportLevelBg: true;

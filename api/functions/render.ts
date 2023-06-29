@@ -1,5 +1,7 @@
+import { WorldLevel, WorldTileset } from "../types/World";
 import Sprite from "../classes/Sprite";
 import assetsAreLoaded from "./assetsAreLoaded";
+import drawImage from "./draw/drawImage";
 import drawRectangle from "./draw/drawRectangle";
 import drawText from "./draw/drawText";
 import getDefinables from "./getDefinables";
@@ -45,6 +47,44 @@ const render = (): void => {
       "middle"
     );
   } else {
+    if (state.values.world === null) {
+      throw new Error("An attempt was made to render before world was loaded.");
+    }
+    if (state.values.levelID !== null) {
+      const level: WorldLevel | null =
+        state.values.world.levels.get(state.values.levelID) ?? null;
+      if (level === null) {
+        throw Error("An attempt was made to render a nonexistent level.");
+      }
+      for (const layer of level.layers) {
+        if (layer.tilesetID !== null) {
+          const tileset: WorldTileset | null =
+            state.values.world.tilesets.get(layer.tilesetID) ?? null;
+          if (tileset === null) {
+            throw Error("An attempt was made to render a nonexistent tileset.");
+          }
+          if (tileset.texture === null) {
+            throw Error(
+              "An attempt was made to render a tileset before its texture was loaded."
+            );
+          }
+          for (const tile of layer.tiles) {
+            drawImage(
+              tileset.texture,
+              1,
+              tile.sourceX,
+              tile.sourceY,
+              tileset.tileSize,
+              tileset.tileSize,
+              tile.x,
+              tile.y,
+              layer.tileSize,
+              layer.tileSize
+            );
+          }
+        }
+      }
+    }
     getDefinables(Sprite).forEach((sprite: Sprite): void => {
       sprite.draw();
     });

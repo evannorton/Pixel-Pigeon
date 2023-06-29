@@ -35,33 +35,35 @@ const drawImage = (
     height - chopY,
     state.values.config.height - adjustedY
   );
-  const adjustedSourceX: number = chopX + sourceX;
-  const adjustedSourceY: number = chopY + sourceY;
-  const adjustedSourceWidth: number = Math.min(
-    sourceWidth - chopX,
-    adjustedWidth
-  );
-  const adjustedSourceHeight: number = Math.min(
-    sourceHeight - chopY,
-    adjustedHeight
-  );
-  const pixiSprite: PixiSprite = new PixiSprite(
-    new Texture(
-      texture.baseTexture,
-      new Rectangle(
-        adjustedSourceX,
-        adjustedSourceY,
-        adjustedSourceWidth,
-        adjustedSourceHeight
+  if (adjustedWidth > 0 && adjustedHeight > 0) {
+    const adjustedSourceX: number = chopX + sourceX;
+    const adjustedSourceY: number = chopY + sourceY;
+    const adjustedSourceWidth: number = Math.min(
+      sourceWidth - chopX,
+      adjustedWidth
+    );
+    const adjustedSourceHeight: number = Math.min(
+      sourceHeight - chopY,
+      adjustedHeight
+    );
+    const pixiSprite: PixiSprite = new PixiSprite(
+      new Texture(
+        texture.baseTexture,
+        new Rectangle(
+          adjustedSourceX,
+          adjustedSourceY,
+          adjustedSourceWidth,
+          adjustedSourceHeight
+        )
       )
-    )
-  );
-  pixiSprite.x = adjustedX;
-  pixiSprite.y = adjustedY;
-  pixiSprite.width = adjustedWidth;
-  pixiSprite.height = adjustedHeight;
-  pixiSprite.alpha = opacity;
-  state.values.app.stage.addChild(pixiSprite);
+    );
+    pixiSprite.x = adjustedX;
+    pixiSprite.y = adjustedY;
+    pixiSprite.width = adjustedWidth;
+    pixiSprite.height = adjustedHeight;
+    pixiSprite.alpha = opacity;
+    state.values.app.stage.addChild(pixiSprite);
+  }
 };
 
 export default drawImage;
