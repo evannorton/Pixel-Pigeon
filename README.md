@@ -56,6 +56,18 @@ Run the linter on your game's source code.
 ### `pigeon lint:fix`
 Run the linter on your game's source code and automatically fix some errors.
 
+## API
+### `init(): void`
+Initialize and run the game.
+### `goToLevel(levelID: string): void`
+Go to a level specified by the "level identifier" property in LDTK.
+### `new InputHandler(options: InputHandlerOptions)`
+Class for managing mouse, keyboard and gamepad input.
+### `new Sprite(options: SpriteOptions)`
+Class for managing a sprite.
+### `new State<StateSchema>(initialState: StateSchema)`
+Class for managing state.
+
 ## Example games
 - [EvanMMO - Moon Squid](https://github.com/evannorton/Moon-Squid)
 
