@@ -1,9 +1,16 @@
 import { Texture } from "pixi.js";
 
+export interface WorldEntity {
+  readonly color: string;
+}
 export interface WorldLevel {
   readonly layers: {
     readonly entities: {
+      readonly height: number;
       readonly id: string;
+      readonly width: number;
+      readonly x: number;
+      readonly y: number;
     }[];
     readonly tileSize: number;
     readonly tiles: {
@@ -21,6 +28,7 @@ export interface WorldTileset {
   readonly tileSize: number;
 }
 interface World {
+  readonly entities: Map<string, WorldEntity>;
   readonly levels: Map<string, WorldLevel>;
   readonly tilesets: Map<string, WorldTileset>;
 }

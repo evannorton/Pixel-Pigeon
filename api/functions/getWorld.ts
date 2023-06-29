@@ -1,9 +1,15 @@
 import LDTK from "../types/LDTK";
-import World, { WorldLevel, WorldTileset } from "../types/World";
+import World, { WorldEntity, WorldLevel, WorldTileset } from "../types/World";
 
 const getWorld = (ldtk: LDTK): World => {
+  const entities: Map<string, WorldEntity> = new Map();
   const levels: Map<string, WorldLevel> = new Map();
   const tilesets: Map<string, WorldTileset> = new Map();
+  for (const ldtkDefEntity of ldtk.defs.entities) {
+    entities.set(ldtkDefEntity.identifier, {
+      color: ldtkDefEntity.color,
+    });
+  }
   for (const ldtkLevel of ldtk.levels) {
     levels.set(ldtkLevel.identifier, {
       layers: [...ldtkLevel.layerInstances]
@@ -17,17 +23,20 @@ const getWorld = (ldtk: LDTK): World => {
                 (ldtkDefLayer: LDTK["defs"]["layers"][0]): boolean =>
                   ldtkDefLayer.uid === ldtkLayerInstance.layerDefUid
               ) ?? null;
-            const entities: WorldLevel["layers"][0]["entities"] =
-              ldtkLayerInstance.entityInstances.map(
+            return {
+              entities: ldtkLayerInstance.entityInstances.map(
                 (
                   ldtkEntityInstance: LDTK["levels"][0]["layerInstances"][0]["entityInstances"][0]
                 ): WorldLevel["layers"][0]["entities"][0] => ({
+                  height: ldtkEntityInstance.height,
                   id: ldtkEntityInstance.__identifier,
+                  width: ldtkEntityInstance.width,
+                  x: ldtkEntityInstance.px[0],
+                  y: ldtkEntityInstance.px[1],
                 })
-              );
-            const tileSize: number = ldtkLayerInstance.__gridSize;
-            const tiles: WorldLevel["layers"][0]["tiles"] =
-              ldtkLayerInstance.gridTiles.map(
+              ),
+              tileSize: ldtkLayerInstance.__gridSize,
+              tiles: ldtkLayerInstance.gridTiles.map(
                 (
                   ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0]
                 ): WorldLevel["layers"][0]["tiles"][0] => ({
@@ -36,20 +45,15 @@ const getWorld = (ldtk: LDTK): World => {
                   x: ldtkGridTile.px[0],
                   y: ldtkGridTile.px[1],
                 })
-              );
-            const tilesetID: string | null =
-              matchedLDTKDefLayer !== null &&
-              matchedLDTKDefLayer.tilesetDefUid !== null
-                ? ldtk.defs.tilesets.find(
-                    (ldtkDefTileset: LDTK["defs"]["tilesets"][0]): boolean =>
-                      ldtkDefTileset.uid === matchedLDTKDefLayer.tilesetDefUid
-                  )?.identifier ?? null
-                : null;
-            return {
-              entities,
-              tileSize,
-              tiles,
-              tilesetID,
+              ),
+              tilesetID:
+                matchedLDTKDefLayer !== null &&
+                matchedLDTKDefLayer.tilesetDefUid !== null
+                  ? ldtk.defs.tilesets.find(
+                      (ldtkDefTileset: LDTK["defs"]["tilesets"][0]): boolean =>
+                        ldtkDefTileset.uid === matchedLDTKDefLayer.tilesetDefUid
+                    )?.identifier ?? null
+                  : null,
             };
           }
         ),
@@ -65,6 +69,7 @@ const getWorld = (ldtk: LDTK): World => {
     });
   }
   return {
+    entities,
     levels,
     tilesets,
   };

@@ -1,4 +1,4 @@
-import { WorldLevel, WorldTileset } from "../types/World";
+import { WorldEntity, WorldLevel, WorldTileset } from "../types/World";
 import Sprite from "../classes/Sprite";
 import assetsAreLoaded from "./assetsAreLoaded";
 import drawImage from "./draw/drawImage";
@@ -82,6 +82,21 @@ const render = (): void => {
               layer.tileSize
             );
           }
+        }
+        for (const layerEntity of layer.entities) {
+          const entity: WorldEntity | null =
+            state.values.world.entities.get(layerEntity.id) ?? null;
+          if (entity === null) {
+            throw Error("An attempt was made to render a nonexistent entity.");
+          }
+          drawRectangle(
+            entity.color,
+            1,
+            layerEntity.x,
+            layerEntity.y,
+            layerEntity.width,
+            layerEntity.height
+          );
         }
       }
     }
