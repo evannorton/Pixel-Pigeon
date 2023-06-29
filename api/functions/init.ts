@@ -1,7 +1,8 @@
 import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import Config from "../types/Config";
 import DOMElement from "../classes/DOMElement";
-import InputHandler from "../classes/InputHandler";
+import InputPressHandler from "../classes/InputPressHandler";
+import InputTickHandler from "../classes/InputTickHandler";
 import LDTK from "../types/LDTK";
 import getDefinables from "./getDefinables";
 import getWorld from "./getWorld";
@@ -57,9 +58,11 @@ const init = (): void => {
                       if (!state.values.hasInteracted) {
                         state.setValues({ hasInteracted: true });
                       } else {
-                        getDefinables(InputHandler).forEach(
-                          (inputHandler: InputHandler): void => {
-                            inputHandler.handleClick(mousedownEvent.button);
+                        getDefinables(InputPressHandler).forEach(
+                          (inputPressHandler: InputPressHandler): void => {
+                            inputPressHandler.handleClick(
+                              mousedownEvent.button
+                            );
                           }
                         );
                       }
@@ -75,9 +78,16 @@ const init = (): void => {
                             keydownEvent.code,
                           ],
                         });
-                        getDefinables(InputHandler).forEach(
-                          (inputHandler: InputHandler): void => {
-                            inputHandler.handleKey(keydownEvent.code);
+                        getDefinables(InputPressHandler).forEach(
+                          (inputPressHandler: InputPressHandler): void => {
+                            inputPressHandler.handleKey(keydownEvent.code);
+                          }
+                        );
+                        getDefinables(InputTickHandler).forEach(
+                          (
+                            inputTickHandler: InputTickHandler<string>
+                          ): void => {
+                            inputTickHandler.handleKeyDown(keydownEvent.code);
                           }
                         );
                       }
@@ -92,9 +102,27 @@ const init = (): void => {
                             (key: string): boolean => key !== keyupEvent.code
                           ),
                         });
+                        getDefinables(InputTickHandler).forEach(
+                          (
+                            inputTickHandler: InputTickHandler<string>
+                          ): void => {
+                            inputTickHandler.handleKeyUp(keyupEvent.code);
+                          }
+                        );
                       }
                     }
                   );
+                  screenElement.addEventListener("focusout", (): void => {
+                    state.setValues({
+                      heldGamepadButtons: [],
+                      heldKeys: [],
+                    });
+                    getDefinables(InputTickHandler).forEach(
+                      (inputTickHandler: InputTickHandler<string>): void => {
+                        inputTickHandler.empty();
+                      }
+                    );
+                  });
                   screenElement.appendChild(app.view as HTMLCanvasElement);
                   sizeScreen();
                   app.ticker.add(tick);

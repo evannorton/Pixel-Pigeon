@@ -2,18 +2,18 @@ import Definable from "./Definable";
 import getToken from "../functions/getToken";
 import state from "../state";
 
-interface InputHandlerOptions {
+interface InputPressHandlerOptions {
   readonly condition?: () => boolean;
-  readonly keys?: string[];
   readonly gamepadButtons?: number[];
+  readonly keys?: string[];
   readonly leftClick?: boolean;
-  readonly rightClick?: boolean;
   readonly onInput: () => void;
+  readonly rightClick?: boolean;
 }
-class InputHandler extends Definable {
-  private readonly _options: InputHandlerOptions;
+class InputPressHandler extends Definable {
+  private readonly _options: InputPressHandlerOptions;
 
-  public constructor(options: InputHandlerOptions) {
+  public constructor(options: InputPressHandlerOptions) {
     if (state.values.isInitialized) {
       throw new Error(
         "A Definable was attempted to be constructed after initialization."
@@ -60,4 +60,4 @@ class InputHandler extends Definable {
   }
 }
 
-export default InputHandler;
+export default InputPressHandler;

@@ -64,8 +64,10 @@ Go to a level specified by the "level identifier" property in LDTK.
 
 ### `lockCameraToEntity(entityID: string): void`
 Lock the level's camera to an entity specified by the "entity identifier" property in LDTK.
-### `new InputHandler(options: InputHandlerOptions)`
-Class for managing mouse, keyboard and gamepad input.
+### `new InputPressHandler(options: InputPressHandlerOptions)`
+Class for managing mouse, keyboard and gamepad input on press.
+### `new InputTickHandler(options: InputTickHandlerOptions)`
+Class for managing mouse, keyboard and gamepad input on tick.
 ### `new Sprite(options: SpriteOptions)`
 Class for managing a sprite.
 ### `new State<StateSchema>(initialState: StateSchema)`
