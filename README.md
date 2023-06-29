@@ -61,6 +61,9 @@ Run the linter on your game's source code and automatically fix some errors.
 Initialize and run the game.
 ### `goToLevel(levelID: string): void`
 Go to a level specified by the "level identifier" property in LDTK.
+
+### `lockCameraToEntity(entityID: string): void`
+Lock the level's camera to an entity specified by the "entity identifier" property in LDTK.
 ### `new InputHandler(options: InputHandlerOptions)`
 Class for managing mouse, keyboard and gamepad input.
 ### `new Sprite(options: SpriteOptions)`

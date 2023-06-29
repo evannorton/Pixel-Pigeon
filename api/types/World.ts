@@ -1,9 +1,9 @@
 import { Texture } from "pixi.js";
 
-export interface WorldEntity {
+interface WorldEntity {
   readonly color: string;
 }
-export interface WorldLevel {
+interface WorldLevel {
   readonly layers: {
     readonly entities: {
       readonly height: number;
@@ -22,7 +22,7 @@ export interface WorldLevel {
     readonly tilesetID: string | null;
   }[];
 }
-export interface WorldTileset {
+interface WorldTileset {
   readonly imagePath: string;
   texture: Texture | null;
   readonly tileSize: number;
@@ -34,3 +34,4 @@ interface World {
 }
 
 export default World;
+export { WorldEntity, WorldLevel, WorldTileset };

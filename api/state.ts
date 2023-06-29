@@ -5,6 +5,7 @@ import World from "./types/World";
 
 interface StateSchema {
   readonly app: Application | null;
+  readonly cameraLockedEntityID: string | null;
   readonly config: Config | null;
   readonly currentTime: number;
   readonly hasInteracted: boolean;
@@ -17,6 +18,7 @@ interface StateSchema {
 }
 const state: State<StateSchema> = new State<StateSchema>({
   app: null,
+  cameraLockedEntityID: null,
   config: null,
   currentTime: 0,
   hasInteracted: false,

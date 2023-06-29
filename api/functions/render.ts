@@ -4,6 +4,9 @@ import assetsAreLoaded from "./assetsAreLoaded";
 import drawImage from "./draw/drawImage";
 import drawRectangle from "./draw/drawRectangle";
 import drawText from "./draw/drawText";
+import getCameraCoordinates, {
+  CameraCoordinates,
+} from "./getCameraCoordinates";
 import getDefinables from "./getDefinables";
 import getTotalAssets from "./getTotalAssets";
 import state from "../state";
@@ -51,6 +54,7 @@ const render = (): void => {
       throw new Error("An attempt was made to render before world was loaded.");
     }
     if (state.values.levelID !== null) {
+      const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
       const level: WorldLevel | null =
         state.values.world.levels.get(state.values.levelID) ?? null;
       if (level === null) {
@@ -76,8 +80,8 @@ const render = (): void => {
               tile.sourceY,
               tileset.tileSize,
               tileset.tileSize,
-              tile.x,
-              tile.y,
+              tile.x - cameraCoordinates.x,
+              tile.y - cameraCoordinates.y,
               layer.tileSize,
               layer.tileSize
             );
@@ -92,8 +96,8 @@ const render = (): void => {
           drawRectangle(
             entity.color,
             1,
-            layerEntity.x,
-            layerEntity.y,
+            layerEntity.x - cameraCoordinates.x,
+            layerEntity.y - cameraCoordinates.y,
             layerEntity.width,
             layerEntity.height
           );
