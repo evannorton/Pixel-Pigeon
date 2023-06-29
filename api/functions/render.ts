@@ -96,8 +96,8 @@ const render = (): void => {
           drawRectangle(
             entity.color,
             1,
-            layerEntity.x - cameraCoordinates.x,
-            layerEntity.y - cameraCoordinates.y,
+            Math.round(layerEntity.x - cameraCoordinates.x),
+            Math.round(layerEntity.y - cameraCoordinates.y),
             layerEntity.width,
             layerEntity.height
           );
@@ -105,7 +105,7 @@ const render = (): void => {
       }
     }
     getDefinables(Sprite).forEach((sprite: Sprite): void => {
-      sprite.draw();
+      sprite.attemptDraw();
     });
   }
   state.values.app.stage.sortChildren();

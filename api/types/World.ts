@@ -3,15 +3,16 @@ import { Texture } from "pixi.js";
 interface WorldEntity {
   readonly color: string;
 }
+interface WorldLayerEntity {
+  readonly height: number;
+  readonly id: string;
+  readonly width: number;
+  x: number;
+  y: number;
+}
 interface WorldLevel {
   readonly layers: {
-    readonly entities: {
-      readonly height: number;
-      readonly id: string;
-      readonly width: number;
-      readonly x: number;
-      readonly y: number;
-    }[];
+    readonly entities: WorldLayerEntity[];
     readonly tileSize: number;
     readonly tiles: {
       readonly sourceX: number;
@@ -34,4 +35,4 @@ interface World {
 }
 
 export default World;
-export { WorldEntity, WorldLevel, WorldTileset };
+export { WorldEntity, WorldLayerEntity, WorldLevel, WorldTileset };

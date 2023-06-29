@@ -25,7 +25,7 @@ const getCameraCoordinates = (): CameraCoordinates => {
     state.values.world.levels.get(state.values.levelID) ?? null;
   if (level === null) {
     throw new Error(
-      "An attempt was made to get camera coordinates with a nonexistant level."
+      "An attempt was made to get camera coordinates with a nonexistant active level."
     );
   }
   if (state.values.cameraLockedEntityID !== null) {
