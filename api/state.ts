@@ -1,10 +1,8 @@
 import { Application } from "pixi.js";
 import Config from "./types/Config";
-import LDTK from "./types/LDTK";
 import State from "./classes/State";
 
 interface StateSchema {
-  readonly activeLevelID: string | null;
   readonly app: Application | null;
   readonly config: Config | null;
   readonly currentTime: number;
@@ -12,11 +10,10 @@ interface StateSchema {
   readonly heldGamepadButtons: number[];
   readonly heldKeys: string[];
   readonly isInitialized: boolean;
-  readonly ldtk: LDTK | null;
+  readonly levelID: string | null;
   readonly loadedAssets: number;
 }
 const state: State<StateSchema> = new State<StateSchema>({
-  activeLevelID: null,
   app: null,
   config: null,
   currentTime: 0,
@@ -24,7 +21,7 @@ const state: State<StateSchema> = new State<StateSchema>({
   heldGamepadButtons: [],
   heldKeys: [],
   isInitialized: false,
-  ldtk: null,
+  levelID: null,
   loadedAssets: 0,
 });
 

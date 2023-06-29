@@ -46,7 +46,7 @@ const render = (): void => {
     );
   } else {
     getDefinables(Sprite).forEach((sprite: Sprite): void => {
-      sprite.attemptDraw();
+      sprite.draw();
     });
   }
   state.values.app.stage.sortChildren();

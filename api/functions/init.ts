@@ -40,8 +40,8 @@ const init = (): void => {
               ldtkRes
                 .json()
                 .then((ldtk: LDTK): void => {
+                  console.log(ldtk);
                   state.setValues({
-                    ldtk,
                     loadedAssets: state.values.loadedAssets + 1,
                   });
                 })

@@ -4,10 +4,10 @@ import state from "../state";
 
 interface InputHandlerOptions {
   readonly condition?: () => boolean;
-  readonly leftClick?: boolean;
-  readonly rightClick?: boolean;
   readonly keys?: string[];
   readonly gamepadButtons?: number[];
+  readonly leftClick?: boolean;
+  readonly rightClick?: boolean;
   readonly onInput: () => void;
 }
 class InputHandler extends Definable {

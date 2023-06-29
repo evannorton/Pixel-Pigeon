@@ -31,7 +31,7 @@ class Sprite extends Definable {
     throw new Error(this.getAccessorErrorMessage("texture"));
   }
 
-  public attemptDraw(): void {
+  public draw(): void {
     if (
       typeof this._options.condition === "undefined" ||
       this._options.condition()
