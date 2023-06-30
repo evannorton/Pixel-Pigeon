@@ -1,16 +1,8 @@
 import { WorldLayerEntity, WorldLevel } from "../types/World";
+import Axis from "../types/Axis";
 import state from "../state";
 
-const moveEntity = (
-  entityID: string,
-  velocityX: number,
-  velocityY: number
-): void => {
-  if (state.values.app === null) {
-    throw new Error(
-      `An attempt was made to move entity "${entityID}" before app was created.`
-    );
-  }
+const moveEntity = (entityID: string, axis: Axis, velocity: number): void => {
   if (state.values.world === null) {
     throw new Error(
       `An attempt was made to move entity "${entityID}" before world was loaded.`
@@ -34,8 +26,14 @@ const moveEntity = (
         (layerEntity: WorldLayerEntity): boolean => layerEntity.id === entityID
       ) ?? null;
     if (entity !== null) {
-      entity.x += velocityX * (state.values.app.ticker.deltaMS / 1000);
-      entity.y += velocityY * (state.values.app.ticker.deltaMS / 1000);
+      switch (axis) {
+        case Axis.X:
+          entity.velocityX = velocity;
+          break;
+        case Axis.Y:
+          entity.velocityY = velocity;
+          break;
+      }
     }
   }
 };

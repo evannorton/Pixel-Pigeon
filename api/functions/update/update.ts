@@ -1,9 +1,13 @@
-import InputPressHandler from "../classes/InputPressHandler";
-import InputTickHandler from "../classes/InputTickHandler";
-import getDefinables from "./getDefinables";
-import state from "../state";
+import InputPressHandler from "../../classes/InputPressHandler";
+import InputTickHandler from "../../classes/InputTickHandler";
+import getDefinables from "../getDefinables";
+import state from "../../state";
+import updateLevel from "./updateLevel";
 
 const update = (): void => {
+  if (state.values.world === null) {
+    throw new Error("An attempt was made to update before world was loaded.");
+  }
   if (state.values.hasInteracted) {
     navigator.getGamepads().forEach((gamepad: Gamepad | null): void => {
       if (gamepad) {
@@ -54,6 +58,9 @@ const update = (): void => {
         inputTickHandler.attemptInput();
       }
     );
+    if (state.values.levelID !== null) {
+      updateLevel();
+    }
   }
 };
 

@@ -6,6 +6,10 @@ interface WorldEntity {
 interface WorldLayerEntity {
   readonly height: number;
   readonly id: string;
+  lastX: number;
+  lastY: number;
+  velocityX: number;
+  velocityY: number;
   readonly width: number;
   x: number;
   y: number;

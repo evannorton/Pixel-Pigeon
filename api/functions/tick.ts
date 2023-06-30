@@ -1,6 +1,6 @@
 import render from "./render";
 import state from "../state";
-import update from "./update";
+import update from "./update/update";
 
 const tick = (): void => {
   if (state.values.app === null) {
