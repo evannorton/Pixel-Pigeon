@@ -30,8 +30,6 @@ const getWorld = (ldtk: LDTK): World => {
                 ): WorldLevel["layers"][0]["entities"][0] => ({
                   height: ldtkEntityInstance.height,
                   id: ldtkEntityInstance.__identifier,
-                  lastX: ldtkEntityInstance.px[0],
-                  lastY: ldtkEntityInstance.px[1],
                   width: ldtkEntityInstance.width,
                   x: ldtkEntityInstance.px[0],
                   xVelocity: 0,
