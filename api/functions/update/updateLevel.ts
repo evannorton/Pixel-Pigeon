@@ -38,14 +38,8 @@ const updateLevel = (): void => {
         entity.yVelocity > 0
           ? Math.ceil(unnormalizedEntityY)
           : Math.floor(unnormalizedEntityY);
-      const xDistanceToNextX: number =
-        entity.xVelocity > 0
-          ? nextX - unnormalizedEntityX
-          : unnormalizedEntityX - nextX;
-      const yDistanceToNextY: number =
-        entity.yVelocity > 0
-          ? nextY - unnormalizedEntityY
-          : unnormalizedEntityY - nextY;
+      const xDistanceToNextX: number = Math.abs(nextX - unnormalizedEntityX);
+      const yDistanceToNextY: number = Math.abs(nextY - unnormalizedEntityY);
       const averageDistanceToNext: number =
         (xDistanceToNextX + yDistanceToNextY) / 2;
       if (entity.xVelocity > 0) {
