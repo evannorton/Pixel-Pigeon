@@ -77,5 +77,11 @@ class InputTickHandler<GroupID extends string> extends Definable {
     }
   }
 }
+const addInputTickHandler = <GroupID extends string>(
+  options: InputTickHandlerOptions<GroupID>
+): void => {
+  new InputTickHandler(options);
+};
 
 export default InputTickHandler;
+export { addInputTickHandler };

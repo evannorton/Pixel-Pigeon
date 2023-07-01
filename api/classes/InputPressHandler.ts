@@ -59,5 +59,9 @@ class InputPressHandler extends Definable {
     }
   }
 }
+const addInputPressHandler = (options: InputPressHandlerOptions): void => {
+  new InputPressHandler(options);
+};
 
 export default InputPressHandler;
+export { addInputPressHandler };

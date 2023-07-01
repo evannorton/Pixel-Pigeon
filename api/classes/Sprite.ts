@@ -62,5 +62,9 @@ class Sprite extends Definable {
       });
   }
 }
+const addSprite = (options: SpriteOptions): void => {
+  new Sprite(options);
+};
 
 export default Sprite;
+export { addSprite };
