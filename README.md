@@ -63,8 +63,10 @@ Initialize and run the game.
 Go to a level specified by the "level identifier" property in LDTK.
 ### `lockCameraToEntity(entityID: string): void`
 Lock the level's camera to an entity specified by the "entity identifier" property in LDTK.
-### `moveEntity(entityID: string, velocityX: number, velocityY: number): void`
+### `moveEntity(entityID: string, options: MoveEntityOptions): void`
 Move an entity specified by the "entity identifier" property at specified velocity within a level.
+### `stopEntity(entityID: string, options: StopEntityOptions): void`
+Stop an entity specified by the "entity identifier" property from moving within a level.
 ### `new InputPressHandler(options: InputPressHandlerOptions)`
 Class for managing mouse, keyboard and gamepad input on press.
 ### `new InputTickHandler(options: InputTickHandlerOptions)`
