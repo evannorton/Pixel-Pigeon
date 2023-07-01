@@ -8,6 +8,7 @@ body {
 
 #screen {
   cursor: url("./cursors/default.png"), default;
+  outline: none;
 }
 
 canvas {
