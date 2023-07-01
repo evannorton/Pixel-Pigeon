@@ -6,3 +6,4 @@ export { default as goToLevel } from "./functions/goToLevel";
 export { default as init } from "./functions/init";
 export { default as lockCameraToEntity } from "./functions/lockCameraToEntity";
 export { default as moveEntity } from "./functions/moveEntity";
+export { default as stopEntity } from "./functions/stopEntity";

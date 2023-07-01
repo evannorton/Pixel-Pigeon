@@ -1,11 +1,11 @@
 import { WorldLayerEntity, WorldLevel } from "../types/World";
 import state from "../state";
 
-interface MoveEntityOptions {
-  readonly xVelocity?: number;
-  readonly yVelocity?: number;
+interface StopEntityOptions {
+  readonly x?: boolean;
+  readonly y?: boolean;
 }
-const moveEntity = (entityID: string, options: MoveEntityOptions): void => {
+const stopEntity = (entityID: string, options: StopEntityOptions): void => {
   if (state.values.world === null) {
     throw new Error(
       `An attempt was made to move entity "${entityID}" before world was loaded.`
@@ -29,14 +29,14 @@ const moveEntity = (entityID: string, options: MoveEntityOptions): void => {
         (layerEntity: WorldLayerEntity): boolean => layerEntity.id === entityID
       ) ?? null;
     if (entity !== null) {
-      if (typeof options.xVelocity !== "undefined") {
-        entity.xVelocity += options.xVelocity;
+      if (typeof options.x !== "undefined" && options.x) {
+        entity.xVelocity = 0;
       }
-      if (typeof options.yVelocity !== "undefined") {
-        entity.yVelocity += options.yVelocity;
+      if (typeof options.y !== "undefined" && options.y) {
+        entity.yVelocity = 0;
       }
     }
   }
 };
 
-export default moveEntity;
+export default stopEntity;

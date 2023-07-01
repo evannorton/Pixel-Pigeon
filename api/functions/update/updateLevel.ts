@@ -52,8 +52,6 @@ const updateLevel = (): void => {
       } else {
         entity.y = nextY + averageDistanceToNext;
       }
-      entity.xVelocity = 0;
-      entity.yVelocity = 0;
     }
   }
 };
