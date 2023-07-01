@@ -33,38 +33,52 @@ const updateLevel = (): void => {
         const unnormalizedEntityY: number =
           entity.y +
           entity.yVelocity * (state.values.app.ticker.deltaMS / 1000);
-        const nextX: number =
-          entity.xVelocity > 0
-            ? Math.ceil(unnormalizedEntityX)
-            : Math.floor(unnormalizedEntityX);
-        const nextY: number =
-          entity.yVelocity > 0
-            ? Math.ceil(unnormalizedEntityY)
-            : Math.floor(unnormalizedEntityY);
-        const xVelocityRatio: number =
-          entity.yVelocity !== 0
-            ? Math.abs(entity.xVelocity / entity.yVelocity)
-            : 1;
-        const yVelocityRatio: number =
-          entity.xVelocity !== 0
-            ? Math.abs(entity.yVelocity / entity.xVelocity)
-            : 1;
-        const xDistanceToNextX: number =
-          Math.abs(nextX - unnormalizedEntityX) * xVelocityRatio;
-        const yDistanceToNextY: number =
-          Math.abs(nextY - unnormalizedEntityY) * yVelocityRatio;
-        const averageDistanceToNext: number =
-          (xDistanceToNextX + yDistanceToNextY) / 2;
-        if (entity.xVelocity > 0) {
-          entity.x = nextX - averageDistanceToNext;
-        } else {
-          entity.x = nextX + averageDistanceToNext;
+        const isXLarger: boolean =
+          Math.abs(entity.xVelocity) >= Math.abs(entity.yVelocity);
+        const largerVelocity: number = isXLarger
+          ? entity.xVelocity
+          : entity.yVelocity;
+        const smallerVelocity: number = !isXLarger
+          ? entity.xVelocity
+          : entity.yVelocity;
+        const largerStart: number = isXLarger ? entity.x : entity.y;
+        const largerEnd: number = isXLarger
+          ? unnormalizedEntityX
+          : unnormalizedEntityY;
+        const largerDiff: number = Math.abs(largerEnd - largerStart);
+        let xEnd: number = entity.x;
+        let yEnd: number = entity.y;
+        for (let i: number = 0; i <= largerDiff; i++) {
+          const largerAddition: number = Math.min(1, largerDiff - i);
+          const smallerAddition: number =
+            largerAddition *
+            (Math.abs(smallerVelocity) / Math.abs(largerVelocity));
+          if (isXLarger) {
+            if (entity.xVelocity >= 0) {
+              xEnd += largerAddition;
+            } else {
+              xEnd -= largerAddition;
+            }
+            if (entity.yVelocity >= 0) {
+              yEnd += smallerAddition;
+            } else {
+              yEnd -= smallerAddition;
+            }
+          } else {
+            if (entity.xVelocity >= 0) {
+              xEnd += smallerAddition;
+            } else {
+              xEnd -= smallerAddition;
+            }
+            if (entity.yVelocity >= 0) {
+              yEnd += largerAddition;
+            } else {
+              yEnd -= largerAddition;
+            }
+          }
         }
-        if (entity.yVelocity > 0) {
-          entity.y = nextY - averageDistanceToNext;
-        } else {
-          entity.y = nextY + averageDistanceToNext;
-        }
+        entity.x = xEnd;
+        entity.y = yEnd;
       }
     }
   }
