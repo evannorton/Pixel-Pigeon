@@ -1,4 +1,3 @@
-export { default as Axis } from "./types/Axis";
 export { default as InputPressHandler } from "./classes/InputPressHandler";
 export { default as InputTickHandler } from "./classes/InputTickHandler";
 export { default as Sprite } from "./classes/Sprite";

@@ -26,10 +26,10 @@ const updateLevel = (): void => {
   }
   for (const layer of level.layers) {
     for (const entity of layer.entities) {
-      entity.x += entity.velocityX * (state.values.app.ticker.deltaMS / 1000);
-      entity.y += entity.velocityY * (state.values.app.ticker.deltaMS / 1000);
-      entity.velocityX = 0;
-      entity.velocityY = 0;
+      entity.x += entity.xVelocity * (state.values.app.ticker.deltaMS / 1000);
+      entity.y += entity.yVelocity * (state.values.app.ticker.deltaMS / 1000);
+      entity.xVelocity = 0;
+      entity.yVelocity = 0;
     }
   }
 };

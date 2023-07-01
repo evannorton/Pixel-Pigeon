@@ -8,11 +8,11 @@ interface WorldLayerEntity {
   readonly id: string;
   lastX: number;
   lastY: number;
-  velocityX: number;
-  velocityY: number;
   readonly width: number;
   x: number;
+  xVelocity: number;
   y: number;
+  yVelocity: number;
 }
 interface WorldLevel {
   readonly layers: {

@@ -32,11 +32,11 @@ const getWorld = (ldtk: LDTK): World => {
                   id: ldtkEntityInstance.__identifier,
                   lastX: ldtkEntityInstance.px[0],
                   lastY: ldtkEntityInstance.px[1],
-                  velocityX: 0,
-                  velocityY: 0,
                   width: ldtkEntityInstance.width,
                   x: ldtkEntityInstance.px[0],
+                  xVelocity: 0,
                   y: ldtkEntityInstance.px[1],
+                  yVelocity: 0,
                 })
               ),
               tileSize: ldtkLayerInstance.__gridSize,
