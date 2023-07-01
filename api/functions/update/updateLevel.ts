@@ -26,31 +26,45 @@ const updateLevel = (): void => {
   }
   for (const layer of level.layers) {
     for (const entity of layer.entities) {
-      const unnormalizedEntityX: number =
-        entity.x + entity.xVelocity * (state.values.app.ticker.deltaMS / 1000);
-      const unnormalizedEntityY: number =
-        entity.y + entity.yVelocity * (state.values.app.ticker.deltaMS / 1000);
-      const nextX: number =
-        entity.xVelocity > 0
-          ? Math.ceil(unnormalizedEntityX)
-          : Math.floor(unnormalizedEntityX);
-      const nextY: number =
-        entity.yVelocity > 0
-          ? Math.ceil(unnormalizedEntityY)
-          : Math.floor(unnormalizedEntityY);
-      const xDistanceToNextX: number = Math.abs(nextX - unnormalizedEntityX);
-      const yDistanceToNextY: number = Math.abs(nextY - unnormalizedEntityY);
-      const averageDistanceToNext: number =
-        (xDistanceToNextX + yDistanceToNextY) / 2;
-      if (entity.xVelocity > 0) {
-        entity.x = nextX - averageDistanceToNext;
-      } else {
-        entity.x = nextX + averageDistanceToNext;
-      }
-      if (entity.yVelocity > 0) {
-        entity.y = nextY - averageDistanceToNext;
-      } else {
-        entity.y = nextY + averageDistanceToNext;
+      if (entity.xVelocity !== 0 || entity.yVelocity !== 0) {
+        const unnormalizedEntityX: number =
+          entity.x +
+          entity.xVelocity * (state.values.app.ticker.deltaMS / 1000);
+        const unnormalizedEntityY: number =
+          entity.y +
+          entity.yVelocity * (state.values.app.ticker.deltaMS / 1000);
+        const nextX: number =
+          entity.xVelocity > 0
+            ? Math.ceil(unnormalizedEntityX)
+            : Math.floor(unnormalizedEntityX);
+        const nextY: number =
+          entity.yVelocity > 0
+            ? Math.ceil(unnormalizedEntityY)
+            : Math.floor(unnormalizedEntityY);
+        const xVelocityRatio: number =
+          entity.yVelocity !== 0
+            ? Math.abs(entity.xVelocity / entity.yVelocity)
+            : 1;
+        const yVelocityRatio: number =
+          entity.xVelocity !== 0
+            ? Math.abs(entity.yVelocity / entity.xVelocity)
+            : 1;
+        const xDistanceToNextX: number =
+          Math.abs(nextX - unnormalizedEntityX) * xVelocityRatio;
+        const yDistanceToNextY: number =
+          Math.abs(nextY - unnormalizedEntityY) * yVelocityRatio;
+        const averageDistanceToNext: number =
+          (xDistanceToNextX + yDistanceToNextY) / 2;
+        if (entity.xVelocity > 0) {
+          entity.x = nextX - averageDistanceToNext;
+        } else {
+          entity.x = nextX + averageDistanceToNext;
+        }
+        if (entity.yVelocity > 0) {
+          entity.y = nextY - averageDistanceToNext;
+        } else {
+          entity.y = nextY + averageDistanceToNext;
+        }
       }
     }
   }
