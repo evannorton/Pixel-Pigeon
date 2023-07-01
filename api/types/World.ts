@@ -17,8 +17,7 @@ interface WorldLevel {
     readonly entities: WorldLayerEntity[];
     readonly tileSize: number;
     readonly tiles: {
-      readonly sourceX: number;
-      readonly sourceY: number;
+      readonly id: number;
       readonly x: number;
       readonly y: number;
     }[];
@@ -26,9 +25,11 @@ interface WorldLevel {
   }[];
 }
 interface WorldTileset {
+  readonly height: number;
   readonly imagePath: string;
   texture: Texture | null;
   readonly tileSize: number;
+  readonly width: number;
 }
 interface World {
   readonly entities: Map<string, WorldEntity>;

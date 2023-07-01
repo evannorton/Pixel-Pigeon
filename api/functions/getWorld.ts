@@ -42,8 +42,7 @@ const getWorld = (ldtk: LDTK): World => {
                 (
                   ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0]
                 ): WorldLevel["layers"][0]["tiles"][0] => ({
-                  sourceX: ldtkGridTile.src[0],
-                  sourceY: ldtkGridTile.src[1],
+                  id: ldtkGridTile.t,
                   x: ldtkGridTile.px[0],
                   y: ldtkGridTile.px[1],
                 })
@@ -63,11 +62,13 @@ const getWorld = (ldtk: LDTK): World => {
   }
   for (const ldtkDefTileset of ldtk.defs.tilesets) {
     tilesets.set(ldtkDefTileset.identifier, {
+      height: ldtkDefTileset.pxHei,
       imagePath: ldtkDefTileset.relPath
         .substring(0, ldtkDefTileset.relPath.length - 4)
         .substring(7),
       texture: null,
       tileSize: ldtkDefTileset.tileGridSize,
+      width: ldtkDefTileset.pxWid,
     });
   }
   return {

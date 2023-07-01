@@ -73,11 +73,16 @@ const render = (): void => {
             );
           }
           for (const tile of layer.tiles) {
+            const sourceX: number =
+              (tile.id * tileset.tileSize) % tileset.width;
+            const sourceY: number =
+              Math.floor((tile.id * tileset.tileSize) / tileset.width) *
+              tileset.tileSize;
             drawImage(
               tileset.texture,
               1,
-              tile.sourceX,
-              tile.sourceY,
+              sourceX,
+              sourceY,
               tileset.tileSize,
               tileset.tileSize,
               tile.x - cameraCoordinates.x,
