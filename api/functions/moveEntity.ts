@@ -32,10 +32,10 @@ const moveEntity = (options: MoveEntityOptions): void => {
       ) ?? null;
     if (entity !== null) {
       if (typeof options.xVelocity !== "undefined") {
-        entity.xVelocity = options.xVelocity;
+        entity.xVelocity += options.xVelocity;
       }
       if (typeof options.yVelocity !== "undefined") {
-        entity.yVelocity = options.yVelocity;
+        entity.yVelocity += options.yVelocity;
       }
     }
   }
