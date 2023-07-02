@@ -79,28 +79,33 @@ const updateLevel = (): void => {
               pieceYEnd -= largerAddition;
             }
           }
-          if (
-            !rectangleContainsCollision(
-              Math.floor(xEnd + pieceXEnd),
-              Math.floor(yEnd),
-              entity.width,
-              entity.height
-            ) &&
-            !rectangleContainsCollision(
-              Math.floor(xEnd),
-              Math.floor(yEnd + pieceYEnd),
-              entity.width,
-              entity.height
-            ) &&
-            !rectangleContainsCollision(
-              Math.floor(xEnd + pieceXEnd),
-              Math.floor(yEnd + pieceYEnd),
-              entity.width,
-              entity.height
-            )
-          ) {
+          const canMoveX: boolean = !rectangleContainsCollision(
+            Math.floor(xEnd + pieceXEnd),
+            Math.floor(yEnd),
+            entity.width,
+            entity.height
+          );
+          const canMoveY: boolean = !rectangleContainsCollision(
+            Math.floor(xEnd),
+            Math.floor(yEnd + pieceYEnd),
+            entity.width,
+            entity.height
+          );
+          const canMoveBoth: boolean = !rectangleContainsCollision(
+            Math.floor(xEnd + pieceXEnd),
+            Math.floor(yEnd + pieceYEnd),
+            entity.width,
+            entity.height
+          );
+          if (canMoveX && canMoveY && canMoveBoth) {
             xEnd += pieceXEnd;
             yEnd += pieceYEnd;
+          } else if (!canMoveX || !canMoveY) {
+            if (canMoveX) {
+              xEnd += pieceXEnd;
+            } else if (canMoveY) {
+              yEnd += pieceYEnd;
+            }
           }
         }
         entity.x = xEnd;
