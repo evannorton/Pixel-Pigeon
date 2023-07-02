@@ -60,7 +60,6 @@ const rectangleContainsCollision = (
       }
     }
   }
-  console.log(`${x} ${y} ${width} ${height}`);
   return false;
 };
 

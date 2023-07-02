@@ -7,7 +7,6 @@ import LDTK from "../types/LDTK";
 import getDefinables from "./getDefinables";
 import getWorld from "./getWorld";
 import loadAssets from "./loadAssets";
-import rectanglesOverlap from "./rectanglesOverlap";
 import sizeScreen from "./sizeScreen";
 import state from "../state";
 import tick from "./tick";
@@ -16,22 +15,6 @@ const init = (): void => {
   if (state.values.isInitialized) {
     throw new Error("Initialization was attempted more than once.");
   }
-  console.log(
-    rectanglesOverlap(
-      {
-        height: 16,
-        width: 16,
-        x: 0,
-        y: 0,
-      },
-      {
-        height: 16,
-        width: 16,
-        x: 16,
-        y: 0,
-      }
-    )
-  );
   console.log("Pigeon Mode Game Library initialized.");
   state.setValues({ isInitialized: true });
   fetch("./config.pmgl")
