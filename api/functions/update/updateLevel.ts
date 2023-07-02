@@ -1,4 +1,5 @@
 import { WorldLevel } from "../../types/World";
+import rectangleContainsCollision from "pigeon-mode-game-library/api/functions/rectangleContainsCollision";
 import state from "../../state";
 
 const updateLevel = (): void => {
@@ -21,7 +22,7 @@ const updateLevel = (): void => {
     state.values.world.levels.get(state.values.levelID) ?? null;
   if (level === null) {
     throw new Error(
-      `An attempt was made to update with a nonexistant active level.`
+      "An attempt was made to update with a nonexistant active level."
     );
   }
   for (const layer of level.layers) {
@@ -53,28 +54,53 @@ const updateLevel = (): void => {
           const smallerAddition: number =
             largerAddition *
             (Math.abs(smallerVelocity) / Math.abs(largerVelocity));
+          let pieceXEnd: number = 0;
+          let pieceYEnd: number = 0;
           if (isXLarger) {
             if (entity.xVelocity >= 0) {
-              xEnd += largerAddition;
+              pieceXEnd += largerAddition;
             } else {
-              xEnd -= largerAddition;
+              pieceXEnd -= largerAddition;
             }
             if (entity.yVelocity >= 0) {
-              yEnd += smallerAddition;
+              pieceYEnd += smallerAddition;
             } else {
-              yEnd -= smallerAddition;
+              pieceYEnd -= smallerAddition;
             }
           } else {
             if (entity.xVelocity >= 0) {
-              xEnd += smallerAddition;
+              pieceXEnd += smallerAddition;
             } else {
-              xEnd -= smallerAddition;
+              pieceXEnd -= smallerAddition;
             }
             if (entity.yVelocity >= 0) {
-              yEnd += largerAddition;
+              pieceYEnd += largerAddition;
             } else {
-              yEnd -= largerAddition;
+              pieceYEnd -= largerAddition;
             }
+          }
+          if (
+            !rectangleContainsCollision(
+              Math.floor(xEnd + pieceXEnd),
+              Math.floor(yEnd),
+              entity.width,
+              entity.height
+            ) &&
+            !rectangleContainsCollision(
+              Math.floor(xEnd),
+              Math.floor(yEnd + pieceYEnd),
+              entity.width,
+              entity.height
+            ) &&
+            !rectangleContainsCollision(
+              Math.floor(xEnd + pieceXEnd),
+              Math.floor(yEnd + pieceYEnd),
+              entity.width,
+              entity.height
+            )
+          ) {
+            xEnd += pieceXEnd;
+            yEnd += pieceYEnd;
           }
         }
         entity.x = xEnd;

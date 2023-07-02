@@ -1,5 +1,10 @@
-import LDTK from "../types/LDTK";
-import World, { WorldEntity, WorldLevel, WorldTileset } from "../types/World";
+import LDTK, { LDTKTileData } from "../types/LDTK";
+import World, {
+  WorldEntity,
+  WorldLevel,
+  WorldTileset,
+  WorldTilesetTile,
+} from "../types/World";
 
 const getWorld = (ldtk: LDTK): World => {
   const entities: Map<string, WorldEntity> = new Map();
@@ -68,6 +73,19 @@ const getWorld = (ldtk: LDTK): World => {
         .substring(7),
       texture: null,
       tileSize: ldtkDefTileset.tileGridSize,
+      tiles: ldtkDefTileset.customData.map(
+        (
+          data: LDTK["defs"]["tilesets"][0]["customData"][0]
+        ): WorldTilesetTile => {
+          const properties: LDTKTileData = JSON.parse(
+            data.data
+          ) as LDTKTileData;
+          return {
+            id: data.tileId,
+            isCollidable: properties.pmglCollision ?? false,
+          };
+        }
+      ),
       width: ldtkDefTileset.pxWid,
     });
   }

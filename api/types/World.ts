@@ -29,7 +29,12 @@ interface WorldTileset {
   readonly imagePath: string;
   texture: Texture | null;
   readonly tileSize: number;
+  readonly tiles: WorldTilesetTile[];
   readonly width: number;
+}
+interface WorldTilesetTile {
+  readonly id: number;
+  readonly isCollidable: boolean;
 }
 interface World {
   readonly entities: Map<string, WorldEntity>;
@@ -38,4 +43,10 @@ interface World {
 }
 
 export default World;
-export { WorldEntity, WorldLayerEntity, WorldLevel, WorldTileset };
+export {
+  WorldEntity,
+  WorldLayerEntity,
+  WorldLevel,
+  WorldTileset,
+  WorldTilesetTile,
+};

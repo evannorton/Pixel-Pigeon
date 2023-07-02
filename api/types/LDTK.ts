@@ -202,6 +202,9 @@ interface LDTK {
   readonly worldLayout: "Free";
   readonly worlds: [];
 }
+interface LDTKTileData {
+  readonly pmglCollision?: boolean;
+}
 
 export default LDTK;
-export { LayerType };
+export { LDTKTileData, LayerType };
