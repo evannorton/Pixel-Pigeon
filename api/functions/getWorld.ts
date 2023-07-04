@@ -32,15 +32,30 @@ const getWorld = (ldtk: LDTK): World => {
               entities: ldtkLayerInstance.entityInstances.map(
                 (
                   ldtkEntityInstance: LDTK["levels"][0]["layerInstances"][0]["entityInstances"][0]
-                ): WorldLevel["layers"][0]["entities"][0] => ({
-                  height: ldtkEntityInstance.height,
-                  id: ldtkEntityInstance.__identifier,
-                  width: ldtkEntityInstance.width,
-                  x: ldtkEntityInstance.px[0],
-                  xVelocity: 0,
-                  y: ldtkEntityInstance.px[1],
-                  yVelocity: 0,
-                })
+                ): WorldLevel["layers"][0]["entities"][0] => {
+                  const spriteImagePathFieldInstance:
+                    | LDTK["levels"][0]["layerInstances"][0]["entityInstances"][0]["fieldInstances"][0]
+                    | null =
+                    ldtkEntityInstance.fieldInstances.find(
+                      (
+                        fieldInstance: LDTK["levels"][0]["layerInstances"][0]["entityInstances"][0]["fieldInstances"][0]
+                      ): boolean =>
+                        fieldInstance.__identifier === "pmglSpriteImagePath"
+                    ) ?? null;
+                  return {
+                    height: ldtkEntityInstance.height,
+                    id: ldtkEntityInstance.__identifier,
+                    spriteImagePath:
+                      spriteImagePathFieldInstance !== null
+                        ? spriteImagePathFieldInstance.__value
+                        : null,
+                    width: ldtkEntityInstance.width,
+                    x: ldtkEntityInstance.px[0],
+                    xVelocity: 0,
+                    y: ldtkEntityInstance.px[1],
+                    yVelocity: 0,
+                  };
+                }
               ),
               tileSize: ldtkLayerInstance.__gridSize,
               tiles: ldtkLayerInstance.gridTiles.map(

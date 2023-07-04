@@ -7,6 +7,7 @@ import drawText from "./draw/drawText";
 import getCameraCoordinates, {
   CameraCoordinates,
 } from "./getCameraCoordinates";
+import getDefinable from "./getDefinable";
 import getDefinables from "./getDefinables";
 import getTotalAssets from "./getTotalAssets";
 import state from "../state";
@@ -98,19 +99,27 @@ const render = (): void => {
           if (entity === null) {
             throw Error("An attempt was made to render a nonexistent entity.");
           }
-          drawRectangle(
-            entity.color,
-            1,
-            Math.floor(layerEntity.x) - cameraCoordinates.x,
-            Math.floor(layerEntity.y) - cameraCoordinates.y,
-            layerEntity.width,
-            layerEntity.height
-          );
+          if (layerEntity.spriteImagePath !== null) {
+            const sprite: Sprite<string> = getDefinable<Sprite<string>>(
+              Sprite,
+              layerEntity.spriteImagePath
+            );
+            sprite.drawWithEntity(layerEntity);
+          } else {
+            drawRectangle(
+              entity.color,
+              1,
+              Math.floor(layerEntity.x) - cameraCoordinates.x,
+              Math.floor(layerEntity.y) - cameraCoordinates.y,
+              layerEntity.width,
+              layerEntity.height
+            );
+          }
         }
       }
     }
-    getDefinables(Sprite).forEach((sprite: Sprite): void => {
-      sprite.attemptDraw();
+    getDefinables(Sprite).forEach((sprite: Sprite<string>): void => {
+      sprite.drawWithOptions();
     });
   }
   state.values.app.stage.sortChildren();

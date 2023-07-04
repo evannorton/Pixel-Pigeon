@@ -14,6 +14,7 @@ interface StateSchema {
   readonly isInitialized: boolean;
   readonly levelID: string | null;
   readonly loadedAssets: number;
+  readonly onTickCallbacks: (() => void)[];
   readonly world: World | null;
 }
 const state: State<StateSchema> = new State<StateSchema>({
@@ -27,6 +28,7 @@ const state: State<StateSchema> = new State<StateSchema>({
   isInitialized: false,
   levelID: null,
   loadedAssets: 0,
+  onTickCallbacks: [],
   world: null,
 });
 

@@ -61,6 +61,9 @@ const update = (): void => {
     if (state.values.levelID !== null) {
       updateLevel();
     }
+    for (const onTickCallback of state.values.onTickCallbacks) {
+      onTickCallback();
+    }
   }
 };
 

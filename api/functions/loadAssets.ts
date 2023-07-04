@@ -18,7 +18,7 @@ const loadAssets = (): void => {
     .catch((error: Error): void => {
       throw error;
     });
-  getDefinables(Sprite).forEach((sprite: Sprite): void => {
+  getDefinables(Sprite).forEach((sprite: Sprite<string>): void => {
     sprite.loadTexture();
   });
   for (const tileset of state.values.world.tilesets.values()) {

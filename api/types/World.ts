@@ -6,6 +6,7 @@ interface WorldEntity {
 interface WorldLayerEntity {
   readonly height: number;
   readonly id: string;
+  readonly spriteImagePath: string | null;
   readonly width: number;
   x: number;
   xVelocity: number;

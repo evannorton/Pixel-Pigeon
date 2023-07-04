@@ -26,7 +26,40 @@ interface LDTK {
       readonly color: string;
       readonly doc: null;
       readonly exportToToc: false;
-      readonly fieldDefs: [];
+      readonly fieldDefs: {
+        readonly __type: "String";
+        readonly acceptFileTypes: null;
+        readonly allowedRefs: "OnlySame";
+        readonly allowedRefsEntityUid: null;
+        readonly allowedRefTags: [];
+        readonly allowOutOfLevelRef: true;
+        readonly arrayMaxLength: null;
+        readonly arrayMinLength: null;
+        readonly autoChainRef: true;
+        readonly canBeNull: true;
+        readonly defaultOverride: null;
+        readonly doc: null;
+        readonly editorAlwaysShow: false;
+        readonly editorCutLongValues: true;
+        readonly editorDisplayMode: "Hidden";
+        readonly editorDisplayPos: "Above";
+        readonly editorDisplayScale: 0;
+        readonly editorLinkStyle: "StraightArrow";
+        readonly editorShowInWorld: true;
+        readonly editorTextPrefix: null;
+        readonly editorTextSuffix: null;
+        readonly identifier: LDTKFieldID;
+        readonly isArray: false;
+        readonly max: null;
+        readonly min: null;
+        readonly regex: null;
+        readonly symmetricalRef: false;
+        readonly textLanguageMode: null;
+        readonly tilesetUid: null;
+        readonly type: "F_String";
+        readonly uid: number;
+        readonly useForSmartColor: false;
+      }[];
       readonly fillOpacity: number;
       readonly height: number;
       readonly hollow: false;
@@ -158,7 +191,19 @@ interface LDTK {
         readonly __tags: [];
         readonly __tile: null;
         readonly defUid: number;
-        readonly fieldInstances: [];
+        readonly fieldInstances: {
+          readonly __identifier: LDTKFieldID;
+          readonly __tile: null;
+          readonly __type: "String";
+          readonly __value: string;
+          readonly defUid: number;
+          readonly realEditorValues: [
+            {
+              readonly id: "V_String";
+              readonly params: [string];
+            }
+          ];
+        }[];
         readonly height: number;
         readonly iid: string;
         readonly px: [number, number];
@@ -205,6 +250,7 @@ interface LDTK {
 interface LDTKTileData {
   readonly pmglCollision?: boolean;
 }
+type LDTKFieldID = "pmglSpriteImagePath" | "pmglCollision";
 
 export default LDTK;
 export { LDTKTileData, LayerType };
