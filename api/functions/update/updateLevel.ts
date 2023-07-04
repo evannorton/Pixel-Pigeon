@@ -97,14 +97,15 @@ const updateLevel = (): void => {
             entity.width,
             entity.height
           );
+          // If can do a diagonal move
           if (canMoveX && canMoveY && canMoveBoth) {
             xEnd += pieceXEnd;
             yEnd += pieceYEnd;
-          } else if (!canMoveX || !canMoveY) {
-            if (canMoveX) {
-              xEnd += pieceXEnd;
-            } else if (canMoveY) {
+          } else {
+            if (canMoveY) {
               yEnd += pieceYEnd;
+            } else if (canMoveX) {
+              xEnd += pieceXEnd;
             }
           }
         }
