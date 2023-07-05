@@ -1,9 +1,9 @@
 import { customAlphabet } from "nanoid";
 import tokenLength from "../constants/tokenLength";
-import validSlugCharacters from "../constants/validSlugCharacters";
+import validIDCharacters from "../constants/validIDCharacters";
 
 const getToken: () => string = customAlphabet(
-  validSlugCharacters.join(""),
+  validIDCharacters.join(""),
   tokenLength
 );
 

@@ -1,22 +1,21 @@
 import definables from "../definables";
-import validSlugCharacters from "../constants/validSlugCharacters";
+import validIDCharacters from "../constants/validIDCharacters";
 
 abstract class Definable {
-  protected readonly _slug: string;
+  protected readonly _id: string;
 
-  public constructor(slug: string) {
-    this._slug = slug;
+  public constructor(id: string) {
+    this._id = id;
     if (
-      this._slug
+      this._id
         .split("")
         .some(
           (character: string): boolean =>
-            character !== "/" &&
-            validSlugCharacters.includes(character) === false
+            character !== "/" && validIDCharacters.includes(character) === false
         )
     ) {
       throw new Error(
-        `${this.constructor.name} "${this._slug}" has an invalid slug.`
+        `${this.constructor.name} "${this._id}" has an invalid id.`
       );
     }
     if (definables.has(this.constructor.name) === false) {
@@ -26,21 +25,21 @@ abstract class Definable {
       this.constructor.name
     );
     if (list) {
-      if (list.has(this._slug)) {
+      if (list.has(this._id)) {
         throw new Error(
-          `${this.constructor.name} "${this._slug}" already exists.`
+          `${this.constructor.name} "${this._id}" already exists.`
         );
       }
-      list.set(this._slug, this);
+      list.set(this._id, this);
     }
   }
 
-  public get slug(): string {
-    return this._slug;
+  public get id(): string {
+    return this._id;
   }
 
   protected getAccessorErrorMessage(property: string): string {
-    return `Could not access ${this.constructor.name} "${this._slug}" ${property}.`;
+    return `Could not access ${this.constructor.name} "${this._id}" ${property}.`;
   }
 }
 

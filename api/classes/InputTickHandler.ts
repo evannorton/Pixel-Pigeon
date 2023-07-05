@@ -8,9 +8,7 @@ interface InputTickHandlerGroup<GroupID> {
   readonly keys?: string[];
 }
 interface InputTickHandlerOptions<GroupID extends string> {
-  readonly condition?: () => boolean;
   readonly groups: InputTickHandlerGroup<GroupID>[];
-  readonly onTick: (groupID: GroupID | null) => void;
 }
 class InputTickHandler<GroupID extends string> extends Definable {
   private readonly _options: InputTickHandlerOptions<GroupID>;
@@ -24,6 +22,10 @@ class InputTickHandler<GroupID extends string> extends Definable {
     }
     super(getToken());
     this._options = options;
+  }
+
+  public getGroupID(): GroupID | null {
+    return this._groupIDs[0] ?? null;
   }
 
   public handleKeyDown(button: string): void {
@@ -67,21 +69,10 @@ class InputTickHandler<GroupID extends string> extends Definable {
   public empty(): void {
     this._groupIDs.length = 0;
   }
-
-  public attemptInput(): void {
-    if (
-      typeof this._options.condition === "undefined" ||
-      this._options.condition()
-    ) {
-      this._options.onTick(this._groupIDs[0] ?? null);
-    }
-  }
 }
-const addInputTickHandler = <GroupID extends string>(
+const createInputTickHandler = <GroupID extends string>(
   options: InputTickHandlerOptions<GroupID>
-): void => {
-  new InputTickHandler(options);
-};
+): string => new InputTickHandler(options).id;
 
 export default InputTickHandler;
-export { addInputTickHandler };
+export { createInputTickHandler };

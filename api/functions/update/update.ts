@@ -53,11 +53,6 @@ const update = (): void => {
         );
       }
     });
-    getDefinables(InputTickHandler).forEach(
-      (inputTickHandler: InputTickHandler<string>): void => {
-        inputTickHandler.attemptInput();
-      }
-    );
     if (state.values.levelID !== null) {
       updateLevel();
     }

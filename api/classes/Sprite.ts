@@ -141,11 +141,9 @@ class Sprite<AnimationID extends string> extends Definable {
     );
   }
 }
-const addSprite = <AnimationID extends string>(
+const createSprite = <AnimationID extends string>(
   options: SpriteOptions<AnimationID>
-): void => {
-  new Sprite<AnimationID>(options);
-};
+): string => new Sprite<AnimationID>(options).id;
 
 export default Sprite;
-export { addSprite };
+export { createSprite };

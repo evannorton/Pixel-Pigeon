@@ -8,9 +8,9 @@ const getDefinables = <T extends Definable>(
   const retrievedDefinables: Map<string, T> = new Map();
   definables
     .get(prototype.name)
-    ?.forEach((definable: Definable, slug: string): void => {
+    ?.forEach((definable: Definable, id: string): void => {
       if (definable instanceof prototype) {
-        retrievedDefinables.set(slug, definable);
+        retrievedDefinables.set(id, definable);
       }
     });
   return retrievedDefinables;
