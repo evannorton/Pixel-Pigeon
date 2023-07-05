@@ -2,7 +2,6 @@ const { existsSync, mkdirSync, readdirSync, copyFileSync } = require("fs");
 const { join } = require("path");
 
 const copyDirectorySync = (source, destination) => {
-  console.log(source);
   if (!existsSync(destination)) {
     mkdirSync(destination);
   }

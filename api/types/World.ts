@@ -1,5 +1,3 @@
-import { Texture } from "pixi.js";
-
 interface WorldEntity {
   readonly color: string;
 }
@@ -27,8 +25,7 @@ interface WorldLevel {
 }
 interface WorldTileset {
   readonly height: number;
-  readonly imagePath: string;
-  texture: Texture | null;
+  readonly imageSourceID: string;
   readonly tileSize: number;
   readonly tiles: WorldTilesetTile[];
   readonly width: number;

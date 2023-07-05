@@ -1,10 +1,11 @@
-import { Assets, Texture } from "pixi.js";
 import { WorldLayerEntity } from "../types/World";
 import Definable from "./Definable";
+import ImageSource from "./ImageSource";
 import drawImage from "../functions/draw/drawImage";
 import getCameraCoordinates, {
   CameraCoordinates,
 } from "../functions/getCameraCoordinates";
+import getDefinable from "../functions/getDefinable";
 import state from "../state";
 
 interface SpriteOptionsAnimationFrame {
@@ -32,7 +33,6 @@ class Sprite<AnimationID extends string> extends Definable {
   private _animationID: string;
   private _animationStartedAt: number = state.values.currentTime;
   private readonly _options: SpriteOptions<AnimationID>;
-  private _texture: Texture | null = null;
 
   public constructor(options: SpriteOptions<AnimationID>) {
     if (state.values.isInitialized) {
@@ -52,13 +52,6 @@ class Sprite<AnimationID extends string> extends Definable {
     super(options.imagePath);
     this._options = options;
     this._animationID = options.defaultAnimationID;
-  }
-
-  private get texture(): Texture {
-    if (this._texture !== null) {
-      return this._texture;
-    }
-    throw new Error(this.getAccessorErrorMessage("texture"));
   }
 
   public drawWithOptions(): void {
@@ -81,17 +74,6 @@ class Sprite<AnimationID extends string> extends Definable {
       Math.floor(layerEntity.x) - cameraCoordinates.x,
       Math.floor(layerEntity.y) - cameraCoordinates.y
     );
-  }
-
-  public loadTexture(): void {
-    Assets.load(`./images/${this._options.imagePath}.png`)
-      .then((texture: Texture): void => {
-        this._texture = texture;
-        state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
-      })
-      .catch((error: Error): void => {
-        throw error;
-      });
   }
 
   public playAnimation(animationID: AnimationID): void {
@@ -128,7 +110,7 @@ class Sprite<AnimationID extends string> extends Definable {
       );
     }
     drawImage(
-      this.texture,
+      getDefinable(ImageSource, this._options.imagePath).texture,
       1,
       currentAnimationFrame.sourceX,
       currentAnimationFrame.sourceY,

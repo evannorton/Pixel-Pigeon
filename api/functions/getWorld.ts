@@ -83,10 +83,9 @@ const getWorld = (ldtk: LDTK): World => {
   for (const ldtkDefTileset of ldtk.defs.tilesets) {
     tilesets.set(ldtkDefTileset.identifier, {
       height: ldtkDefTileset.pxHei,
-      imagePath: ldtkDefTileset.relPath
+      imageSourceID: ldtkDefTileset.relPath
         .substring(0, ldtkDefTileset.relPath.length - 4)
         .substring(7),
-      texture: null,
       tileSize: ldtkDefTileset.tileGridSize,
       tiles: ldtkDefTileset.customData.map(
         (

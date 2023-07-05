@@ -1,4 +1,5 @@
 import { WorldEntity, WorldLevel, WorldTileset } from "../types/World";
+import ImageSource from "../classes/ImageSource";
 import Sprite from "../classes/Sprite";
 import assetsAreLoaded from "./assetsAreLoaded";
 import drawImage from "./draw/drawImage";
@@ -68,11 +69,6 @@ const render = (): void => {
           if (tileset === null) {
             throw Error("An attempt was made to render a nonexistent tileset.");
           }
-          if (tileset.texture === null) {
-            throw Error(
-              "An attempt was made to render a tileset before its texture was loaded."
-            );
-          }
           for (const tile of layer.tiles) {
             const sourceX: number =
               (tile.id * tileset.tileSize) % tileset.width;
@@ -80,7 +76,7 @@ const render = (): void => {
               Math.floor((tile.id * tileset.tileSize) / tileset.width) *
               tileset.tileSize;
             drawImage(
-              tileset.texture,
+              getDefinable(ImageSource, tileset.imageSourceID).texture,
               1,
               sourceX,
               sourceY,

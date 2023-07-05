@@ -1,5 +1,5 @@
-import { Assets, Texture } from "pixi.js";
-import Sprite from "../classes/Sprite";
+import { Assets } from "pixi.js";
+import ImageSource from "../classes/ImageSource";
 import getDefinables from "./getDefinables";
 import state from "../state";
 
@@ -18,19 +18,9 @@ const loadAssets = (): void => {
     .catch((error: Error): void => {
       throw error;
     });
-  getDefinables(Sprite).forEach((sprite: Sprite<string>): void => {
-    sprite.loadTexture();
+  getDefinables(ImageSource).forEach((imageSource: ImageSource): void => {
+    imageSource.loadTexture();
   });
-  for (const tileset of state.values.world.tilesets.values()) {
-    Assets.load(`./images/${tileset.imagePath}.png`)
-      .then((texture: Texture): void => {
-        tileset.texture = texture;
-        state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
-      })
-      .catch((error: Error): void => {
-        throw error;
-      });
-  }
 };
 
 export default loadAssets;

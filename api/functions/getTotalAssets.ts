@@ -1,4 +1,4 @@
-import Sprite from "../classes/Sprite";
+import ImageSource from "../classes/ImageSource";
 import getDefinables from "./getDefinables";
 import state from "../state";
 
@@ -10,9 +10,7 @@ const getTotalAssets = (): number => {
   }
   return (
     // Sprites
-    getDefinables(Sprite).size +
-    // Tilesets
-    state.values.world.tilesets.size +
+    getDefinables(ImageSource).size +
     // RetroPixels font
     1
   );
