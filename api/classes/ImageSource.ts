@@ -1,6 +1,6 @@
-import { Assets, Texture } from "pixi.js";
+import { Texture } from "pixi.js";
 import Definable from "./Definable";
-import state from "../state";
+import loadPixiAsset from "pigeon-mode-game-library/api/functions/loadPixiAsset";
 
 interface ImageSourceOptions {
   readonly imagePath: string;
@@ -22,10 +22,9 @@ class ImageSource extends Definable {
   }
 
   public loadTexture(): void {
-    Assets.load(`${location.pathname}images/${this._options.imagePath}.png`)
+    loadPixiAsset(`images/${this._options.imagePath}.png`)
       .then((texture: Texture): void => {
         this._texture = texture;
-        state.setValues({ loadedAssets: state.values.loadedAssets + 1 });
       })
       .catch((error: Error): void => {
         throw error;

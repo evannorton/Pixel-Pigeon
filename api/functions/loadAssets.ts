@@ -1,23 +1,9 @@
-import { Assets } from "pixi.js";
 import ImageSource from "../classes/ImageSource";
 import getDefinables from "./getDefinables";
-import state from "../state";
+import loadPixiAsset from "./loadPixiAsset";
 
 const loadAssets = (): void => {
-  if (state.values.world === null) {
-    throw new Error(
-      "An attempt was made to load assets before world was loaded."
-    );
-  }
-  Assets.load(`${location.pathname}fonts/RetroPixels.fnt`)
-    .then((): void => {
-      state.setValues({
-        loadedAssets: state.values.loadedAssets + 1,
-      });
-    })
-    .catch((error: Error): void => {
-      throw error;
-    });
+  loadPixiAsset("fonts/RetroPixels.fnt");
   getDefinables(ImageSource).forEach((imageSource: ImageSource): void => {
     imageSource.loadTexture();
   });
