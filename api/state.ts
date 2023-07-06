@@ -8,6 +8,7 @@ interface StateSchema {
   readonly cameraLockedEntityID: string | null;
   readonly config: Config | null;
   readonly currentTime: number;
+  readonly hasDoneInputPressForTick: boolean;
   readonly hasInteracted: boolean;
   readonly heldGamepadButtons: number[];
   readonly heldKeys: string[];
@@ -22,6 +23,7 @@ const state: State<StateSchema> = new State<StateSchema>({
   cameraLockedEntityID: null,
   config: null,
   currentTime: 0,
+  hasDoneInputPressForTick: false,
   hasInteracted: false,
   heldGamepadButtons: [],
   heldKeys: [],

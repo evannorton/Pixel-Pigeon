@@ -56,6 +56,13 @@ class Sprite<AnimationID extends string> extends Definable {
     this._animationID = options.defaultAnimationID;
   }
 
+  public playAnimation(animationID: AnimationID): void {
+    if (animationID !== this._animationID) {
+      this._animationID = animationID;
+      this._animationStartedAt = state.values.currentTime;
+    }
+  }
+
   public drawWithOptions(): void {
     if (
       typeof this._options.coordinates !== "undefined" &&
@@ -66,13 +73,6 @@ class Sprite<AnimationID extends string> extends Definable {
         this._options.coordinates.x,
         this._options.coordinates.y
       );
-    }
-  }
-
-  public playAnimation(animationID: AnimationID): void {
-    if (animationID !== this._animationID) {
-      this._animationID = animationID;
-      this._animationStartedAt = state.values.currentTime;
     }
   }
 

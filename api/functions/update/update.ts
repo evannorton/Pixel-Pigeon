@@ -9,6 +9,7 @@ const update = (): void => {
     throw new Error("An attempt was made to update before world was loaded.");
   }
   if (state.values.hasInteracted) {
+    state.setValues({ hasDoneInputPressForTick: false });
     navigator.getGamepads().forEach((gamepad: Gamepad | null): void => {
       if (gamepad) {
         gamepad.buttons.forEach(

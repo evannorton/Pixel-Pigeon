@@ -52,9 +52,11 @@ class InputPressHandler extends Definable {
 
   private attemptInput(): void {
     if (
-      typeof this._options.condition === "undefined" ||
-      this._options.condition()
+      !state.values.hasDoneInputPressForTick &&
+      (typeof this._options.condition === "undefined" ||
+        this._options.condition())
     ) {
+      state.setValues({ hasDoneInputPressForTick: true });
       this._options.onInput();
     }
   }
