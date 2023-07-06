@@ -22,7 +22,7 @@ class ImageSource extends Definable {
   }
 
   public loadTexture(): void {
-    Assets.load(`./images/${this._options.imagePath}.png`)
+    Assets.load(`images/${this._options.imagePath}.png`)
       .then((texture: Texture): void => {
         this._texture = texture;
         state.setValues({ loadedAssets: state.values.loadedAssets + 1 });

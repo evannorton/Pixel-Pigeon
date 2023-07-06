@@ -9,7 +9,7 @@ const loadAssets = (): void => {
       "An attempt was made to load assets before world was loaded."
     );
   }
-  Assets.load("./fonts/RetroPixels.fnt")
+  Assets.load("fonts/RetroPixels.fnt")
     .then((): void => {
       state.setValues({
         loadedAssets: state.values.loadedAssets + 1,
