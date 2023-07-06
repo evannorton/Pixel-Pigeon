@@ -56,26 +56,6 @@ Run the linter on your game's source code.
 ### `pigeon lint:fix`
 Run the linter on your game's source code and automatically fix some errors.
 
-## API
-### `init(): void`
-Initialize and run the game.
-### `goToLevel(levelID: string): void`
-Go to a level specified by the "level identifier" property in LDTK.
-### `lockCameraToEntity(entityID: string): void`
-Lock the level's camera to an entity specified by the "entity identifier" property in LDTK.
-### `moveEntity(entityID: string, options: MoveEntityOptions): void`
-Move an entity specified by the "entity identifier" property at specified velocity within a level.
-### `stopEntity(entityID: string, options: StopEntityOptions): void`
-Stop an entity specified by the "entity identifier" property from moving within a level.
-### `new InputPressHandler(options: InputPressHandlerOptions)`
-Class for managing mouse, keyboard and gamepad input on press.
-### `new InputTickHandler(options: InputTickHandlerOptions)`
-Class for managing mouse, keyboard and gamepad input on tick.
-### `new Sprite(options: SpriteOptions)`
-Class for managing a sprite.
-### `new State<StateSchema>(initialState: StateSchema)`
-Class for managing state.
-
 ## Example games
 - [EvanMMO - Moon Squid](https://github.com/evannorton/Moon-Squid)
 
