@@ -24,7 +24,9 @@ interface WorldLevelLayer {
   readonly tilesetID: string | null;
 }
 interface WorldLevel {
+  readonly height: number;
   readonly layers: WorldLevelLayer[];
+  readonly width: number;
 }
 interface WorldTileset {
   readonly height: number;

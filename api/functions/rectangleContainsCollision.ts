@@ -25,6 +25,9 @@ const rectangleContainsCollision = (
       "An attempt was made to check box collision a nonexistant active level."
     );
   }
+  if (x < 0 || y < 0 || x + width > level.width || y + height > level.height) {
+    return true;
+  }
   for (const layer of level.layers) {
     if (layer.tilesetID !== null) {
       const tileset: WorldTileset | null =

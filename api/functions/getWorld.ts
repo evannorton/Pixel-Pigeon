@@ -17,6 +17,7 @@ const getWorld = (ldtk: LDTK): World => {
   }
   for (const ldtkLevel of ldtk.levels) {
     levels.set(ldtkLevel.identifier, {
+      height: ldtkLevel.pxHei,
       layers: [...ldtkLevel.layerInstances]
         .reverse()
         .map(
@@ -52,6 +53,7 @@ const getWorld = (ldtk: LDTK): World => {
             };
           }
         ),
+      width: ldtkLevel.pxWid,
     });
   }
   for (const ldtkDefTileset of ldtk.defs.tilesets) {
