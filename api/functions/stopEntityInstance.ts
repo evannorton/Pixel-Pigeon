@@ -1,11 +1,17 @@
-import { WorldLayerEntity, WorldLevel } from "../types/World";
-import state from "../state";
+import {
+  WorldLevel,
+  WorldLevelLayerEntity,
+} from "pigeon-mode-game-library/api/types/World";
+import state from "pigeon-mode-game-library/api/state";
 
-interface StopEntityOptions {
+interface StopEntityInstanceOptions {
   readonly x?: boolean;
   readonly y?: boolean;
 }
-const stopEntity = (entityID: string, options: StopEntityOptions): void => {
+const stopEntityInstance = (
+  entityID: string,
+  options: StopEntityInstanceOptions
+): void => {
   if (state.values.world === null) {
     throw new Error(
       `An attempt was made to move entity "${entityID}" before world was loaded.`
@@ -24,9 +30,10 @@ const stopEntity = (entityID: string, options: StopEntityOptions): void => {
     );
   }
   for (const layer of level.layers) {
-    const entity: WorldLayerEntity | null =
-      layer.entities.find(
-        (layerEntity: WorldLayerEntity): boolean => layerEntity.id === entityID
+    const entity: WorldLevelLayerEntity | null =
+      layer.entityInstances.find(
+        (layerEntity: WorldLevelLayerEntity): boolean =>
+          layerEntity.id === entityID
       ) ?? null;
     if (entity !== null) {
       if (typeof options.x !== "undefined" && options.x) {
@@ -39,4 +46,4 @@ const stopEntity = (entityID: string, options: StopEntityOptions): void => {
   }
 };
 
-export default stopEntity;
+export default stopEntityInstance;

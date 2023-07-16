@@ -1,7 +1,7 @@
 import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import Config from "../types/Config";
 import DOMElement from "../classes/DOMElement";
-import ImageSource from "pigeon-mode-game-library/api/classes/ImageSource";
+import ImageSource from "../classes/ImageSource";
 import InputPressHandler from "../classes/InputPressHandler";
 import InputTickHandler from "../classes/InputTickHandler";
 import LDTK from "../types/LDTK";

@@ -1,6 +1,5 @@
 import Definable from "./Definable";
 import getToken from "../functions/getToken";
-import state from "../state";
 
 interface InputTickHandlerGroup<GroupID> {
   readonly gamepadButtons?: number[];
@@ -15,11 +14,6 @@ class InputTickHandler<GroupID extends string> extends Definable {
   private readonly _groupIDs: GroupID[] = [];
 
   public constructor(options: InputTickHandlerOptions<GroupID>) {
-    if (state.values.isInitialized) {
-      throw new Error(
-        "A Definable was attempted to be constructed after initialization."
-      );
-    }
     super(getToken());
     this._options = options;
   }

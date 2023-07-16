@@ -1,27 +1,30 @@
 interface WorldEntity {
   readonly color: string;
 }
-interface WorldLayerEntity {
+interface WorldLevelLayerEntityInstance {
+  readonly entityID: string;
   readonly height: number;
   readonly id: string;
-  readonly spriteImagePath: string | null;
+  readonly spriteInstanceID: string | null;
   readonly width: number;
   x: number;
   xVelocity: number;
   y: number;
   yVelocity: number;
 }
-interface WorldLevel {
-  readonly layers: {
-    readonly entities: WorldLayerEntity[];
-    readonly tileSize: number;
-    readonly tiles: {
-      readonly id: number;
-      readonly x: number;
-      readonly y: number;
-    }[];
-    readonly tilesetID: string | null;
+interface WorldLevelLayer {
+  readonly entityInstances: WorldLevelLayerEntityInstance[];
+  readonly id: string;
+  readonly tileSize: number;
+  readonly tiles: {
+    readonly id: number;
+    readonly x: number;
+    readonly y: number;
   }[];
+  readonly tilesetID: string | null;
+}
+interface WorldLevel {
+  readonly layers: WorldLevelLayer[];
 }
 interface WorldTileset {
   readonly height: number;
@@ -43,7 +46,8 @@ interface World {
 export default World;
 export {
   WorldEntity,
-  WorldLayerEntity,
+  WorldLevelLayerEntityInstance as WorldLevelLayerEntity,
+  WorldLevelLayer,
   WorldLevel,
   WorldTileset,
   WorldTilesetTile,

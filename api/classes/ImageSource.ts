@@ -1,6 +1,6 @@
 import { Texture } from "pixi.js";
 import Definable from "./Definable";
-import loadPixiAsset from "pigeon-mode-game-library/api/functions/loadPixiAsset";
+import loadPixiAsset from "../functions/loadPixiAsset";
 
 interface ImageSourceOptions {
   readonly imagePath: string;

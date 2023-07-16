@@ -1,5 +1,5 @@
 import { WorldLevel } from "../../types/World";
-import rectangleContainsCollision from "pigeon-mode-game-library/api/functions/rectangleContainsCollision";
+import rectangleContainsCollision from "../rectangleContainsCollision";
 import state from "../../state";
 
 const updateLevel = (): void => {
@@ -26,7 +26,7 @@ const updateLevel = (): void => {
     );
   }
   for (const layer of level.layers) {
-    for (const entity of layer.entities) {
+    for (const entity of layer.entityInstances) {
       if (entity.xVelocity !== 0 || entity.yVelocity !== 0) {
         const unnormalizedEntityX: number =
           entity.x +

@@ -1,6 +1,6 @@
 import { WorldEntity, WorldLevel, WorldTileset } from "../types/World";
 import ImageSource from "../classes/ImageSource";
-import Sprite from "../classes/Sprite";
+import SpriteInstance from "../classes/SpriteInstance";
 import assetsAreLoaded from "./assetsAreLoaded";
 import drawImage from "./draw/drawImage";
 import drawRectangle from "./draw/drawRectangle";
@@ -89,18 +89,17 @@ const render = (): void => {
             );
           }
         }
-        for (const layerEntity of layer.entities) {
+        for (const layerEntity of layer.entityInstances) {
           const entity: WorldEntity | null =
-            state.values.world.entities.get(layerEntity.id) ?? null;
+            state.values.world.entities.get(layerEntity.entityID) ?? null;
           if (entity === null) {
             throw Error("An attempt was made to render a nonexistent entity.");
           }
-          if (layerEntity.spriteImagePath !== null) {
-            const sprite: Sprite<string> = getDefinable<Sprite<string>>(
-              Sprite,
-              layerEntity.spriteImagePath
-            );
-            sprite.drawWithEntity(layerEntity);
+          if (layerEntity.spriteInstanceID !== null) {
+            const spriteInstance: SpriteInstance<string> = getDefinable<
+              SpriteInstance<string>
+            >(SpriteInstance, layerEntity.spriteInstanceID);
+            spriteInstance.drawAtEntity(layerEntity);
           } else {
             drawRectangle(
               entity.color,
@@ -114,9 +113,11 @@ const render = (): void => {
         }
       }
     }
-    getDefinables(Sprite).forEach((sprite: Sprite<string>): void => {
-      sprite.drawWithOptions();
-    });
+    getDefinables(SpriteInstance).forEach(
+      (spriteInstance: SpriteInstance<string>): void => {
+        spriteInstance.drawAtCoordinates();
+      }
+    );
   }
   state.values.app.stage.sortChildren();
   state.values.app.render();
