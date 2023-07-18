@@ -1,5 +1,5 @@
 {
-    "name": "pigeon-mode-game-library",
+    "name": "pigeon-mode-game-framework",
     "main": "./api/index.ts",
     "browser": "./api/index.ts",
     "module": "./api/index.ts",
