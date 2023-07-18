@@ -10,7 +10,7 @@ writeFileSync(join(__dirname, "watchExecCompleted.json"), JSON.stringify(false))
 
 const watcher = nodemon({
   delay: 1,
-  exec: "node ./node_modules/pigeon-mode-game-library/cli/handleWatch || exit 1",
+  exec: "node ./node_modules/pigeon-mode-game-framework/cli/handleWatch || exit 1",
   ext: "css,fnt,gif,js,json,mp3,mustache,png,ts,ttf,json,pmgl,ldtk",
   stdout: true,
   stderr: true,
@@ -107,7 +107,7 @@ watcher.addListener("restart", (files) => {
       commands.push(build);
     }
     else {
-      commands.push("node ./node_modules/pigeon-mode-game-library/cli/buildHTML")
+      commands.push("node ./node_modules/pigeon-mode-game-framework/cli/buildHTML")
     }
 
     writeFileSync(join(__dirname, "watchExec.json"), JSON.stringify(commands));

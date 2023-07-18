@@ -9,7 +9,7 @@ writeFileSync(join(__dirname, "configSchema.js"), configSchemaText.replace("impo
 const { configSchema } = require("./configSchema");
 
 if (!existsSync(join("config.pmgl"))) {
-    throw new Error("You must create a config.pmgl file for use with Pigeon Mode Game Library.");
+    throw new Error("You must create a config.pmgl file for use with Pigeon Mode Game Framework.");
 }
 const configString = readFileSync(join("config.pmgl")).toString();
 try {

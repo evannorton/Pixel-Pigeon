@@ -6,10 +6,10 @@ const eslint = new ESLint({
   fix: true,
   overrideConfig: {
     parserOptions: {
-      project: "./node_modules/pigeon-mode-game-library/game-tsconfig.json"
+      project: "./node_modules/pigeon-mode-game-framework/game-tsconfig.json"
     },
     extends: [
-      "./node_modules/pigeon-mode-game-library/.eslintrc"
+      "./node_modules/pigeon-mode-game-framework/.eslintrc"
     ]
   }
 });

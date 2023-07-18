@@ -1,8 +1,8 @@
 import {
   WorldLevel,
   WorldLevelLayerEntity,
-} from "pigeon-mode-game-library/api/types/World";
-import state from "pigeon-mode-game-library/api/state";
+} from "pigeon-mode-game-framework/api/types/World";
+import state from "pigeon-mode-game-framework/api/state";
 
 interface EntityInstanceData {
   readonly height: number;

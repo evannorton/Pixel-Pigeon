@@ -1,5 +1,5 @@
-import SpriteInstance from "pigeon-mode-game-library/api/classes/SpriteInstance";
-import getDefinable from "pigeon-mode-game-library/api/functions/getDefinable";
+import SpriteInstance from "pigeon-mode-game-framework/api/classes/SpriteInstance";
+import getDefinable from "pigeon-mode-game-framework/api/functions/getDefinable";
 
 interface PlaySpriteAnimationOptions<AnimationID extends string> {
   readonly animationID: AnimationID;

@@ -1,9 +1,9 @@
 import {
   WorldLevel,
   WorldLevelLayer,
-} from "pigeon-mode-game-library/api/types/World";
-import getToken from "pigeon-mode-game-library/api/functions/getToken";
-import state from "pigeon-mode-game-library/api/state";
+} from "pigeon-mode-game-framework/api/types/World";
+import getToken from "pigeon-mode-game-framework/api/functions/getToken";
+import state from "pigeon-mode-game-framework/api/state";
 
 interface SpawnEntityInstanceOptions {
   readonly entityID: string;

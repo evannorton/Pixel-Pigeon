@@ -5,23 +5,23 @@ const { generate } = require("ts-to-zod");
 // Validate source code
 
 if (!existsSync(join("src"))) {
-  throw new Error("You must create an src folder for use with Pigeon Mode Game Library.");
+  throw new Error("You must create an src folder for use with Pigeon Mode Game Framework.");
 }
 
 if (!existsSync(join("src", "index.ts"))) {
-  throw new Error("You must create an index.ts file in src for use with Pigeon Mode Game Library.");
+  throw new Error("You must create an index.ts file in src for use with Pigeon Mode Game Framework.");
 }
 
 // Validate images
 
 if (!existsSync(join("images"))) {
-  throw new Error("You must create an images folder for use with Pigeon Mode Game Library.");
+  throw new Error("You must create an images folder for use with Pigeon Mode Game Framework.");
 }
 
 // Validate ldtk
 
 if (!existsSync(join("project.ldtk"))) {
-  throw new Error("You must create a project.ldtk file for use with Pigeon Mode Game Library.");
+  throw new Error("You must create a project.ldtk file for use with Pigeon Mode Game Framework.");
 }
 const ldtkString = readFileSync(join("project.ldtk")).toString();
 let ldtkJSON;

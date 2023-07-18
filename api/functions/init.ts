@@ -16,7 +16,7 @@ const init = (): void => {
   if (state.values.isInitialized) {
     throw new Error("Initialization was attempted more than once.");
   }
-  console.log("Pigeon Mode Game Library initialized.");
+  console.log("Pigeon Mode Game Framework initialized.");
   state.setValues({ isInitialized: true });
   fetch("./config.pmgl")
     .then((configRes: Response): void => {

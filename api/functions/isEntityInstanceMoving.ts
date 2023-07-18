@@ -1,7 +1,7 @@
 import {
   WorldLevel,
   WorldLevelLayerEntity,
-} from "pigeon-mode-game-library/api/types/World";
+} from "pigeon-mode-game-framework/api/types/World";
 import state from "../state";
 
 const isEntityInstanceMoving = (entityInstanceID: string): boolean => {
