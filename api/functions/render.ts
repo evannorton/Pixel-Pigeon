@@ -1,3 +1,7 @@
+import {
+  CameraCoordinates,
+  getCameraCoordinates,
+} from "./getCameraCoordinates";
 import { Entity, Level, Tileset } from "../types/World";
 import { ImageSource } from "../classes/ImageSource";
 import { SpriteInstance } from "../classes/SpriteInstance";
@@ -5,9 +9,6 @@ import { assetsAreLoaded } from "./assetsAreLoaded";
 import { drawImage } from "./draw/drawImage";
 import { drawRectangle } from "./draw/drawRectangle";
 import { drawText } from "./draw/drawText";
-import { getCameraCoordinates ,
-  CameraCoordinates,
-} from "./getCameraCoordinates";
 import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
 import { getTotalAssets } from "./getTotalAssets";
@@ -27,7 +28,7 @@ export const render = (): void => {
     0,
     0,
     state.values.config.width,
-    state.values.config.height
+    state.values.config.height,
   );
   if (!assetsAreLoaded()) {
     const current: number = state.values.loadedAssets;
@@ -49,7 +50,7 @@ export const render = (): void => {
       state.values.config.width,
       1,
       "center",
-      "middle"
+      "middle",
     );
   } else {
     if (state.values.world === null) {
@@ -85,7 +86,7 @@ export const render = (): void => {
               tile.x - cameraCoordinates.x,
               tile.y - cameraCoordinates.y,
               layer.tileSize,
-              layer.tileSize
+              layer.tileSize,
             );
           }
         }
@@ -107,7 +108,7 @@ export const render = (): void => {
               Math.floor(layerEntity.x) - cameraCoordinates.x,
               Math.floor(layerEntity.y) - cameraCoordinates.y,
               layerEntity.width,
-              layerEntity.height
+              layerEntity.height,
             );
           }
         }
@@ -116,7 +117,7 @@ export const render = (): void => {
     getDefinables(SpriteInstance).forEach(
       (spriteInstance: SpriteInstance<string>): void => {
         spriteInstance.drawAtCoordinates();
-      }
+      },
     );
   }
   state.values.app.stage.sortChildren();

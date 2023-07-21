@@ -38,4 +38,3 @@ export const validIDCharacters: string[] = [
   "0",
   "-",
 ];
-

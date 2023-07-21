@@ -1,12 +1,15 @@
-import { EntityInstance as WorldLevelLayerEntityInstance } from "../types/World";
+import {
+  CameraCoordinates,
+  getCameraCoordinates,
+} from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
 import {
   Sprite,
   SpriteOptionsAnimation,
   SpriteOptionsAnimationFrame,
 } from "./Sprite";
+import { EntityInstance as WorldLevelLayerEntityInstance } from "../types/World";
 import { drawImage } from "../functions/draw/drawImage";
-import { getCameraCoordinates ,  CameraCoordinates,} from "../functions/getCameraCoordinates";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
 import { state } from "../state";
@@ -19,6 +22,7 @@ interface SpriteInstanceOptions {
   };
   readonly spriteID: string;
 }
+
 export class SpriteInstance<AnimationID extends string> extends Definable {
   private _animation: {
     readonly id: string;
@@ -53,7 +57,7 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
     ) {
       this.drawAtPosition(
         this._options.coordinates.x,
-        this._options.coordinates.y
+        this._options.coordinates.y,
       );
     }
   }
@@ -62,14 +66,14 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     this.drawAtPosition(
       Math.floor(entityInstance.x) - cameraCoordinates.x,
-      Math.floor(entityInstance.y) - cameraCoordinates.y
+      Math.floor(entityInstance.y) - cameraCoordinates.y,
     );
   }
 
   private drawAtPosition(x: number, y: number): void {
     if (this._animation === null) {
       throw new Error(
-        `SpriteInstance "${this._id}" attempted to draw with no animation.`
+        `SpriteInstance "${this._id}" attempted to draw with no animation.`,
       );
     }
     const animation: SpriteInstance<AnimationID>["_animation"] =
@@ -77,22 +81,22 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
     const currentAnimation: SpriteOptionsAnimation<AnimationID> | null =
       this.sprite.animations.find(
         (
-          spriteInstanceAnimation: SpriteOptionsAnimation<AnimationID>
-        ): boolean => spriteInstanceAnimation.id === animation.id
+          spriteInstanceAnimation: SpriteOptionsAnimation<AnimationID>,
+        ): boolean => spriteInstanceAnimation.id === animation.id,
       ) ?? null;
     if (currentAnimation === null) {
       throw new Error(
-        `SpriteInstance "${this._id}" does not contain an animation with ID "${this._animation.id}".`
+        `SpriteInstance "${this._id}" does not contain an animation with ID "${this._animation.id}".`,
       );
     }
     const animationContainsEndlessFrame: boolean = currentAnimation.frames.some(
       (frame: SpriteOptionsAnimationFrame): boolean =>
-        typeof frame.duration === "undefined"
+        typeof frame.duration === "undefined",
     );
     const animationDuration: number = currentAnimation.frames.reduce(
       (accumulator: number, frame: SpriteOptionsAnimationFrame): number =>
         accumulator + (frame.duration ?? 0),
-      0
+      0,
     );
     const timeSinceAnimationStarted: number =
       state.values.currentTime - this._animation.startedAt;
@@ -113,9 +117,9 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
                   .reduce(
                     (
                       accumulator: number,
-                      loopedFrame: SpriteOptionsAnimationFrame
+                      loopedFrame: SpriteOptionsAnimationFrame,
                     ): number => accumulator + (loopedFrame.duration ?? 0),
-                    0
+                    0,
                   ) + duration
               : 0;
           if (animationTime >= loopedDuration) {
@@ -125,20 +129,20 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
                 .reduce(
                   (
                     accumulator: number,
-                    loopedFrame: SpriteOptionsAnimationFrame
+                    loopedFrame: SpriteOptionsAnimationFrame,
                   ): number => accumulator + (loopedFrame.duration ?? 0),
-                  0
+                  0,
                 ) + duration;
             if (animationTime < nextLoopedDuration) {
               return true;
             }
           }
           return false;
-        }
+        },
       ) ?? null;
     if (currentAnimationFrame === null) {
       throw new Error(
-        `SpriteInstance "${this._id}" could not get the current frame for animation "${this._animation.id}".`
+        `SpriteInstance "${this._id}" could not get the current frame for animation "${this._animation.id}".`,
       );
     }
     drawImage(
@@ -151,10 +155,10 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
       x,
       y,
       currentAnimationFrame.width,
-      currentAnimationFrame.height
+      currentAnimationFrame.height,
     );
   }
 }
 export const createSpriteInstance = <AnimationID extends string>(
-  options: SpriteInstanceOptions
+  options: SpriteInstanceOptions,
 ): string => new SpriteInstance<AnimationID>(options).id;

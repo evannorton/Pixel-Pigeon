@@ -9,6 +9,7 @@ interface InputTickHandlerGroup<GroupID> {
 interface InputTickHandlerOptions<GroupID extends string> {
   readonly groups: InputTickHandlerGroup<GroupID>[];
 }
+
 export class InputTickHandler<GroupID extends string> extends Definable {
   private readonly _options: InputTickHandlerOptions<GroupID>;
   private readonly _groupIDs: GroupID[] = [];
@@ -65,5 +66,5 @@ export class InputTickHandler<GroupID extends string> extends Definable {
   }
 }
 export const createInputTickHandler = <GroupID extends string>(
-  options: InputTickHandlerOptions<GroupID>
+  options: InputTickHandlerOptions<GroupID>,
 ): string => new InputTickHandler(options).id;

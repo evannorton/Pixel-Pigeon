@@ -27,12 +27,12 @@ export const update = (): void => {
               getDefinables(InputPressHandler).forEach(
                 (inputPressHandler: InputPressHandler): void => {
                   inputPressHandler.handleGamepadButton(buttonIndex);
-                }
+                },
               );
               getDefinables(InputTickHandler).forEach(
                 (inputPressHandler: InputTickHandler<string>): void => {
                   inputPressHandler.handleGamepadButtonDown(buttonIndex);
-                }
+                },
               );
             } else if (
               state.values.heldGamepadButtons.includes(buttonIndex) &&
@@ -41,16 +41,16 @@ export const update = (): void => {
               state.setValues({
                 heldGamepadButtons: state.values.heldGamepadButtons.filter(
                   (gamepadButtonIndex: number): boolean =>
-                    buttonIndex !== gamepadButtonIndex
+                    buttonIndex !== gamepadButtonIndex,
                 ),
               });
               getDefinables(InputTickHandler).forEach(
                 (inputPressHandler: InputTickHandler<string>): void => {
                   inputPressHandler.handleGamepadButtonUp(buttonIndex);
-                }
+                },
               );
             }
-          }
+          },
         );
       }
     });

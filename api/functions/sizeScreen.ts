@@ -5,7 +5,7 @@ import { state } from "../state";
 export const sizeScreen = (): void => {
   if (state.values.config === null) {
     throw new Error(
-      "An attempt was made to size screen before config was loaded."
+      "An attempt was made to size screen before config was loaded.",
     );
   }
   const screenElement: DOMElement = getDefinable(DOMElement, "screen");

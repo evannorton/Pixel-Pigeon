@@ -7,11 +7,11 @@ export const drawRectangle = (
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
 ): void => {
   if (state.values.app === null) {
     throw new Error(
-      "An attempt was made to draw a rectangle before app was created."
+      "An attempt was made to draw a rectangle before app was created.",
     );
   }
   const rectangle: Graphics = new Graphics();

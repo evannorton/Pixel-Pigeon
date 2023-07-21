@@ -10,6 +10,7 @@ interface InputPressHandlerOptions {
   readonly onInput: () => void;
   readonly rightClick?: boolean;
 }
+
 export class InputPressHandler extends Definable {
   private readonly _options: InputPressHandlerOptions;
 
@@ -56,5 +57,6 @@ export class InputPressHandler extends Definable {
     }
   }
 }
-export const createInputPressHandler = (options: InputPressHandlerOptions): string =>
-  new InputPressHandler(options).id;
+export const createInputPressHandler = (
+  options: InputPressHandlerOptions,
+): string => new InputPressHandler(options).id;

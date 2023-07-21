@@ -28,7 +28,7 @@ export class Sprite<AnimationID extends string> extends Definable {
     for (const animation of options.animations) {
       if (animationIDs.includes(animation.id)) {
         throw new Error(
-          `Sprite "${options.imagePath}" contains multiple animations with ID "${animation.id}".`
+          `Sprite "${options.imagePath}" contains multiple animations with ID "${animation.id}".`,
         );
       }
       animationIDs.push(animation.id);
@@ -46,5 +46,5 @@ export class Sprite<AnimationID extends string> extends Definable {
   }
 }
 export const createSprite = <AnimationID extends string>(
-  options: SpriteOptions<AnimationID>
+  options: SpriteOptions<AnimationID>,
 ): string => new Sprite<AnimationID>(options).id;

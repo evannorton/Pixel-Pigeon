@@ -6,23 +6,23 @@ export const rectangleContainsCollision = (
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
 ): boolean => {
   if (state.values.world === null) {
     throw new Error(
-      "An attempt was made to check box collision before world was loaded."
+      "An attempt was made to check box collision before world was loaded.",
     );
   }
   if (state.values.levelID === null) {
     throw new Error(
-      "An attempt was made to check box collision with no active level."
+      "An attempt was made to check box collision with no active level.",
     );
   }
   const level: Level | null =
     state.values.world.levels.get(state.values.levelID) ?? null;
   if (level === null) {
     throw new Error(
-      "An attempt was made to check box collision a nonexistant active level."
+      "An attempt was made to check box collision a nonexistant active level.",
     );
   }
   if (x < 0 || y < 0 || x + width > level.width || y + height > level.height) {
@@ -38,7 +38,7 @@ export const rectangleContainsCollision = (
       for (const layerTile of layer.tiles) {
         const matchedTile: WorldTilesetTile | null =
           tileset.tiles.find(
-            (tile: WorldTilesetTile): boolean => layerTile.id === tile.id
+            (tile: WorldTilesetTile): boolean => layerTile.id === tile.id,
           ) ?? null;
         if (matchedTile !== null && matchedTile.isCollidable) {
           if (
@@ -54,7 +54,7 @@ export const rectangleContainsCollision = (
                 width: tileset.tileSize,
                 x: layerTile.x,
                 y: layerTile.y,
-              }
+              },
             )
           ) {
             return true;

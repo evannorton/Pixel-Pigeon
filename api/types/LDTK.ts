@@ -1,4 +1,5 @@
 type LayerType = "Entities" | "Tiles";
+
 export interface LDTK {
   readonly __header__: {
     readonly app: "LDtk";

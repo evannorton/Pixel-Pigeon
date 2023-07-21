@@ -4,9 +4,10 @@ interface Rectangle {
   readonly x: number;
   readonly y: number;
 }
+
 export const rectanglesOverlap = (
   rectangle1: Rectangle,
-  rectangle2: Rectangle
+  rectangle2: Rectangle,
 ): boolean => {
   if (rectangle1.x + rectangle1.width <= rectangle2.x) {
     return false;

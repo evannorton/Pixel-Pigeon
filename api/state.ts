@@ -18,6 +18,7 @@ interface StateSchema {
   readonly onTickCallbacks: (() => void)[];
   readonly world: World | null;
 }
+
 export const state: State<StateSchema> = new State<StateSchema>({
   app: null,
   cameraLockedEntityInstanceID: null,

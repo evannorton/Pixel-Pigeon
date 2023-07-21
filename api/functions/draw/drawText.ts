@@ -11,11 +11,11 @@ export const drawText = (
   maxWidth: number,
   maxLines: number,
   horizontalAlignment: TextStyleAlign,
-  verticalAlignment: TextStyleTextBaseline
+  verticalAlignment: TextStyleTextBaseline,
 ): void => {
   if (state.values.app === null) {
     throw new Error(
-      "An attempt was made to draw a rectangle before app was created."
+      "An attempt was made to draw a rectangle before app was created.",
     );
   }
   const sprite: BitmapText = getBitmapText(
@@ -24,7 +24,7 @@ export const drawText = (
     size,
     maxWidth,
     maxLines,
-    horizontalAlignment
+    horizontalAlignment,
   );
   const startX: number = x - size;
   sprite.x =
@@ -45,7 +45,7 @@ export const drawText = (
       ? 1
       : verticalAlignment === "middle"
       ? (size * 7) / 2 / (size * 7)
-      : 0
+      : 0,
   );
   state.values.app.stage.addChild(sprite);
 };

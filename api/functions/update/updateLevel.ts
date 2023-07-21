@@ -5,24 +5,24 @@ import { state } from "../../state";
 export const updateLevel = (): void => {
   if (state.values.app === null) {
     throw new Error(
-      "An attempt was made to update level before app was created."
+      "An attempt was made to update level before app was created.",
     );
   }
   if (state.values.world === null) {
     throw new Error(
-      "An attempt was made to update level before world was loaded."
+      "An attempt was made to update level before world was loaded.",
     );
   }
   if (state.values.levelID === null) {
     throw new Error(
-      "An attempt was made to update level with no active level."
+      "An attempt was made to update level with no active level.",
     );
   }
   const level: Level | null =
     state.values.world.levels.get(state.values.levelID) ?? null;
   if (level === null) {
     throw new Error(
-      "An attempt was made to update with a nonexistant active level."
+      "An attempt was made to update with a nonexistant active level.",
     );
   }
   for (const layer of level.layers) {
@@ -35,14 +35,17 @@ export const updateLevel = (): void => {
           entityInstance.y +
           entityInstance.yVelocity * (state.values.app.ticker.deltaMS / 1000);
         const isXLarger: boolean =
-          Math.abs(entityInstance.xVelocity) >= Math.abs(entityInstance.yVelocity);
+          Math.abs(entityInstance.xVelocity) >=
+          Math.abs(entityInstance.yVelocity);
         const largerVelocity: number = isXLarger
           ? entityInstance.xVelocity
           : entityInstance.yVelocity;
         const smallerVelocity: number = !isXLarger
           ? entityInstance.xVelocity
           : entityInstance.yVelocity;
-        const largerStart: number = isXLarger ? entityInstance.x : entityInstance.y;
+        const largerStart: number = isXLarger
+          ? entityInstance.x
+          : entityInstance.y;
         const largerEnd: number = isXLarger
           ? unnormalizedEntityX
           : unnormalizedEntityY;
@@ -80,24 +83,30 @@ export const updateLevel = (): void => {
               pieceYEnd -= largerAddition;
             }
           }
-          const canMoveX: boolean = !entityInstance.isCollidable || !rectangleContainsCollision(
-            Math.floor(xEnd + pieceXEnd),
-            Math.floor(yEnd),
-            entityInstance.width,
-            entityInstance.height
-          );
-          const canMoveY: boolean = !entityInstance.isCollidable || !rectangleContainsCollision(
-            Math.floor(xEnd),
-            Math.floor(yEnd + pieceYEnd),
-            entityInstance.width,
-            entityInstance.height
-          );
-          const canMoveBoth: boolean = !entityInstance.isCollidable || !rectangleContainsCollision(
-            Math.floor(xEnd + pieceXEnd),
-            Math.floor(yEnd + pieceYEnd),
-            entityInstance.width,
-            entityInstance.height
-          )
+          const canMoveX: boolean =
+            !entityInstance.isCollidable ||
+            !rectangleContainsCollision(
+              Math.floor(xEnd + pieceXEnd),
+              Math.floor(yEnd),
+              entityInstance.width,
+              entityInstance.height,
+            );
+          const canMoveY: boolean =
+            !entityInstance.isCollidable ||
+            !rectangleContainsCollision(
+              Math.floor(xEnd),
+              Math.floor(yEnd + pieceYEnd),
+              entityInstance.width,
+              entityInstance.height,
+            );
+          const canMoveBoth: boolean =
+            !entityInstance.isCollidable ||
+            !rectangleContainsCollision(
+              Math.floor(xEnd + pieceXEnd),
+              Math.floor(yEnd + pieceYEnd),
+              entityInstance.width,
+              entityInstance.height,
+            );
           // Diagonal collision
           if (!canMoveX || !canMoveY || !canMoveBoth) {
             collided = true;
@@ -106,8 +115,8 @@ export const updateLevel = (): void => {
           if (canMoveX && canMoveY && canMoveBoth) {
             xEnd += pieceXEnd;
             yEnd += pieceYEnd;
-          }   
-          // Vertical move 
+          }
+          // Vertical move
           else if (canMoveY) {
             yEnd += pieceYEnd;
           }

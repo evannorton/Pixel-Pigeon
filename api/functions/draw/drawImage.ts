@@ -11,16 +11,16 @@ export const drawImage = (
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
 ): void => {
   if (state.values.app === null) {
     throw new Error(
-      "An attempt was made to draw an image before app was created."
+      "An attempt was made to draw an image before app was created.",
     );
   }
   if (state.values.config === null) {
     throw new Error(
-      "An attempt was made to draw an image before config was loaded."
+      "An attempt was made to draw an image before config was loaded.",
     );
   }
   const chopX: number = Math.max(x * -1, 0);
@@ -29,22 +29,22 @@ export const drawImage = (
   const adjustedY: number = Math.max(y, 0);
   const adjustedWidth: number = Math.min(
     width - chopX,
-    state.values.config.width - adjustedX
+    state.values.config.width - adjustedX,
   );
   const adjustedHeight: number = Math.min(
     height - chopY,
-    state.values.config.height - adjustedY
+    state.values.config.height - adjustedY,
   );
   if (adjustedWidth > 0 && adjustedHeight > 0) {
     const adjustedSourceX: number = chopX + sourceX;
     const adjustedSourceY: number = chopY + sourceY;
     const adjustedSourceWidth: number = Math.min(
       sourceWidth - chopX,
-      adjustedWidth
+      adjustedWidth,
     );
     const adjustedSourceHeight: number = Math.min(
       sourceHeight - chopY,
-      adjustedHeight
+      adjustedHeight,
     );
     const pixiSprite: PixiSprite = new PixiSprite(
       new Texture(
@@ -53,9 +53,9 @@ export const drawImage = (
           adjustedSourceX,
           adjustedSourceY,
           adjustedSourceWidth,
-          adjustedSourceHeight
-        )
-      )
+          adjustedSourceHeight,
+        ),
+      ),
     );
     pixiSprite.x = adjustedX;
     pixiSprite.y = adjustedY;

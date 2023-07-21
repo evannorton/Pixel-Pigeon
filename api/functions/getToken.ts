@@ -4,5 +4,5 @@ import { validIDCharacters } from "../constants/validIDCharacters";
 
 export const getToken: () => string = customAlphabet(
   validIDCharacters.join(""),
-  tokenLength
+  tokenLength,
 );

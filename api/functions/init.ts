@@ -7,7 +7,7 @@ import { InputTickHandler } from "../classes/InputTickHandler";
 import { LDTK } from "../types/LDTK";
 import { getDefinables } from "./getDefinables";
 import { getWorld } from "./getWorld";
-import { loadAssets} from "./loadAssets";
+import { loadAssets } from "./loadAssets";
 import { sizeScreen } from "./sizeScreen";
 import { state } from "../state";
 import { tick } from "./tick";
@@ -62,7 +62,7 @@ export const init = (): void => {
                             "contextmenu",
                             (contextmenuEvent: Event): void => {
                               contextmenuEvent.preventDefault();
-                            }
+                            },
                           );
                           screenElement.addEventListener(
                             "mousedown",
@@ -72,22 +72,22 @@ export const init = (): void => {
                               } else {
                                 getDefinables(InputPressHandler).forEach(
                                   (
-                                    inputPressHandler: InputPressHandler
+                                    inputPressHandler: InputPressHandler,
                                   ): void => {
                                     inputPressHandler.handleClick(
-                                      mousedownEvent.button
+                                      mousedownEvent.button,
                                     );
-                                  }
+                                  },
                                 );
                               }
-                            }
+                            },
                           );
                           screenElement.addEventListener(
                             "keydown",
                             (keydownEvent: KeyboardEvent): void => {
                               if (
                                 !state.values.heldKeys.includes(
-                                  keydownEvent.code
+                                  keydownEvent.code,
                                 )
                               ) {
                                 state.setValues({
@@ -98,24 +98,24 @@ export const init = (): void => {
                                 });
                                 getDefinables(InputPressHandler).forEach(
                                   (
-                                    inputPressHandler: InputPressHandler
+                                    inputPressHandler: InputPressHandler,
                                   ): void => {
                                     inputPressHandler.handleKey(
-                                      keydownEvent.code
+                                      keydownEvent.code,
                                     );
-                                  }
+                                  },
                                 );
                                 getDefinables(InputTickHandler).forEach(
                                   (
-                                    inputTickHandler: InputTickHandler<string>
+                                    inputTickHandler: InputTickHandler<string>,
                                   ): void => {
                                     inputTickHandler.handleKeyDown(
-                                      keydownEvent.code
+                                      keydownEvent.code,
                                     );
-                                  }
+                                  },
                                 );
                               }
-                            }
+                            },
                           );
                           screenElement.addEventListener(
                             "keyup",
@@ -126,20 +126,20 @@ export const init = (): void => {
                                 state.setValues({
                                   heldKeys: state.values.heldKeys.filter(
                                     (key: string): boolean =>
-                                      key !== keyupEvent.code
+                                      key !== keyupEvent.code,
                                   ),
                                 });
                                 getDefinables(InputTickHandler).forEach(
                                   (
-                                    inputTickHandler: InputTickHandler<string>
+                                    inputTickHandler: InputTickHandler<string>,
                                   ): void => {
                                     inputTickHandler.handleKeyUp(
-                                      keyupEvent.code
+                                      keyupEvent.code,
                                     );
-                                  }
+                                  },
                                 );
                               }
-                            }
+                            },
                           );
                           screenElement.addEventListener(
                             "focusout",
@@ -150,15 +150,15 @@ export const init = (): void => {
                               });
                               getDefinables(InputTickHandler).forEach(
                                 (
-                                  inputTickHandler: InputTickHandler<string>
+                                  inputTickHandler: InputTickHandler<string>,
                                 ): void => {
                                   inputTickHandler.empty();
-                                }
+                                },
                               );
-                            }
+                            },
                           );
                           screenElement.appendChild(
-                            app.view as HTMLCanvasElement
+                            app.view as HTMLCanvasElement,
                           );
                           sizeScreen();
                           app.ticker.add(tick);

@@ -6,7 +6,7 @@ export const getBitmapText = (
   size: number,
   maxWidth: number,
   maxLines: number,
-  horizontalAlignment: TextStyleAlign
+  horizontalAlignment: TextStyleAlign,
 ): BitmapText => {
   const replaced: string = text.replace(new RegExp("\\*", "gu"), "");
   const bitmapText: BitmapText = new BitmapText(replaced, {
@@ -52,7 +52,7 @@ export const getBitmapText = (
       asterisk2: {
         index: number;
         word: string;
-      }
+      },
     ): number => {
       const word1BitmapText: BitmapText = new BitmapText(asterisk1.word, {
         align: horizontalAlignment,
@@ -65,7 +65,7 @@ export const getBitmapText = (
         fontSize: size * 16,
       });
       return word2BitmapText.width - word1BitmapText.width;
-    }
+    },
   );
   const pieces: string[] = text.split("");
   if (sortedAsterisks.length > 0) {
@@ -78,7 +78,7 @@ export const getBitmapText = (
   const joined: string = pieces.join("");
   if (joined === text) {
     throw new Error(
-      `Text "${text}" of max width ${maxWidth} and lines ${maxLines} does not fit.`
+      `Text "${text}" of max width ${maxWidth} and lines ${maxLines} does not fit.`,
     );
   }
   return getBitmapText(
@@ -87,7 +87,6 @@ export const getBitmapText = (
     size,
     maxWidth,
     maxLines,
-    horizontalAlignment
+    horizontalAlignment,
   );
 };
-
