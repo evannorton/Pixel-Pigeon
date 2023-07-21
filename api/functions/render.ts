@@ -1,19 +1,19 @@
-import { WorldEntity, WorldLevel, WorldTileset } from "../types/World";
-import ImageSource from "../classes/ImageSource";
-import SpriteInstance from "../classes/SpriteInstance";
-import assetsAreLoaded from "./assetsAreLoaded";
-import drawImage from "./draw/drawImage";
-import drawRectangle from "./draw/drawRectangle";
-import drawText from "./draw/drawText";
-import getCameraCoordinates, {
+import { Entity, Level, Tileset } from "../types/World";
+import { ImageSource } from "../classes/ImageSource";
+import { SpriteInstance } from "../classes/SpriteInstance";
+import { assetsAreLoaded } from "./assetsAreLoaded";
+import { drawImage } from "./draw/drawImage";
+import { drawRectangle } from "./draw/drawRectangle";
+import { drawText } from "./draw/drawText";
+import { getCameraCoordinates ,
   CameraCoordinates,
 } from "./getCameraCoordinates";
-import getDefinable from "./getDefinable";
-import getDefinables from "./getDefinables";
-import getTotalAssets from "./getTotalAssets";
-import state from "../state";
+import { getDefinable } from "./getDefinable";
+import { getDefinables } from "./getDefinables";
+import { getTotalAssets } from "./getTotalAssets";
+import { state } from "../state";
 
-const render = (): void => {
+export const render = (): void => {
   if (state.values.app === null) {
     throw new Error("An attempt was made to render before app was created.");
   }
@@ -57,14 +57,14 @@ const render = (): void => {
     }
     if (state.values.levelID !== null) {
       const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
-      const level: WorldLevel | null =
+      const level: Level | null =
         state.values.world.levels.get(state.values.levelID) ?? null;
       if (level === null) {
         throw Error("An attempt was made to render a nonexistent level.");
       }
       for (const layer of level.layers) {
         if (layer.tilesetID !== null) {
-          const tileset: WorldTileset | null =
+          const tileset: Tileset | null =
             state.values.world.tilesets.get(layer.tilesetID) ?? null;
           if (tileset === null) {
             throw Error("An attempt was made to render a nonexistent tileset.");
@@ -90,7 +90,7 @@ const render = (): void => {
           }
         }
         for (const layerEntity of layer.entityInstances) {
-          const entity: WorldEntity | null =
+          const entity: Entity | null =
             state.values.world.entities.get(layerEntity.entityID) ?? null;
           if (entity === null) {
             throw Error("An attempt was made to render a nonexistent entity.");
@@ -122,5 +122,3 @@ const render = (): void => {
   state.values.app.stage.sortChildren();
   state.values.app.render();
 };
-
-export default render;

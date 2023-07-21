@@ -1,15 +1,15 @@
-import LDTK, { LDTKTileData } from "../types/LDTK";
-import World, {
-  WorldEntity,
-  WorldLevel,
-  WorldTileset,
+import { LDTK, LDTKTileData } from "../types/LDTK";
+import { World,
+  Entity,
+  Level,
+  Tileset,
   WorldTilesetTile,
 } from "../types/World";
 
-const getWorld = (ldtk: LDTK): World => {
-  const entities: Map<string, WorldEntity> = new Map();
-  const levels: Map<string, WorldLevel> = new Map();
-  const tilesets: Map<string, WorldTileset> = new Map();
+export const getWorld = (ldtk: LDTK): World => {
+  const entities: Map<string, Entity> = new Map();
+  const levels: Map<string, Level> = new Map();
+  const tilesets: Map<string, Tileset> = new Map();
   for (const ldtkDefEntity of ldtk.defs.entities) {
     entities.set(ldtkDefEntity.identifier, {
       color: ldtkDefEntity.color,
@@ -23,7 +23,7 @@ const getWorld = (ldtk: LDTK): World => {
         .map(
           (
             ldtkLayerInstance: LDTK["levels"][0]["layerInstances"][0]
-          ): WorldLevel["layers"][0] => {
+          ): Level["layers"][0] => {
             const matchedLDTKDefLayer: LDTK["defs"]["layers"][0] | null =
               ldtk.defs.layers.find(
                 (ldtkDefLayer: LDTK["defs"]["layers"][0]): boolean =>
@@ -36,7 +36,7 @@ const getWorld = (ldtk: LDTK): World => {
               tiles: ldtkLayerInstance.gridTiles.map(
                 (
                   ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0]
-                ): WorldLevel["layers"][0]["tiles"][0] => ({
+                ): Level["layers"][0]["tiles"][0] => ({
                   id: ldtkGridTile.t,
                   x: ldtkGridTile.px[0],
                   y: ldtkGridTile.px[1],
@@ -85,5 +85,3 @@ const getWorld = (ldtk: LDTK): World => {
     tilesets,
   };
 };
-
-export default getWorld;

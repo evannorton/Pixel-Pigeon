@@ -1,8 +1,8 @@
-import ImageSource from "../classes/ImageSource";
-import getDefinables from "./getDefinables";
-import loadPixiAsset from "./loadPixiAsset";
+import { ImageSource } from "../classes/ImageSource";
+import { getDefinables } from "./getDefinables";
+import { loadPixiAsset } from "./loadPixiAsset";
 
-const loadAssets = (): void => {
+export const loadAssets = (): void => {
   loadPixiAsset("fonts/RetroPixels.fnt").catch((error: Error): void => {
     throw error;
   });
@@ -10,5 +10,3 @@ const loadAssets = (): void => {
     imageSource.loadTexture();
   });
 };
-
-export default loadAssets;

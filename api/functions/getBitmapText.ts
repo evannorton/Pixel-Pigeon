@@ -1,6 +1,6 @@
 import { BitmapText, TextStyleAlign } from "pixi.js";
 
-const getBitmapText = (
+export const getBitmapText = (
   text: string,
   color: string,
   size: number,
@@ -91,4 +91,3 @@ const getBitmapText = (
   );
 };
 
-export default getBitmapText;

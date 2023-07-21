@@ -1,10 +1,7 @@
-import {
-  Level,
-  EntityInstance,
-} from "../types/World";
 import { state } from "../state";
+import { Level } from "../types/World";
 
-export const isEntityInstanceMoving = (entityInstanceID: string): boolean => {
+export const disableEntityInstanceCollision = (entityInstanceID: string): void => {
   if (state.values.world === null) {
     throw new Error(
       `An attempt was made to check movement of entity instance "${entityInstanceID}" before world was loaded.`
@@ -23,14 +20,10 @@ export const isEntityInstanceMoving = (entityInstanceID: string): boolean => {
     );
   }
   for (const layer of level.layers) {
-    const entity: EntityInstance | null =
-      layer.entityInstances.find(
-        (layerEntity: EntityInstance): boolean =>
-          layerEntity.id === entityInstanceID
-      ) ?? null;
-    if (entity !== null) {
-      return entity.xVelocity !== 0 || entity.yVelocity !== 0;
+    for (const entityInstance of layer.entityInstances) {
+      if (entityInstance.id === entityInstanceID) {
+        entityInstance.isCollidable = false;
+      }
     }
   }
-  return false;
-};
+}

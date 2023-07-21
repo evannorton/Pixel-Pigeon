@@ -1,16 +1,15 @@
-import { WorldLevelLayerEntity as WorldLevelLayerEntityInstance } from "../types/World";
-import Definable from "./Definable";
-import Sprite, {
+import { EntityInstance as WorldLevelLayerEntityInstance } from "../types/World";
+import { Definable } from "./Definable";
+import {
+  Sprite,
   SpriteOptionsAnimation,
   SpriteOptionsAnimationFrame,
 } from "./Sprite";
-import drawImage from "../functions/draw/drawImage";
-import getCameraCoordinates, {
-  CameraCoordinates,
-} from "../functions/getCameraCoordinates";
-import getDefinable from "../functions/getDefinable";
-import getToken from "../functions/getToken";
-import state from "../state";
+import { drawImage } from "../functions/draw/drawImage";
+import { getCameraCoordinates ,  CameraCoordinates,} from "../functions/getCameraCoordinates";
+import { getDefinable } from "../functions/getDefinable";
+import { getToken } from "../functions/getToken";
+import { state } from "../state";
 
 interface SpriteInstanceOptions {
   readonly coordinates?: {
@@ -20,7 +19,7 @@ interface SpriteInstanceOptions {
   };
   readonly spriteID: string;
 }
-class SpriteInstance<AnimationID extends string> extends Definable {
+export class SpriteInstance<AnimationID extends string> extends Definable {
   private _animation: {
     readonly id: string;
     readonly startedAt: number;
@@ -156,9 +155,6 @@ class SpriteInstance<AnimationID extends string> extends Definable {
     );
   }
 }
-const createSpriteInstance = <AnimationID extends string>(
+export const createSpriteInstance = <AnimationID extends string>(
   options: SpriteInstanceOptions
 ): string => new SpriteInstance<AnimationID>(options).id;
-
-export default SpriteInstance;
-export { createSpriteInstance };

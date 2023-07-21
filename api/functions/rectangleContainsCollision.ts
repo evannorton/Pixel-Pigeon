@@ -1,8 +1,8 @@
-import { WorldLevel, WorldTileset, WorldTilesetTile } from "../types/World";
-import rectanglesOverlap from "./rectanglesOverlap";
-import state from "../state";
+import { Level, Tileset, WorldTilesetTile } from "../types/World";
+import { rectanglesOverlap } from "./rectanglesOverlap";
+import { state } from "../state";
 
-const rectangleContainsCollision = (
+export const rectangleContainsCollision = (
   x: number,
   y: number,
   width: number,
@@ -18,7 +18,7 @@ const rectangleContainsCollision = (
       "An attempt was made to check box collision with no active level."
     );
   }
-  const level: WorldLevel | null =
+  const level: Level | null =
     state.values.world.levels.get(state.values.levelID) ?? null;
   if (level === null) {
     throw new Error(
@@ -30,7 +30,7 @@ const rectangleContainsCollision = (
   }
   for (const layer of level.layers) {
     if (layer.tilesetID !== null) {
-      const tileset: WorldTileset | null =
+      const tileset: Tileset | null =
         state.values.world.tilesets.get(layer.tilesetID) ?? null;
       if (tileset === null) {
         throw Error("An attempt was made to render a nonexistent tileset.");
@@ -65,5 +65,3 @@ const rectangleContainsCollision = (
   }
   return false;
 };
-
-export default rectangleContainsCollision;

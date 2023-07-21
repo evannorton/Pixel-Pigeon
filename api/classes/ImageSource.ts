@@ -1,11 +1,11 @@
 import { Texture } from "pixi.js";
-import Definable from "./Definable";
-import loadPixiAsset from "../functions/loadPixiAsset";
+import { Definable } from "./Definable";
+import { loadPixiAsset } from "../functions/loadPixiAsset";
 
 interface ImageSourceOptions {
   readonly imagePath: string;
 }
-class ImageSource extends Definable {
+export class ImageSource extends Definable {
   private readonly _options: ImageSourceOptions;
   private _texture: Texture | null = null;
 
@@ -31,5 +31,3 @@ class ImageSource extends Definable {
       });
   }
 }
-
-export default ImageSource;

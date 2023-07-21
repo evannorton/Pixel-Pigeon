@@ -1,5 +1,5 @@
-import Definable from "./Definable";
-import getToken from "../functions/getToken";
+import { Definable } from "./Definable";
+import { getToken } from "../functions/getToken";
 
 interface InputTickHandlerGroup<GroupID> {
   readonly gamepadButtons?: number[];
@@ -9,7 +9,7 @@ interface InputTickHandlerGroup<GroupID> {
 interface InputTickHandlerOptions<GroupID extends string> {
   readonly groups: InputTickHandlerGroup<GroupID>[];
 }
-class InputTickHandler<GroupID extends string> extends Definable {
+export class InputTickHandler<GroupID extends string> extends Definable {
   private readonly _options: InputTickHandlerOptions<GroupID>;
   private readonly _groupIDs: GroupID[] = [];
 
@@ -64,9 +64,6 @@ class InputTickHandler<GroupID extends string> extends Definable {
     this._groupIDs.length = 0;
   }
 }
-const createInputTickHandler = <GroupID extends string>(
+export const createInputTickHandler = <GroupID extends string>(
   options: InputTickHandlerOptions<GroupID>
 ): string => new InputTickHandler(options).id;
-
-export default InputTickHandler;
-export { createInputTickHandler };

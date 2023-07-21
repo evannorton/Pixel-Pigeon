@@ -1,8 +1,8 @@
-import render from "./render";
-import state from "../state";
-import update from "./update/update";
+import { render } from "./render";
+import { state } from "../state";
+import { update } from "./update/update";
 
-const tick = (): void => {
+export const tick = (): void => {
   if (state.values.app === null) {
     throw new Error("An attempt was made to tick before app was created.");
   }
@@ -12,5 +12,3 @@ const tick = (): void => {
   update();
   render();
 };
-
-export default tick;

@@ -1,9 +1,9 @@
-import Definable from "./Definable";
-import ImageSource from "./ImageSource";
-import getDefinable from "../functions/getDefinable";
-import getToken from "../functions/getToken";
+import { Definable } from "./Definable";
+import { ImageSource } from "./ImageSource";
+import { getDefinable } from "../functions/getDefinable";
+import { getToken } from "../functions/getToken";
 
-interface SpriteOptionsAnimationFrame {
+export interface SpriteOptionsAnimationFrame {
   readonly duration?: number;
   readonly height: number;
   readonly sourceHeight: number;
@@ -12,15 +12,15 @@ interface SpriteOptionsAnimationFrame {
   readonly sourceY: number;
   readonly width: number;
 }
-interface SpriteOptionsAnimation<AnimationID extends string> {
+export interface SpriteOptionsAnimation<AnimationID extends string> {
   readonly id: AnimationID;
   readonly frames: SpriteOptionsAnimationFrame[];
 }
-interface SpriteOptions<AnimationID extends string> {
+export interface SpriteOptions<AnimationID extends string> {
   readonly animations: SpriteOptionsAnimation<AnimationID>[];
   readonly imagePath: string;
 }
-class Sprite<AnimationID extends string> extends Definable {
+export class Sprite<AnimationID extends string> extends Definable {
   private readonly _options: SpriteOptions<AnimationID>;
 
   public constructor(options: SpriteOptions<AnimationID>) {
@@ -45,9 +45,6 @@ class Sprite<AnimationID extends string> extends Definable {
     return getDefinable(ImageSource, this._options.imagePath);
   }
 }
-const createSprite = <AnimationID extends string>(
+export const createSprite = <AnimationID extends string>(
   options: SpriteOptions<AnimationID>
 ): string => new Sprite<AnimationID>(options).id;
-
-export default Sprite;
-export { SpriteOptionsAnimationFrame, SpriteOptionsAnimation, createSprite };

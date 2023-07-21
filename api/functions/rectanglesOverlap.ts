@@ -4,7 +4,7 @@ interface Rectangle {
   readonly x: number;
   readonly y: number;
 }
-const rectanglesOverlap = (
+export const rectanglesOverlap = (
   rectangle1: Rectangle,
   rectangle2: Rectangle
 ): boolean => {
@@ -22,5 +22,3 @@ const rectanglesOverlap = (
   }
   return true;
 };
-
-export default rectanglesOverlap;

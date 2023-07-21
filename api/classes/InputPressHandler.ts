@@ -1,6 +1,6 @@
-import Definable from "./Definable";
-import getToken from "../functions/getToken";
-import state from "../state";
+import { Definable } from "./Definable";
+import { getToken } from "../functions/getToken";
+import { state } from "../state";
 
 interface InputPressHandlerOptions {
   readonly condition?: () => boolean;
@@ -10,7 +10,7 @@ interface InputPressHandlerOptions {
   readonly onInput: () => void;
   readonly rightClick?: boolean;
 }
-class InputPressHandler extends Definable {
+export class InputPressHandler extends Definable {
   private readonly _options: InputPressHandlerOptions;
 
   public constructor(options: InputPressHandlerOptions) {
@@ -56,8 +56,5 @@ class InputPressHandler extends Definable {
     }
   }
 }
-const createInputPressHandler = (options: InputPressHandlerOptions): string =>
+export const createInputPressHandler = (options: InputPressHandlerOptions): string =>
   new InputPressHandler(options).id;
-
-export default InputPressHandler;
-export { createInputPressHandler };

@@ -1,4 +1,4 @@
-class State<StateSchema> {
+export class State<StateSchema> {
   private _values: StateSchema;
 
   public constructor(initialState: StateSchema) {
@@ -16,5 +16,3 @@ class State<StateSchema> {
     };
   }
 }
-
-export default State;

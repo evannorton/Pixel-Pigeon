@@ -1,11 +1,11 @@
 import { Application } from "pixi.js";
-import Config from "./types/Config";
-import State from "./classes/State";
-import World from "./types/World";
+import { Config } from "./types/Config";
+import { State } from "./classes/State";
+import { World } from "./types/World";
 
 interface StateSchema {
   readonly app: Application | null;
-  readonly cameraLockedEntityID: string | null;
+  readonly cameraLockedEntityInstanceID: string | null;
   readonly config: Config | null;
   readonly currentTime: number;
   readonly hasDoneInputPressForTick: boolean;
@@ -18,9 +18,9 @@ interface StateSchema {
   readonly onTickCallbacks: (() => void)[];
   readonly world: World | null;
 }
-const state: State<StateSchema> = new State<StateSchema>({
+export const state: State<StateSchema> = new State<StateSchema>({
   app: null,
-  cameraLockedEntityID: null,
+  cameraLockedEntityInstanceID: null,
   config: null,
   currentTime: 0,
   hasDoneInputPressForTick: false,
@@ -33,5 +33,3 @@ const state: State<StateSchema> = new State<StateSchema>({
   onTickCallbacks: [],
   world: null,
 });
-
-export default state;

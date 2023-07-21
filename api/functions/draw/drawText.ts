@@ -1,8 +1,8 @@
 import { BitmapText, TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
-import getBitmapText from "../getBitmapText";
-import state from "../../state";
+import { getBitmapText } from "../getBitmapText";
+import { state } from "../../state";
 
-const drawText = (
+export const drawText = (
   text: string,
   color: string,
   x: number,
@@ -49,5 +49,3 @@ const drawText = (
   );
   state.values.app.stage.addChild(sprite);
 };
-
-export default drawText;

@@ -1,7 +1,7 @@
-import definables from "../definables";
-import validIDCharacters from "../constants/validIDCharacters";
+import { definables } from "../definables";
+import { validIDCharacters } from "../constants/validIDCharacters";
 
-abstract class Definable {
+export abstract class Definable {
   protected readonly _id: string;
 
   public constructor(id: string) {
@@ -42,5 +42,3 @@ abstract class Definable {
     return `Could not access ${this.constructor.name} "${this._id}" ${property}.`;
   }
 }
-
-export default Definable;

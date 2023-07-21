@@ -1,4 +1,4 @@
-const validIDCharacters: string[] = [
+export const validIDCharacters: string[] = [
   "a",
   "b",
   "c",
@@ -39,4 +39,3 @@ const validIDCharacters: string[] = [
   "-",
 ];
 
-export default validIDCharacters;

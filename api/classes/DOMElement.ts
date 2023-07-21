@@ -1,9 +1,9 @@
-import Definable from "./Definable";
+import { Definable } from "./Definable";
 
 interface DOMElementOptions {
   readonly id: string;
 }
-class DOMElement extends Definable {
+export class DOMElement extends Definable {
   private readonly _options: DOMElementOptions;
 
   public constructor(options: DOMElementOptions) {
@@ -23,5 +23,3 @@ class DOMElement extends Definable {
     );
   }
 }
-
-export default DOMElement;

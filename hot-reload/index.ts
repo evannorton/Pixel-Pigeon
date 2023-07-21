@@ -1,3 +1,3 @@
-import run from "./functions/run";
+import { run } from "./functions/run";
 
 run();

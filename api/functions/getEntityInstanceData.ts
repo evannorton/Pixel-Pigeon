@@ -1,16 +1,14 @@
 import {
-  WorldLevel,
-  WorldLevelLayerEntity,
-} from "pigeon-mode-game-framework/api/types/World";
-import state from "pigeon-mode-game-framework/api/state";
+  Level,
+  EntityInstance,
+} from "../types/World";
+import { state } from "../state";
 
-interface EntityInstanceData {
-  readonly height: number;
-  readonly width: number;
+export interface EntityInstanceData {
   readonly x: number;
   readonly y: number;
 }
-const getEntityInstanceData = (
+export const getEntityInstanceData = (
   entityInstanceID: string
 ): EntityInstanceData => {
   if (state.values.world === null) {
@@ -23,7 +21,7 @@ const getEntityInstanceData = (
       `An attempt was made to get entity "${entityInstanceID}" data with no active level.`
     );
   }
-  const level: WorldLevel | null =
+  const level: Level | null =
     state.values.world.levels.get(state.values.levelID) ?? null;
   if (level === null) {
     throw new Error(
@@ -31,15 +29,13 @@ const getEntityInstanceData = (
     );
   }
   for (const layer of level.layers) {
-    const entity: WorldLevelLayerEntity | null =
+    const entity: EntityInstance | null =
       layer.entityInstances.find(
-        (layerEntity: WorldLevelLayerEntity): boolean =>
+        (layerEntity: EntityInstance): boolean =>
           layerEntity.id === entityInstanceID
       ) ?? null;
     if (entity !== null) {
       return {
-        height: entity.height,
-        width: entity.width,
         x: entity.x,
         y: entity.y,
       };
@@ -49,6 +45,3 @@ const getEntityInstanceData = (
     `An attempt was made to get entity "${entityInstanceID}" data for a nonexistant entity.`
   );
 };
-
-export default getEntityInstanceData;
-export { EntityInstanceData };

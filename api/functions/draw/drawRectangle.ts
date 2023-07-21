@@ -1,7 +1,7 @@
 import { Graphics } from "pixi.js";
-import state from "../../state";
+import { state } from "../../state";
 
-const drawRectangle = (
+export const drawRectangle = (
   color: string,
   opacity: number,
   x: number,
@@ -21,5 +21,3 @@ const drawRectangle = (
   rectangle.alpha = opacity;
   state.values.app.stage.addChild(rectangle);
 };
-
-export default drawRectangle;

@@ -1,8 +1,8 @@
-import DOMElement from "../classes/DOMElement";
-import getDefinable from "./getDefinable";
-import state from "../state";
+import { DOMElement } from "../classes/DOMElement";
+import { getDefinable } from "./getDefinable";
+import { state } from "../state";
 
-const sizeScreen = (): void => {
+export const sizeScreen = (): void => {
   if (state.values.config === null) {
     throw new Error(
       "An attempt was made to size screen before config was loaded."
@@ -23,5 +23,3 @@ const sizeScreen = (): void => {
     state.values.config.height * stretchedScale
   }px`;
 };
-
-export default sizeScreen;

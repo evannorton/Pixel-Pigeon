@@ -1,18 +1,18 @@
 import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
-import Config from "../types/Config";
-import DOMElement from "../classes/DOMElement";
-import ImageSource from "../classes/ImageSource";
-import InputPressHandler from "../classes/InputPressHandler";
-import InputTickHandler from "../classes/InputTickHandler";
-import LDTK from "../types/LDTK";
-import getDefinables from "./getDefinables";
-import getWorld from "./getWorld";
-import loadAssets from "./loadAssets";
-import sizeScreen from "./sizeScreen";
-import state from "../state";
-import tick from "./tick";
+import { Config } from "../types/Config";
+import { DOMElement } from "../classes/DOMElement";
+import { ImageSource } from "../classes/ImageSource";
+import { InputPressHandler } from "../classes/InputPressHandler";
+import { InputTickHandler } from "../classes/InputTickHandler";
+import { LDTK } from "../types/LDTK";
+import { getDefinables } from "./getDefinables";
+import { getWorld } from "./getWorld";
+import { loadAssets} from "./loadAssets";
+import { sizeScreen } from "./sizeScreen";
+import { state } from "../state";
+import { tick } from "./tick";
 
-const init = (): void => {
+export const init = (): void => {
   if (state.values.isInitialized) {
     throw new Error("Initialization was attempted more than once.");
   }
@@ -187,5 +187,3 @@ const init = (): void => {
       throw error;
     });
 };
-
-export default init;

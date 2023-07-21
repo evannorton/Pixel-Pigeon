@@ -1,10 +1,10 @@
-import InputPressHandler from "../../classes/InputPressHandler";
-import InputTickHandler from "../../classes/InputTickHandler";
-import getDefinables from "../getDefinables";
-import state from "../../state";
-import updateLevel from "./updateLevel";
+import { InputPressHandler } from "../../classes/InputPressHandler";
+import { InputTickHandler } from "../../classes/InputTickHandler";
+import { getDefinables } from "../getDefinables";
+import { state } from "../../state";
+import { updateLevel } from "./updateLevel";
 
-const update = (): void => {
+export const update = (): void => {
   if (state.values.world === null) {
     throw new Error("An attempt was made to update before world was loaded.");
   }
@@ -62,5 +62,3 @@ const update = (): void => {
     }
   }
 };
-
-export default update;

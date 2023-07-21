@@ -1,7 +1,7 @@
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
-import state from "../../state";
+import { state } from "../../state";
 
-const drawImage = (
+export const drawImage = (
   texture: Texture,
   opacity: number,
   sourceX: number,
@@ -65,5 +65,3 @@ const drawImage = (
     state.values.app.stage.addChild(pixiSprite);
   }
 };
-
-export default drawImage;

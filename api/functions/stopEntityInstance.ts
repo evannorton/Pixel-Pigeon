@@ -1,14 +1,14 @@
 import {
-  WorldLevel,
-  WorldLevelLayerEntity,
-} from "pigeon-mode-game-framework/api/types/World";
-import state from "pigeon-mode-game-framework/api/state";
+  Level,
+  EntityInstance,
+} from "../types/World";
+import { state } from "../state";
 
 interface StopEntityInstanceOptions {
   readonly x?: boolean;
   readonly y?: boolean;
 }
-const stopEntityInstance = (
+export const stopEntityInstance = (
   entityID: string,
   options: StopEntityInstanceOptions
 ): void => {
@@ -22,7 +22,7 @@ const stopEntityInstance = (
       `An attempt was made to move entity "${entityID}" with no active level.`
     );
   }
-  const level: WorldLevel | null =
+  const level: Level | null =
     state.values.world.levels.get(state.values.levelID) ?? null;
   if (level === null) {
     throw new Error(
@@ -30,9 +30,9 @@ const stopEntityInstance = (
     );
   }
   for (const layer of level.layers) {
-    const entity: WorldLevelLayerEntity | null =
+    const entity: EntityInstance | null =
       layer.entityInstances.find(
-        (layerEntity: WorldLevelLayerEntity): boolean =>
+        (layerEntity: EntityInstance): boolean =>
           layerEntity.id === entityID
       ) ?? null;
     if (entity !== null) {
@@ -45,5 +45,3 @@ const stopEntityInstance = (
     }
   }
 };
-
-export default stopEntityInstance;

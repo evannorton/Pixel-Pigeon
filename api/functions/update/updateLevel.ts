@@ -1,8 +1,8 @@
-import { WorldLevel } from "../../types/World";
-import rectangleContainsCollision from "../rectangleContainsCollision";
-import state from "../../state";
+import { Level } from "../../types/World";
+import { rectangleContainsCollision } from "../rectangleContainsCollision";
+import { state } from "../../state";
 
-const updateLevel = (): void => {
+export const updateLevel = (): void => {
   if (state.values.app === null) {
     throw new Error(
       "An attempt was made to update level before app was created."
@@ -18,7 +18,7 @@ const updateLevel = (): void => {
       "An attempt was made to update level with no active level."
     );
   }
-  const level: WorldLevel | null =
+  const level: Level | null =
     state.values.world.levels.get(state.values.levelID) ?? null;
   if (level === null) {
     throw new Error(
@@ -26,29 +26,30 @@ const updateLevel = (): void => {
     );
   }
   for (const layer of level.layers) {
-    for (const entity of layer.entityInstances) {
-      if (entity.xVelocity !== 0 || entity.yVelocity !== 0) {
+    for (const entityInstance of layer.entityInstances) {
+      if (entityInstance.xVelocity !== 0 || entityInstance.yVelocity !== 0) {
         const unnormalizedEntityX: number =
-          entity.x +
-          entity.xVelocity * (state.values.app.ticker.deltaMS / 1000);
+          entityInstance.x +
+          entityInstance.xVelocity * (state.values.app.ticker.deltaMS / 1000);
         const unnormalizedEntityY: number =
-          entity.y +
-          entity.yVelocity * (state.values.app.ticker.deltaMS / 1000);
+          entityInstance.y +
+          entityInstance.yVelocity * (state.values.app.ticker.deltaMS / 1000);
         const isXLarger: boolean =
-          Math.abs(entity.xVelocity) >= Math.abs(entity.yVelocity);
+          Math.abs(entityInstance.xVelocity) >= Math.abs(entityInstance.yVelocity);
         const largerVelocity: number = isXLarger
-          ? entity.xVelocity
-          : entity.yVelocity;
+          ? entityInstance.xVelocity
+          : entityInstance.yVelocity;
         const smallerVelocity: number = !isXLarger
-          ? entity.xVelocity
-          : entity.yVelocity;
-        const largerStart: number = isXLarger ? entity.x : entity.y;
+          ? entityInstance.xVelocity
+          : entityInstance.yVelocity;
+        const largerStart: number = isXLarger ? entityInstance.x : entityInstance.y;
         const largerEnd: number = isXLarger
           ? unnormalizedEntityX
           : unnormalizedEntityY;
         const largerDiff: number = Math.abs(largerEnd - largerStart);
-        let xEnd: number = entity.x;
-        let yEnd: number = entity.y;
+        let xEnd: number = entityInstance.x;
+        let yEnd: number = entityInstance.y;
+        let collided: boolean = false;
         for (let i: number = 0; i <= largerDiff; i++) {
           const largerAddition: number = Math.min(1, largerDiff - i);
           const smallerAddition: number =
@@ -57,63 +58,70 @@ const updateLevel = (): void => {
           let pieceXEnd: number = 0;
           let pieceYEnd: number = 0;
           if (isXLarger) {
-            if (entity.xVelocity >= 0) {
+            if (entityInstance.xVelocity >= 0) {
               pieceXEnd += largerAddition;
             } else {
               pieceXEnd -= largerAddition;
             }
-            if (entity.yVelocity >= 0) {
+            if (entityInstance.yVelocity >= 0) {
               pieceYEnd += smallerAddition;
             } else {
               pieceYEnd -= smallerAddition;
             }
           } else {
-            if (entity.xVelocity >= 0) {
+            if (entityInstance.xVelocity >= 0) {
               pieceXEnd += smallerAddition;
             } else {
               pieceXEnd -= smallerAddition;
             }
-            if (entity.yVelocity >= 0) {
+            if (entityInstance.yVelocity >= 0) {
               pieceYEnd += largerAddition;
             } else {
               pieceYEnd -= largerAddition;
             }
           }
-          const canMoveX: boolean = !rectangleContainsCollision(
+          const canMoveX: boolean = !entityInstance.isCollidable || !rectangleContainsCollision(
             Math.floor(xEnd + pieceXEnd),
             Math.floor(yEnd),
-            entity.width,
-            entity.height
+            entityInstance.width,
+            entityInstance.height
           );
-          const canMoveY: boolean = !rectangleContainsCollision(
+          const canMoveY: boolean = !entityInstance.isCollidable || !rectangleContainsCollision(
             Math.floor(xEnd),
             Math.floor(yEnd + pieceYEnd),
-            entity.width,
-            entity.height
+            entityInstance.width,
+            entityInstance.height
           );
-          const canMoveBoth: boolean = !rectangleContainsCollision(
+          const canMoveBoth: boolean = !entityInstance.isCollidable || !rectangleContainsCollision(
             Math.floor(xEnd + pieceXEnd),
             Math.floor(yEnd + pieceYEnd),
-            entity.width,
-            entity.height
-          );
-          // If can do a diagonal move
+            entityInstance.width,
+            entityInstance.height
+          )
+          // Diagonal collision
+          if (!canMoveX || !canMoveY || !canMoveBoth) {
+            collided = true;
+          }
+          // Diagonal move
           if (canMoveX && canMoveY && canMoveBoth) {
             xEnd += pieceXEnd;
             yEnd += pieceYEnd;
-          } else {
-            if (canMoveY) {
-              yEnd += pieceYEnd;
-            } else if (canMoveX) {
-              xEnd += pieceXEnd;
-            }
+          }   
+          // Vertical move 
+          else if (canMoveY) {
+            yEnd += pieceYEnd;
+          }
+          // Horizontal move
+          else if (canMoveX) {
+            xEnd += pieceXEnd;
           }
         }
-        entity.x = xEnd;
-        entity.y = yEnd;
+        if (collided) {
+          entityInstance.onCollision?.();
+        }
+        entityInstance.x = xEnd;
+        entityInstance.y = yEnd;
       }
     }
   }
 };
-
-export default updateLevel;

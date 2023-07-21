@@ -1,5 +1,5 @@
 type LayerType = "Entities" | "Tiles";
-interface LDTK {
+export interface LDTK {
   readonly __header__: {
     readonly app: "LDtk";
     readonly appAuthor: "Sebastien 'deepnight' Benard";
@@ -189,9 +189,6 @@ interface LDTK {
   readonly worldLayout: "Free";
   readonly worlds: [];
 }
-interface LDTKTileData {
+export interface LDTKTileData {
   readonly pmglCollision?: boolean;
 }
-
-export default LDTK;
-export { LDTKTileData, LayerType };

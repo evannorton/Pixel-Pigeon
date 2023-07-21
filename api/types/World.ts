@@ -1,10 +1,12 @@
-interface WorldEntity {
+export interface Entity {
   readonly color: string;
 }
-interface WorldLevelLayerEntityInstance {
+export interface EntityInstance {
   readonly entityID: string;
   readonly height: number;
   readonly id: string;
+  isCollidable: boolean;
+  readonly onCollision: (() => void) | null;
   readonly spriteInstanceID: string | null;
   readonly width: number;
   x: number;
@@ -12,8 +14,8 @@ interface WorldLevelLayerEntityInstance {
   y: number;
   yVelocity: number;
 }
-interface WorldLevelLayer {
-  readonly entityInstances: WorldLevelLayerEntityInstance[];
+export interface Layer {
+  readonly entityInstances: EntityInstance[];
   readonly id: string;
   readonly tileSize: number;
   readonly tiles: {
@@ -23,34 +25,24 @@ interface WorldLevelLayer {
   }[];
   readonly tilesetID: string | null;
 }
-interface WorldLevel {
+export interface Level {
   readonly height: number;
-  readonly layers: WorldLevelLayer[];
+  readonly layers: Layer[];
   readonly width: number;
 }
-interface WorldTileset {
+export interface Tileset {
   readonly height: number;
   readonly imageSourceID: string;
   readonly tileSize: number;
   readonly tiles: WorldTilesetTile[];
   readonly width: number;
 }
-interface WorldTilesetTile {
+export interface WorldTilesetTile {
   readonly id: number;
   readonly isCollidable: boolean;
 }
-interface World {
-  readonly entities: Map<string, WorldEntity>;
-  readonly levels: Map<string, WorldLevel>;
-  readonly tilesets: Map<string, WorldTileset>;
+export interface World {
+  readonly entities: Map<string, Entity>;
+  readonly levels: Map<string, Level>;
+  readonly tilesets: Map<string, Tileset>;
 }
-
-export default World;
-export {
-  WorldEntity,
-  WorldLevelLayerEntityInstance as WorldLevelLayerEntity,
-  WorldLevelLayer,
-  WorldLevel,
-  WorldTileset,
-  WorldTilesetTile,
-};
