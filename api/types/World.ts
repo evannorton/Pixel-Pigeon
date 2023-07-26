@@ -4,7 +4,6 @@ export interface Entity {
 export interface EntityInstance {
   readonly entityID: string;
   readonly height: number;
-  readonly id: string;
   isCollidable: boolean;
   readonly onCollision: (() => void) | null;
   readonly spriteInstanceID: string | null;
@@ -15,7 +14,7 @@ export interface EntityInstance {
   yVelocity: number;
 }
 export interface Layer {
-  readonly entityInstances: EntityInstance[];
+  readonly entityInstances: Map<string, EntityInstance>;
   readonly id: string;
   readonly tileSize: number;
   readonly tiles: {

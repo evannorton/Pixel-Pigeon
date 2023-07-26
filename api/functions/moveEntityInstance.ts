@@ -1,4 +1,4 @@
-import { EntityInstance, Level } from "../types/World";
+import { Level } from "../types/World";
 import { state } from "../state";
 
 interface MoveEntityInstanceOptions {
@@ -28,17 +28,17 @@ export const moveEntityInstance = (
     );
   }
   for (const layer of level.layers) {
-    const entity: EntityInstance | null =
-      layer.entityInstances.find(
-        (layerEntity: EntityInstance): boolean =>
-          layerEntity.id === entityInstanceID,
-      ) ?? null;
-    if (entity !== null) {
-      if (typeof options.xVelocity !== "undefined") {
-        entity.xVelocity += options.xVelocity;
-      }
-      if (typeof options.yVelocity !== "undefined") {
-        entity.yVelocity += options.yVelocity;
+    for (const [
+      layerEntityInstanceID,
+      entityInstance,
+    ] of layer.entityInstances) {
+      if (layerEntityInstanceID === entityInstanceID) {
+        if (typeof options.xVelocity !== "undefined") {
+          entityInstance.xVelocity += options.xVelocity;
+        }
+        if (typeof options.yVelocity !== "undefined") {
+          entityInstance.yVelocity += options.yVelocity;
+        }
       }
     }
   }

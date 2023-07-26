@@ -1,4 +1,4 @@
-import { EntityInstance, Level } from "../types/World";
+import { Level } from "../types/World";
 import { state } from "../state";
 
 export const isEntityInstanceMoving = (entityInstanceID: string): boolean => {
@@ -20,13 +20,13 @@ export const isEntityInstanceMoving = (entityInstanceID: string): boolean => {
     );
   }
   for (const layer of level.layers) {
-    const entity: EntityInstance | null =
-      layer.entityInstances.find(
-        (layerEntity: EntityInstance): boolean =>
-          layerEntity.id === entityInstanceID,
-      ) ?? null;
-    if (entity !== null) {
-      return entity.xVelocity !== 0 || entity.yVelocity !== 0;
+    for (const [
+      layerEntityInstanceID,
+      entityInstance,
+    ] of layer.entityInstances) {
+      if (layerEntityInstanceID === entityInstanceID) {
+        return entityInstance.xVelocity !== 0 || entityInstance.yVelocity !== 0;
+      }
     }
   }
   return false;

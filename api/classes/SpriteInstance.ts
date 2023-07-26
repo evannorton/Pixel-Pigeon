@@ -62,7 +62,9 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
     }
   }
 
-  public drawAtEntity(entityInstance: WorldLevelLayerEntityInstance): void {
+  public drawAtEntityInstance(
+    entityInstance: WorldLevelLayerEntityInstance,
+  ): void {
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     this.drawAtPosition(
       Math.floor(entityInstance.x) - cameraCoordinates.x,

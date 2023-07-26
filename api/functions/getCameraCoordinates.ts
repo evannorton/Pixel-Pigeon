@@ -30,9 +30,12 @@ export const getCameraCoordinates = (): CameraCoordinates => {
   }
   if (state.values.cameraLockedEntityInstanceID !== null) {
     for (const layer of level.layers) {
-      for (const entityInstance of layer.entityInstances) {
+      for (const [
+        layerEntityInstanceID,
+        entityInstance,
+      ] of layer.entityInstances) {
         if (
-          entityInstance.entityID === state.values.cameraLockedEntityInstanceID
+          layerEntityInstanceID === state.values.cameraLockedEntityInstanceID
         ) {
           return {
             x:

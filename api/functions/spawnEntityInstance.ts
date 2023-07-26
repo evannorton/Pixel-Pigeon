@@ -44,10 +44,9 @@ export const spawnEntityInstance = (
     );
   }
   const id: string = getToken();
-  layer.entityInstances.push({
+  layer.entityInstances.set(id, {
     entityID: spawnEntityOptions.entityID,
     height: spawnEntityOptions.height,
-    id,
     isCollidable: true,
     onCollision: spawnEntityOptions.onCollision ?? null,
     spriteInstanceID: spawnEntityOptions.spriteInstanceID ?? null,

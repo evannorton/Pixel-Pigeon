@@ -90,25 +90,25 @@ export const render = (): void => {
             );
           }
         }
-        for (const layerEntity of layer.entityInstances) {
+        for (const [, entityInstance] of layer.entityInstances) {
           const entity: Entity | null =
-            state.values.world.entities.get(layerEntity.entityID) ?? null;
+            state.values.world.entities.get(entityInstance.entityID) ?? null;
           if (entity === null) {
             throw Error("An attempt was made to render a nonexistent entity.");
           }
-          if (layerEntity.spriteInstanceID !== null) {
+          if (entityInstance.spriteInstanceID !== null) {
             const spriteInstance: SpriteInstance<string> = getDefinable<
               SpriteInstance<string>
-            >(SpriteInstance, layerEntity.spriteInstanceID);
-            spriteInstance.drawAtEntity(layerEntity);
+            >(SpriteInstance, entityInstance.spriteInstanceID);
+            spriteInstance.drawAtEntityInstance(entityInstance);
           } else {
             drawRectangle(
               entity.color,
               1,
-              Math.floor(layerEntity.x) - cameraCoordinates.x,
-              Math.floor(layerEntity.y) - cameraCoordinates.y,
-              layerEntity.width,
-              layerEntity.height,
+              Math.floor(entityInstance.x) - cameraCoordinates.x,
+              Math.floor(entityInstance.y) - cameraCoordinates.y,
+              entityInstance.width,
+              entityInstance.height,
             );
           }
         }

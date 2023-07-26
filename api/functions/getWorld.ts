@@ -31,7 +31,7 @@ export const getWorld = (ldtk: LDTK): World => {
                   ldtkDefLayer.uid === ldtkLayerInstance.layerDefUid,
               ) ?? null;
             return {
-              entityInstances: [],
+              entityInstances: new Map(),
               id: ldtkLayerInstance.__identifier,
               tileSize: ldtkLayerInstance.__gridSize,
               tiles: ldtkLayerInstance.gridTiles.map(

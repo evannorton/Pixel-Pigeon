@@ -1,4 +1,4 @@
-import { EntityInstance, Level } from "../types/World";
+import { Level } from "../types/World";
 import { state } from "../state";
 
 export interface EntityInstanceData {
@@ -26,16 +26,16 @@ export const getEntityInstanceData = (
     );
   }
   for (const layer of level.layers) {
-    const entity: EntityInstance | null =
-      layer.entityInstances.find(
-        (layerEntity: EntityInstance): boolean =>
-          layerEntity.id === entityInstanceID,
-      ) ?? null;
-    if (entity !== null) {
-      return {
-        x: entity.x,
-        y: entity.y,
-      };
+    for (const [
+      layerEntityInstanceID,
+      entityInstance,
+    ] of layer.entityInstances) {
+      if (layerEntityInstanceID === entityInstanceID) {
+        return {
+          x: entityInstance.x,
+          y: entityInstance.y,
+        };
+      }
     }
   }
   throw new Error(

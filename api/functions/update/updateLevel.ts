@@ -26,7 +26,7 @@ export const updateLevel = (): void => {
     );
   }
   for (const layer of level.layers) {
-    for (const entityInstance of layer.entityInstances) {
+    for (const [, entityInstance] of layer.entityInstances) {
       if (entityInstance.xVelocity !== 0 || entityInstance.yVelocity !== 0) {
         const unnormalizedEntityX: number =
           entityInstance.x +

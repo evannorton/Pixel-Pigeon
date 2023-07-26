@@ -3,6 +3,7 @@ export { createInputPressHandler } from "./classes/InputPressHandler";
 export { createInputTickHandler } from "./classes/InputTickHandler";
 export { createSprite } from "./classes/Sprite";
 export { createSpriteInstance } from "./classes/SpriteInstance";
+export { despawnEntityInstance } from "./functions/despawnEntityInstance";
 export { disableEntityInstanceCollision } from "./functions/disableEntityInstanceCollision";
 export { getCurrentTime } from "./functions/getCurrentTime";
 export {
