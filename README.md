@@ -33,17 +33,19 @@ Game framework for EvanMMO's typescript games
 }
 ```
 
-3. Create a `.gitignore` file at the root of your game's codebase.
+3. Create a `project.ldtk` file at the root of your game's codebase, using the LDTK level editor.
+
+4. Create a `.gitignore` file at the root of your game's codebase.
 ```
 node_modules
 game.zip
 ```
 
-4. Create a `images` folder at the root of your game's codebase.
+5. Create a `images` folder at the root of your game's codebase.
 
-5. Run `npm install`.
+6. Run `npm install`.
 
-6. Run `npm run dev` to start a dev server with hot-reloading on port 3000.
+7. Run `npm run dev` to start a dev server with hot-reloading on port 3000.
 
 ## Command line interface
 
