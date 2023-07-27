@@ -164,3 +164,24 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
 export const createSpriteInstance = <AnimationID extends string>(
   options: SpriteInstanceOptions,
 ): string => new SpriteInstance<AnimationID>(options).id;
+interface PlaySpriteAnimationOptions<AnimationID extends string> {
+  readonly animationID: AnimationID;
+}
+
+export const playSpriteInstanceAnimation = <AnimationID extends string>(
+  spriteInstanceID: string,
+  options: PlaySpriteAnimationOptions<AnimationID>,
+): void => {
+  const sprite: SpriteInstance<AnimationID> = getDefinable<
+    SpriteInstance<AnimationID>
+  >(SpriteInstance, spriteInstanceID);
+  sprite.playAnimation(options.animationID);
+};
+export const removeSpriteInstance = <AnimationID extends string>(
+  spriteInstanceID: string,
+): void => {
+  getDefinable<SpriteInstance<AnimationID>>(
+    SpriteInstance,
+    spriteInstanceID,
+  ).remove();
+};

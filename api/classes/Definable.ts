@@ -39,6 +39,18 @@ export abstract class Definable {
     return this._id;
   }
 
+  public remove(): void {
+    const definablesMap: Map<string, Definable> | undefined = definables.get(
+      this.constructor.name,
+    );
+    if (typeof definablesMap === "undefined") {
+      throw new Error(
+        `An attempt was made to remove ${this.constructor.name} "${this._id}" with no existing definables map.`,
+      );
+    }
+    definablesMap.delete(this._id);
+  }
+
   protected getAccessorErrorMessage(property: string): string {
     return `Could not access ${this.constructor.name} "${this._id}" ${property}.`;
   }
