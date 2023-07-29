@@ -23,7 +23,7 @@ Game framework for EvanMMO's typescript games
 }
 ```
 
-2. Create a `config.pmgl` file at the root of your game's codebase.
+2. Create a `config.pmgf` file at the root of your game's codebase.
 ```json
 {
   // Base height of your game in pixels

@@ -1,7 +1,4 @@
 export interface Entity {
-  readonly color: string;
-}
-export interface EntityInstance {
   readonly entityID: string;
   readonly height: number;
   isCollidable: boolean;
@@ -12,9 +9,10 @@ export interface EntityInstance {
   xVelocity: number;
   y: number;
   yVelocity: number;
+  readonly zIndex: number;
 }
 export interface Layer {
-  readonly entityInstances: Map<string, EntityInstance>;
+  readonly entities: Map<string, Entity>;
   readonly id: string;
   readonly tileSize: number;
   readonly tiles: {
@@ -41,7 +39,6 @@ export interface WorldTilesetTile {
   readonly isCollidable: boolean;
 }
 export interface World {
-  readonly entities: Map<string, Entity>;
   readonly levels: Map<string, Level>;
   readonly tilesets: Map<string, Tileset>;
 }

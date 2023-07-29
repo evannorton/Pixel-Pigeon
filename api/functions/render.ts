@@ -2,8 +2,8 @@ import {
   CameraCoordinates,
   getCameraCoordinates,
 } from "./getCameraCoordinates";
-import { Entity, Level, Tileset } from "../types/World";
 import { ImageSource } from "../classes/ImageSource";
+import { Layer, Level, Tileset, World } from "../types/World";
 import { SpriteInstance } from "../classes/SpriteInstance";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { drawImage } from "./draw/drawImage";
@@ -56,17 +56,18 @@ export const render = (): void => {
     if (state.values.world === null) {
       throw new Error("An attempt was made to render before world was loaded.");
     }
+    const world: World = state.values.world;
     if (state.values.levelID !== null) {
       const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
       const level: Level | null =
-        state.values.world.levels.get(state.values.levelID) ?? null;
+        world.levels.get(state.values.levelID) ?? null;
       if (level === null) {
         throw Error("An attempt was made to render a nonexistent level.");
       }
-      for (const layer of level.layers) {
+      level.layers.forEach((layer: Layer, layerIndex: number): void => {
         if (layer.tilesetID !== null) {
           const tileset: Tileset | null =
-            state.values.world.tilesets.get(layer.tilesetID) ?? null;
+            world.tilesets.get(layer.tilesetID) ?? null;
           if (tileset === null) {
             throw Error("An attempt was made to render a nonexistent tileset.");
           }
@@ -87,32 +88,19 @@ export const render = (): void => {
               tile.y - cameraCoordinates.y,
               layer.tileSize,
               layer.tileSize,
+              layerIndex + 1 / (1 + Math.exp(0)),
             );
           }
         }
-        for (const [, entityInstance] of layer.entityInstances) {
-          const entity: Entity | null =
-            state.values.world.entities.get(entityInstance.entityID) ?? null;
-          if (entity === null) {
-            throw Error("An attempt was made to render a nonexistent entity.");
-          }
-          if (entityInstance.spriteInstanceID !== null) {
+        for (const [, entity] of layer.entities) {
+          if (entity.spriteInstanceID !== null) {
             const spriteInstance: SpriteInstance<string> = getDefinable<
               SpriteInstance<string>
-            >(SpriteInstance, entityInstance.spriteInstanceID);
-            spriteInstance.drawAtEntityInstance(entityInstance);
-          } else {
-            drawRectangle(
-              entity.color,
-              1,
-              Math.floor(entityInstance.x) - cameraCoordinates.x,
-              Math.floor(entityInstance.y) - cameraCoordinates.y,
-              entityInstance.width,
-              entityInstance.height,
-            );
+            >(SpriteInstance, entity.spriteInstanceID);
+            spriteInstance.drawAtEntity(entity, layerIndex);
           }
         }
-      }
+      });
     }
     getDefinables(SpriteInstance).forEach(
       (spriteInstance: SpriteInstance<string>): void => {

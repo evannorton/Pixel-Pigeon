@@ -28,23 +28,18 @@ export const getCameraCoordinates = (): CameraCoordinates => {
       "An attempt was made to get camera coordinates with a nonexistant active level.",
     );
   }
-  if (state.values.cameraLockedEntityInstanceID !== null) {
+  if (state.values.cameraLockedEntityID !== null) {
     for (const layer of level.layers) {
-      for (const [
-        layerEntityInstanceID,
-        entityInstance,
-      ] of layer.entityInstances) {
-        if (
-          layerEntityInstanceID === state.values.cameraLockedEntityInstanceID
-        ) {
+      for (const [layerEntityID, entity] of layer.entities) {
+        if (layerEntityID === state.values.cameraLockedEntityID) {
           return {
             x:
-              Math.floor(entityInstance.x) +
-              Math.floor(entityInstance.width / 2) -
+              Math.floor(entity.x) +
+              Math.floor(entity.width / 2) -
               Math.floor(state.values.config.width / 2),
             y:
-              Math.floor(entityInstance.y) +
-              Math.floor(entityInstance.height / 2) -
+              Math.floor(entity.y) +
+              Math.floor(entity.height / 2) -
               Math.floor(state.values.config.height / 2),
           };
         }

@@ -8,7 +8,7 @@ import {
   SpriteOptionsAnimation,
   SpriteOptionsAnimationFrame,
 } from "./Sprite";
-import { EntityInstance as WorldLevelLayerEntityInstance } from "../types/World";
+import { Entity as WorldLevelLayerEntity } from "../types/World";
 import { drawImage } from "../functions/draw/drawImage";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
@@ -58,21 +58,21 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
       this.drawAtPosition(
         this._options.coordinates.x,
         this._options.coordinates.y,
+        2,
       );
     }
   }
 
-  public drawAtEntityInstance(
-    entityInstance: WorldLevelLayerEntityInstance,
-  ): void {
+  public drawAtEntity(entity: WorldLevelLayerEntity, layerIndex: number): void {
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     this.drawAtPosition(
-      Math.floor(entityInstance.x) - cameraCoordinates.x,
-      Math.floor(entityInstance.y) - cameraCoordinates.y,
+      Math.floor(entity.x) - cameraCoordinates.x,
+      Math.floor(entity.y) - cameraCoordinates.y,
+      layerIndex + 1 / (1 + Math.exp(-entity.zIndex)),
     );
   }
 
-  private drawAtPosition(x: number, y: number): void {
+  private drawAtPosition(x: number, y: number, zIndex: number): void {
     if (this._animation === null) {
       throw new Error(
         `SpriteInstance "${this._id}" attempted to draw with no animation.`,
@@ -158,6 +158,7 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
       y,
       currentAnimationFrame.width,
       currentAnimationFrame.height,
+      zIndex,
     );
   }
 }

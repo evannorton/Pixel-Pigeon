@@ -18,7 +18,7 @@ export const init = (): void => {
   }
   console.log("Pigeon Mode Game Framework initialized.");
   state.setValues({ isInitialized: true });
-  fetch("./config.pmgl")
+  fetch("./config.pmgf")
     .then((configRes: Response): void => {
       configRes
         .json()

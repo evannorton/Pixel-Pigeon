@@ -7,19 +7,16 @@ export {
   playSpriteInstanceAnimation,
   removeSpriteInstance,
 } from "./classes/SpriteInstance";
-export { despawnEntityInstance } from "./functions/despawnEntityInstance";
-export { disableEntityInstanceCollision } from "./functions/disableEntityInstanceCollision";
+export { despawnEntity } from "./functions/despawnEntity";
+export { disableEntityCollision } from "./functions/disableEntityCollision";
 export { getCurrentTime } from "./functions/getCurrentTime";
-export {
-  getEntityInstanceData,
-  EntityInstanceData,
-} from "./functions/getEntityInstanceData";
+export { getEntityData, EntityData } from "./functions/getEntityData";
 export { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
 export { goToLevel } from "./functions/goToLevel";
 export { init } from "./functions/init";
-export { isEntityInstanceMoving } from "./functions/isEntityInstanceMoving";
-export { lockCameraToEntityInstance } from "./functions/lockCameraToEntityInstance";
-export { moveEntityInstance } from "./functions/moveEntityInstance";
+export { isEntityMoving } from "./functions/isEntityMoving";
+export { lockCameraToEntity } from "./functions/lockCameraToEntity";
+export { moveEntity } from "./functions/moveEntity";
 export { onTick } from "./functions/onTick";
-export { spawnEntityInstance } from "./functions/spawnEntityInstance";
-export { stopEntityInstance } from "./functions/stopEntityInstance";
+export { spawnEntity } from "./functions/spawnEntity";
+export { stopEntity } from "./functions/stopEntity";

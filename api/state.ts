@@ -5,7 +5,7 @@ import { World } from "./types/World";
 
 interface StateSchema {
   readonly app: Application | null;
-  readonly cameraLockedEntityInstanceID: string | null;
+  readonly cameraLockedEntityID: string | null;
   readonly config: Config | null;
   readonly currentTime: number;
   readonly hasDoneInputPressForTick: boolean;
@@ -21,7 +21,7 @@ interface StateSchema {
 
 export const state: State<StateSchema> = new State<StateSchema>({
   app: null,
-  cameraLockedEntityInstanceID: null,
+  cameraLockedEntityID: null,
   config: null,
   currentTime: 0,
   hasDoneInputPressForTick: false,

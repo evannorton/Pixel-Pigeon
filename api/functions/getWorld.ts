@@ -1,21 +1,9 @@
-import {
-  Entity,
-  Level,
-  Tileset,
-  World,
-  WorldTilesetTile,
-} from "../types/World";
 import { LDTK, LDTKTileData } from "../types/LDTK";
+import { Level, Tileset, World, WorldTilesetTile } from "../types/World";
 
 export const getWorld = (ldtk: LDTK): World => {
-  const entities: Map<string, Entity> = new Map();
   const levels: Map<string, Level> = new Map();
   const tilesets: Map<string, Tileset> = new Map();
-  for (const ldtkDefEntity of ldtk.defs.entities) {
-    entities.set(ldtkDefEntity.identifier, {
-      color: ldtkDefEntity.color,
-    });
-  }
   for (const ldtkLevel of ldtk.levels) {
     levels.set(ldtkLevel.identifier, {
       height: ldtkLevel.pxHei,
@@ -31,7 +19,7 @@ export const getWorld = (ldtk: LDTK): World => {
                   ldtkDefLayer.uid === ldtkLayerInstance.layerDefUid,
               ) ?? null;
             return {
-              entityInstances: new Map(),
+              entities: new Map(),
               id: ldtkLayerInstance.__identifier,
               tileSize: ldtkLayerInstance.__gridSize,
               tiles: ldtkLayerInstance.gridTiles.map(
@@ -74,7 +62,7 @@ export const getWorld = (ldtk: LDTK): World => {
           ) as LDTKTileData;
           return {
             id: data.tileId,
-            isCollidable: properties.pmglCollision ?? false,
+            isCollidable: properties.pmgfCollision ?? false,
           };
         },
       ),
@@ -82,7 +70,6 @@ export const getWorld = (ldtk: LDTK): World => {
     });
   }
   return {
-    entities,
     levels,
     tilesets,
   };

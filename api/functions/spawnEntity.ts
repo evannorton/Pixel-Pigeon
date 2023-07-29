@@ -1,8 +1,8 @@
-import { Layer, Level } from "../types/World";
-import { getToken } from "./getToken";
-import { state } from "../state";
+import { Layer, Level } from "pigeon-mode-game-framework/api/types/World";
+import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
+import { state } from "pigeon-mode-game-framework/api/state";
 
-interface SpawnEntityInstanceOptions {
+interface SpawnEntityOptions {
   readonly entityID: string;
   readonly height: number;
   readonly layerID: string;
@@ -11,11 +11,10 @@ interface SpawnEntityInstanceOptions {
   readonly width: number;
   readonly x: number;
   readonly y: number;
+  readonly zIndex: number;
 }
 
-export const spawnEntityInstance = (
-  spawnEntityOptions: SpawnEntityInstanceOptions,
-): string => {
+export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to spawn an entity before world was loaded.",
@@ -44,7 +43,7 @@ export const spawnEntityInstance = (
     );
   }
   const id: string = getToken();
-  layer.entityInstances.set(id, {
+  layer.entities.set(id, {
     entityID: spawnEntityOptions.entityID,
     height: spawnEntityOptions.height,
     isCollidable: true,
@@ -55,6 +54,7 @@ export const spawnEntityInstance = (
     xVelocity: 0,
     y: spawnEntityOptions.y,
     yVelocity: 0,
+    zIndex: spawnEntityOptions.zIndex,
   });
   return id;
 };

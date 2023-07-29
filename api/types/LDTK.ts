@@ -23,39 +23,7 @@ export interface LDTK {
   readonly defaultPivotX: 0;
   readonly defaultPivotY: 0;
   readonly defs: {
-    readonly entities: {
-      readonly color: string;
-      readonly doc: null;
-      readonly exportToToc: false;
-      readonly fieldDefs: [];
-      readonly fillOpacity: number;
-      readonly height: number;
-      readonly hollow: false;
-      readonly identifier: string;
-      readonly keepAspectRatio: false;
-      readonly limitBehavior: string;
-      readonly limitScope: string;
-      readonly lineOpacity: number;
-      readonly maxCount: number;
-      readonly maxHeight: null;
-      readonly maxWidth: null;
-      readonly minHeight: null;
-      readonly minWidth: null;
-      readonly nineSliceBorders: [];
-      readonly pivotX: 0;
-      readonly pivotY: 0;
-      readonly renderMode: "Rectangle";
-      readonly resizableX: false;
-      readonly resizableY: false;
-      readonly showName: true;
-      readonly tags: [];
-      readonly tileOpacity: number;
-      readonly tileRect: null;
-      readonly tileRenderMode: string;
-      readonly tilesetId: null;
-      readonly uid: number;
-      readonly width: number;
-    }[];
+    readonly entities: [];
     readonly enums: [];
     readonly externalEnums: [];
     readonly layers: {
@@ -151,7 +119,7 @@ export interface LDTK {
       readonly __tilesetRelPath: string | null;
       readonly __type: LayerType;
       readonly autoLayerTiles: [];
-      readonly entityInstances: [];
+      readonly entities: [];
       readonly gridTiles: {
         readonly a: number;
         readonly d: [number];
@@ -191,5 +159,5 @@ export interface LDTK {
   readonly worlds: [];
 }
 export interface LDTKTileData {
-  readonly pmglCollision?: boolean;
+  readonly pmgfCollision?: boolean;
 }

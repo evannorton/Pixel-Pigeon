@@ -12,6 +12,7 @@ export const drawImage = (
   y: number,
   width: number,
   height: number,
+  zIndex: number,
 ): void => {
   if (state.values.app === null) {
     throw new Error(
@@ -62,6 +63,7 @@ export const drawImage = (
     pixiSprite.width = adjustedWidth;
     pixiSprite.height = adjustedHeight;
     pixiSprite.alpha = opacity;
+    pixiSprite.zIndex = zIndex;
     state.values.app.stage.addChild(pixiSprite);
   }
 };
