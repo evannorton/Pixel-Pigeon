@@ -12,19 +12,19 @@ export interface SpriteOptionsAnimationFrame {
   readonly sourceY: number;
   readonly width: number;
 }
-export interface SpriteOptionsAnimation<AnimationID extends string> {
-  readonly id: AnimationID;
+export interface SpriteOptionsAnimation {
+  readonly id: string;
   readonly frames: SpriteOptionsAnimationFrame[];
 }
-export interface SpriteOptions<AnimationID extends string> {
-  readonly animations: SpriteOptionsAnimation<AnimationID>[];
+export interface SpriteOptions {
+  readonly animations: SpriteOptionsAnimation[];
   readonly imagePath: string;
 }
-export class Sprite<AnimationID extends string> extends Definable {
-  private readonly _options: SpriteOptions<AnimationID>;
+export class Sprite extends Definable {
+  private readonly _options: SpriteOptions;
 
-  public constructor(options: SpriteOptions<AnimationID>) {
-    const animationIDs: AnimationID[] = [];
+  public constructor(options: SpriteOptions) {
+    const animationIDs: string[] = [];
     for (const animation of options.animations) {
       if (animationIDs.includes(animation.id)) {
         throw new Error(
@@ -37,7 +37,7 @@ export class Sprite<AnimationID extends string> extends Definable {
     this._options = options;
   }
 
-  public get animations(): SpriteOptionsAnimation<AnimationID>[] {
+  public get animations(): SpriteOptionsAnimation[] {
     return [...this._options.animations];
   }
 
@@ -45,6 +45,5 @@ export class Sprite<AnimationID extends string> extends Definable {
     return getDefinable(ImageSource, this._options.imagePath);
   }
 }
-export const createSprite = <AnimationID extends string>(
-  options: SpriteOptions<AnimationID>,
-): string => new Sprite<AnimationID>(options).id;
+export const createSprite = (options: SpriteOptions): string =>
+  new Sprite(options).id;

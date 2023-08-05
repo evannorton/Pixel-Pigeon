@@ -1,13 +1,15 @@
+import { CollisionData } from "../types/CollisionData";
 import { Level, Tileset, WorldTilesetTile } from "../types/World";
 import { rectanglesOverlap } from "./rectanglesOverlap";
 import { state } from "../state";
 
-export const rectangleContainsCollision = (
+export const getRectangleCollisionData = (
   x: number,
   y: number,
   width: number,
   height: number,
-): boolean => {
+  collidableLayers: string[],
+): CollisionData => {
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to check box collision before world was loaded.",
@@ -25,8 +27,10 @@ export const rectangleContainsCollision = (
       "An attempt was made to check box collision a nonexistant active level.",
     );
   }
+  let map: boolean = false;
+  const entityIDs: string[] = [];
   if (x < 0 || y < 0 || x + width > level.width || y + height > level.height) {
-    return true;
+    map = true;
   }
   for (const layer of level.layers) {
     if (layer.tilesetID !== null) {
@@ -57,11 +61,37 @@ export const rectangleContainsCollision = (
               },
             )
           ) {
-            return true;
+            map = true;
           }
         }
       }
     }
+    for (const [, entity] of layer.entities) {
+      if (
+        entity.collisionLayers.some((collisionLayer: string): boolean =>
+          collidableLayers.includes(collisionLayer),
+        ) &&
+        rectanglesOverlap(
+          {
+            height,
+            width,
+            x,
+            y,
+          },
+          {
+            height: entity.height,
+            width: entity.width,
+            x: Math.floor(entity.x),
+            y: Math.floor(entity.y),
+          },
+        )
+      ) {
+        entityIDs.push(entity.id);
+      }
+    }
   }
-  return false;
+  return {
+    entityIDs,
+    map,
+  };
 };

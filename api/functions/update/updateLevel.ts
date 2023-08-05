@@ -1,5 +1,6 @@
+import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
 import { Level } from "../../types/World";
-import { rectangleContainsCollision } from "../rectangleContainsCollision";
+import { getRectangleCollisionData } from "../getRectangleCollisionData";
 import { state } from "../../state";
 
 export const updateLevel = (): void => {
@@ -49,7 +50,7 @@ export const updateLevel = (): void => {
         const largerDiff: number = Math.abs(largerEnd - largerStart);
         let xEnd: number = entity.x;
         let yEnd: number = entity.y;
-        let collided: boolean = false;
+        let collisionData: CollisionData | null = null;
         for (let i: number = 0; i <= largerDiff; i++) {
           const largerAddition: number = Math.min(1, largerDiff - i);
           const smallerAddition: number =
@@ -80,50 +81,80 @@ export const updateLevel = (): void => {
               pieceYEnd -= largerAddition;
             }
           }
-          const canMoveX: boolean =
-            !entity.isCollidable ||
-            !rectangleContainsCollision(
-              Math.floor(xEnd + pieceXEnd),
-              Math.floor(yEnd),
-              entity.width,
-              entity.height,
-            );
-          const canMoveY: boolean =
-            !entity.isCollidable ||
-            !rectangleContainsCollision(
+          const xCollisionData: CollisionData = getRectangleCollisionData(
+            Math.floor(xEnd + pieceXEnd),
+            Math.floor(yEnd),
+            entity.width,
+            entity.height,
+            entity.collidableLayers,
+          );
+          const yCollisionData: CollisionData | null =
+            getRectangleCollisionData(
               Math.floor(xEnd),
               Math.floor(yEnd + pieceYEnd),
               entity.width,
               entity.height,
+              entity.collidableLayers,
             );
-          const canMoveBoth: boolean =
-            !entity.isCollidable ||
-            !rectangleContainsCollision(
+          const bothCollisionData: CollisionData | null =
+            getRectangleCollisionData(
               Math.floor(xEnd + pieceXEnd),
               Math.floor(yEnd + pieceYEnd),
               entity.width,
               entity.height,
+              entity.collidableLayers,
             );
-          // Diagonal collision
-          if (!canMoveX || !canMoveY || !canMoveBoth) {
-            collided = true;
-          }
+          const canMoveX: boolean =
+            !entity.isCollidable ||
+            (xCollisionData.entityIDs.length === 0 && !xCollisionData.map);
+          const canMoveY: boolean =
+            !entity.isCollidable ||
+            (yCollisionData.entityIDs.length === 0 && !yCollisionData.map);
+          const canMoveBoth: boolean =
+            !entity.isCollidable ||
+            (bothCollisionData.entityIDs.length === 0 &&
+              !bothCollisionData.map);
           // Diagonal move
-          if (canMoveX && canMoveY && canMoveBoth) {
+          if (
+            canMoveX &&
+            canMoveY &&
+            canMoveBoth &&
+            entity.xVelocity !== 0 &&
+            entity.yVelocity !== 0
+          ) {
             xEnd += pieceXEnd;
             yEnd += pieceYEnd;
           }
           // Vertical move
-          else if (canMoveY) {
+          else if (canMoveY && entity.yVelocity !== 0) {
             yEnd += pieceYEnd;
           }
           // Horizontal move
-          else if (canMoveX) {
+          else if (canMoveX && entity.xVelocity !== 0) {
             xEnd += pieceXEnd;
           }
+          // Both collision
+          else {
+            if (
+              bothCollisionData.entityIDs.length > 0 ||
+              bothCollisionData.map
+            ) {
+              collisionData = bothCollisionData;
+            } else if (
+              yCollisionData.entityIDs.length > 0 ||
+              yCollisionData.map
+            ) {
+              collisionData = yCollisionData;
+            } else if (
+              xCollisionData.entityIDs.length > 0 ||
+              xCollisionData.map
+            ) {
+              collisionData = xCollisionData;
+            }
+          }
         }
-        if (collided) {
-          entity.onCollision?.();
+        if (collisionData !== null) {
+          entity.onCollision?.(collisionData);
         }
         entity.x = xEnd;
         entity.y = yEnd;

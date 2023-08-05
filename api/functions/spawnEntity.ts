@@ -1,12 +1,14 @@
+import { CollisionData } from "../types/CollisionData";
 import { Layer, Level } from "../types/World";
 import { getToken } from "./getToken";
 import { state } from "../state";
 
-interface SpawnEntityOptions {
-  readonly entityID: string;
+interface SpawnEntityOptions<CollisionLayer extends string> {
+  readonly collidableLayers?: CollisionLayer[];
+  readonly collisionLayers?: CollisionLayer[];
   readonly height: number;
   readonly layerID: string;
-  readonly onCollision?: () => void;
+  readonly onCollision?: (data: CollisionData) => void;
   readonly spriteInstanceID?: string;
   readonly width: number;
   readonly x: number;
@@ -14,7 +16,9 @@ interface SpawnEntityOptions {
   readonly zIndex: number;
 }
 
-export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
+export const spawnEntity = <CollisionLayer extends string>(
+  spawnEntityOptions: SpawnEntityOptions<CollisionLayer>,
+): string => {
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to spawn an entity before world was loaded.",
@@ -44,8 +48,10 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
   }
   const id: string = getToken();
   layer.entities.set(id, {
-    entityID: spawnEntityOptions.entityID,
+    collidableLayers: spawnEntityOptions.collidableLayers ?? [],
+    collisionLayers: spawnEntityOptions.collisionLayers ?? [],
     height: spawnEntityOptions.height,
+    id,
     isCollidable: true,
     onCollision: spawnEntityOptions.onCollision ?? null,
     spriteInstanceID: spawnEntityOptions.spriteInstanceID ?? null,

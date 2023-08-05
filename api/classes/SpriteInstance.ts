@@ -23,7 +23,7 @@ interface SpriteInstanceOptions {
   readonly spriteID: string;
 }
 
-export class SpriteInstance<AnimationID extends string> extends Definable {
+export class SpriteInstance extends Definable {
   private _animation: {
     readonly id: string;
     readonly startedAt: number;
@@ -36,11 +36,11 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
     this._options = options;
   }
 
-  private get sprite(): Sprite<AnimationID> {
-    return getDefinable(Sprite<AnimationID>, this._options.spriteID);
+  private get sprite(): Sprite {
+    return getDefinable(Sprite, this._options.spriteID);
   }
 
-  public playAnimation(animationID: AnimationID): void {
+  public playAnimation(animationID: string): void {
     if (this._animation === null || animationID !== this._animation.id) {
       this._animation = {
         id: animationID,
@@ -78,13 +78,11 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
         `SpriteInstance "${this._id}" attempted to draw with no animation.`,
       );
     }
-    const animation: SpriteInstance<AnimationID>["_animation"] =
-      this._animation;
-    const currentAnimation: SpriteOptionsAnimation<AnimationID> | null =
+    const animation: SpriteInstance["_animation"] = this._animation;
+    const currentAnimation: SpriteOptionsAnimation | null =
       this.sprite.animations.find(
-        (
-          spriteInstanceAnimation: SpriteOptionsAnimation<AnimationID>,
-        ): boolean => spriteInstanceAnimation.id === animation.id,
+        (spriteInstanceAnimation: SpriteOptionsAnimation): boolean =>
+          spriteInstanceAnimation.id === animation.id,
       ) ?? null;
     if (currentAnimation === null) {
       throw new Error(
@@ -162,27 +160,22 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
     );
   }
 }
-export const createSpriteInstance = <AnimationID extends string>(
-  options: SpriteInstanceOptions,
-): string => new SpriteInstance<AnimationID>(options).id;
-interface PlaySpriteAnimationOptions<AnimationID extends string> {
-  readonly animationID: AnimationID;
+export const createSpriteInstance = (options: SpriteInstanceOptions): string =>
+  new SpriteInstance(options).id;
+interface PlaySpriteAnimationOptions {
+  readonly animationID: string;
 }
 
-export const playSpriteInstanceAnimation = <AnimationID extends string>(
+export const playSpriteInstanceAnimation = (
   spriteInstanceID: string,
-  options: PlaySpriteAnimationOptions<AnimationID>,
+  options: PlaySpriteAnimationOptions,
 ): void => {
-  const sprite: SpriteInstance<AnimationID> = getDefinable<
-    SpriteInstance<AnimationID>
-  >(SpriteInstance, spriteInstanceID);
-  sprite.playAnimation(options.animationID);
-};
-export const removeSpriteInstance = <AnimationID extends string>(
-  spriteInstanceID: string,
-): void => {
-  getDefinable<SpriteInstance<AnimationID>>(
+  const sprite: SpriteInstance = getDefinable<SpriteInstance>(
     SpriteInstance,
     spriteInstanceID,
-  ).remove();
+  );
+  sprite.playAnimation(options.animationID);
+};
+export const removeSpriteInstance = (spriteInstanceID: string): void => {
+  getDefinable<SpriteInstance>(SpriteInstance, spriteInstanceID).remove();
 };

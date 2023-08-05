@@ -1,3 +1,4 @@
+export { CollisionData } from "./types/CollisionData";
 export { State } from "./classes/State";
 export { createInputPressHandler } from "./classes/InputPressHandler";
 export { createInputTickHandler } from "./classes/InputTickHandler";
