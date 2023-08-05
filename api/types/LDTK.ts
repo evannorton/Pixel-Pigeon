@@ -119,7 +119,7 @@ export interface LDTK {
       readonly __tilesetRelPath: string | null;
       readonly __type: LayerType;
       readonly autoLayerTiles: [];
-      readonly entities: [];
+      readonly entityInstances: [];
       readonly gridTiles: {
         readonly a: number;
         readonly d: [number];
