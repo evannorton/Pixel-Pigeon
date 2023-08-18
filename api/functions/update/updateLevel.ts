@@ -1,4 +1,6 @@
-import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
+import { Collidable } from "../../types/Collidable";
+import { CollisionData } from "../../types/CollisionData";
+import { EntityCollidable } from "../../types/EntityCollidable";
 import { Level } from "../../types/World";
 import { getRectangleCollisionData } from "../getRectangleCollisionData";
 import { state } from "../../state";
@@ -28,12 +30,15 @@ export const updateLevel = (): void => {
   }
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
-      if (entity.xVelocity !== 0 || entity.yVelocity !== 0) {
+      if (
+        entity.position !== null &&
+        (entity.xVelocity !== 0 || entity.yVelocity !== 0)
+      ) {
         const unnormalizedEntityX: number =
-          entity.x +
+          entity.position.x +
           entity.xVelocity * (state.values.app.ticker.deltaMS / 1000);
         const unnormalizedEntityY: number =
-          entity.y +
+          entity.position.y +
           entity.yVelocity * (state.values.app.ticker.deltaMS / 1000);
         const isXLarger: boolean =
           Math.abs(entity.xVelocity) >= Math.abs(entity.yVelocity);
@@ -43,13 +48,15 @@ export const updateLevel = (): void => {
         const smallerVelocity: number = !isXLarger
           ? entity.xVelocity
           : entity.yVelocity;
-        const largerStart: number = isXLarger ? entity.x : entity.y;
+        const largerStart: number = isXLarger
+          ? entity.position.x
+          : entity.position.y;
         const largerEnd: number = isXLarger
           ? unnormalizedEntityX
           : unnormalizedEntityY;
         const largerDiff: number = Math.abs(largerEnd - largerStart);
-        let xEnd: number = entity.x;
-        let yEnd: number = entity.y;
+        let xEnd: number = entity.position.x;
+        let yEnd: number = entity.position.y;
         let collisionData: CollisionData | null = null;
         for (let i: number = 0; i <= largerDiff; i++) {
           const largerAddition: number = Math.min(1, largerDiff - i);
@@ -82,37 +89,54 @@ export const updateLevel = (): void => {
             }
           }
           const xCollisionData: CollisionData = getRectangleCollisionData(
-            Math.floor(xEnd + pieceXEnd),
-            Math.floor(yEnd),
-            entity.width,
-            entity.height,
-            entity.collidableLayers,
+            {
+              height: entity.height,
+              width: entity.width,
+              x: Math.floor(xEnd + pieceXEnd),
+              y: Math.floor(yEnd),
+            },
+            entity.collidables.map(
+              (entityCollidable: EntityCollidable): Collidable<string> =>
+                entityCollidable.collidable,
+            ),
           );
           const yCollisionData: CollisionData | null =
             getRectangleCollisionData(
-              Math.floor(xEnd),
-              Math.floor(yEnd + pieceYEnd),
-              entity.width,
-              entity.height,
-              entity.collidableLayers,
+              {
+                height: entity.height,
+                width: entity.width,
+                x: Math.floor(xEnd),
+                y: Math.floor(yEnd + pieceYEnd),
+              },
+              entity.collidables.map(
+                (entityCollidable: EntityCollidable): Collidable<string> =>
+                  entityCollidable.collidable,
+              ),
             );
           const bothCollisionData: CollisionData | null =
             getRectangleCollisionData(
-              Math.floor(xEnd + pieceXEnd),
-              Math.floor(yEnd + pieceYEnd),
-              entity.width,
-              entity.height,
-              entity.collidableLayers,
+              {
+                height: entity.height,
+                width: entity.width,
+                x: Math.floor(xEnd + pieceXEnd),
+                y: Math.floor(yEnd + pieceYEnd),
+              },
+              entity.collidables.map(
+                (entityCollidable: EntityCollidable): Collidable<string> =>
+                  entityCollidable.collidable,
+              ),
             );
           const canMoveX: boolean =
             !entity.isCollidable ||
-            (xCollisionData.entityIDs.length === 0 && !xCollisionData.map);
+            (xCollisionData.entityCollidables.length === 0 &&
+              !xCollisionData.map);
           const canMoveY: boolean =
             !entity.isCollidable ||
-            (yCollisionData.entityIDs.length === 0 && !yCollisionData.map);
+            (yCollisionData.entityCollidables.length === 0 &&
+              !yCollisionData.map);
           const canMoveBoth: boolean =
             !entity.isCollidable ||
-            (bothCollisionData.entityIDs.length === 0 &&
+            (bothCollisionData.entityCollidables.length === 0 &&
               !bothCollisionData.map);
           // Diagonal move
           if (
@@ -136,17 +160,17 @@ export const updateLevel = (): void => {
           // Both collision
           else {
             if (
-              bothCollisionData.entityIDs.length > 0 ||
+              bothCollisionData.entityCollidables.length > 0 ||
               bothCollisionData.map
             ) {
               collisionData = bothCollisionData;
             } else if (
-              yCollisionData.entityIDs.length > 0 ||
+              yCollisionData.entityCollidables.length > 0 ||
               yCollisionData.map
             ) {
               collisionData = yCollisionData;
             } else if (
-              xCollisionData.entityIDs.length > 0 ||
+              xCollisionData.entityCollidables.length > 0 ||
               xCollisionData.map
             ) {
               collisionData = xCollisionData;
@@ -156,8 +180,10 @@ export const updateLevel = (): void => {
         if (collisionData !== null) {
           entity.onCollision?.(collisionData);
         }
-        entity.x = xEnd;
-        entity.y = yEnd;
+        entity.position = {
+          x: xEnd,
+          y: yEnd,
+        };
       }
     }
   }

@@ -65,17 +65,19 @@ export class SpriteInstance extends Definable {
 
   public drawAtEntity(entity: WorldLevelLayerEntity, layerIndex: number): void {
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
-    this.drawAtPosition(
-      Math.floor(entity.x) - cameraCoordinates.x,
-      Math.floor(entity.y) - cameraCoordinates.y,
-      layerIndex + 1 / (1 + Math.exp(-entity.zIndex)),
-    );
+    if (entity.position !== null) {
+      this.drawAtPosition(
+        Math.floor(entity.position.x) - cameraCoordinates.x,
+        Math.floor(entity.position.y) - cameraCoordinates.y,
+        layerIndex + 1 / (1 + Math.exp(-entity.zIndex)),
+      );
+    }
   }
 
   private drawAtPosition(x: number, y: number, zIndex: number): void {
     if (this._animation === null) {
       throw new Error(
-        `SpriteInstance "${this._id}" attempted to draw with no animation.`,
+        `SpriteInstance "${this._id}" of ImageSource "${this.sprite.imageSource.id}" attempted to draw with no animation.`,
       );
     }
     const animation: SpriteInstance["_animation"] = this._animation;

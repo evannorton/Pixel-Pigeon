@@ -1,11 +1,10 @@
 import { Level } from "../types/World";
 import { state } from "../state";
 
-interface MoveEntityOptions {
+export interface MoveEntityOptions {
   readonly xVelocity?: number;
   readonly yVelocity?: number;
 }
-
 export const moveEntity = (
   entityID: string,
   options: MoveEntityOptions,

@@ -1,9 +1,4 @@
-interface Rectangle {
-  readonly height: number;
-  readonly width: number;
-  readonly x: number;
-  readonly y: number;
-}
+import { Rectangle } from "../types/Rectangle";
 
 export const rectanglesOverlap = (
   rectangle1: Rectangle,

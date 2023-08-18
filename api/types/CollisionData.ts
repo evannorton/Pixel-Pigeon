@@ -1,4 +1,6 @@
+import { EntityCollidable } from "./EntityCollidable";
+
 export interface CollisionData {
-  readonly entityIDs: string[];
+  readonly entityCollidables: EntityCollidable[];
   readonly map: boolean;
 }

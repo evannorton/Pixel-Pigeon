@@ -1,11 +1,8 @@
+import { EntityPosition } from "../types/EntityPosition";
 import { Level } from "../types/World";
 import { state } from "../state";
 
-export interface EntityData {
-  readonly x: number;
-  readonly y: number;
-}
-export const getEntityData = (entityID: string): EntityData => {
+export const getEntityPosition = (entityID: string): EntityPosition | null => {
   if (state.values.world === null) {
     throw new Error(
       `An attempt was made to get entity "${entityID}" data before world was loaded.`,
@@ -26,10 +23,13 @@ export const getEntityData = (entityID: string): EntityData => {
   for (const layer of level.layers) {
     for (const [layerEntityID, entity] of layer.entities) {
       if (layerEntityID === entityID) {
-        return {
-          x: entity.x,
-          y: entity.y,
-        };
+        if (entity.position !== null) {
+          return {
+            x: entity.position.x,
+            y: entity.position.y,
+          };
+        }
+        return null;
       }
     }
   }

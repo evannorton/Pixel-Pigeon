@@ -1,21 +1,24 @@
+import { Collidable } from "../types/Collidable";
 import { CollisionData } from "../types/CollisionData";
+import { EntityCollidable } from "../types/EntityCollidable";
 import { Layer, Level } from "../types/World";
 import { getToken } from "./getToken";
 import { state } from "../state";
 
-interface SpawnEntityOptions<CollisionLayer extends string> {
-  readonly collidableLayers?: CollisionLayer[];
-  readonly collisionLayers?: CollisionLayer[];
+export interface SpawnEntityOptions<CollisionLayer extends string> {
+  readonly collidables?: Collidable<CollisionLayer>[];
+  readonly collisionLayer?: CollisionLayer;
   readonly height: number;
   readonly layerID: string;
   readonly onCollision?: (data: CollisionData) => void;
+  readonly position?: {
+    readonly x: number;
+    readonly y: number;
+  };
   readonly spriteInstanceID?: string;
   readonly width: number;
-  readonly x: number;
-  readonly y: number;
   readonly zIndex: number;
 }
-
 export const spawnEntity = <CollisionLayer extends string>(
   spawnEntityOptions: SpawnEntityOptions<CollisionLayer>,
 ): string => {
@@ -48,17 +51,28 @@ export const spawnEntity = <CollisionLayer extends string>(
   }
   const id: string = getToken();
   layer.entities.set(id, {
-    collidableLayers: spawnEntityOptions.collidableLayers ?? [],
-    collisionLayers: spawnEntityOptions.collisionLayers ?? [],
+    collidables:
+      spawnEntityOptions.collidables?.map(
+        (collidable: Collidable<string>): EntityCollidable => ({
+          collidable,
+          entityID: id,
+        }),
+      ) ?? [],
+    collisionLayer: spawnEntityOptions.collisionLayer ?? null,
     height: spawnEntityOptions.height,
     id,
     isCollidable: true,
     onCollision: spawnEntityOptions.onCollision ?? null,
+    position:
+      typeof spawnEntityOptions.position !== "undefined"
+        ? {
+            x: spawnEntityOptions.position.x,
+            y: spawnEntityOptions.position.y,
+          }
+        : null,
     spriteInstanceID: spawnEntityOptions.spriteInstanceID ?? null,
     width: spawnEntityOptions.width,
-    x: spawnEntityOptions.x,
     xVelocity: 0,
-    y: spawnEntityOptions.y,
     yVelocity: 0,
     zIndex: spawnEntityOptions.zIndex,
   });

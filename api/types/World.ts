@@ -1,17 +1,18 @@
 import { CollisionData } from "../types/CollisionData";
+import { EntityCollidable } from "./EntityCollidable";
+import { EntityPosition } from "./EntityPosition";
 
 export interface Entity {
-  readonly collidableLayers: string[];
-  readonly collisionLayers: string[];
+  readonly collidables: EntityCollidable[];
+  readonly collisionLayer: string | null;
   readonly height: number;
   readonly id: string;
   isCollidable: boolean;
   readonly onCollision: ((data: CollisionData) => void) | null;
+  position: EntityPosition | null;
   readonly spriteInstanceID: string | null;
   readonly width: number;
-  x: number;
   xVelocity: number;
-  y: number;
   yVelocity: number;
   readonly zIndex: number;
 }

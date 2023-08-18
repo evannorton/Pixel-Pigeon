@@ -1,11 +1,10 @@
 import { Level } from "../types/World";
 import { state } from "../state";
 
-interface StopEntityOptions {
+export interface StopEntityOptions {
   readonly x?: boolean;
   readonly y?: boolean;
 }
-
 export const stopEntity = (
   entityID: string,
   options: StopEntityOptions,

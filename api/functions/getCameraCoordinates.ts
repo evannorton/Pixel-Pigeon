@@ -32,13 +32,18 @@ export const getCameraCoordinates = (): CameraCoordinates => {
     for (const layer of level.layers) {
       for (const [layerEntityID, entity] of layer.entities) {
         if (layerEntityID === state.values.cameraLockedEntityID) {
+          if (entity.position === null) {
+            throw new Error(
+              "Attempted to lock camera to entity with no position.",
+            );
+          }
           return {
             x:
-              Math.floor(entity.x) +
+              Math.floor(entity.position.x) +
               Math.floor(entity.width / 2) -
               Math.floor(state.values.config.width / 2),
             y:
-              Math.floor(entity.y) +
+              Math.floor(entity.position.y) +
               Math.floor(entity.height / 2) -
               Math.floor(state.values.config.height / 2),
           };
