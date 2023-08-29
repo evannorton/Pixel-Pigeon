@@ -1,16 +1,17 @@
-import { Collidable } from "../types/Collidable";
 import { CollisionData } from "../types/CollisionData";
 import { EntityCollidable } from "../types/EntityCollidable";
 import { Layer, Level } from "../types/World";
+import { OverlapData } from "../types/OverlapData";
 import { getToken } from "./getToken";
 import { state } from "../state";
 
 export interface SpawnEntityOptions<CollisionLayer extends string> {
-  readonly collidables?: Collidable<CollisionLayer>[];
+  readonly collidableLayers?: CollisionLayer[];
   readonly collisionLayer?: CollisionLayer;
   readonly height: number;
   readonly layerID: string;
-  readonly onCollision?: (data: CollisionData) => void;
+  readonly onCollision?: (collisionData: CollisionData<CollisionLayer>) => void;
+  readonly onOverlap?: (overlapData: OverlapData<CollisionLayer>) => void;
   readonly position?: {
     readonly x: number;
     readonly y: number;
@@ -39,9 +40,9 @@ export const spawnEntity = <CollisionLayer extends string>(
       "An attempt was made to spawn an entity with a nonexistant active level.",
     );
   }
-  const layer: Layer | null =
+  const layer: Layer<CollisionLayer> | null =
     level.layers.find(
-      (levelLayer: Layer): boolean =>
+      (levelLayer: Layer<CollisionLayer>): boolean =>
         levelLayer.id === spawnEntityOptions.layerID,
     ) ?? null;
   if (layer === null) {
@@ -52,17 +53,17 @@ export const spawnEntity = <CollisionLayer extends string>(
   const id: string = getToken();
   layer.entities.set(id, {
     collidables:
-      spawnEntityOptions.collidables?.map(
-        (collidable: Collidable<string>): EntityCollidable => ({
-          collidable,
+      spawnEntityOptions.collidableLayers?.map(
+        (collisionLayer: string): EntityCollidable<string> => ({
+          collisionLayer,
           entityID: id,
         }),
       ) ?? [],
     collisionLayer: spawnEntityOptions.collisionLayer ?? null,
     height: spawnEntityOptions.height,
     id,
-    isCollidable: true,
     onCollision: spawnEntityOptions.onCollision ?? null,
+    onOverlap: spawnEntityOptions.onOverlap ?? null,
     position:
       typeof spawnEntityOptions.position !== "undefined"
         ? {

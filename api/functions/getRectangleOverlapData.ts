@@ -1,29 +1,28 @@
-import { CollisionData } from "../types/CollisionData";
 import { EntityCollidable } from "../types/EntityCollidable";
 import { Level, Tileset, WorldTilesetTile } from "../types/World";
+import { OverlapData } from "../types/OverlapData";
 import { Rectangle } from "../types/Rectangle";
 import { rectanglesOverlap } from "./rectanglesOverlap";
 import { state } from "../state";
 
-export const getRectangleCollisionData = (
+export const getRectangleOverlapData = (
   rectangle: Rectangle,
-  collisionLayers: string[],
-): CollisionData<string> => {
+): OverlapData<string> => {
   if (state.values.world === null) {
     throw new Error(
-      "An attempt was made to check rectangle collision before world was loaded.",
+      "An attempt was made to check rectangle overlap before world was loaded.",
     );
   }
   if (state.values.levelID === null) {
     throw new Error(
-      "An attempt was made to check rectangle collision with no active level.",
+      "An attempt was made to check rectangle overlap with no active level.",
     );
   }
   const level: Level | null =
     state.values.world.levels.get(state.values.levelID) ?? null;
   if (level === null) {
     throw new Error(
-      "An attempt was made to check rectangle collision a nonexistant active level.",
+      "An attempt was made to check rectangle overlap a nonexistant active level.",
     );
   }
   let map: boolean = false;
@@ -63,14 +62,9 @@ export const getRectangleCollisionData = (
       }
     }
     for (const [, entity] of layer.entities) {
-      const matchedLayer: string | undefined = collisionLayers.find(
-        (collisionLayer: string): boolean =>
-          collisionLayer === entity.collisionLayer,
-      );
       if (
-        typeof matchedLayer !== "undefined" &&
-        entity.collisionLayer !== null &&
         entity.position !== null &&
+        entity.collisionLayer !== null &&
         rectanglesOverlap(rectangle, {
           height: entity.height,
           width: entity.width,
@@ -79,7 +73,7 @@ export const getRectangleCollisionData = (
         })
       ) {
         entityCollidables.push({
-          collisionLayer: matchedLayer,
+          collisionLayer: entity.collisionLayer,
           entityID: entity.id,
         });
       }

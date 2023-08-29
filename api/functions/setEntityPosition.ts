@@ -1,4 +1,3 @@
-import { Collidable } from "../types/Collidable";
 import { CollisionData } from "../types/CollisionData";
 import { EntityCollidable } from "../types/EntityCollidable";
 import { EntityPosition } from "../types/EntityPosition";
@@ -34,7 +33,7 @@ export const setEntityPosition = (
     for (const [layerEntityID, entity] of layer.entities) {
       if (layerEntityID === entityID) {
         entity.position = options.position;
-        const collisionData: CollisionData = getRectangleCollisionData(
+        const collisionData: CollisionData<string> = getRectangleCollisionData(
           {
             height: entity.height,
             width: entity.width,
@@ -42,8 +41,8 @@ export const setEntityPosition = (
             y: Math.floor(entity.position.y),
           },
           entity.collidables.map(
-            (entityCollidable: EntityCollidable): Collidable<string> =>
-              entityCollidable.collidable,
+            (entityCollidable: EntityCollidable<string>): string =>
+              entityCollidable.collisionLayer,
           ),
         );
         if (collisionData.entityCollidables.length > 0 || collisionData.map) {

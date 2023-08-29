@@ -64,7 +64,7 @@ export const render = (): void => {
       if (level === null) {
         throw Error("An attempt was made to render a nonexistent level.");
       }
-      level.layers.forEach((layer: Layer, layerIndex: number): void => {
+      level.layers.forEach((layer: Layer<string>, layerIndex: number): void => {
         if (layer.tilesetID !== null) {
           const tileset: Tileset | null =
             world.tilesets.get(layer.tilesetID) ?? null;

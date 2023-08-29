@@ -1,6 +1,7 @@
 export { CollisionData } from "./types/CollisionData";
 export { EntityCollidable } from "./types/EntityCollidable";
 export { EntityPosition } from "./types/EntityPosition";
+export { OverlapData } from "./types/OverlapData";
 export { Rectangle } from "./types/Rectangle";
 export { State } from "./classes/State";
 export { createInputPressHandler } from "./classes/InputPressHandler";
@@ -12,7 +13,6 @@ export {
   removeSpriteInstance,
 } from "./classes/SpriteInstance";
 export { despawnEntity } from "./functions/despawnEntity";
-export { disableEntityCollision } from "./functions/disableEntityCollision";
 export { getCurrentTime } from "./functions/getCurrentTime";
 export { getEntityPosition } from "./functions/getEntityPosition";
 export { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
