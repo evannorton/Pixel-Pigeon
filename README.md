@@ -47,7 +47,7 @@ game.zip
 
 8. Run `npm install`.
 
-9. Run `npm run dev` to start a dev server with hot-reloading on port 3000.
+9. Run `npm run dev` to start a dev server with hot reloading on port 3000.
 
 ## Command line interface
 
