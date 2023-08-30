@@ -1,6 +1,6 @@
-import { render } from "./render";
-import { state } from "../state";
-import { update } from "./update/update";
+import { render } from "pigeon-mode-game-framework/api/functions/render";
+import { state } from "pigeon-mode-game-framework/api/state";
+import { update } from "pigeon-mode-game-framework/api/functions/update/update";
 
 export const tick = (): void => {
   if (state.values.app === null) {

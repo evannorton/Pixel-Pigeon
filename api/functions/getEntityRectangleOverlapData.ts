@@ -1,11 +1,16 @@
-import { EntityCollidable } from "../types/EntityCollidable";
-import { Level, Tileset, WorldTilesetTile } from "../types/World";
-import { OverlapData } from "../types/OverlapData";
-import { Rectangle } from "../types/Rectangle";
-import { rectanglesOverlap } from "./rectanglesOverlap";
-import { state } from "../state";
+import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
+import {
+  Level,
+  Tileset,
+  WorldTilesetTile,
+} from "pigeon-mode-game-framework/api/types/World";
+import { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
+import { Rectangle } from "pigeon-mode-game-framework/api/types/Rectangle";
+import { rectanglesOverlap } from "pigeon-mode-game-framework/api/functions/rectanglesOverlap";
+import { state } from "pigeon-mode-game-framework/api/state";
 
-export const getRectangleOverlapData = (
+export const getEntityRectangleOverlapData = (
+  entityID: string,
   rectangle: Rectangle,
 ): OverlapData<string> => {
   if (state.values.world === null) {
@@ -63,6 +68,7 @@ export const getRectangleOverlapData = (
     }
     for (const [, entity] of layer.entities) {
       if (
+        entity.id !== entityID &&
         entity.position !== null &&
         entity.collisionLayer !== null &&
         rectanglesOverlap(rectangle, {

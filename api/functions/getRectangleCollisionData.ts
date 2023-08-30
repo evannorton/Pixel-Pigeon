@@ -1,9 +1,13 @@
-import { CollisionData } from "../types/CollisionData";
-import { EntityCollidable } from "../types/EntityCollidable";
-import { Level, Tileset, WorldTilesetTile } from "../types/World";
-import { Rectangle } from "../types/Rectangle";
-import { rectanglesOverlap } from "./rectanglesOverlap";
-import { state } from "../state";
+import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
+import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
+import {
+  Level,
+  Tileset,
+  WorldTilesetTile,
+} from "pigeon-mode-game-framework/api/types/World";
+import { Rectangle } from "pigeon-mode-game-framework/api/types/Rectangle";
+import { rectanglesOverlap } from "pigeon-mode-game-framework/api/functions/rectanglesOverlap";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 export const getRectangleCollisionData = (
   rectangle: Rectangle,

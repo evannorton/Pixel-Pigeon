@@ -1,16 +1,16 @@
 import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
-import { Config } from "../types/Config";
-import { DOMElement } from "../classes/DOMElement";
-import { ImageSource } from "../classes/ImageSource";
-import { InputPressHandler } from "../classes/InputPressHandler";
-import { InputTickHandler } from "../classes/InputTickHandler";
-import { LDTK } from "../types/LDTK";
-import { getDefinables } from "./getDefinables";
-import { getWorld } from "./getWorld";
-import { loadAssets } from "./loadAssets";
-import { sizeScreen } from "./sizeScreen";
-import { state } from "../state";
-import { tick } from "./tick";
+import { Config } from "pigeon-mode-game-framework/api/types/Config";
+import { DOMElement } from "pigeon-mode-game-framework/api/classes/DOMElement";
+import { ImageSource } from "pigeon-mode-game-framework/api/classes/ImageSource";
+import { InputPressHandler } from "pigeon-mode-game-framework/api/classes/InputPressHandler";
+import { InputTickHandler } from "pigeon-mode-game-framework/api/classes/InputTickHandler";
+import { LDTK } from "pigeon-mode-game-framework/api/types/LDTK";
+import { getDefinables } from "pigeon-mode-game-framework/api/functions/getDefinables";
+import { getWorld } from "pigeon-mode-game-framework/api/functions/getWorld";
+import { loadAssets } from "pigeon-mode-game-framework/api/functions/loadAssets";
+import { sizeScreen } from "pigeon-mode-game-framework/api/functions/sizeScreen";
+import { state } from "pigeon-mode-game-framework/api/state";
+import { tick } from "pigeon-mode-game-framework/api/functions/tick";
 
 export const init = (): void => {
   if (state.values.isInitialized) {

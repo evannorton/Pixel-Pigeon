@@ -1,6 +1,6 @@
 import { customAlphabet } from "nanoid";
-import { tokenLength } from "../constants/tokenLength";
-import { validIDCharacters } from "../constants/validIDCharacters";
+import { tokenLength } from "pigeon-mode-game-framework/api/constants/tokenLength";
+import { validIDCharacters } from "pigeon-mode-game-framework/api/constants/validIDCharacters";
 
 export const getToken: () => string = customAlphabet(
   validIDCharacters.join(""),

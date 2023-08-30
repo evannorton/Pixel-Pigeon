@@ -1,5 +1,5 @@
-import { Level } from "../types/World";
-import { state } from "../state";
+import { Level } from "pigeon-mode-game-framework/api/types/World";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 export const despawnEntity = (entityID: string): void => {
   if (state.values.world === null) {

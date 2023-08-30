@@ -1,5 +1,5 @@
-import { Definable } from "../classes/Definable";
-import { getDefinables } from "./getDefinables";
+import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
+import { getDefinables } from "pigeon-mode-game-framework/api/functions/getDefinables";
 
 export const getDefinable = <T extends Definable>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- The args are not relevant to this function.

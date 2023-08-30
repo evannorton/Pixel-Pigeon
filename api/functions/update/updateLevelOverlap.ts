@@ -1,7 +1,7 @@
 import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
-import { Level } from "../../types/World";
-import { getRectangleOverlapData } from "pigeon-mode-game-framework/api/functions/getRectangleOverlapData";
-import { state } from "../../state";
+import { Level } from "pigeon-mode-game-framework/api/types/World";
+import { getEntityRectangleOverlapData } from "pigeon-mode-game-framework/api/functions/getEntityRectangleOverlapData";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 export const updateLevelOverlap = (): void => {
   if (state.values.world === null) {
@@ -24,12 +24,13 @@ export const updateLevelOverlap = (): void => {
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
       if (entity.position !== null) {
-        const collisionData: CollisionData<string> = getRectangleOverlapData({
-          height: entity.height,
-          width: entity.width,
-          x: Math.floor(entity.position.x),
-          y: Math.floor(entity.position.y),
-        });
+        const collisionData: CollisionData<string> =
+          getEntityRectangleOverlapData(entity.id, {
+            height: entity.height,
+            width: entity.width,
+            x: Math.floor(entity.position.x),
+            y: Math.floor(entity.position.y),
+          });
         if (collisionData.entityCollidables.length > 0 || collisionData.map) {
           entity.onOverlap?.(collisionData);
         }

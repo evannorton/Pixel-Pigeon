@@ -1,18 +1,18 @@
 import {
   CameraCoordinates,
   getCameraCoordinates,
-} from "../functions/getCameraCoordinates";
-import { Definable } from "./Definable";
+} from "pigeon-mode-game-framework/api/functions/getCameraCoordinates";
+import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
 import {
   Sprite,
   SpriteOptionsAnimation,
   SpriteOptionsAnimationFrame,
-} from "./Sprite";
-import { Entity as WorldLevelLayerEntity } from "../types/World";
-import { drawImage } from "../functions/draw/drawImage";
-import { getDefinable } from "../functions/getDefinable";
-import { getToken } from "../functions/getToken";
-import { state } from "../state";
+} from "pigeon-mode-game-framework/api/classes/Sprite";
+import { Entity as WorldLevelLayerEntity } from "pigeon-mode-game-framework/api/types/World";
+import { drawImage } from "pigeon-mode-game-framework/api/functions/draw/drawImage";
+import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
+import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 interface SpriteInstanceOptions {
   readonly coordinates?: {

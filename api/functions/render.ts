@@ -1,18 +1,18 @@
 import {
   CameraCoordinates,
   getCameraCoordinates,
-} from "./getCameraCoordinates";
-import { ImageSource } from "../classes/ImageSource";
-import { Layer, Level, Tileset, World } from "../types/World";
-import { SpriteInstance } from "../classes/SpriteInstance";
-import { assetsAreLoaded } from "./assetsAreLoaded";
-import { drawImage } from "./draw/drawImage";
-import { drawRectangle } from "./draw/drawRectangle";
-import { drawText } from "./draw/drawText";
-import { getDefinable } from "./getDefinable";
-import { getDefinables } from "./getDefinables";
-import { getTotalAssets } from "./getTotalAssets";
-import { state } from "../state";
+} from "pigeon-mode-game-framework/api/functions/getCameraCoordinates";
+import { ImageSource } from "pigeon-mode-game-framework/api/classes/ImageSource";
+import { Layer, Level, Tileset, World } from "pigeon-mode-game-framework/api/types/World";
+import { SpriteInstance } from "pigeon-mode-game-framework/api/classes/SpriteInstance";
+import { assetsAreLoaded } from "pigeon-mode-game-framework/api/functions/assetsAreLoaded";
+import { drawImage } from "pigeon-mode-game-framework/api/functions/draw/drawImage";
+import { drawRectangle } from "pigeon-mode-game-framework/api/functions/draw/drawRectangle";
+import { drawText } from "pigeon-mode-game-framework/api/functions/draw/drawText";
+import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
+import { getDefinables } from "pigeon-mode-game-framework/api/functions/getDefinables";
+import { getTotalAssets } from "pigeon-mode-game-framework/api/functions/getTotalAssets";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 export const render = (): void => {
   if (state.values.app === null) {

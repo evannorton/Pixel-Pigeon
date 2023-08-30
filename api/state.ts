@@ -1,7 +1,7 @@
 import { Application } from "pixi.js";
-import { Config } from "./types/Config";
-import { State } from "./classes/State";
-import { World } from "./types/World";
+import { Config } from "pigeon-mode-game-framework/api/types/Config";
+import { State } from "pigeon-mode-game-framework/api/classes/State";
+import { World } from "pigeon-mode-game-framework/api/types/World";
 
 interface StateSchema {
   readonly app: Application | null;

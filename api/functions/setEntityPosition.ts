@@ -1,9 +1,9 @@
-import { CollisionData } from "../types/CollisionData";
-import { EntityCollidable } from "../types/EntityCollidable";
-import { EntityPosition } from "../types/EntityPosition";
-import { Level } from "../types/World";
-import { getRectangleCollisionData } from "./getRectangleCollisionData";
-import { state } from "../state";
+import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
+import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
+import { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
+import { Level } from "pigeon-mode-game-framework/api/types/World";
+import { getRectangleCollisionData } from "pigeon-mode-game-framework/api/functions/getRectangleCollisionData";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 export interface SetEntityPositionOptions {
   readonly position: EntityPosition;

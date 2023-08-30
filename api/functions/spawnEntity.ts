@@ -1,9 +1,9 @@
-import { CollisionData } from "../types/CollisionData";
-import { EntityCollidable } from "../types/EntityCollidable";
-import { Layer, Level } from "../types/World";
-import { OverlapData } from "../types/OverlapData";
-import { getToken } from "./getToken";
-import { state } from "../state";
+import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
+import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
+import { Layer, Level } from "pigeon-mode-game-framework/api/types/World";
+import { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
+import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 export interface SpawnEntityOptions<CollisionLayer extends string> {
   readonly collidableLayers?: CollisionLayer[];

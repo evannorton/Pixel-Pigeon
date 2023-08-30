@@ -1,5 +1,5 @@
-import { InputTickHandler } from "../classes/InputTickHandler";
-import { getDefinable } from "./getDefinable";
+import { InputTickHandler } from "pigeon-mode-game-framework/api/classes/InputTickHandler";
+import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
 
 export const getInputTickHandlerGroupID = <GroupID extends string>(
   inputTickHandlerID: string,

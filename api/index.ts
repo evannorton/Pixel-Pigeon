@@ -1,30 +1,39 @@
-export { CollisionData } from "./types/CollisionData";
-export { EntityCollidable } from "./types/EntityCollidable";
-export { EntityPosition } from "./types/EntityPosition";
-export { OverlapData } from "./types/OverlapData";
-export { Rectangle } from "./types/Rectangle";
-export { State } from "./classes/State";
-export { createInputPressHandler } from "./classes/InputPressHandler";
-export { createInputTickHandler } from "./classes/InputTickHandler";
-export { createSprite } from "./classes/Sprite";
+export { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
+export { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
+export { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
+export { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
+export { Rectangle } from "pigeon-mode-game-framework/api/types/Rectangle";
+export { State } from "pigeon-mode-game-framework/api/classes/State";
+export { createInputPressHandler } from "pigeon-mode-game-framework/api/classes/InputPressHandler";
+export { createInputTickHandler } from "pigeon-mode-game-framework/api/classes/InputTickHandler";
+export { createSprite } from "pigeon-mode-game-framework/api/classes/Sprite";
 export {
   createSpriteInstance,
   playSpriteInstanceAnimation,
   removeSpriteInstance,
-} from "./classes/SpriteInstance";
-export { despawnEntity } from "./functions/despawnEntity";
-export { getCurrentTime } from "./functions/getCurrentTime";
-export { getEntityPosition } from "./functions/getEntityPosition";
-export { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
-export { goToLevel } from "./functions/goToLevel";
-export { init } from "./functions/init";
-export { isEntityMoving } from "./functions/isEntityMoving";
-export { lockCameraToEntity } from "./functions/lockCameraToEntity";
-export { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
-export { onTick } from "./functions/onTick";
+} from "pigeon-mode-game-framework/api/classes/SpriteInstance";
+export { despawnEntity } from "pigeon-mode-game-framework/api/functions/despawnEntity";
+export { getCurrentTime } from "pigeon-mode-game-framework/api/functions/getCurrentTime";
+export { getEntityPosition } from "pigeon-mode-game-framework/api/functions/getEntityPosition";
+export { getInputTickHandlerGroupID } from "pigeon-mode-game-framework/api/functions/getInputTickHandlerGroupID";
+export { goToLevel } from "pigeon-mode-game-framework/api/functions/goToLevel";
+export { init } from "pigeon-mode-game-framework/api/functions/init";
+export { isEntityMoving } from "pigeon-mode-game-framework/api/functions/isEntityMoving";
+export { lockCameraToEntity } from "pigeon-mode-game-framework/api/functions/lockCameraToEntity";
+export {
+  MoveEntityOptions,
+  moveEntity,
+} from "pigeon-mode-game-framework/api/functions/moveEntity";
+export { onTick } from "pigeon-mode-game-framework/api/functions/onTick";
 export {
   SetEntityPositionOptions,
   setEntityPosition,
-} from "./functions/setEntityPosition";
-export { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
-export { StopEntityOptions, stopEntity } from "./functions/stopEntity";
+} from "pigeon-mode-game-framework/api/functions/setEntityPosition";
+export {
+  SpawnEntityOptions,
+  spawnEntity,
+} from "pigeon-mode-game-framework/api/functions/spawnEntity";
+export {
+  StopEntityOptions,
+  stopEntity,
+} from "pigeon-mode-game-framework/api/functions/stopEntity";

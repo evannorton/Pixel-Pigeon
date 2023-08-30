@@ -1,6 +1,6 @@
-import { DOMElement } from "../classes/DOMElement";
-import { getDefinable } from "./getDefinable";
-import { state } from "../state";
+import { DOMElement } from "pigeon-mode-game-framework/api/classes/DOMElement";
+import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 export const sizeScreen = (): void => {
   if (state.values.config === null) {

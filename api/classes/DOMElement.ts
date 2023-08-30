@@ -1,4 +1,4 @@
-import { Definable } from "./Definable";
+import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
 
 interface DOMElementOptions {
   readonly id: string;

@@ -1,6 +1,6 @@
-import { CollisionData } from "../types/CollisionData";
-import { EntityCollidable } from "./EntityCollidable";
-import { EntityPosition } from "./EntityPosition";
+import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
+import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
+import { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
 import { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
 
 export interface Entity<CollisionLayer extends string> {

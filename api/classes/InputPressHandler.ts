@@ -1,6 +1,6 @@
-import { Definable } from "./Definable";
-import { getToken } from "../functions/getToken";
-import { state } from "../state";
+import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
+import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 interface InputPressHandlerOptions {
   readonly condition?: () => boolean;
