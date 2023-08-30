@@ -4,7 +4,7 @@ export interface LDTK {
   readonly __header__: {
     readonly app: "LDtk";
     readonly appAuthor: "Sebastien 'deepnight' Benard";
-    readonly appVersion: "1.3.3";
+    readonly appVersion: "1.3.4";
     readonly doc: "https://ldtk.io/json";
     readonly fileType: "LDtk Project JSON";
     readonly schema: "https://ldtk.io/files/JSON_SCHEMA.json";
@@ -91,7 +91,7 @@ export interface LDTK {
   readonly identifierStyle: "Lowercase";
   readonly iid: string;
   readonly imageExportMode: "None";
-  readonly jsonVersion: "1.3.3";
+  readonly jsonVersion: "1.3.4";
   readonly levelNamePattern: "Level_%idx";
   readonly levels: {
     readonly __bgColor: string;
