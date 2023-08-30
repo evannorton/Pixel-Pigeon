@@ -43,7 +43,7 @@ game.zip
 
 6. Create a `src` folder at the root of your game's codebase.
 
-7. Create an `index.ts` file inside of the `src` folder.
+7. Create an `index.ts` file inside of the `src` folder, which will server as the entry point for your game's code.
 
 8. Run `npm install`.
 
