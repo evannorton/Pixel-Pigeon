@@ -26,9 +26,7 @@ Game framework for EvanMMO's typescript games
 2. Create a `config.pmgf` file at the root of your game's codebase.
 ```json
 {
-  // Base height of your game in pixels
   "height": 360,
-  // Base width of your game in pixels
   "width": 640
 }
 ```
@@ -43,9 +41,13 @@ game.zip
 
 5. Create a `images` folder at the root of your game's codebase.
 
-6. Run `npm install`.
+6. Create a `src` folder at the root of your game's codebase.
 
-7. Run `npm run dev` to start a dev server with hot-reloading on port 3000.
+7. Create an `index.ts` file inside of the `src` folder.
+
+8. Run `npm install`.
+
+9. Run `npm run dev` to start a dev server with hot-reloading on port 3000.
 
 ## Command line interface
 
