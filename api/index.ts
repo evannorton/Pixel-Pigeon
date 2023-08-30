@@ -18,7 +18,6 @@ export { getEntityPosition } from "pigeon-mode-game-framework/api/functions/getE
 export { getInputTickHandlerGroupID } from "pigeon-mode-game-framework/api/functions/getInputTickHandlerGroupID";
 export { goToLevel } from "pigeon-mode-game-framework/api/functions/goToLevel";
 export { init } from "pigeon-mode-game-framework/api/functions/init";
-export { isEntityMoving } from "pigeon-mode-game-framework/api/functions/isEntityMoving";
 export { lockCameraToEntity } from "pigeon-mode-game-framework/api/functions/lockCameraToEntity";
 export {
   MoveEntityOptions,

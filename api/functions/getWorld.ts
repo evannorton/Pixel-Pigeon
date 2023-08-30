@@ -1,5 +1,10 @@
 import { LDTK, LDTKTileData } from "pigeon-mode-game-framework/api/types/LDTK";
-import { Level, Tileset, World, WorldTilesetTile } from "pigeon-mode-game-framework/api/types/World";
+import {
+  Level,
+  Tileset,
+  World,
+  WorldTilesetTile,
+} from "pigeon-mode-game-framework/api/types/World";
 
 export const getWorld = (ldtk: LDTK): World => {
   const levels: Map<string, Level> = new Map();
