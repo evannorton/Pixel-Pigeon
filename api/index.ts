@@ -24,6 +24,10 @@ export {
 } from "pigeon-mode-game-framework/api/functions/moveEntity";
 export { onTick } from "pigeon-mode-game-framework/api/functions/onTick";
 export {
+  playAudioSource,
+  stopAudioSource,
+} from "pigeon-mode-game-framework/api/classes/AudioSource";
+export {
   SetEntityPositionOptions,
   setEntityPosition,
 } from "pigeon-mode-game-framework/api/functions/setEntityPosition";

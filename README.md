@@ -39,15 +39,17 @@ node_modules
 game.zip
 ```
 
-5. Create a `images` folder at the root of your game's codebase.
+5. Create an `audio` folder at the root of your game's codebase.
 
-6. Create a `src` folder at the root of your game's codebase.
+6. Create an `images` folder at the root of your game's codebase.
 
-7. Create an `index.ts` file inside of the `src` folder.
+7. Create a `src` folder at the root of your game's codebase.
 
-8. Run `npm install`.
+8. Create an `index.ts` file inside of the `src` folder.
 
-9. Run `npm run dev` to start a dev server with hot reloading on port 3000.
+9. Run `npm install`.
+
+10. Run `npm run dev` to start a dev server with hot reloading on port 3000.
 
 ## Command line interface
 

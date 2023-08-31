@@ -16,6 +16,7 @@ const watcher = nodemon({
   stderr: true,
   watch: [
     "./src/",
+    "./audio/",
     "./images/",
     "./node-modules/",
     "./package.json",
@@ -91,6 +92,9 @@ watcher.addListener("restart", (files) => {
         if (filePieces[0] === "src") {
           return joinedFilePieces.substring(joinedFilePieces.length - 3) === ".ts"
             || joinedFilePieces.substring(joinedFilePieces.length - 5) === ".json";
+        }
+        if (filePieces[0] === "audio") {
+          return joinedFilePieces.substring(joinedFilePieces.length - 4) === ".mp3"
         }
         if (filePieces[0] === "images") {
           return joinedFilePieces.substring(joinedFilePieces.length - 4) === ".png"

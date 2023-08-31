@@ -12,6 +12,12 @@ if (!existsSync(join("src", "index.ts"))) {
   throw new Error("You must create an index.ts file in src for use with Pigeon Mode Game Framework.");
 }
 
+// Validate audio
+
+if (!existsSync(join("audio"))) {
+  throw new Error("You must create an audio folder for use with Pigeon Mode Game Framework.");
+}
+
 // Validate images
 
 if (!existsSync(join("images"))) {
