@@ -9,7 +9,6 @@ export { createInputTickHandler } from "pigeon-mode-game-framework/api/classes/I
 export { createSprite } from "pigeon-mode-game-framework/api/classes/Sprite";
 export {
   createSpriteInstance,
-  playSpriteInstanceAnimation,
   removeSpriteInstance,
 } from "pigeon-mode-game-framework/api/classes/SpriteInstance";
 export { despawnEntity } from "pigeon-mode-game-framework/api/functions/despawnEntity";

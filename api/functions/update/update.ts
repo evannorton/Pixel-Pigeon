@@ -1,5 +1,6 @@
 import { InputPressHandler } from "pigeon-mode-game-framework/api/classes/InputPressHandler";
 import { InputTickHandler } from "pigeon-mode-game-framework/api/classes/InputTickHandler";
+import { SpriteInstance } from "pigeon-mode-game-framework/api/classes/SpriteInstance";
 import { getDefinables } from "pigeon-mode-game-framework/api/functions/getDefinables";
 import { state } from "pigeon-mode-game-framework/api/state";
 import { updateLevel } from "pigeon-mode-game-framework/api/functions/update/updateLevel";
@@ -60,5 +61,11 @@ export const update = (): void => {
     for (const onTickCallback of state.values.onTickCallbacks) {
       onTickCallback();
     }
+    getDefinables(SpriteInstance).forEach(
+      (spriteInstance: SpriteInstance<string>): void => {
+        spriteInstance.playAnimation();
+        spriteInstance.drawAtCoordinates();
+      },
+    );
   }
 };

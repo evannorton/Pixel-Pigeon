@@ -99,17 +99,16 @@ export const render = (): void => {
         }
         for (const [, entity] of layer.entities) {
           if (entity.spriteInstanceID !== null) {
-            const spriteInstance: SpriteInstance = getDefinable<SpriteInstance>(
-              SpriteInstance,
-              entity.spriteInstanceID,
-            );
+            const spriteInstance: SpriteInstance<string> = getDefinable<
+              SpriteInstance<string>
+            >(SpriteInstance, entity.spriteInstanceID);
             spriteInstance.drawAtEntity(entity, layerIndex);
           }
         }
       });
     }
     getDefinables(SpriteInstance).forEach(
-      (spriteInstance: SpriteInstance): void => {
+      (spriteInstance: SpriteInstance<string>): void => {
         spriteInstance.drawAtCoordinates();
       },
     );

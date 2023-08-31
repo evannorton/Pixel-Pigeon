@@ -14,34 +14,38 @@ import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefina
 import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 import { state } from "pigeon-mode-game-framework/api/state";
 
-interface SpriteInstanceOptions {
+interface SpriteInstanceOptions<AnimationID extends string> {
   readonly coordinates?: {
     readonly condition?: () => boolean;
     readonly x: number;
     readonly y: number;
   };
+  readonly getAnimationID: () => AnimationID | null;
   readonly spriteID: string;
 }
 
-export class SpriteInstance extends Definable {
+export class SpriteInstance<AnimationID extends string> extends Definable {
   private _animation: {
     readonly id: string;
     readonly startedAt: number;
   } | null = null;
 
-  private readonly _options: SpriteInstanceOptions;
+  private readonly _options: SpriteInstanceOptions<AnimationID>;
 
-  public constructor(options: SpriteInstanceOptions) {
+  public constructor(options: SpriteInstanceOptions<AnimationID>) {
     super(getToken());
     this._options = options;
   }
 
-  private get sprite(): Sprite {
-    return getDefinable(Sprite, this._options.spriteID);
+  private get sprite(): Sprite<AnimationID> {
+    return getDefinable(Sprite<AnimationID>, this._options.spriteID);
   }
 
-  public playAnimation(animationID: string): void {
-    if (this._animation === null || animationID !== this._animation.id) {
+  public playAnimation(): void {
+    const animationID: AnimationID | null = this._options.getAnimationID();
+    if (animationID === null) {
+      this._animation = null;
+    } else if (this._animation === null || animationID !== this._animation.id) {
       this._animation = {
         id: animationID,
         startedAt: state.values.currentTime,
@@ -83,11 +87,13 @@ export class SpriteInstance extends Definable {
         `SpriteInstance "${this._id}" of ImageSource "${this.sprite.imageSource.id}" attempted to draw with no animation.`,
       );
     }
-    const animation: SpriteInstance["_animation"] = this._animation;
-    const currentAnimation: SpriteOptionsAnimation | null =
+    const animation: SpriteInstance<AnimationID>["_animation"] =
+      this._animation;
+    const currentAnimation: SpriteOptionsAnimation<AnimationID> | null =
       this.sprite.animations.find(
-        (spriteInstanceAnimation: SpriteOptionsAnimation): boolean =>
-          spriteInstanceAnimation.id === animation.id,
+        (
+          spriteInstanceAnimation: SpriteOptionsAnimation<AnimationID>,
+        ): boolean => spriteInstanceAnimation.id === animation.id,
       ) ?? null;
     if (currentAnimation === null) {
       throw new Error(
@@ -165,22 +171,14 @@ export class SpriteInstance extends Definable {
     );
   }
 }
-export const createSpriteInstance = (options: SpriteInstanceOptions): string =>
-  new SpriteInstance(options).id;
-interface PlaySpriteAnimationOptions {
-  readonly animationID: string;
-}
-
-export const playSpriteInstanceAnimation = (
+export const createSpriteInstance = <AnimationID extends string>(
+  options: SpriteInstanceOptions<AnimationID>,
+): string => new SpriteInstance(options).id;
+export const removeSpriteInstance = <AnimationID extends string>(
   spriteInstanceID: string,
-  options: PlaySpriteAnimationOptions,
 ): void => {
-  const sprite: SpriteInstance = getDefinable<SpriteInstance>(
-    SpriteInstance,
+  getDefinable<SpriteInstance<AnimationID>>(
+    SpriteInstance<AnimationID>,
     spriteInstanceID,
-  );
-  sprite.playAnimation(options.animationID);
-};
-export const removeSpriteInstance = (spriteInstanceID: string): void => {
-  getDefinable<SpriteInstance>(SpriteInstance, spriteInstanceID).remove();
+  ).remove();
 };
