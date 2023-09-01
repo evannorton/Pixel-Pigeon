@@ -11,6 +11,14 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "paths": {
+      "pigeon-mode-game-framework/*": ["../*"]
+    }
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "exclude": []
 }
