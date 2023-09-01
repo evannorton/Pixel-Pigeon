@@ -8,15 +8,20 @@ import { state } from "pigeon-mode-game-framework/api/state";
 export interface SpawnEntityOptions<CollisionLayer extends string> {
   readonly collidableLayers?: CollisionLayer[];
   readonly collisionLayer?: CollisionLayer;
+  /** The actual height of the hitbox of the entity */
   readonly height: number;
+  /** The layerID the entity should be on, has to be created in LDTK */
   readonly layerID: string;
   readonly onCollision?: (collisionData: CollisionData<CollisionLayer>) => void;
   readonly onOverlap?: (overlapData: OverlapData<CollisionLayer>) => void;
+  /** The X and Y position that the entity will spawn at */
   readonly position?: {
     readonly x: number;
     readonly y: number;
   };
+  /** A {@link createSpriteInstance | spriteInstanceID} in order to give the entity a sprite */
   readonly spriteInstanceID?: string;
+  /** The actual width of the hitbox of the entity */
   readonly width: number;
   readonly zIndex: number;
 }
