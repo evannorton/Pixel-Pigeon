@@ -171,6 +171,12 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
     );
   }
 }
+
+/**
+ * 
+ * @param options - Creation options for the sprite
+ * @returns String ID of the SpriteInstance created
+ */
 export const createSpriteInstance = <AnimationID extends string>(
   options: SpriteInstanceOptions<AnimationID>,
 ): string => new SpriteInstance(options).id;
