@@ -31,6 +31,7 @@ export {
   SetEntityPositionOptions,
   setEntityPosition,
 } from "pigeon-mode-game-framework/api/functions/setEntityPosition";
+export { setPauseMenuCondition } from "pigeon-mode-game-framework/api/functions/setPauseMenuCondition";
 export {
   SpawnEntityOptions,
   spawnEntity,
