@@ -26,6 +26,14 @@ export class AudioSource extends Definable {
     });
   }
 
+  public isPlaying(): boolean {
+    return this._howl.playing();
+  }
+
+  public pause(): void {
+    this._howl.pause();
+  }
+
   public play(): void {
     this._howl.play();
   }

@@ -1,4 +1,6 @@
 body {
+  
+  cursor: url("./cursors/default.png"), default;
   image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
@@ -8,11 +10,42 @@ body {
 }
 
 #screen {
-  cursor: url("./cursors/default.png"), default;
   outline: none;
 }
 
 canvas {
   display: block;
   width: 100%;
+}
+
+#pause-menu {
+  background-color: rgba(0, 0, 0, .5);
+  cursor: url("./cursors/default.png"), default;
+  position: absolute;
+  top: 0;
+}
+
+body:not(.paused) #pause-menu {
+  display: none;
+}
+
+.pause-toggle {
+  position: absolute;
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
+}
+
+body:not(.interacted) .pause-toggle {
+  display: none;
+}
+
+body:not(.pausable) .pause-toggle {
+  display: none;
+}
+
+body.paused #pause-button {
+  display: none;
+}
+
+body:not(.paused) #unpause-button {
+  display: none;
 }
