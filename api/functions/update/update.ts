@@ -69,8 +69,7 @@ export const update = (): void => {
     );
     if (state.values.pauseMenuCondition?.()) {
       document.body.classList.add("pausable");
-    }
-    else {
+    } else {
       document.body.classList.remove("pausable");
     }
   }

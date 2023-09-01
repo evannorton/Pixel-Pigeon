@@ -5,14 +5,14 @@ import { ImageSource } from "pigeon-mode-game-framework/api/classes/ImageSource"
 import { InputPressHandler } from "pigeon-mode-game-framework/api/classes/InputPressHandler";
 import { InputTickHandler } from "pigeon-mode-game-framework/api/classes/InputTickHandler";
 import { LDTK } from "pigeon-mode-game-framework/api/types/LDTK";
+import { assetsAreLoaded } from "pigeon-mode-game-framework/api/functions/assetsAreLoaded";
+import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
 import { getDefinables } from "pigeon-mode-game-framework/api/functions/getDefinables";
 import { getWorld } from "pigeon-mode-game-framework/api/functions/getWorld";
 import { loadAssets } from "pigeon-mode-game-framework/api/functions/loadAssets";
 import { sizeScreen } from "pigeon-mode-game-framework/api/functions/sizeScreen";
 import { state } from "pigeon-mode-game-framework/api/state";
 import { tick } from "pigeon-mode-game-framework/api/functions/tick";
-import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
-import { assetsAreLoaded } from "pigeon-mode-game-framework/api/functions/assetsAreLoaded";
 
 export const init = async (): Promise<void> => {
   if (state.values.isInitialized) {
@@ -20,19 +20,30 @@ export const init = async (): Promise<void> => {
   }
   const screenElement: HTMLElement | null = document.getElementById("screen");
   if (screenElement === null) {
-    throw new Error("An attempt was made to init with no screen element in the DOM.");
+    throw new Error(
+      "An attempt was made to init with no screen element in the DOM.",
+    );
   }
-  const pauseMenuElement: HTMLElement | null = document.getElementById("pause-menu");
+  const pauseMenuElement: HTMLElement | null =
+    document.getElementById("pause-menu");
   if (pauseMenuElement === null) {
-    throw new Error("An attempt was made to init with no pause menu element in the DOM.");
+    throw new Error(
+      "An attempt was made to init with no pause menu element in the DOM.",
+    );
   }
-  const pauseButtonElement: HTMLElement | null = document.getElementById("pause-button");
+  const pauseButtonElement: HTMLElement | null =
+    document.getElementById("pause-button");
   if (pauseButtonElement === null) {
-    throw new Error("An attempt was made to init with no pause button element in the DOM.");
+    throw new Error(
+      "An attempt was made to init with no pause button element in the DOM.",
+    );
   }
-  const unpauseButtonElement: HTMLElement | null = document.getElementById("unpause-button");
+  const unpauseButtonElement: HTMLElement | null =
+    document.getElementById("unpause-button");
   if (unpauseButtonElement === null) {
-    throw new Error("An attempt was made to init with no unpause button element in the DOM.");
+    throw new Error(
+      "An attempt was made to init with no unpause button element in the DOM.",
+    );
   }
   state.setValues({ isInitialized: true });
   const configRes: Response = await fetch("./config.pmgf");
@@ -105,26 +116,23 @@ export const init = async (): Promise<void> => {
       }
     },
   );
-  addEventListener(
-    "keydown",
-    (keydownEvent: KeyboardEvent): void => {
-      if (!state.values.heldKeys.includes(keydownEvent.code)) {
-        state.setValues({
-          heldKeys: [...state.values.heldKeys, keydownEvent.code],
-        });
-        getDefinables(InputPressHandler).forEach(
-          (inputPressHandler: InputPressHandler): void => {
-            inputPressHandler.handleKey(keydownEvent.code);
-          },
-        );
-        getDefinables(InputTickHandler).forEach(
-          (inputTickHandler: InputTickHandler<string>): void => {
-            inputTickHandler.handleKeyDown(keydownEvent.code);
-          },
-        );
-      }
-    },
-  );
+  addEventListener("keydown", (keydownEvent: KeyboardEvent): void => {
+    if (!state.values.heldKeys.includes(keydownEvent.code)) {
+      state.setValues({
+        heldKeys: [...state.values.heldKeys, keydownEvent.code],
+      });
+      getDefinables(InputPressHandler).forEach(
+        (inputPressHandler: InputPressHandler): void => {
+          inputPressHandler.handleKey(keydownEvent.code);
+        },
+      );
+      getDefinables(InputTickHandler).forEach(
+        (inputTickHandler: InputTickHandler<string>): void => {
+          inputTickHandler.handleKeyDown(keydownEvent.code);
+        },
+      );
+    }
+  });
   addEventListener("keyup", (keyupEvent: KeyboardEvent): void => {
     if (state.values.heldKeys.includes(keyupEvent.code)) {
       state.setValues({
@@ -149,9 +157,7 @@ export const init = async (): Promise<void> => {
       }
     });
     pauseMenuElement.focus();
-    state.setValues(
-      { pauseMenuPausedAudioSourceIDs },
-      );
+    state.setValues({ pauseMenuPausedAudioSourceIDs });
   });
   unpauseButtonElement.addEventListener("click", (): void => {
     document.body.classList.remove("paused");

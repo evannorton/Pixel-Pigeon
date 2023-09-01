@@ -1,1 +1,2 @@
-export const gameIsPaused = (): boolean => document.body.classList.contains("paused");
+export const gameIsPaused = (): boolean =>
+  document.body.classList.contains("paused");

@@ -13,6 +13,5 @@ export const getStretchScale = (): number => {
     aspectRatio >= screenAspectRatio
       ? window.innerWidth / state.values.config.width
       : window.innerHeight / state.values.config.height;
-  return stretchedScale
-}
-
+  return stretchedScale;
+};
