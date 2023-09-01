@@ -1,6 +1,6 @@
 {
   "entryPoints": ["api"],
-  "out": "docs/Web Server/",
+  "out": "docs/",
   "readme": "README.md",
   "name": "Pigeon Mode Game Framework Documentation",
   "tsconfig": "./api/tsconfig.json"
