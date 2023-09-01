@@ -13,6 +13,10 @@ import { sizeScreen } from "pigeon-mode-game-framework/api/functions/sizeScreen"
 import { state } from "pigeon-mode-game-framework/api/state";
 import { tick } from "pigeon-mode-game-framework/api/functions/tick";
 
+/**
+ * Initializes Pigeon-Mode-Game-Framework, only call this once or it will throw an error.
+ * 
+ */
 export const init = async (): Promise<void> => {
   if (state.values.isInitialized) {
     throw new Error("Initialization was attempted more than once.");
