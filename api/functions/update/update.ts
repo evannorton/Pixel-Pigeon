@@ -67,5 +67,10 @@ export const update = (): void => {
         spriteInstance.drawAtCoordinates();
       },
     );
+    if (state.values.pauseMenuCondition?.()) {
+      document.body.classList.add("pausable");
+    } else {
+      document.body.classList.remove("pausable");
+    }
   }
 };
