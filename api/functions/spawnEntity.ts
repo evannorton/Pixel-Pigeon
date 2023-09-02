@@ -6,15 +6,23 @@ import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 import { state } from "pigeon-mode-game-framework/api/state";
 
 export interface SpawnEntityOptions<CollisionLayer extends string> {
-  /** An array of strings for LayerIDs that the entity can collide with */
+  /** An array of strings for LayerIDs that the entity can collide with and not pass through */
   readonly collidableLayers?: CollisionLayer[];
-  /** The string LayerID the entity is apart of for the sake of collisions */
+  /** The string LayerID the entity is apart of for the sake of collisions with other entities */
   readonly collisionLayer?: CollisionLayer;
   /** The actual height of the hitbox of the entity */
   readonly height: number;
   /** The layerID the entity should be on, has to be created in LDTK */
   readonly layerID: string;
+  /**
+   * Callback that triggers whenever a collision stops entites from moving through each other. Will not trigger on tiles that have pmgfCollision set to true.
+   * The same collision cannot trigger onCollision and onOverlap
+   */
   readonly onCollision?: (collisionData: CollisionData<CollisionLayer>) => void;
+    /**
+   * Callback that triggers whenever an entity passes through another.
+   * The same collision cannot trigger onCollision and onOverlap
+   */
   readonly onOverlap?: (overlapData: OverlapData<CollisionLayer>) => void;
   /** The X and Y position that the entity will spawn at */
   readonly position?: {
