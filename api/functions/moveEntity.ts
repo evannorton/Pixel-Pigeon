@@ -1,8 +1,17 @@
 import { Level } from "pigeon-mode-game-framework/api/types/World";
 import { state } from "pigeon-mode-game-framework/api/state";
 
+/**
+ * The amount an entity is moving when supplied to {@link moveEntity}
+ */
 export interface MoveEntityOptions {
+  /**
+   * Amount the entity is moving across the X-axis
+   */
   readonly xVelocity?: number;
+    /**
+   * Amount the entity is moving across the Y-axis
+   */
   readonly yVelocity?: number;
 }
 /**
