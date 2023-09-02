@@ -203,6 +203,9 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
 export const createSpriteInstance = <AnimationID extends string>(
   options: SpriteInstanceOptions<AnimationID>,
 ): string => new SpriteInstance(options).id;
+/**
+ * @param spriteInstanceID - String SpriteInstanceID of the sprite to remove
+ */
 export const removeSpriteInstance = <AnimationID extends string>(
   spriteInstanceID: string,
 ): void => {
