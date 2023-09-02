@@ -48,9 +48,26 @@ export class AudioSource extends Definable {
     });
   }
 }
+/**
+ * Play the provided audio within the game
+ * @param audioSourceID - Path to the audio that will be played. **STARTS IN THE `audio` FOLDER**
+ * 
+ * @example
+ * ```ts
+ * playAudioSource("music"); // Plays {PROJECTFILE}/audio/music.mp3
+ * ```
+ */
 export const playAudioSource = (audioSourceID: string): void => {
   getDefinable<AudioSource>(AudioSource, audioSourceID).play();
 };
+/**
+ * Stop the provided audio within the game
+ * @param audioSourceID - Path to the audio that will be stopped. **STARTS IN THE `audio` FOLDER**
+ * @example
+ * ```ts
+ * stopAudioSource("music"); // Stops {PROJECTFILE}/audio/music.mp3
+ * ```
+ */
 export const stopAudioSource = (audioSourceID: string): void => {
   getDefinable<AudioSource>(AudioSource, audioSourceID).stop();
 };
