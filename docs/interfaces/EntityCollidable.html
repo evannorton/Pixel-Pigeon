@@ -14,7 +14,16 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">Pigeon Mode Game Framework Documentation</a></li>
 <li><a href="EntityCollidable.html">EntityCollidable</a></li></ul>
-<h1>Interface EntityCollidable&lt;CollisionLayer&gt;</h1></div> 
+<h1>Interface EntityCollidable&lt;CollisionLayer&gt;</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>Stores information about Entity collisions.
+Setting up collisions is done with <a href="SpawnEntityOptions.html#onOverlap" class="tsd-kind-property">SpawnEntityOptions.onOverlap</a>.</p>
+</div>
+<div class="tsd-comment tsd-typography">
+<h4>Remarks</h4><p>If you set up collisions, the data in this interface is the data of the entity your are colliding with.
+For example if you set up <a href="SpawnEntityOptions.html#onOverlap" class="tsd-kind-property">onOverlap</a> on a player entity,
+any overlapData you recieve will be the data of entities the player has collided with, but will not include player collision data.</p>
+</div></section> 
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
@@ -25,7 +34,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">EntityCollidable</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/DataEncoded/Pigeon-Mode-Game-Framework/blob/36a4975/api/types/EntityCollidable.ts#L1">api/types/EntityCollidable.ts:1</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/DataEncoded/Pigeon-Mode-Game-Framework/blob/5416f7c/api/types/EntityCollidable.ts#L10">api/types/EntityCollidable.ts:10</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -40,14 +49,20 @@
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member"><a id="collisionLayer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>collision<wbr/>Layer</span><a href="#collisionLayer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">collision<wbr/>Layer</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type tsd-kind-type-parameter">CollisionLayer</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">collision<wbr/>Layer</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type tsd-kind-type-parameter">CollisionLayer</span></div>
+<div class="tsd-comment tsd-typography"><p>String CollisionLayer that the collided entity is apart of</p>
+</div>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/DataEncoded/Pigeon-Mode-Game-Framework/blob/36a4975/api/types/EntityCollidable.ts#L2">api/types/EntityCollidable.ts:2</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/DataEncoded/Pigeon-Mode-Game-Framework/blob/5416f7c/api/types/EntityCollidable.ts#L14">api/types/EntityCollidable.ts:14</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="entityID" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>entityID</span><a href="#entityID" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">entityID</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">entityID</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+<div class="tsd-comment tsd-typography"><p>String entityID of the collided entity</p>
+</div>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/DataEncoded/Pigeon-Mode-Game-Framework/blob/36a4975/api/types/EntityCollidable.ts#L3">api/types/EntityCollidable.ts:3</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/DataEncoded/Pigeon-Mode-Game-Framework/blob/5416f7c/api/types/EntityCollidable.ts#L18">api/types/EntityCollidable.ts:18</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
