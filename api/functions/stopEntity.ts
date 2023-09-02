@@ -1,10 +1,24 @@
 import { Level } from "pigeon-mode-game-framework/api/types/World";
 import { state } from "pigeon-mode-game-framework/api/state";
 
+/**
+ * Each of these being set to true represents that when plugged into {@link stopEntity}, that velocity should be cancelled out
+ */
 export interface StopEntityOptions {
+  /**
+   * Stop moving the entity on the X direction?
+   */
   readonly x?: boolean;
+  /**
+   * Stop moving the entity on the Y direction?
+   */
   readonly y?: boolean;
 }
+/**
+ * 
+ * @param entityID - String EntityID to determine what entity to perform the operation on
+ * @param options - Options to determine which coordinates to stop moving the entity on
+ */
 export const stopEntity = (
   entityID: string,
   options: StopEntityOptions,
