@@ -6,7 +6,9 @@ import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 import { state } from "pigeon-mode-game-framework/api/state";
 
 export interface SpawnEntityOptions<CollisionLayer extends string> {
+  /** An array of strings for LayerIDs that the entity can collide with */
   readonly collidableLayers?: CollisionLayer[];
+  /** The string LayerID the entity is apart of for the sake of collisions */
   readonly collisionLayer?: CollisionLayer;
   /** The actual height of the hitbox of the entity */
   readonly height: number;
@@ -23,8 +25,14 @@ export interface SpawnEntityOptions<CollisionLayer extends string> {
   readonly spriteInstanceID?: string;
   /** The actual width of the hitbox of the entity */
   readonly width: number;
+  /** This number determines how entities are layered on-top of eachother */
   readonly zIndex: number;
 }
+/**
+ * Spawn an entity into the world if the world has already loaded in
+ * @param spawnEntityOptions Options used to define what an entity is and their attributes
+ * @returns String ID of the entity
+ */
 export const spawnEntity = <CollisionLayer extends string>(
   spawnEntityOptions: SpawnEntityOptions<CollisionLayer>,
 ): string => {
