@@ -1,11 +1,24 @@
 import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
 import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 
+
 interface InputTickHandlerGroup<GroupID> {
+  /**
+   * An array of numbers that corresponds to different inputs on a controller
+   */
   readonly gamepadButtons?: number[];
+  /**
+   * A string GroupID to differentiate InputTickHandlers
+   */
   readonly id: GroupID;
+  /**
+   * An array of strings that represents different inputs on a keyboard
+   */
   readonly keys?: string[];
 }
+/**
+ * Uses an array of InputTickHandlers to allow multiple input's to be set up with one call
+ */
 interface InputTickHandlerOptions<GroupID extends string> {
   readonly groups: InputTickHandlerGroup<GroupID>[];
 }
@@ -65,6 +78,11 @@ export class InputTickHandler<GroupID extends string> extends Definable {
     this._groupIDs.length = 0;
   }
 }
+/**
+ * 
+ * @param options - An array of {@link InputTickHandlerGroup}
+ * @returns A string GroupID to seperate different TickHandlers
+ */
 export const createInputTickHandler = <GroupID extends string>(
   options: InputTickHandlerOptions<GroupID>,
 ): string => new InputTickHandler(options).id;
