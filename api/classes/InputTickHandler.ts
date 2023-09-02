@@ -8,7 +8,16 @@ interface InputTickHandlerGroup<GroupID> {
    */
   readonly gamepadButtons?: number[];
   /**
-   * A string GroupID to differentiate InputTickHandlers
+   * ID to differentiate inputs from the same overarching GroupID
+   * @example
+   * ```ts
+   * // Group 1
+   * id: XDirection.Left,
+   * // Group 2
+   * id: XDirection.Right,
+   * 
+   * // Both are under the XDirection umbrella, however they are in different directions so they have different logic for animations and movement.
+   * ```
    */
   readonly id: GroupID;
   /**
@@ -17,7 +26,7 @@ interface InputTickHandlerGroup<GroupID> {
   readonly keys?: string[];
 }
 /**
- * Uses an array of InputTickHandlers to allow multiple input's to be set up with one call
+ * Uses an array of InputTickHandlers to allow any number of inputs to be set up under one GroupID
  */
 interface InputTickHandlerOptions<GroupID extends string> {
   readonly groups: InputTickHandlerGroup<GroupID>[];
@@ -80,7 +89,7 @@ export class InputTickHandler<GroupID extends string> extends Definable {
 }
 /**
  * 
- * @param options - An array of {@link InputTickHandlerGroup}
+ * @param options - Defines what groups of inputs should be defined with the GroupID
  * @returns A string GroupID to seperate different TickHandlers
  */
 export const createInputTickHandler = <GroupID extends string>(
