@@ -14,13 +14,34 @@ import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefina
 import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 import { state } from "pigeon-mode-game-framework/api/state";
 
+/**
+ * Information used to decide when an animation should be played for a {@link createSpriteInstance | SpriteInstance}
+ */
 interface SpriteInstanceOptions<AnimationID extends string> {
+  /**
+   * Optional coordinates that can be used to preciesly define where the SpriteInstance should be in the world
+   */
   readonly coordinates?: {
+    /**
+     * Callback that decides whether or not coordinates should be used
+     */
     readonly condition?: () => boolean;
+    /**
+     * The X value in the world where the SpriteInstance is displayed
+     */
     readonly x: number;
+    /**
+     * The Y value in the world where the SpriteInstance is displayed
+     */
     readonly y: number;
   };
+  /**
+   * Callback that should decide what animation should be playing at any given moment, and then return the AnimationID so it can be played
+   */
   readonly getAnimationID: () => AnimationID | null;
+  /**
+   * String SpriteID used to refer to the SpriteInstance
+   */
   readonly spriteID: string;
 }
 
@@ -173,7 +194,9 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
 }
 
 /**
- * 
+ * Creates a new SpriteInstance. SpriteInstances are the actual sprites that are displayed in the world, 
+ * while {@link createSprite | Sprites} just has the underlying data of the animation frames and imagePath.
+ * Sprites contain no state and are just data, while SpriteInstances have state, and reference Sprites to play animations.
  * @param options - Creation options for the sprite
  * @returns String ID of the SpriteInstance created
  */
