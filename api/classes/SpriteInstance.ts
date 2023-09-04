@@ -17,7 +17,7 @@ import { state } from "pigeon-mode-game-framework/api/state";
 /**
  * Information used to decide when an animation should be played for a {@link createSpriteInstance | SpriteInstance}
  */
-interface SpriteInstanceOptions<AnimationID extends string> {
+export interface CreateSpriteInstanceOptions<AnimationID extends string> {
   /**
    * Optional coordinates that can be used to preciesly define where the SpriteInstance should be in the world
    */
@@ -44,16 +44,15 @@ interface SpriteInstanceOptions<AnimationID extends string> {
    */
   readonly spriteID: string;
 }
-
 export class SpriteInstance<AnimationID extends string> extends Definable {
   private _animation: {
     readonly id: string;
     readonly startedAt: number;
   } | null = null;
 
-  private readonly _options: SpriteInstanceOptions<AnimationID>;
+  private readonly _options: CreateSpriteInstanceOptions<AnimationID>;
 
-  public constructor(options: SpriteInstanceOptions<AnimationID>) {
+  public constructor(options: CreateSpriteInstanceOptions<AnimationID>) {
     super(getToken());
     this._options = options;
   }
@@ -192,16 +191,15 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
     );
   }
 }
-
 /**
- * Creates a new SpriteInstance. SpriteInstances are the actual sprites that are displayed in the world, 
+ * Creates a new SpriteInstance. SpriteInstances are the actual sprites that are displayed in the world,
  * while {@link createSprite | Sprites} just has the underlying data of the animation frames and imagePath.
  * Sprites contain no state and are just data, while SpriteInstances have state, and reference Sprites to play animations.
  * @param options - Creation options for the sprite
  * @returns String ID of the SpriteInstance created
  */
 export const createSpriteInstance = <AnimationID extends string>(
-  options: SpriteInstanceOptions<AnimationID>,
+  options: CreateSpriteInstanceOptions<AnimationID>,
 ): string => new SpriteInstance(options).id;
 /**
  * @param spriteInstanceID - String SpriteInstanceID of the sprite to remove

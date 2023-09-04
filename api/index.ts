@@ -1,48 +1,87 @@
-export { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
-export { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
-export { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
-export { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
-export { Rectangle } from "pigeon-mode-game-framework/api/types/Rectangle";
-export { State } from "pigeon-mode-game-framework/api/classes/State";
-export {
+import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
+import {
+  CreateInputPressHandlerOptions,
   createInputPressHandler,
-  InputPressHandlerOptions,
 } from "pigeon-mode-game-framework/api/classes/InputPressHandler";
-export {
+import {
+  CreateInputTickHandlerOptions,
+  InputTickHandlerGroup,
   createInputTickHandler,
-  InputTickHandlerOptions,
 } from "pigeon-mode-game-framework/api/classes/InputTickHandler";
-export { createSprite } from "pigeon-mode-game-framework/api/classes/Sprite";
-export {
+import {
+  CreateSpriteInstanceOptions,
   createSpriteInstance,
   removeSpriteInstance,
 } from "pigeon-mode-game-framework/api/classes/SpriteInstance";
-export { despawnEntity } from "pigeon-mode-game-framework/api/functions/despawnEntity";
-export { getCurrentTime } from "pigeon-mode-game-framework/api/functions/getCurrentTime";
-export { getEntityPosition } from "pigeon-mode-game-framework/api/functions/getEntityPosition";
-export { getInputTickHandlerGroupID } from "pigeon-mode-game-framework/api/functions/getInputTickHandlerGroupID";
-export { goToLevel } from "pigeon-mode-game-framework/api/functions/goToLevel";
-export { init } from "pigeon-mode-game-framework/api/functions/init";
-export { lockCameraToEntity } from "pigeon-mode-game-framework/api/functions/lockCameraToEntity";
-export {
+import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
+import { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
+import {
   MoveEntityOptions,
   moveEntity,
 } from "pigeon-mode-game-framework/api/functions/moveEntity";
-export { onTick } from "pigeon-mode-game-framework/api/functions/onTick";
-export {
-  playAudioSource,
-  stopAudioSource,
-} from "pigeon-mode-game-framework/api/classes/AudioSource";
-export {
+import { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
+import { Rectangle } from "pigeon-mode-game-framework/api/types/Rectangle";
+import {
   SetEntityPositionOptions,
   setEntityPosition,
 } from "pigeon-mode-game-framework/api/functions/setEntityPosition";
-export { setPauseMenuCondition } from "pigeon-mode-game-framework/api/functions/setPauseMenuCondition";
-export {
+import {
   SpawnEntityOptions,
   spawnEntity,
 } from "pigeon-mode-game-framework/api/functions/spawnEntity";
-export {
+import { State } from "pigeon-mode-game-framework/api/classes/State";
+import {
   StopEntityOptions,
   stopEntity,
 } from "pigeon-mode-game-framework/api/functions/stopEntity";
+import { createSprite } from "pigeon-mode-game-framework/api/classes/Sprite";
+import { despawnEntity } from "pigeon-mode-game-framework/api/functions/despawnEntity";
+import { getCurrentTime } from "pigeon-mode-game-framework/api/functions/getCurrentTime";
+import { getEntityPosition } from "pigeon-mode-game-framework/api/functions/getEntityPosition";
+import { getInputTickHandlerGroupID } from "pigeon-mode-game-framework/api/functions/getInputTickHandlerGroupID";
+import { goToLevel } from "pigeon-mode-game-framework/api/functions/goToLevel";
+import { init } from "pigeon-mode-game-framework/api/functions/init";
+import { lockCameraToEntity } from "pigeon-mode-game-framework/api/functions/lockCameraToEntity";
+import { onTick } from "pigeon-mode-game-framework/api/functions/onTick";
+import {
+  playAudioSource,
+  stopAudioSource,
+} from "pigeon-mode-game-framework/api/classes/AudioSource";
+import { setPauseMenuCondition } from "pigeon-mode-game-framework/api/functions/setPauseMenuCondition";
+
+export {
+  CollisionData,
+  createInputPressHandler,
+  CreateInputPressHandlerOptions,
+  createInputTickHandler,
+  CreateInputTickHandlerOptions,
+  createSprite,
+  createSpriteInstance,
+  CreateSpriteInstanceOptions,
+  despawnEntity,
+  EntityCollidable,
+  EntityPosition,
+  getCurrentTime,
+  getEntityPosition,
+  getInputTickHandlerGroupID,
+  goToLevel,
+  init,
+  InputTickHandlerGroup,
+  lockCameraToEntity,
+  moveEntity,
+  MoveEntityOptions,
+  onTick,
+  OverlapData,
+  playAudioSource,
+  Rectangle,
+  removeSpriteInstance,
+  setEntityPosition,
+  SetEntityPositionOptions,
+  setPauseMenuCondition,
+  spawnEntity,
+  SpawnEntityOptions,
+  State,
+  stopAudioSource,
+  stopEntity,
+  StopEntityOptions,
+};

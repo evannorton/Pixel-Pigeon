@@ -3,7 +3,7 @@ import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 import { state } from "pigeon-mode-game-framework/api/state";
 
 /** Defines options for InputPressHandlers, which mainly is about what inputs to press and the callbacks */
-export interface InputPressHandlerOptions {
+export interface CreateInputPressHandlerOptions {
   /**
    * Callback to determine if the input should run or not
    * @returns Boolean in which false will skip the input from being processed
@@ -35,9 +35,9 @@ export interface InputPressHandlerOptions {
   readonly rightClick?: boolean;
 }
 export class InputPressHandler extends Definable {
-  private readonly _options: InputPressHandlerOptions;
+  private readonly _options: CreateInputPressHandlerOptions;
 
-  public constructor(options: InputPressHandlerOptions) {
+  public constructor(options: CreateInputPressHandlerOptions) {
     super(getToken());
     this._options = options;
   }
@@ -86,5 +86,5 @@ export class InputPressHandler extends Definable {
  * @returns String that can be used to identify the Handler
  */
 export const createInputPressHandler = (
-  options: InputPressHandlerOptions,
+  options: CreateInputPressHandlerOptions,
 ): string => new InputPressHandler(options).id;

@@ -27,14 +27,14 @@ export interface InputTickHandlerGroup<GroupID> {
 /**
  * Uses an array of InputTickHandlers to allow any number of inputs to be set up under one GroupID
  */
-export interface InputTickHandlerOptions<GroupID extends string> {
+export interface CreateInputTickHandlerOptions<GroupID extends string> {
   readonly groups: InputTickHandlerGroup<GroupID>[];
 }
 export class InputTickHandler<GroupID extends string> extends Definable {
-  private readonly _options: InputTickHandlerOptions<GroupID>;
+  private readonly _options: CreateInputTickHandlerOptions<GroupID>;
   private readonly _groupIDs: GroupID[] = [];
 
-  public constructor(options: InputTickHandlerOptions<GroupID>) {
+  public constructor(options: CreateInputTickHandlerOptions<GroupID>) {
     super(getToken());
     this._options = options;
   }
@@ -91,5 +91,5 @@ export class InputTickHandler<GroupID extends string> extends Definable {
  * @returns A string GroupID to seperate different TickHandlers
  */
 export const createInputTickHandler = <GroupID extends string>(
-  options: InputTickHandlerOptions<GroupID>,
+  options: CreateInputTickHandlerOptions<GroupID>,
 ): string => new InputTickHandler(options).id;
