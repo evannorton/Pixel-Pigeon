@@ -2,7 +2,7 @@ import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
 import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 import { state } from "pigeon-mode-game-framework/api/state";
 
-interface InputPressHandlerOptions {
+export interface InputPressHandlerOptions {
   readonly condition?: () => boolean;
   readonly gamepadButtons?: number[];
   readonly keys?: string[];
@@ -10,7 +10,6 @@ interface InputPressHandlerOptions {
   readonly onInput: () => void;
   readonly rightClick?: boolean;
 }
-
 export class InputPressHandler extends Definable {
   private readonly _options: InputPressHandlerOptions;
 

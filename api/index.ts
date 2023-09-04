@@ -4,8 +4,14 @@ export { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosit
 export { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
 export { Rectangle } from "pigeon-mode-game-framework/api/types/Rectangle";
 export { State } from "pigeon-mode-game-framework/api/classes/State";
-export { createInputPressHandler } from "pigeon-mode-game-framework/api/classes/InputPressHandler";
-export { createInputTickHandler } from "pigeon-mode-game-framework/api/classes/InputTickHandler";
+export {
+  createInputPressHandler,
+  InputPressHandlerOptions,
+} from "pigeon-mode-game-framework/api/classes/InputPressHandler";
+export {
+  createInputTickHandler,
+  InputTickHandlerOptions,
+} from "pigeon-mode-game-framework/api/classes/InputTickHandler";
 export { createSprite } from "pigeon-mode-game-framework/api/classes/Sprite";
 export {
   createSpriteInstance,

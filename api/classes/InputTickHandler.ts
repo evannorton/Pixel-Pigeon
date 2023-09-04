@@ -1,15 +1,14 @@
 import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
 import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 
-interface InputTickHandlerGroup<GroupID> {
+export interface InputTickHandlerGroup<GroupID> {
   readonly gamepadButtons?: number[];
   readonly id: GroupID;
   readonly keys?: string[];
 }
-interface InputTickHandlerOptions<GroupID extends string> {
+export interface InputTickHandlerOptions<GroupID extends string> {
   readonly groups: InputTickHandlerGroup<GroupID>[];
 }
-
 export class InputTickHandler<GroupID extends string> extends Definable {
   private readonly _options: InputTickHandlerOptions<GroupID>;
   private readonly _groupIDs: GroupID[] = [];
