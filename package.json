@@ -6,7 +6,8 @@
     "types": "./api/index.ts",
     "scripts": {
         "lint": "eslint api",
-        "lint:fix": "eslint api --fix"
+        "lint:fix": "eslint api --fix",
+        "docs": "npx typedoc --plugin typedoc-plugin-missing-exports"
     },
     "dependencies": {
         "@typescript-eslint/eslint-plugin": "5.59.6",
@@ -31,6 +32,8 @@
         "socket.io": "4.6.1",
         "socket.io-client": "4.6.1",
         "ts-to-zod": "3.1.2",
+        "typedoc": "^0.25.0",
+        "typedoc-plugin-missing-exports": "^2.1.0",
         "typescript": "5.0.4",
         "zod": "3.21.4"
     },

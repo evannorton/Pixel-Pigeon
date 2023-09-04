@@ -8,3 +8,4 @@ hot-reload-lib
 node_modules
 run-id.json
 out
+docs
