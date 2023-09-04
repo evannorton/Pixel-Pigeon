@@ -115,6 +115,22 @@ export const init = async (): Promise<void> => {
     },
   );
   addEventListener("keydown", (keydownEvent: KeyboardEvent): void => {
+    switch (keydownEvent.code) {
+      case "ArrowDown":
+      case "ArrowLeft":
+      case "ArrowRight":
+      case "ArrowUp":
+        keydownEvent.preventDefault();
+        break;
+      case "Numpad2":
+      case "Numpad4":
+      case "Numpad6":
+      case "Numpad8":
+        if (keydownEvent.getModifierState("NumLock")) {
+          keydownEvent.preventDefault();
+        }
+        break;
+    }
     if (!state.values.heldKeys.includes(keydownEvent.code)) {
       state.setValues({
         heldKeys: [...state.values.heldKeys, keydownEvent.code],
