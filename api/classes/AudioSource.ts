@@ -1,7 +1,7 @@
-import { Definable } from "./Definable";
+import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
 import { Howl } from "howler";
 import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
-import { state } from "../state";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 interface AudioSourceOptions {
   readonly audioPath: string;

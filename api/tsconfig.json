@@ -14,7 +14,9 @@
     "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
-      "pigeon-mode-game-framework/*": ["../*"]
+      "pigeon-mode-game-framework/*": [
+        "../*"
+      ]
     }
   },
   "include": [

@@ -74,6 +74,14 @@ Create an `.eslintrc` with the following contents to use this extension.
   },
   "extends": [
     "./node_modules/pigeon-mode-game-framework/.eslintrc"
-  ]
+  ],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": []
+      }
+    ]
+  }
 }
 ```

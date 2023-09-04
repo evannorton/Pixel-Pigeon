@@ -84,18 +84,16 @@ export const init = async (): Promise<void> => {
     settings.RENDER_OPTIONS.hello = false;
   }
   addEventListener("resize", sizeScreen);
-  document.addEventListener("visibilitychange", (): void => {
-    if (document.visibilityState !== "visible") {
-      state.setValues({
-        heldGamepadButtons: [],
-        heldKeys: [],
-      });
-      getDefinables(InputTickHandler).forEach(
-        (inputTickHandler: InputTickHandler<string>): void => {
-          inputTickHandler.empty();
-        },
-      );
-    }
+  addEventListener("blur", (): void => {
+    state.setValues({
+      heldGamepadButtons: [],
+      heldKeys: [],
+    });
+    getDefinables(InputTickHandler).forEach(
+      (inputTickHandler: InputTickHandler<string>): void => {
+        inputTickHandler.empty();
+      },
+    );
   });
   app.renderer.view.addEventListener?.(
     "contextmenu",
@@ -121,6 +119,22 @@ export const init = async (): Promise<void> => {
     },
   );
   addEventListener("keydown", (keydownEvent: KeyboardEvent): void => {
+    switch (keydownEvent.code) {
+      case "ArrowDown":
+      case "ArrowLeft":
+      case "ArrowRight":
+      case "ArrowUp":
+        keydownEvent.preventDefault();
+        break;
+      case "Numpad2":
+      case "Numpad4":
+      case "Numpad6":
+      case "Numpad8":
+        if (keydownEvent.getModifierState("NumLock")) {
+          keydownEvent.preventDefault();
+        }
+        break;
+    }
     if (!state.values.heldKeys.includes(keydownEvent.code)) {
       state.setValues({
         heldKeys: [...state.values.heldKeys, keydownEvent.code],
