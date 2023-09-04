@@ -51,6 +51,8 @@ game.zip
 
 10. Run `npm run dev` to start a dev server with hot reloading on port 3000.
 
+11. Explore the documentation: https://evannorton.github.io/Pigeon-Mode-Game-Framework/
+
 ## Command line interface
 
 ### `pigeon dev`
