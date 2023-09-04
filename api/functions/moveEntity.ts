@@ -1,10 +1,24 @@
 import { Level } from "pigeon-mode-game-framework/api/types/World";
 import { state } from "pigeon-mode-game-framework/api/state";
 
+/**
+ * The amount an entity is moving when supplied to {@link moveEntity}
+ */
 export interface MoveEntityOptions {
+  /**
+   * Amount the entity is moving across the X-axis
+   */
   readonly xVelocity?: number;
+    /**
+   * Amount the entity is moving across the Y-axis
+   */
   readonly yVelocity?: number;
 }
+/**
+ * Move the specified entity by the specified amount in the world
+ * @param entityID - The string entityID of the entity to be moved
+ * @param options - The amount the entity moves
+ */
 export const moveEntity = (
   entityID: string,
   options: MoveEntityOptions,

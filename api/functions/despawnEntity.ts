@@ -1,6 +1,10 @@
 import { Level } from "pigeon-mode-game-framework/api/types/World";
 import { state } from "pigeon-mode-game-framework/api/state";
 
+/**
+ * Removes the given entity from the world
+ * @param entityID - String entityID of the entity to despawn
+ */
 export const despawnEntity = (entityID: string): void => {
   if (state.values.world === null) {
     throw new Error(

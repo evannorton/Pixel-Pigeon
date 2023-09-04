@@ -6,8 +6,16 @@ import { getRectangleCollisionData } from "pigeon-mode-game-framework/api/functi
 import { state } from "pigeon-mode-game-framework/api/state";
 
 export interface SetEntityPositionOptions {
+  /**
+   * The position to set the entity to
+   */
   readonly position: EntityPosition;
 }
+/**
+ * Set the specified entity from their current position to a new position
+ * @param entityID - String entityID of the entity whos position is being set
+ * @param options - Options for setting EntityPositions
+ */
 export const setEntityPosition = (
   entityID: string,
   options: SetEntityPositionOptions,
