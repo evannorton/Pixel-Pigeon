@@ -7,7 +7,7 @@ import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
  * Defines a specific frame in a sprite's Animation
  * To do this you must have a sprite sheet, and define the bounds for each different animation frame
  */
-export interface SpriteOptionsAnimationFrame {
+export interface CreateSpriteOptionsAnimationFrame {
   /**
    * The amount of time the specific frame should play for. Leave blank to create a frame that doesn't end
    */
@@ -38,9 +38,9 @@ export interface SpriteOptionsAnimationFrame {
   readonly width: number;
 }
 /**
- * A combination of {@link SpriteOptionsAnimationFrame | SpriteAnimationFrames} and an string AnimationID to form a completed animation
+ * A combination of {@link CreateSpriteOptionsAnimationFrame | SpriteAnimationFrames} and an string AnimationID to form a completed animation
  */
-export interface SpriteOptionsAnimation<AnimationID extends string> {
+export interface CreateSpriteOptionsAnimation<AnimationID extends string> {
   /**
    * String AnimationID that will be used to refer to the animation
    */
@@ -48,16 +48,16 @@ export interface SpriteOptionsAnimation<AnimationID extends string> {
   /**
    * Array of AnimationFrames used to create the overall animation
    */
-  readonly frames: SpriteOptionsAnimationFrame[];
+  readonly frames: CreateSpriteOptionsAnimationFrame[];
 }
 /**
- * A combination of multiple {@link SpriteOptionsAnimation | SpriteAnimations} and a sprite sheet to create an overall sprite
+ * A combination of multiple {@link CreateSpriteOptionsAnimation | SpriteAnimations} and a sprite sheet to create an overall sprite
  */
-export interface SpriteOptions<AnimationID extends string> {
+export interface CreateSpriteOptions<AnimationID extends string> {
   /**
    * Array of Animations that are able to be indentified by their AnimationID to play the animation
    */
-  readonly animations: SpriteOptionsAnimation<AnimationID>[];
+  readonly animations: CreateSpriteOptionsAnimation<AnimationID>[];
   /**
    * String path to the sprite sheet. **AUOMATICALLY STARTS IN IMAGES FOLDER**
    * @example
@@ -68,9 +68,9 @@ export interface SpriteOptions<AnimationID extends string> {
   readonly imagePath: string;
 }
 export class Sprite<AnimationID extends string> extends Definable {
-  private readonly _options: SpriteOptions<AnimationID>;
+  private readonly _options: CreateSpriteOptions<AnimationID>;
 
-  public constructor(options: SpriteOptions<AnimationID>) {
+  public constructor(options: CreateSpriteOptions<AnimationID>) {
     const animationIDs: string[] = [];
     for (const animation of options.animations) {
       if (animationIDs.includes(animation.id)) {
@@ -84,7 +84,7 @@ export class Sprite<AnimationID extends string> extends Definable {
     this._options = options;
   }
 
-  public get animations(): SpriteOptionsAnimation<AnimationID>[] {
+  public get animations(): CreateSpriteOptionsAnimation<AnimationID>[] {
     return [...this._options.animations];
   }
 
@@ -100,5 +100,5 @@ export class Sprite<AnimationID extends string> extends Definable {
  * @returns String SpriteID that can be used to reference the sprite
  */
 export const createSprite = <AnimationID extends string>(
-  options: SpriteOptions<AnimationID>,
+  options: CreateSpriteOptions<AnimationID>,
 ): string => new Sprite(options).id;

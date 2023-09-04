@@ -13,6 +13,12 @@ import {
   createSpriteInstance,
   removeSpriteInstance,
 } from "pigeon-mode-game-framework/api/classes/SpriteInstance";
+import {
+  CreateSpriteOptions,
+  CreateSpriteOptionsAnimation,
+  CreateSpriteOptionsAnimationFrame,
+  createSprite,
+} from "pigeon-mode-game-framework/api/classes/Sprite";
 import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
 import { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
 import {
@@ -34,7 +40,6 @@ import {
   StopEntityOptions,
   stopEntity,
 } from "pigeon-mode-game-framework/api/functions/stopEntity";
-import { createSprite } from "pigeon-mode-game-framework/api/classes/Sprite";
 import { despawnEntity } from "pigeon-mode-game-framework/api/functions/despawnEntity";
 import { getCurrentTime } from "pigeon-mode-game-framework/api/functions/getCurrentTime";
 import { getEntityPosition } from "pigeon-mode-game-framework/api/functions/getEntityPosition";
@@ -58,6 +63,9 @@ export {
   createSprite,
   createSpriteInstance,
   CreateSpriteInstanceOptions,
+  CreateSpriteOptions,
+  CreateSpriteOptionsAnimation,
+  CreateSpriteOptionsAnimationFrame,
   despawnEntity,
   EntityCollidable,
   EntityPosition,
