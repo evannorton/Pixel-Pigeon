@@ -9,7 +9,7 @@ export interface MoveEntityOptions {
    * Amount the entity is moving across the X-axis
    */
   readonly xVelocity?: number;
-    /**
+  /**
    * Amount the entity is moving across the Y-axis
    */
   readonly yVelocity?: number;

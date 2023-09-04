@@ -5,9 +5,9 @@ export class State<StateSchema> {
   private _values: StateSchema;
 
   /**
-   * 
+   *
    * @param initialState - The StateSchema that the class will follow
-   * @example 
+   * @example
    * ```ts
    *  interface StateSchema {
       myString: string | null;
@@ -39,7 +39,7 @@ export class State<StateSchema> {
   /**
    * Set the values in state to be accessed anywhere
    * @param values - The partial values of StateSchema to change
-   * 
+   *
    * @example
    * ```ts
    * const favoriteNumber: number = 5;

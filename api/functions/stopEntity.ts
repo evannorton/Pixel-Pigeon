@@ -15,7 +15,7 @@ export interface StopEntityOptions {
   readonly y?: boolean;
 }
 /**
- * 
+ *
  * @param entityID - String EntityID to determine what entity to perform the operation on
  * @param options - Options to determine which coordinates to stop moving the entity on
  */

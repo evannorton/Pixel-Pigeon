@@ -2,12 +2,12 @@ import {
   CameraCoordinates,
   getCameraCoordinates,
 } from "pigeon-mode-game-framework/api/functions/getCameraCoordinates";
-import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
 import {
-  Sprite,
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
+  Sprite,
 } from "pigeon-mode-game-framework/api/classes/Sprite";
+import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
 import { Entity as WorldLevelLayerEntity } from "pigeon-mode-game-framework/api/types/World";
 import { drawImage } from "pigeon-mode-game-framework/api/functions/draw/drawImage";
 import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
@@ -136,7 +136,10 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
       : timeSinceAnimationStarted % animationDuration;
     const currentAnimationFrame: CreateSpriteOptionsAnimationFrame | null =
       currentAnimation.frames.find(
-        (frame: CreateSpriteOptionsAnimationFrame, frameIndex: number): boolean => {
+        (
+          frame: CreateSpriteOptionsAnimationFrame,
+          frameIndex: number,
+        ): boolean => {
           const duration: number | null = frame.duration ?? null;
           if (duration === null) {
             return true;
