@@ -80,18 +80,16 @@ export const init = async (): Promise<void> => {
     settings.RENDER_OPTIONS.hello = false;
   }
   addEventListener("resize", sizeScreen);
-  document.addEventListener("visibilitychange", (): void => {
-    if (document.visibilityState !== "visible") {
-      state.setValues({
-        heldGamepadButtons: [],
-        heldKeys: [],
-      });
-      getDefinables(InputTickHandler).forEach(
-        (inputTickHandler: InputTickHandler<string>): void => {
-          inputTickHandler.empty();
-        },
-      );
-    }
+  addEventListener("blur", (): void => {
+    state.setValues({
+      heldGamepadButtons: [],
+      heldKeys: [],
+    });
+    getDefinables(InputTickHandler).forEach(
+      (inputTickHandler: InputTickHandler<string>): void => {
+        inputTickHandler.empty();
+      },
+    );
   });
   app.renderer.view.addEventListener?.(
     "contextmenu",
