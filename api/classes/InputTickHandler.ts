@@ -1,4 +1,5 @@
 import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
+import { InputKey } from "pigeon-mode-game-framework/api/types/InputKey";
 import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 
 export interface InputTickHandlerGroup<GroupID> {
@@ -22,7 +23,7 @@ export interface InputTickHandlerGroup<GroupID> {
   /**
    * An array of strings that represents different inputs on a keyboard
    */
-  readonly keys?: string[];
+  readonly keys?: InputKey[];
 }
 /**
  * Uses an array of InputTickHandlers to allow any number of inputs to be set up under one GroupID
@@ -43,9 +44,23 @@ export class InputTickHandler<GroupID extends string> extends Definable {
     return this._groupIDs[0] ?? null;
   }
 
-  public handleKeyDown(button: string): void {
+  public handleKeyDown(button: string, numlock: boolean): void {
     for (const group of this._options.groups) {
-      if (typeof group.keys !== "undefined" && group.keys.includes(button)) {
+      if (
+        typeof group.keys !== "undefined" &&
+        group.keys.some((key: InputKey): boolean => {
+          if (key.value === button) {
+            if (key.numlock === true) {
+              return numlock;
+            }
+            if (key.withoutNumlock === true) {
+              return !numlock;
+            }
+            return true;
+          }
+          return false;
+        })
+      ) {
         this._groupIDs.unshift(group.id);
       }
     }
@@ -53,7 +68,10 @@ export class InputTickHandler<GroupID extends string> extends Definable {
 
   public handleKeyUp(button: string): void {
     for (const group of this._options.groups) {
-      if (typeof group.keys !== "undefined" && group.keys.includes(button)) {
+      if (
+        typeof group.keys !== "undefined" &&
+        group.keys.some((key: InputKey): boolean => key.value === button)
+      ) {
         this._groupIDs.splice(this._groupIDs.indexOf(group.id), 1);
       }
     }

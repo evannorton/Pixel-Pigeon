@@ -16,7 +16,7 @@ import { tick } from "pigeon-mode-game-framework/api/functions/tick";
 
 /**
  * Initializes Pigeon-Mode-Game-Framework, only call this once or it will throw an error.
- * 
+ *
  */
 export const init = async (): Promise<void> => {
   if (state.values.isInitialized) {
@@ -141,12 +141,18 @@ export const init = async (): Promise<void> => {
       });
       getDefinables(InputPressHandler).forEach(
         (inputPressHandler: InputPressHandler): void => {
-          inputPressHandler.handleKey(keydownEvent.code);
+          inputPressHandler.handleKey(
+            keydownEvent.code,
+            keydownEvent.getModifierState("NumLock"),
+          );
         },
       );
       getDefinables(InputTickHandler).forEach(
         (inputTickHandler: InputTickHandler<string>): void => {
-          inputTickHandler.handleKeyDown(keydownEvent.code);
+          inputTickHandler.handleKeyDown(
+            keydownEvent.code,
+            keydownEvent.getModifierState("NumLock"),
+          );
         },
       );
     }

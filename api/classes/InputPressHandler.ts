@@ -1,4 +1,5 @@
 import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
+import { InputKey } from "pigeon-mode-game-framework/api/types/InputKey";
 import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
 import { state } from "pigeon-mode-game-framework/api/state";
 
@@ -14,13 +15,9 @@ export interface CreateInputPressHandlerOptions {
    */
   readonly gamepadButtons?: number[];
   /**
-   * An array of strings that correlate to inputs on a keyboard
-   * @example
-   * ```ts
-   * keys: ["ArrowLeft", "KeyA"],
-   * ```
+   * An array of strings that represents different inputs on a keyboard
    */
-  readonly keys?: string[];
+  readonly keys?: InputKey[];
   /**
    * Should the input activate on left click?
    */
@@ -51,10 +48,21 @@ export class InputPressHandler extends Definable {
     }
   }
 
-  public handleKey(button: string): void {
+  public handleKey(button: string, numlock: boolean): void {
     if (
       typeof this._options.keys !== "undefined" &&
-      this._options.keys.includes(button)
+      this._options.keys.some((key: InputKey): boolean => {
+        if (key.value === button) {
+          if (key.numlock === true) {
+            return numlock;
+          }
+          if (key.withoutNumlock === true) {
+            return !numlock;
+          }
+          return true;
+        }
+        return false;
+      })
     ) {
       this.attemptInput();
     }
