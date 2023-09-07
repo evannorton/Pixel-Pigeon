@@ -29,8 +29,9 @@ body:not(.paused) #pause-menu {
 }
 
 .pause-toggle {
-  position: absolute;
   cursor: url("./cursors/pointer.png") 7 2, pointer;
+  opacity: .75;
+  position: absolute;
 }
 
 body:not(.interacted) .pause-toggle {
