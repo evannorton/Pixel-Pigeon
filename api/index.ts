@@ -53,6 +53,7 @@ import {
   stopAudioSource,
 } from "pigeon-mode-game-framework/api/classes/AudioSource";
 import { setPauseMenuCondition } from "pigeon-mode-game-framework/api/functions/setPauseMenuCondition";
+import { InputKey } from "pigeon-mode-game-framework/api/types/InputKey";
 
 export {
   CollisionData,
@@ -74,6 +75,7 @@ export {
   getInputTickHandlerGroupID,
   goToLevel,
   init,
+  InputKey,
   InputTickHandlerGroup,
   lockCameraToEntity,
   moveEntity,
