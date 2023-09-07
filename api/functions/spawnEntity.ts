@@ -19,7 +19,7 @@ export interface SpawnEntityOptions<CollisionLayer extends string> {
    * The same collision cannot trigger onCollision and onOverlap
    */
   readonly onCollision?: (collisionData: CollisionData<CollisionLayer>) => void;
-    /**
+  /**
    * Callback that triggers whenever an entity passes through another.
    * The same collision cannot trigger onCollision and onOverlap
    */
