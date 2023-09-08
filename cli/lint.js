@@ -2,15 +2,7 @@ const { ESLint } = require("eslint");
 const { resolve, join } = require("path");
 
 const eslint = new ESLint({
-  cwd: resolve(join()),
-  overrideConfig: {
-    parserOptions: {
-      project: "./node_modules/pigeon-mode-game-framework/game-tsconfig.json"
-    },
-    extends: [
-      "./node_modules/pigeon-mode-game-framework/.eslintrc"
-    ]
-  }
+  cwd: resolve(join())
 });
 
 eslint.lintFiles("./src").then((results) => {
