@@ -43,12 +43,11 @@ export const moveEntity = (
   for (const layer of level.layers) {
     for (const [layerEntityID, entity] of layer.entities) {
       if (layerEntityID === entityID) {
-        if (typeof options.xVelocity !== "undefined") {
-          entity.xVelocity += options.xVelocity;
+        entity.movementVelocity = {
+          x: options.xVelocity ?? 0,
+          y: options.yVelocity ?? 0,
         }
-        if (typeof options.yVelocity !== "undefined") {
-          entity.yVelocity += options.yVelocity;
-        }
+        entity.pathing = null;
       }
     }
   }

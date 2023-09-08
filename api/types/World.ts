@@ -2,6 +2,7 @@ import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionDat
 import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
 import { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
 import { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
+import { Pathing } from "pigeon-mode-game-framework/api/types/Pathing";
 
 export interface Entity<CollisionLayer extends string> {
   readonly collidables: EntityCollidable<string>[];
@@ -10,11 +11,14 @@ export interface Entity<CollisionLayer extends string> {
   readonly id: string;
   readonly onCollision: ((data: CollisionData<CollisionLayer>) => void) | null;
   readonly onOverlap: ((data: OverlapData<CollisionLayer>) => void) | null;
+  pathing: Pathing | null;
   position: EntityPosition | null;
   readonly spriteInstanceID: string | null;
   readonly width: number;
-  xVelocity: number;
-  yVelocity: number;
+  movementVelocity: {
+    readonly x: number;
+    readonly y: number;
+  } | null;
   readonly zIndex: number;
 }
 export interface Layer<CollisionLayer extends string> {

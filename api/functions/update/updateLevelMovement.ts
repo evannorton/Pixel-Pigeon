@@ -31,22 +31,22 @@ export const updateLevelMovement = (): void => {
     for (const [, entity] of layer.entities) {
       if (
         entity.position !== null &&
-        (entity.xVelocity !== 0 || entity.yVelocity !== 0)
+        entity.movementVelocity !== null
       ) {
         const unnormalizedEntityX: number =
           entity.position.x +
-          entity.xVelocity * (state.values.app.ticker.deltaMS / 1000);
+          entity.movementVelocity.x * (state.values.app.ticker.deltaMS / 1000);
         const unnormalizedEntityY: number =
           entity.position.y +
-          entity.yVelocity * (state.values.app.ticker.deltaMS / 1000);
+          entity.movementVelocity.y * (state.values.app.ticker.deltaMS / 1000);
         const isXLarger: boolean =
-          Math.abs(entity.xVelocity) >= Math.abs(entity.yVelocity);
+          Math.abs(entity.movementVelocity.x) >= Math.abs(entity.movementVelocity.y);
         const largerVelocity: number = isXLarger
-          ? entity.xVelocity
-          : entity.yVelocity;
+          ? entity.movementVelocity.x
+          : entity.movementVelocity.y;
         const smallerVelocity: number = !isXLarger
-          ? entity.xVelocity
-          : entity.yVelocity;
+          ? entity.movementVelocity.x
+          : entity.movementVelocity.y;
         const largerStart: number = isXLarger
           ? entity.position.x
           : entity.position.y;
@@ -64,23 +64,23 @@ export const updateLevelMovement = (): void => {
           let pieceXEnd: number = 0;
           let pieceYEnd: number = 0;
           if (isXLarger) {
-            if (entity.xVelocity >= 0) {
+            if (entity.movementVelocity.x >= 0) {
               pieceXEnd += largerAddition;
             } else {
               pieceXEnd -= largerAddition;
             }
-            if (entity.yVelocity >= 0) {
+            if (entity.movementVelocity.y >= 0) {
               pieceYEnd += smallerAddition;
             } else {
               pieceYEnd -= smallerAddition;
             }
           } else {
-            if (entity.xVelocity >= 0) {
+            if (entity.movementVelocity.x >= 0) {
               pieceXEnd += smallerAddition;
             } else {
               pieceXEnd -= smallerAddition;
             }
-            if (entity.yVelocity >= 0) {
+            if (entity.movementVelocity.y >= 0) {
               pieceYEnd += largerAddition;
             } else {
               pieceYEnd -= largerAddition;
@@ -148,18 +148,18 @@ export const updateLevelMovement = (): void => {
             canMoveX &&
             canMoveY &&
             canMoveBoth &&
-            entity.xVelocity !== 0 &&
-            entity.yVelocity !== 0
+            entity.movementVelocity.x !== 0 &&
+            entity.movementVelocity.y !== 0
           ) {
             xEnd += pieceXEnd;
             yEnd += pieceYEnd;
           }
           // Vertical move
-          else if (canMoveY && entity.yVelocity !== 0) {
+          else if (canMoveY && entity.movementVelocity.y !== 0) {
             yEnd += pieceYEnd;
           }
           // Horizontal move
-          else if (canMoveX && entity.xVelocity !== 0) {
+          else if (canMoveX && entity.movementVelocity.x !== 0) {
             xEnd += pieceXEnd;
           }
           // On collision

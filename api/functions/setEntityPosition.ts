@@ -41,6 +41,7 @@ export const setEntityPosition = (
     for (const [layerEntityID, entity] of layer.entities) {
       if (layerEntityID === entityID) {
         entity.position = options.position;
+        entity.pathing = null;
         const collisionData: CollisionData<string> = getRectangleCollisionData(
           {
             height: entity.height,

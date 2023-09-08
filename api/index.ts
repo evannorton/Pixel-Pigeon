@@ -37,7 +37,6 @@ import {
 } from "pigeon-mode-game-framework/api/functions/spawnEntity";
 import { State } from "pigeon-mode-game-framework/api/classes/State";
 import {
-  StopEntityOptions,
   stopEntity,
 } from "pigeon-mode-game-framework/api/functions/stopEntity";
 import { despawnEntity } from "pigeon-mode-game-framework/api/functions/despawnEntity";
@@ -54,6 +53,7 @@ import {
 } from "pigeon-mode-game-framework/api/classes/AudioSource";
 import { setPauseMenuCondition } from "pigeon-mode-game-framework/api/functions/setPauseMenuCondition";
 import { InputKey } from "pigeon-mode-game-framework/api/types/InputKey";
+import { pathEntity } from "pigeon-mode-game-framework/api/functions/pathEntity";
 
 export {
   CollisionData,
@@ -82,6 +82,7 @@ export {
   MoveEntityOptions,
   onTick,
   OverlapData,
+  pathEntity,
   playAudioSource,
   Rectangle,
   removeSpriteInstance,
@@ -92,6 +93,5 @@ export {
   SpawnEntityOptions,
   State,
   stopAudioSource,
-  stopEntity,
-  StopEntityOptions,
+  stopEntity
 };

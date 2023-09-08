@@ -83,8 +83,10 @@ export const spawnEntity = <CollisionLayer extends string>(
     collisionLayer: spawnEntityOptions.collisionLayer ?? null,
     height: spawnEntityOptions.height,
     id,
+    movementVelocity: null,
     onCollision: spawnEntityOptions.onCollision ?? null,
     onOverlap: spawnEntityOptions.onOverlap ?? null,
+    pathing: null,
     position:
       typeof spawnEntityOptions.position !== "undefined"
         ? {
@@ -94,8 +96,6 @@ export const spawnEntity = <CollisionLayer extends string>(
         : null,
     spriteInstanceID: spawnEntityOptions.spriteInstanceID ?? null,
     width: spawnEntityOptions.width,
-    xVelocity: 0,
-    yVelocity: 0,
     zIndex: spawnEntityOptions.zIndex,
   });
   return id;
