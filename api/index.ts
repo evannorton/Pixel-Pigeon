@@ -21,6 +21,7 @@ import {
 } from "pigeon-mode-game-framework/api/classes/Sprite";
 import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
 import { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
+import { InputKey } from "pigeon-mode-game-framework/api/types/InputKey";
 import {
   MoveEntityOptions,
   moveEntity,
@@ -36,9 +37,6 @@ import {
   spawnEntity,
 } from "pigeon-mode-game-framework/api/functions/spawnEntity";
 import { State } from "pigeon-mode-game-framework/api/classes/State";
-import {
-  stopEntity,
-} from "pigeon-mode-game-framework/api/functions/stopEntity";
 import { despawnEntity } from "pigeon-mode-game-framework/api/functions/despawnEntity";
 import { getCurrentTime } from "pigeon-mode-game-framework/api/functions/getCurrentTime";
 import { getEntityPosition } from "pigeon-mode-game-framework/api/functions/getEntityPosition";
@@ -47,13 +45,13 @@ import { goToLevel } from "pigeon-mode-game-framework/api/functions/goToLevel";
 import { init } from "pigeon-mode-game-framework/api/functions/init";
 import { lockCameraToEntity } from "pigeon-mode-game-framework/api/functions/lockCameraToEntity";
 import { onTick } from "pigeon-mode-game-framework/api/functions/onTick";
+import { pathEntity } from "pigeon-mode-game-framework/api/functions/pathEntity";
 import {
   playAudioSource,
   stopAudioSource,
 } from "pigeon-mode-game-framework/api/classes/AudioSource";
 import { setPauseMenuCondition } from "pigeon-mode-game-framework/api/functions/setPauseMenuCondition";
-import { InputKey } from "pigeon-mode-game-framework/api/types/InputKey";
-import { pathEntity } from "pigeon-mode-game-framework/api/functions/pathEntity";
+import { stopEntity } from "pigeon-mode-game-framework/api/functions/stopEntity";
 
 export {
   CollisionData,
@@ -93,5 +91,5 @@ export {
   SpawnEntityOptions,
   State,
   stopAudioSource,
-  stopEntity
+  stopEntity,
 };

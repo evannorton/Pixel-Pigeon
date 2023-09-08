@@ -1,13 +1,15 @@
-import { state } from "pigeon-mode-game-framework/api/state";
 import { Level } from "pigeon-mode-game-framework/api/types/World";
+import { state } from "pigeon-mode-game-framework/api/state";
 
 export interface PathEntityOptions {
   readonly velocity: number;
   readonly x: number;
   readonly y: number;
 }
-
-export const pathEntity = (entityID: string, options: PathEntityOptions) => {
+export const pathEntity = (
+  entityID: string,
+  options: PathEntityOptions,
+): void => {
   if (state.values.world === null) {
     throw new Error(
       `An attempt was made to path entity "${entityID}" before world was loaded.`,
@@ -33,9 +35,8 @@ export const pathEntity = (entityID: string, options: PathEntityOptions) => {
           velocity: options.velocity,
           x: options.x,
           y: options.y,
-        }
+        };
       }
     }
   }
-}
-
+};

@@ -6,9 +6,7 @@ import { state } from "pigeon-mode-game-framework/api/state";
  * @param entityID - String EntityID to determine what entity to perform the operation on
  * @param options - Options to determine which coordinates to stop moving the entity on
  */
-export const stopEntity = (
-  entityID: string,
-): void => {
+export const stopEntity = (entityID: string): void => {
   if (state.values.world === null) {
     throw new Error(
       `An attempt was made to move entity "${entityID}" before world was loaded.`,
