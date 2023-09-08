@@ -29,10 +29,7 @@ export const updateLevelMovement = (): void => {
   }
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
-      if (
-        entity.position !== null &&
-        entity.movementVelocity !== null
-      ) {
+      if (entity.position !== null && entity.movementVelocity !== null) {
         const unnormalizedEntityX: number =
           entity.position.x +
           entity.movementVelocity.x * (state.values.app.ticker.deltaMS / 1000);
@@ -40,7 +37,8 @@ export const updateLevelMovement = (): void => {
           entity.position.y +
           entity.movementVelocity.y * (state.values.app.ticker.deltaMS / 1000);
         const isXLarger: boolean =
-          Math.abs(entity.movementVelocity.x) >= Math.abs(entity.movementVelocity.y);
+          Math.abs(entity.movementVelocity.x) >=
+          Math.abs(entity.movementVelocity.y);
         const largerVelocity: number = isXLarger
           ? entity.movementVelocity.x
           : entity.movementVelocity.y;

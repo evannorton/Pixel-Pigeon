@@ -46,7 +46,7 @@ export const moveEntity = (
         entity.movementVelocity = {
           x: options.xVelocity ?? 0,
           y: options.yVelocity ?? 0,
-        }
+        };
         entity.pathing = null;
       }
     }
