@@ -45,7 +45,7 @@ import { goToLevel } from "pigeon-mode-game-framework/api/functions/goToLevel";
 import { init } from "pigeon-mode-game-framework/api/functions/init";
 import { lockCameraToEntity } from "pigeon-mode-game-framework/api/functions/lockCameraToEntity";
 import { onTick } from "pigeon-mode-game-framework/api/functions/onTick";
-import { pathEntity } from "pigeon-mode-game-framework/api/functions/pathEntity";
+import { PathEntityOptions, pathEntity } from "pigeon-mode-game-framework/api/functions/pathEntity";
 import {
   playAudioSource,
   stopAudioSource,
@@ -80,6 +80,7 @@ export {
   MoveEntityOptions,
   onTick,
   OverlapData,
+  PathEntityOptions,
   pathEntity,
   playAudioSource,
   Rectangle,
