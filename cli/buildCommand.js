@@ -1,1 +1,20 @@
-module.exports = "node ./node_modules/pigeon-mode-game-framework/cli/clearOutput && node ./node_modules/pigeon-mode-game-framework/cli/createLib && tsc --preserveWatchOutput --p ./node_modules/pigeon-mode-game-framework/game-tsconfig.json --outDir ./node_modules/pigeon-mode-game-framework/game-lib && tsc --preserveWatchOutput --p ./node_modules/pigeon-mode-game-framework/hot-reload/tsconfig.json --outDir ./node_modules/pigeon-mode-game-framework/hot-reload-lib && esbuild ./node_modules/pigeon-mode-game-framework/game-lib/index.js --bundle --sourcemap --outfile=./node_modules/pigeon-mode-game-framework/out/game-script.js && esbuild ./node_modules/pigeon-mode-game-framework/hot-reload-lib/index.js --bundle --sourcemap --outfile=./node_modules/pigeon-mode-game-framework/out/library-script.js && node ./node_modules/pigeon-mode-game-framework/cli/buildHTML && node ./node_modules/pigeon-mode-game-framework/cli/buildNormalize && node ./node_modules/pigeon-mode-game-framework/cli/buildCSS && node ./node_modules/pigeon-mode-game-framework/cli/buildCursors && node ./node_modules/pigeon-mode-game-framework/cli/buildAudio && node ./node_modules/pigeon-mode-game-framework/cli/buildImages && node ./node_modules/pigeon-mode-game-framework/cli/buildSVG && node ./node_modules/pigeon-mode-game-framework/cli/buildFonts && node ./node_modules/pigeon-mode-game-framework/cli/buildConfig && node ./node_modules/pigeon-mode-game-framework/cli/buildLDTK";
+const { join } = require("path");
+
+module.exports = [
+    `node ${join(__dirname, "clearOutput")}`,
+    `node ${join(__dirname, "createLib")}`,
+    `tsc --preserveWatchOutput --p ${join(__dirname, "..", "game-tsconfig.json")} --outDir ${join(__dirname, "..", "game-lib")}`,
+    `tsc --preserveWatchOutput --p ${join(__dirname, "..", "hot-reload", "tsconfig.json")} --outDir ${join(__dirname, "..", "hot-reload-lib")}`,
+    `esbuild ${join(__dirname, "..", "game-lib", "index.js")} --bundle --sourcemap --outfile=${join(__dirname, "..", "out", "game-script.js")}`,
+    `esbuild ${join(__dirname, "..", "hot-reload-lib", "index.js")} --bundle --sourcemap --outfile=${join(__dirname, "..", "out", "library-script.js")}`,
+    `node ${join(__dirname, "buildHTML")}`,
+    `node ${join(__dirname, "buildNormalize")}`,
+    `node ${join(__dirname, "buildCSS")}`,
+    `node ${join(__dirname, "buildCursors")}`,
+    `node ${join(__dirname, "buildAudio")}`,
+    `node ${join(__dirname, "buildImages")}`,
+    `node ${join(__dirname, "buildSVG")}`,
+    `node ${join(__dirname, "buildFonts")}`,
+    `node ${join(__dirname, "buildConfig")}`,
+    `node ${join(__dirname, "buildLDTK")}`
+].join(" && ");

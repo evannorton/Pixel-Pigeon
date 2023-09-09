@@ -10,7 +10,7 @@ writeFileSync(join(__dirname, "watchExecCompleted.json"), JSON.stringify(false))
 
 const watcher = nodemon({
   delay: 1,
-  exec: "node ./node_modules/pigeon-mode-game-framework/cli/handleWatch || exit 1",
+  exec: `node ${join(__dirname, "handleWatch")} || exit 1`,
   ext: "css,fnt,gif,js,json,mp3,mustache,png,ts,ttf,json,pmgf,ldtk",
   stdout: true,
   stderr: true,
