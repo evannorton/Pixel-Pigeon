@@ -82,10 +82,7 @@ Create an `.eslintrc` with the following contents to use this extension.
   ],
   "rules": {
     "no-restricted-imports": [
-      "error",
-      {
-        "patterns": []
-      }
+      "off"
     ]
   }
 }
