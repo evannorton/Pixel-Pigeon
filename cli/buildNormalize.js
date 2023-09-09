@@ -1,4 +1,5 @@
 const { copyFileSync } = require("fs");
-const { join, resolve } = require("path");
+const { join } = require("path");
+const nodeModulesPath = require("./nodeModulesPath");
 
-copyFileSync(resolve(join(__dirname, "..", "..", "normalize.css", "normalize.css")), resolve(join(__dirname, "..", "out", "normalize.css")))
+copyFileSync(join(nodeModulesPath, "normalize.css", "normalize.css"), join(__dirname, "..", "out", "normalize.css"))

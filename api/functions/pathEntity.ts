@@ -1,5 +1,5 @@
-import { Level } from "pigeon-mode-game-framework/api/types/World";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { Level } from "../types/World";
+import { state } from "../state";
 
 export interface PathEntityOptions {
   readonly velocity: number;

@@ -1,7 +1,7 @@
-import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
-import { Level } from "pigeon-mode-game-framework/api/types/World";
-import { getEntityRectangleOverlapData } from "pigeon-mode-game-framework/api/functions/getEntityRectangleOverlapData";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { CollisionData } from "../../types/CollisionData";
+import { Level } from "../../types/World";
+import { getEntityRectangleOverlapData } from "../getEntityRectangleOverlapData";
+import { state } from "../../state";
 
 export const updateLevelOverlap = (): void => {
   if (state.values.world === null) {

@@ -1,5 +1,5 @@
 import { Assets, Texture } from "pixi.js";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { state } from "../state";
 
 export const loadPixiAsset = async (path: string): Promise<Texture> => {
   const currentPath: string = location.pathname.endsWith("/")

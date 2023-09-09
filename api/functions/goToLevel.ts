@@ -1,4 +1,4 @@
-import { state } from "pigeon-mode-game-framework/api/state";
+import { state } from "../state";
 
 /**
  * Switches the current active level to the provided level, levels must be made in LDTK

@@ -1,6 +1,6 @@
-import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
-import { InputKey } from "pigeon-mode-game-framework/api/types/InputKey";
-import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
+import { Definable } from "./Definable";
+import { InputKey } from "../types/InputKey";
+import { getToken } from "../functions/getToken";
 
 export interface InputTickHandlerGroup<GroupID> {
   /**

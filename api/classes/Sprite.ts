@@ -1,7 +1,7 @@
-import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
-import { ImageSource } from "pigeon-mode-game-framework/api/classes/ImageSource";
-import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
-import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
+import { Definable } from "./Definable";
+import { ImageSource } from "../classes/ImageSource";
+import { getDefinable } from "../functions/getDefinable";
+import { getToken } from "../functions/getToken";
 
 /**
  * Defines a specific frame in a sprite's Animation

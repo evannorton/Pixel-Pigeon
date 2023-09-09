@@ -1,3 +1,3 @@
-import { run } from "pigeon-mode-game-framework/hot-reload/functions/run";
+import { run } from "./functions/run";
 
 run();

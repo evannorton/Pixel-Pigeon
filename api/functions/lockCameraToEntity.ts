@@ -1,4 +1,4 @@
-import { state } from "pigeon-mode-game-framework/api/state";
+import { state } from "../state";
 
 /**
  * Locks the camera to follow the entity

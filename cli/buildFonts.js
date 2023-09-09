@@ -1,5 +1,5 @@
-const { join, resolve } = require("path");
+const { join } = require("path");
 const { copyDirectorySync } = require("./utils");
 
-copyDirectorySync(resolve(join(__dirname, "..", "fonts")), resolve(join(__dirname, "..", "out", "fonts")));
+copyDirectorySync(join(__dirname, "..", "fonts"), join(__dirname, "..", "out", "fonts"));
 

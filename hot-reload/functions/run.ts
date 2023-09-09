@@ -1,4 +1,4 @@
-import { socket } from "pigeon-mode-game-framework/hot-reload/socket";
+import { socket } from "../socket";
 
 export const run = (): void => {
   console.log("Running PMGF hot-reloading.");

@@ -1,5 +1,5 @@
-import { getStretchScale } from "pigeon-mode-game-framework/api/functions/getStretchScale";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { getStretchScale } from "./getStretchScale";
+import { state } from "../state";
 
 export const sizeScreen = (): void => {
   if (state.values.config === null) {

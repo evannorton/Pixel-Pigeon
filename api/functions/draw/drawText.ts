@@ -1,6 +1,6 @@
 import { BitmapText, TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
-import { getBitmapText } from "pigeon-mode-game-framework/api/functions/getBitmapText";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { getBitmapText } from "../getBitmapText";
+import { state } from "../../state";
 
 export const drawText = (
   text: string,

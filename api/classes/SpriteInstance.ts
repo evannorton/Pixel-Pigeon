@@ -1,18 +1,18 @@
 import {
   CameraCoordinates,
   getCameraCoordinates,
-} from "pigeon-mode-game-framework/api/functions/getCameraCoordinates";
+} from "../functions/getCameraCoordinates";
 import {
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
   Sprite,
-} from "pigeon-mode-game-framework/api/classes/Sprite";
-import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
-import { Entity as WorldLevelLayerEntity } from "pigeon-mode-game-framework/api/types/World";
-import { drawImage } from "pigeon-mode-game-framework/api/functions/draw/drawImage";
-import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
-import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
-import { state } from "pigeon-mode-game-framework/api/state";
+} from "../classes/Sprite";
+import { Definable } from "./Definable";
+import { Entity as WorldLevelLayerEntity } from "../types/World";
+import { drawImage } from "../functions/draw/drawImage";
+import { getDefinable } from "../functions/getDefinable";
+import { getToken } from "../functions/getToken";
+import { state } from "../state";
 
 /**
  * Information used to decide when an animation should be played for a {@link createSpriteInstance | SpriteInstance}

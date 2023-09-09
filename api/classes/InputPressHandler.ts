@@ -1,7 +1,7 @@
-import { Definable } from "pigeon-mode-game-framework/api/classes/Definable";
-import { InputKey } from "pigeon-mode-game-framework/api/types/InputKey";
-import { getToken } from "pigeon-mode-game-framework/api/functions/getToken";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { Definable } from "./Definable";
+import { InputKey } from "../types/InputKey";
+import { getToken } from "../functions/getToken";
+import { state } from "../state";
 
 /** Defines options for InputPressHandlers, which mainly is about what inputs to press and the callbacks */
 export interface CreateInputPressHandlerOptions {

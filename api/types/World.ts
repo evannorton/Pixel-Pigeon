@@ -1,8 +1,8 @@
-import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
-import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
-import { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
-import { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
-import { Pathing } from "pigeon-mode-game-framework/api/types/Pathing";
+import { CollisionData } from "./CollisionData";
+import { EntityCollidable } from "./EntityCollidable";
+import { EntityPosition } from "./EntityPosition";
+import { OverlapData } from "./OverlapData";
+import { Pathing } from "./Pathing";
 
 export interface Entity<CollisionLayer extends string> {
   readonly collidables: EntityCollidable<string>[];

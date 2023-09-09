@@ -1,5 +1,5 @@
 import { Graphics } from "pixi.js";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { state } from "../../state";
 
 export const drawRectangle = (
   color: string,

@@ -1,4 +1,4 @@
-import { state } from "pigeon-mode-game-framework/api/state";
+import { state } from "../state";
 
 /**
  * Function adds any callbacks to a list of callbacks that are called every tick

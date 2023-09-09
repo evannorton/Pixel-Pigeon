@@ -1,5 +1,5 @@
-import { definables } from "pigeon-mode-game-framework/api/definables";
-import { validIDCharacters } from "pigeon-mode-game-framework/api/constants/validIDCharacters";
+import { definables } from "../definables";
+import { validIDCharacters } from "../constants/validIDCharacters";
 
 export abstract class Definable {
   protected readonly _id: string;

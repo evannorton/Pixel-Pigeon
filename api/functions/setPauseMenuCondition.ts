@@ -1,4 +1,4 @@
-import { state } from "pigeon-mode-game-framework/api/state";
+import { state } from "../state";
 
 /**
  * Define a callback to determine whether or not the pause button should appear on screen

@@ -1,5 +1,5 @@
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { state } from "../../state";
 
 export const drawImage = (
   texture: Texture,

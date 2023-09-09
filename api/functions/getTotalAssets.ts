@@ -1,7 +1,7 @@
-import { AudioSource } from "pigeon-mode-game-framework/api/classes/AudioSource";
-import { ImageSource } from "pigeon-mode-game-framework/api/classes/ImageSource";
-import { getDefinables } from "pigeon-mode-game-framework/api/functions/getDefinables";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { AudioSource } from "../classes/AudioSource";
+import { ImageSource } from "../classes/ImageSource";
+import { getDefinables } from "./getDefinables";
+import { state } from "../state";
 
 export const getTotalAssets = (): number => {
   if (state.values.world === null) {

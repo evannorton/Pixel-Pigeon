@@ -1,18 +1,18 @@
 import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
-import { AudioSource } from "pigeon-mode-game-framework/api/classes/AudioSource";
-import { Config } from "pigeon-mode-game-framework/api/types/Config";
-import { ImageSource } from "pigeon-mode-game-framework/api/classes/ImageSource";
-import { InputPressHandler } from "pigeon-mode-game-framework/api/classes/InputPressHandler";
-import { InputTickHandler } from "pigeon-mode-game-framework/api/classes/InputTickHandler";
-import { LDTK } from "pigeon-mode-game-framework/api/types/LDTK";
-import { assetsAreLoaded } from "pigeon-mode-game-framework/api/functions/assetsAreLoaded";
-import { getDefinable } from "pigeon-mode-game-framework/api/functions/getDefinable";
-import { getDefinables } from "pigeon-mode-game-framework/api/functions/getDefinables";
-import { getWorld } from "pigeon-mode-game-framework/api/functions/getWorld";
-import { loadAssets } from "pigeon-mode-game-framework/api/functions/loadAssets";
-import { sizeScreen } from "pigeon-mode-game-framework/api/functions/sizeScreen";
-import { state } from "pigeon-mode-game-framework/api/state";
-import { tick } from "pigeon-mode-game-framework/api/functions/tick";
+import { AudioSource } from "../classes/AudioSource";
+import { Config } from "../types/Config";
+import { ImageSource } from "../classes/ImageSource";
+import { InputPressHandler } from "../classes/InputPressHandler";
+import { InputTickHandler } from "../classes/InputTickHandler";
+import { LDTK } from "../types/LDTK";
+import { assetsAreLoaded } from "./assetsAreLoaded";
+import { getDefinable } from "./getDefinable";
+import { getDefinables } from "./getDefinables";
+import { getWorld } from "./getWorld";
+import { loadAssets } from "./loadAssets";
+import { sizeScreen } from "./sizeScreen";
+import { state } from "../state";
+import { tick } from "./tick";
 
 /**
  * Initializes Pigeon-Mode-Game-Framework, only call this once or it will throw an error.

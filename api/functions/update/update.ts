@@ -1,9 +1,9 @@
-import { InputPressHandler } from "pigeon-mode-game-framework/api/classes/InputPressHandler";
-import { InputTickHandler } from "pigeon-mode-game-framework/api/classes/InputTickHandler";
-import { SpriteInstance } from "pigeon-mode-game-framework/api/classes/SpriteInstance";
-import { getDefinables } from "pigeon-mode-game-framework/api/functions/getDefinables";
-import { state } from "pigeon-mode-game-framework/api/state";
-import { updateLevel } from "pigeon-mode-game-framework/api/functions/update/updateLevel";
+import { InputPressHandler } from "../../classes/InputPressHandler";
+import { InputTickHandler } from "../../classes/InputTickHandler";
+import { SpriteInstance } from "../../classes/SpriteInstance";
+import { getDefinables } from "../getDefinables";
+import { state } from "../../state";
+import { updateLevel } from "./updateLevel";
 
 export const update = (): void => {
   if (state.values.world === null) {

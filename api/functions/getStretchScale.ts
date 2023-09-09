@@ -1,4 +1,4 @@
-import { state } from "pigeon-mode-game-framework/api/state";
+import { state } from "../state";
 
 export const getStretchScale = (): number => {
   if (state.values.config === null) {

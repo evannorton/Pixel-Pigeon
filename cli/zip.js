@@ -1,4 +1,4 @@
-var archiver = require('archiver-promise');
+var archiver = require("archiver-promise");
 
 var archive = archiver('game.zip',{
   store: true

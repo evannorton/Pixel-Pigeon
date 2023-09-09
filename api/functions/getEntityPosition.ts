@@ -1,6 +1,6 @@
-import { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
-import { Level } from "pigeon-mode-game-framework/api/types/World";
-import { state } from "pigeon-mode-game-framework/api/state";
+import { EntityPosition } from "../types/EntityPosition";
+import { Level } from "../types/World";
+import { state } from "../state";
 
 /**
  *

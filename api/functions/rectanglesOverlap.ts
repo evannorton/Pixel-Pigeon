@@ -1,4 +1,4 @@
-import { Rectangle } from "pigeon-mode-game-framework/api/types/Rectangle";
+import { Rectangle } from "../types/Rectangle";
 
 export const rectanglesOverlap = (
   rectangle1: Rectangle,

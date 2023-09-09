@@ -1,60 +1,48 @@
-import { CollisionData } from "pigeon-mode-game-framework/api/types/CollisionData";
+import { CollisionData } from "./types/CollisionData";
 import {
   CreateInputPressHandlerOptions,
   createInputPressHandler,
-} from "pigeon-mode-game-framework/api/classes/InputPressHandler";
+} from "./classes/InputPressHandler";
 import {
   CreateInputTickHandlerOptions,
   InputTickHandlerGroup,
   createInputTickHandler,
-} from "pigeon-mode-game-framework/api/classes/InputTickHandler";
+} from "./classes/InputTickHandler";
 import {
   CreateSpriteInstanceOptions,
   createSpriteInstance,
   removeSpriteInstance,
-} from "pigeon-mode-game-framework/api/classes/SpriteInstance";
+} from "./classes/SpriteInstance";
 import {
   CreateSpriteOptions,
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
   createSprite,
-} from "pigeon-mode-game-framework/api/classes/Sprite";
-import { EntityCollidable } from "pigeon-mode-game-framework/api/types/EntityCollidable";
-import { EntityPosition } from "pigeon-mode-game-framework/api/types/EntityPosition";
-import { InputKey } from "pigeon-mode-game-framework/api/types/InputKey";
-import {
-  MoveEntityOptions,
-  moveEntity,
-} from "pigeon-mode-game-framework/api/functions/moveEntity";
-import { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
-import {
-  PathEntityOptions,
-  pathEntity,
-} from "pigeon-mode-game-framework/api/functions/pathEntity";
-import { Rectangle } from "pigeon-mode-game-framework/api/types/Rectangle";
+} from "./classes/Sprite";
+import { EntityCollidable } from "./types/EntityCollidable";
+import { EntityPosition } from "./types/EntityPosition";
+import { InputKey } from "./types/InputKey";
+import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
+import { OverlapData } from "./types/OverlapData";
+import { PathEntityOptions, pathEntity } from "./functions/pathEntity";
+import { Rectangle } from "./types/Rectangle";
 import {
   SetEntityPositionOptions,
   setEntityPosition,
-} from "pigeon-mode-game-framework/api/functions/setEntityPosition";
-import {
-  SpawnEntityOptions,
-  spawnEntity,
-} from "pigeon-mode-game-framework/api/functions/spawnEntity";
-import { State } from "pigeon-mode-game-framework/api/classes/State";
-import { despawnEntity } from "pigeon-mode-game-framework/api/functions/despawnEntity";
-import { getCurrentTime } from "pigeon-mode-game-framework/api/functions/getCurrentTime";
-import { getEntityPosition } from "pigeon-mode-game-framework/api/functions/getEntityPosition";
-import { getInputTickHandlerGroupID } from "pigeon-mode-game-framework/api/functions/getInputTickHandlerGroupID";
-import { goToLevel } from "pigeon-mode-game-framework/api/functions/goToLevel";
-import { init } from "pigeon-mode-game-framework/api/functions/init";
-import { lockCameraToEntity } from "pigeon-mode-game-framework/api/functions/lockCameraToEntity";
-import { onTick } from "pigeon-mode-game-framework/api/functions/onTick";
-import {
-  playAudioSource,
-  stopAudioSource,
-} from "pigeon-mode-game-framework/api/classes/AudioSource";
-import { setPauseMenuCondition } from "pigeon-mode-game-framework/api/functions/setPauseMenuCondition";
-import { stopEntity } from "pigeon-mode-game-framework/api/functions/stopEntity";
+} from "./functions/setEntityPosition";
+import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
+import { State } from "./classes/State";
+import { despawnEntity } from "./functions/despawnEntity";
+import { getCurrentTime } from "./functions/getCurrentTime";
+import { getEntityPosition } from "./functions/getEntityPosition";
+import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
+import { goToLevel } from "./functions/goToLevel";
+import { init } from "./functions/init";
+import { lockCameraToEntity } from "./functions/lockCameraToEntity";
+import { onTick } from "./functions/onTick";
+import { playAudioSource, stopAudioSource } from "./classes/AudioSource";
+import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
+import { stopEntity } from "./functions/stopEntity";
 
 export {
   CollisionData,

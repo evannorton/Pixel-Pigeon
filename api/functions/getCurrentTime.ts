@@ -1,3 +1,3 @@
-import { state } from "pigeon-mode-game-framework/api/state";
+import { state } from "../state";
 
 export const getCurrentTime = (): number => state.values.currentTime;
