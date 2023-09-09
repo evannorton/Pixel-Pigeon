@@ -1,4 +1,5 @@
 {
+    "version": "1.0.0",
     "name": "pigeon-mode-game-framework",
     "main": "./api/index.ts",
     "browser": "./api/index.ts",
