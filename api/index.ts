@@ -27,6 +27,10 @@ import {
   moveEntity,
 } from "pigeon-mode-game-framework/api/functions/moveEntity";
 import { OverlapData } from "pigeon-mode-game-framework/api/types/OverlapData";
+import {
+  PathEntityOptions,
+  pathEntity,
+} from "pigeon-mode-game-framework/api/functions/pathEntity";
 import { Rectangle } from "pigeon-mode-game-framework/api/types/Rectangle";
 import {
   SetEntityPositionOptions,
@@ -45,7 +49,6 @@ import { goToLevel } from "pigeon-mode-game-framework/api/functions/goToLevel";
 import { init } from "pigeon-mode-game-framework/api/functions/init";
 import { lockCameraToEntity } from "pigeon-mode-game-framework/api/functions/lockCameraToEntity";
 import { onTick } from "pigeon-mode-game-framework/api/functions/onTick";
-import { PathEntityOptions, pathEntity } from "pigeon-mode-game-framework/api/functions/pathEntity";
 import {
   playAudioSource,
   stopAudioSource,
