@@ -58,7 +58,7 @@ Run the linter on your game's source code.
 Run the linter on your game's source code and automatically fix some errors.
 
 ## Example games
-- [Moon Squid](https://github.com/evannorton/Moon-Squid) by [@evannorton](https://github.com/evannorton)
+- [Lair of the Moon Squid](https://github.com/evannorton/Lair-of-the-Moon-Squid) by [@evannorton](https://github.com/evannorton)
 
 ## ESLint VS Code extension
 Create an `.eslintrc` with the following contents to use this extension. 
