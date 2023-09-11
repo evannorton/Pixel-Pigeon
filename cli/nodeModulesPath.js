@@ -1,5 +1,5 @@
 const { existsSync } = require("fs");
-const { join } = require("path");
+const { join, resolve } = require("path");
 
 const getNodeModulesPath = () => {
   if (existsSync(join(__dirname, "..", "node_modules"))) {
