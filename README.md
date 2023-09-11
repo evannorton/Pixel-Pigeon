@@ -57,7 +57,6 @@ game.zip
 11. Explore the documentation: https://evannorton.github.io/Pigeon-Mode-Game-Framework/
 
 ## Command line interface
-
 ### `pigeon dev`
 Run your game on a local dev server with hot reloading.
 ### `pigeon zip`
@@ -68,7 +67,7 @@ Run the linter on your game's source code.
 Run the linter on your game's source code and automatically fix some errors.
 
 ## Example games
-- [EvanMMO - Moon Squid](https://github.com/evannorton/Moon-Squid)
+- [Moon Squid](https://github.com/evannorton/Moon-Squid) by [@evannorton](https://github.com/evannorton)
 
 ## ESLint VS Code extension
 Create an `.eslintrc` with the following contents to use this extension. 
