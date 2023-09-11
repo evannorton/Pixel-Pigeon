@@ -8,7 +8,7 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
 
 ## Getting started
 1. Install Node.js v18.16.0.
-1. Create a `package.json` file at the root of your game's codebase.
+2. Create a `package.json` file at the root of your game's codebase.
 ```json
 {
   "scripts": {
@@ -26,36 +26,26 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
   }
 }
 ```
-
-1. Create a `config.pmgf` file at the root of your game's codebase.
+3. Create a `config.pmgf` file at the root of your game's codebase.
 ```json
 {
   "height": 360,
   "width": 640
 }
 ```
-
-1. Create a `project.ldtk` file at the root of your game's codebase, using the LDTK level editor.
-
-1. Create a `.gitignore` file at the root of your game's codebase.
+4. Create a `project.ldtk` file at the root of your game's codebase, using the LDTK level editor.
+5. Create a `.gitignore` file at the root of your game's codebase.
 ```
 node_modules
 game.zip
 ```
-
-1. Create an `audio` folder at the root of your game's codebase.
-
-1. Create an `images` folder at the root of your game's codebase.
-
-1. Create a `src` folder at the root of your game's codebase.
-
-1. Create an `index.ts` file inside of the `src` folder.
-
-1. Run `npm install`.
-
-1. Run `npm run dev` to start a dev server with hot reloading on port 3000.
-
-1. Explore the documentation: https://evannorton.github.io/Pigeon-Mode-Game-Framework/
+6. Create an `audio` folder at the root of your game's codebase.
+7. Create an `images` folder at the root of your game's codebase.
+8. Create a `src` folder at the root of your game's codebase.
+9. Create an `index.ts` file inside of the `src` folder.
+10. Run `npm install`.
+11. Run `npm run dev` to start a dev server with hot reloading on port 3000.
+12. Explore the documentation: https://evannorton.github.io/Pigeon-Mode-Game-Framework/
 
 ## Command line interface
 ### `pigeon dev`
@@ -90,8 +80,8 @@ Create an `.eslintrc` with the following contents to use this extension.
 
 ## Running the framework locally
 1. Follow the "Getting Started" instructions to create a game somewhere on your PC, e.g. `D:\Code\My-Awesome-Game`.
-1. Clone the framework somewhere on your PC, e.g. `D:\Code\Pigeon-Mode-Game-Framework`.
-1. Inside of the framework directory, run `npm link`.
-1. Inside of the game directory, run `npm ci`.
-1. Inside of the game directory, run `npm link pigeon-mode-game-framework`.
-1. You can now run your game like normal with `pigeon dev`. You must manually rerun this every time you make a local change to the framework, as hot reloading only listens for changes to your game's code.
+2. Clone the framework somewhere on your PC, e.g. `D:\Code\Pigeon-Mode-Game-Framework`.
+3. Inside of the framework directory, run `npm link`.
+4. Inside of the game directory, run `npm ci`.
+5. Inside of the game directory, run `npm link pigeon-mode-game-framework`.
+6. You can now run your game like normal with `pigeon dev`. You must manually rerun this every time you make a local change to the framework, as hot reloading only listens for changes to your game's code.
