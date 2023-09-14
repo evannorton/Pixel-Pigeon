@@ -29,6 +29,7 @@ export const render = (): void => {
     0,
     state.values.config.width,
     state.values.config.height,
+    0,
   );
   if (!assetsAreLoaded()) {
     const current: number = state.values.loadedAssets;
@@ -38,8 +39,8 @@ export const render = (): void => {
     const x: number = Math.floor((state.values.config.width - width) / 2);
     const height: number = 32;
     const y: number = Math.floor((state.values.config.height - height) / 2);
-    drawRectangle("#343434", 1, x, y, width, height);
-    drawRectangle("#7b7b7b", 1, x, y, Math.floor(width * percent), height);
+    drawRectangle("#343434", 1, x, y, width, height, 0);
+    drawRectangle("#7b7b7b", 1, x, y, Math.floor(width * percent), height, 0);
   } else if (!state.values.hasInteracted) {
     drawText(
       "Click to focus",

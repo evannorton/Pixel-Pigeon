@@ -86,6 +86,7 @@ export const spawnEntity = <CollisionLayer extends string>(
     movementVelocity: null,
     onCollision: spawnEntityOptions.onCollision ?? null,
     onOverlap: spawnEntityOptions.onOverlap ?? null,
+    path: null,
     pathing: null,
     position:
       typeof spawnEntityOptions.position !== "undefined"

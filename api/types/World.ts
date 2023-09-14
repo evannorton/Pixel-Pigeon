@@ -11,6 +11,7 @@ export interface Entity<CollisionLayer extends string> {
   readonly id: string;
   readonly onCollision: ((data: CollisionData<CollisionLayer>) => void) | null;
   readonly onOverlap: ((data: OverlapData<CollisionLayer>) => void) | null;
+  path: number[][] | null;
   pathing: Pathing | null;
   position: EntityPosition | null;
   readonly spriteInstanceID: string | null;

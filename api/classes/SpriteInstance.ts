@@ -10,6 +10,7 @@ import {
 import { Definable } from "./Definable";
 import { Entity as WorldLevelLayerEntity } from "../types/World";
 import { drawImage } from "../functions/draw/drawImage";
+import { drawRectangle } from "../functions/draw/drawRectangle";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
 import { state } from "../state";
@@ -93,11 +94,47 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
   ): void {
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     if (entity.position !== null) {
+      const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
       this.drawAtPosition(
         Math.floor(entity.position.x) - cameraCoordinates.x,
         Math.floor(entity.position.y) - cameraCoordinates.y,
-        layerIndex + 1 / (1 + Math.exp(-entity.zIndex)),
+        zIndex,
       );
+      const path: number[][] | null = entity.path;
+      if (path) {
+        path.forEach(([x, y]: number[], pathIndex: number): void => {
+          const color: string =
+            pathIndex === 0
+              ? "#0084ff"
+              : pathIndex === path.length - 1
+              ? "#139d08"
+              : "#000000";
+          drawRectangle(
+            "#ffffff",
+            1,
+            Math.floor(x * entity.width + entity.width / 4) -
+              cameraCoordinates.x,
+            Math.floor(y * entity.height + entity.height / 4) -
+              cameraCoordinates.y,
+            entity.width / 2,
+            entity.height / 2,
+            zIndex,
+          );
+          drawRectangle(
+            color,
+            1,
+            Math.floor(x * entity.width + entity.width / 4) -
+              cameraCoordinates.x +
+              1,
+            Math.floor(y * entity.height + entity.height / 4) -
+              cameraCoordinates.y +
+              1,
+            entity.width / 2 - 2,
+            entity.height / 2 - 2,
+            zIndex,
+          );
+        });
+      }
     }
   }
 

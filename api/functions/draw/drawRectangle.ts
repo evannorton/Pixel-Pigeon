@@ -8,6 +8,7 @@ export const drawRectangle = (
   y: number,
   width: number,
   height: number,
+  zIndex: number,
 ): void => {
   if (state.values.app === null) {
     throw new Error(
@@ -19,5 +20,6 @@ export const drawRectangle = (
   rectangle.lineStyle(0, Number(`0x${color.substring(1)}`));
   rectangle.drawRect(x, y, width, height);
   rectangle.alpha = opacity;
+  rectangle.zIndex = zIndex;
   state.values.app.stage.addChild(rectangle);
 };
