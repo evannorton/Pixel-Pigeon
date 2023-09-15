@@ -38,6 +38,7 @@ import { getEntityPosition } from "./functions/getEntityPosition";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
 import { goToLevel } from "./functions/goToLevel";
 import { init } from "./functions/init";
+import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onTick } from "./functions/onTick";
 import { playAudioSource, stopAudioSource } from "./classes/AudioSource";
@@ -66,6 +67,7 @@ export {
   init,
   InputKey,
   InputTickHandlerGroup,
+  isEntityPathing,
   lockCameraToEntity,
   moveEntity,
   MoveEntityOptions,
