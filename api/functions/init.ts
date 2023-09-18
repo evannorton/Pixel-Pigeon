@@ -1,6 +1,7 @@
 import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import { AudioSource } from "../classes/AudioSource";
 import { Config } from "../types/Config";
+import { Dev } from "../types/Dev";
 import { ImageSource } from "../classes/ImageSource";
 import { InputPressHandler } from "../classes/InputPressHandler";
 import { InputTickHandler } from "../classes/InputTickHandler";
@@ -50,6 +51,8 @@ export const init = async (): Promise<void> => {
     );
   }
   state.setValues({ isInitialized: true });
+  const devRes: Response = await fetch("./dev.pmgf");
+  const dev: Dev = (await devRes.json()) as Dev;
   const configRes: Response = await fetch("./config.pmgf");
   const config: Config = (await configRes.json()) as Config;
   const audioResponse: Response = await fetch("./audio.json");
@@ -75,6 +78,7 @@ export const init = async (): Promise<void> => {
   state.setValues({
     app,
     config,
+    dev,
     world: getWorld(ldtk),
   });
   loadAssets();

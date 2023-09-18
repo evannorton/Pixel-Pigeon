@@ -22,6 +22,7 @@ const watcher = nodemon({
     "./package.json",
     "./package-lock.json",
     "./config.pmgf",
+    "./dev.pmgf",
     "./project.ldtk"
   ]
 });
@@ -73,6 +74,9 @@ watcher.addListener("restart", (files) => {
       return true;
     }
     if (joinedFilePieces === "config.pmgf") {
+      return true;
+    }
+    if (joinedFilePieces === "dev.pmgf") {
       return true;
     }
     return false;

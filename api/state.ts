@@ -1,5 +1,6 @@
 import { Application } from "pixi.js";
 import { Config } from "./types/Config";
+import { Dev } from "./types/Dev";
 import { State } from "./classes/State";
 import { World } from "./types/World";
 
@@ -8,6 +9,7 @@ interface StateSchema {
   readonly cameraLockedEntityID: string | null;
   readonly config: Config | null;
   readonly currentTime: number;
+  readonly dev: Dev | null;
   readonly hasDoneInputPressForTick: boolean;
   readonly hasInteracted: boolean;
   readonly heldGamepadButtons: number[];
@@ -26,6 +28,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   cameraLockedEntityID: null,
   config: null,
   currentTime: 0,
+  dev: null,
   hasDoneInputPressForTick: false,
   hasInteracted: false,
   heldGamepadButtons: [],

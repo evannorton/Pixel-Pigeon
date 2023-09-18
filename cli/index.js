@@ -8,6 +8,10 @@ const configSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..
 writeFileSync(join(__dirname, "configSchema.js"), configSchemaText.replace("export const ", "").replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { configSchema };");
 const { configSchema } = require("./configSchema");
 
+const devSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "types", "Dev.ts")).toString() }).getZodSchemasFile();
+writeFileSync(join(__dirname, "devSchema.js"), devSchemaText.replace("export const ", "").replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { devSchema };");
+const { devSchema } = require("./devSchema");
+
 if (!existsSync(join("config.pmgf"))) {
     throw new Error("You must create a config.pmgf file for use with Pigeon Mode Game Framework.");
 }
@@ -23,6 +27,24 @@ try {
 }
 catch (error) {
     console.error("Your config.pmgf file does not match the schema.");
+    throw error;
+}
+
+if (!existsSync(join("dev.pmgf"))) {
+    throw new Error("You must create a dev.pmgf file for use with Pigeon Mode Game Framework.");
+}
+const devString = readFileSync(join("dev.pmgf")).toString();
+try {
+    JSON.parse(devString);
+}
+catch (error) {
+    throw new Error("Your dev.pmgf file is not valid JSON.");
+}
+try {
+    devSchema.parse(JSON.parse(devString));
+}
+catch (error) {
+    console.error("Your dev.pmgf file does not match the schema.");
     throw error;
 }
 

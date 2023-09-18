@@ -1,4 +1,5 @@
 cli/configSchema.js
+cli/devSchema.js
 cli/ldtkSchema.js
 cli/watchExec.json
 cli/watchExecCompleted.json

@@ -93,6 +93,11 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
     entity: WorldLevelLayerEntity<string>,
     layerIndex: number,
   ): void {
+    if (state.values.dev === null) {
+      throw new Error(
+        "An attempt was made to draw an entity before dev was loaded.",
+      );
+    }
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     if (entity.position !== null) {
       const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
@@ -101,40 +106,42 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
         Math.floor(entity.position.y) - cameraCoordinates.y,
         zIndex,
       );
-      const path: PathCoordinates[] | null = entity.path;
-      if (path) {
-        path.forEach(({ x, y }: PathCoordinates, pathIndex: number): void => {
-          const color: string =
-            pathIndex === 0
-              ? "#0084ff"
-              : pathIndex === path.length - 1
-              ? "#139d08"
-              : "#000000";
-          drawRectangle(
-            "#ffffff",
-            1,
-            Math.floor(x * entity.width + entity.width / 4) -
-              cameraCoordinates.x,
-            Math.floor(y * entity.height + entity.height / 4) -
-              cameraCoordinates.y,
-            entity.width / 2,
-            entity.height / 2,
-            zIndex,
-          );
-          drawRectangle(
-            color,
-            1,
-            Math.floor(x * entity.width + entity.width / 4) -
-              cameraCoordinates.x +
+      if (state.values.dev.renderPathing) {
+        const path: PathCoordinates[] | null = entity.path;
+        if (path !== null) {
+          path.forEach(({ x, y }: PathCoordinates, pathIndex: number): void => {
+            const color: string =
+              pathIndex === 0
+                ? "#0084ff"
+                : pathIndex === path.length - 1
+                ? "#139d08"
+                : "#000000";
+            drawRectangle(
+              "#ffffff",
               1,
-            Math.floor(y * entity.height + entity.height / 4) -
-              cameraCoordinates.y +
+              Math.floor(x * entity.width + entity.width / 4) -
+                cameraCoordinates.x,
+              Math.floor(y * entity.height + entity.height / 4) -
+                cameraCoordinates.y,
+              entity.width / 2,
+              entity.height / 2,
+              zIndex,
+            );
+            drawRectangle(
+              color,
               1,
-            entity.width / 2 - 2,
-            entity.height / 2 - 2,
-            zIndex,
-          );
-        });
+              Math.floor(x * entity.width + entity.width / 4) -
+                cameraCoordinates.x +
+                1,
+              Math.floor(y * entity.height + entity.height / 4) -
+                cameraCoordinates.y +
+                1,
+              entity.width / 2 - 2,
+              entity.height / 2 - 2,
+              zIndex,
+            );
+          });
+        }
       }
     }
   }

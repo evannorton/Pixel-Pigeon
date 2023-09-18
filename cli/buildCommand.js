@@ -18,5 +18,6 @@ module.exports = [
     `node ${join(__dirname, "buildSVG")}`,
     `node ${join(__dirname, "buildFonts")}`,
     `node ${join(__dirname, "buildConfig")}`,
+    `node ${join(__dirname, "buildDev")}`,
     `node ${join(__dirname, "buildLDTK")}`
 ].join(" && ");
