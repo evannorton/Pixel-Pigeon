@@ -8,6 +8,7 @@ import {
   Sprite,
 } from "../classes/Sprite";
 import { Definable } from "./Definable";
+import { PathCoordinates } from "../types/PathCoordinates";
 import { Entity as WorldLevelLayerEntity } from "../types/World";
 import { drawImage } from "../functions/draw/drawImage";
 import { drawRectangle } from "../functions/draw/drawRectangle";
@@ -100,9 +101,9 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
         Math.floor(entity.position.y) - cameraCoordinates.y,
         zIndex,
       );
-      const path: number[][] | null = entity.path;
+      const path: PathCoordinates[] | null = entity.path;
       if (path) {
-        path.forEach(([x, y]: number[], pathIndex: number): void => {
+        path.forEach(({ x, y }: PathCoordinates, pathIndex: number): void => {
           const color: string =
             pathIndex === 0
               ? "#0084ff"

@@ -2,6 +2,7 @@ import { CollisionData } from "./CollisionData";
 import { EntityCollidable } from "./EntityCollidable";
 import { EntityPosition } from "./EntityPosition";
 import { OverlapData } from "./OverlapData";
+import { PathCoordinates } from "./PathCoordinates";
 import { Pathing } from "./Pathing";
 
 export interface Entity<CollisionLayer extends string> {
@@ -11,7 +12,7 @@ export interface Entity<CollisionLayer extends string> {
   readonly id: string;
   readonly onCollision: ((data: CollisionData<CollisionLayer>) => void) | null;
   readonly onOverlap: ((data: OverlapData<CollisionLayer>) => void) | null;
-  path: number[][] | null;
+  path: PathCoordinates[] | null;
   pathing: Pathing | null;
   position: EntityPosition | null;
   readonly spriteInstanceID: string | null;

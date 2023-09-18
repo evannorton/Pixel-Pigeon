@@ -1,4 +1,4 @@
-import { AStarFinder } from "astar-typescript";
+import { js as EasyStar } from "easystarjs";
 import { Level } from "../../types/World";
 import { getPathingMatrix } from "../getPathingMatrix";
 import { state } from "../../state";
@@ -26,27 +26,31 @@ export const updateLevelPathing = (): void => {
       entity.path = null;
       if (entity.position !== null && entity.pathing !== null) {
         const matrix: number[][] = getPathingMatrix();
-        const finder: AStarFinder = new AStarFinder({
-          diagonalAllowed: false,
-          grid: {
-            matrix,
-          },
-        });
+        const easystar: EasyStar = new EasyStar();
+        easystar.setAcceptableTiles([0]);
+        easystar.setGrid(matrix);
+        easystar.enableDiagonals();
+        easystar.disableCornerCutting();
+        easystar.enableSync();
         const startX: number = Math.floor(entity.position.x / layer.tileSize);
         const startY: number = Math.floor(entity.position.y / layer.tileSize);
         const endX: number = Math.floor(entity.pathing.x / 16);
         const endY: number = Math.floor(entity.pathing.y / 16);
-        const path: number[][] = finder.findPath(
-          {
-            x: startX,
-            y: startY,
-          },
-          {
-            x: endX,
-            y: endY,
+        easystar.findPath(
+          startX,
+          startY,
+          endX,
+          endY,
+          (
+            path: {
+              x: number;
+              y: number;
+            }[],
+          ): void => {
+            entity.path = path;
           },
         );
-        entity.path = path;
+        easystar.calculate();
       }
     }
   }
