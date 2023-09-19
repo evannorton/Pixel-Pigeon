@@ -38,7 +38,7 @@ export class AudioSource extends Definable {
     this._howl.pause();
   }
 
-  public play(playAudioOptions?: PlayAudioOptions): void {
+  public play(playAudioOptions?: PlayAudioSourceOptions): void {
     this._howl.play();
     this._loopPoint = playAudioOptions?.loopPoint ?? null;
   }
@@ -61,7 +61,7 @@ export class AudioSource extends Definable {
     });
   }
 }
-export interface PlayAudioOptions {
+export interface PlayAudioSourceOptions {
   readonly loopPoint?: number;
 }
 /**
@@ -75,7 +75,7 @@ export interface PlayAudioOptions {
  */
 export const playAudioSource = (
   audioSourceID: string,
-  playAudioOptions?: PlayAudioOptions,
+  playAudioOptions?: PlayAudioSourceOptions,
 ): void => {
   getDefinable<AudioSource>(AudioSource, audioSourceID).play(playAudioOptions);
 };

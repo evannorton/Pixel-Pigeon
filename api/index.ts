@@ -25,6 +25,11 @@ import { InputKey } from "./types/InputKey";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
 import { OverlapData } from "./types/OverlapData";
 import { PathEntityOptions, pathEntity } from "./functions/pathEntity";
+import {
+  PlayAudioSourceOptions,
+  playAudioSource,
+  stopAudioSource,
+} from "./classes/AudioSource";
 import { Rectangle } from "./types/Rectangle";
 import {
   SetEntityPositionOptions,
@@ -41,7 +46,6 @@ import { init } from "./functions/init";
 import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onTick } from "./functions/onTick";
-import { playAudioSource, stopAudioSource } from "./classes/AudioSource";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
 
@@ -73,9 +77,10 @@ export {
   MoveEntityOptions,
   onTick,
   OverlapData,
-  PathEntityOptions,
   pathEntity,
+  PathEntityOptions,
   playAudioSource,
+  PlayAudioSourceOptions,
   Rectangle,
   removeSpriteInstance,
   setEntityPosition,
