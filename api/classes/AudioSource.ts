@@ -10,6 +10,7 @@ interface AudioSourceOptions {
 export class AudioSource extends Definable {
   private readonly _howl: Howl;
   private readonly _options: AudioSourceOptions;
+  private _loopPoint: number | null = null;
 
   public constructor(options: AudioSourceOptions) {
     super(options.audioPath);
@@ -20,6 +21,9 @@ export class AudioSource extends Definable {
       preload: true,
       src: [`audio/${this._options.audioPath}.mp3`],
       volume: 0.5,
+    });
+    this._howl.on("end", (): void => {
+      this.onHowlEnd();
     });
     this._howl.on("load", (): void => {
       this.onHowlLoad();
@@ -34,12 +38,21 @@ export class AudioSource extends Definable {
     this._howl.pause();
   }
 
-  public play(): void {
+  public play(playAudioOptions?: PlayAudioOptions): void {
     this._howl.play();
+    this._loopPoint = playAudioOptions?.loopPoint ?? null;
   }
 
   public stop(): void {
     this._howl.stop();
+  }
+
+  private onHowlEnd(): void {
+    if (this._loopPoint !== null) {
+      this.stop();
+      this._howl.seek(this._loopPoint / 1000);
+      this._howl.play();
+    }
   }
 
   private onHowlLoad(): void {
@@ -47,6 +60,9 @@ export class AudioSource extends Definable {
       loadedAssets: state.values.loadedAssets + 1,
     });
   }
+}
+export interface PlayAudioOptions {
+  readonly loopPoint?: number;
 }
 /**
  * Play the provided audio within the game
@@ -57,8 +73,11 @@ export class AudioSource extends Definable {
  * playAudioSource("music"); // Plays {PROJECTFILE}/audio/music.mp3
  * ```
  */
-export const playAudioSource = (audioSourceID: string): void => {
-  getDefinable<AudioSource>(AudioSource, audioSourceID).play();
+export const playAudioSource = (
+  audioSourceID: string,
+  playAudioOptions?: PlayAudioOptions,
+): void => {
+  getDefinable<AudioSource>(AudioSource, audioSourceID).play(playAudioOptions);
 };
 /**
  * Stop the provided audio within the game
