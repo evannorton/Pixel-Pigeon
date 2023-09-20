@@ -3,6 +3,7 @@ const { resolve, join } = require("path");
 
 const eslint = new ESLint({
   cwd: resolve(join()),
+  resolvePluginsRelativeTo: join(__dirname, ".."),
   fix: true
 });
 

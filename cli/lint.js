@@ -2,7 +2,8 @@ const { ESLint } = require("eslint");
 const { resolve, join } = require("path");
 
 const eslint = new ESLint({
-  cwd: resolve(join())
+  cwd: resolve(),
+  resolvePluginsRelativeTo: join(__dirname, "..")
 });
 
 eslint.lintFiles("./src").then((results) => {
