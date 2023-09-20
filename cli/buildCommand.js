@@ -4,7 +4,6 @@ const nodeModulesPath = require("./nodeModulesPath");
 module.exports = [
     `node ${join(__dirname, "clearOutput")}`,
     `node ${join(__dirname, "createLib")}`,
-    `node ${join(__dirname, "createGameTSConfig")}`,
     `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(__dirname, "..", "game-tsconfig.json")} --outDir ${join(__dirname, "..", "game-lib")}`,
     `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(__dirname, "..", "hot-reload", "tsconfig.json")} --outDir ${join(__dirname, "..", "hot-reload-lib")}`,
     `${join(nodeModulesPath, ".bin", "esbuild")} ${join(__dirname, "..", "hot-reload-lib", "index.js")} --bundle --sourcemap --outfile=${join(__dirname, "..", "out", "library-script.js")}`,

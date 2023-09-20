@@ -48,6 +48,8 @@ catch (error) {
     throw error;
 }
 
+require("./createGameTSConfig");
+
 switch (process.argv[2]) {
     case "dev":
         require("./watch");
