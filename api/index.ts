@@ -42,9 +42,10 @@ import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityPosition } from "./functions/getEntityPosition";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
 import { goToLevel } from "./functions/goToLevel";
-import { init } from "./functions/init";
+import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
+import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
@@ -68,13 +69,14 @@ export {
   getEntityPosition,
   getInputTickHandlerGroupID,
   goToLevel,
-  init,
+  initialize,
   InputKey,
   InputTickHandlerGroup,
   isEntityPathing,
   lockCameraToEntity,
   moveEntity,
   MoveEntityOptions,
+  onRun,
   onTick,
   OverlapData,
   pathEntity,

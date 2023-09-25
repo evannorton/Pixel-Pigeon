@@ -17,6 +17,7 @@ interface StateSchema {
   readonly isInitialized: boolean;
   readonly levelID: string | null;
   readonly loadedAssets: number;
+  readonly onRunCallbacks: (() => void)[];
   readonly onTickCallbacks: (() => void)[];
   readonly pauseMenuCondition: (() => boolean) | null;
   readonly pauseMenuPausedAudioSourceIDs: string[];
@@ -36,6 +37,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   isInitialized: false,
   levelID: null,
   loadedAssets: 0,
+  onRunCallbacks: [],
   onTickCallbacks: [],
   pauseMenuCondition: null,
   pauseMenuPausedAudioSourceIDs: [],

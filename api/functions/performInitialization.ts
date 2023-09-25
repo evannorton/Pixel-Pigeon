@@ -15,11 +15,7 @@ import { sizeScreen } from "./sizeScreen";
 import { state } from "../state";
 import { tick } from "./tick";
 
-/**
- * Initializes Pigeon-Mode-Game-Framework, only call this once or it will throw an error.
- *
- */
-export const init = async (): Promise<void> => {
+export const performInitialization = async (): Promise<void> => {
   if (state.values.isInitialized) {
     throw new Error("Initialization was attempted more than once.");
   }
@@ -112,6 +108,9 @@ export const init = async (): Promise<void> => {
         if (!state.values.hasInteracted) {
           state.setValues({ hasInteracted: true });
           document.body.classList.add("interacted");
+          for (const onRunCallback of state.values.onRunCallbacks) {
+            onRunCallback();
+          }
         } else {
           getDefinables(InputPressHandler).forEach(
             (inputPressHandler: InputPressHandler): void => {
