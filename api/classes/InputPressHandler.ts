@@ -9,27 +9,27 @@ export interface CreateInputPressHandlerOptions {
    * Callback to determine if the input should run or not
    * @returns Boolean in which false will skip the input from being processed
    */
-  readonly condition?: () => boolean;
+  condition?: () => boolean;
   /**
    * An array of numbers that correlate to inputs on a controller
    */
-  readonly gamepadButtons?: number[];
+  gamepadButtons?: number[];
   /**
    * An array of strings that represents different inputs on a keyboard
    */
-  readonly keys?: InputKey[];
+  keys?: InputKey[];
   /**
    * Should the input activate on left click?
    */
-  readonly leftClick?: boolean;
+  leftClick?: boolean;
   /**
    * Callback that triggers when supplied inputs are pressed and condition is true, if it exists
    */
-  readonly onInput: () => void;
+  onInput: () => void;
   /**
    * Should the input activate on right click?
    */
-  readonly rightClick?: boolean;
+  rightClick?: boolean;
 }
 export class InputPressHandler extends Definable {
   private readonly _options: CreateInputPressHandlerOptions;

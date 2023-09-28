@@ -11,31 +11,31 @@ export interface CreateSpriteOptionsAnimationFrame {
   /**
    * The amount of time the specific frame should play for. Leave blank to create a frame that doesn't end
    */
-  readonly duration?: number;
+  duration?: number;
   /**
    * Height of the sprite within the game world
    */
-  readonly height: number;
+  height: number;
   /**
    * Height of the sprite on the provided image sheet
    */
-  readonly sourceHeight: number;
+  sourceHeight: number;
   /**
    * Width of the sprite on the provided image sheet
    */
-  readonly sourceWidth: number;
+  sourceWidth: number;
   /**
    * The X coordinate of the sprite on the provided image sheet
    */
-  readonly sourceX: number;
+  sourceX: number;
   /**
    * The Y coordinate of the sprite on the provided image sheet
    */
-  readonly sourceY: number;
+  sourceY: number;
   /**
    * Width of the sprite within the game world
    */
-  readonly width: number;
+  width: number;
 }
 /**
  * A combination of {@link CreateSpriteOptionsAnimationFrame | SpriteAnimationFrames} and an string AnimationID to form a completed animation
@@ -44,11 +44,11 @@ export interface CreateSpriteOptionsAnimation<AnimationID extends string> {
   /**
    * String AnimationID that will be used to refer to the animation
    */
-  readonly id: AnimationID;
+  id: AnimationID;
   /**
    * Array of AnimationFrames used to create the overall animation
    */
-  readonly frames: CreateSpriteOptionsAnimationFrame[];
+  frames: CreateSpriteOptionsAnimationFrame[];
 }
 /**
  * A combination of multiple {@link CreateSpriteOptionsAnimation | SpriteAnimations} and a sprite sheet to create an overall sprite
@@ -57,7 +57,7 @@ export interface CreateSpriteOptions<AnimationID extends string> {
   /**
    * Array of Animations that are able to be indentified by their AnimationID to play the animation
    */
-  readonly animations: CreateSpriteOptionsAnimation<AnimationID>[];
+  animations: CreateSpriteOptionsAnimation<AnimationID>[];
   /**
    * String path to the sprite sheet. **AUOMATICALLY STARTS IN IMAGES FOLDER**
    * @example
@@ -65,7 +65,7 @@ export interface CreateSpriteOptions<AnimationID extends string> {
    * imagePath: "player", // The actual path to the file is {PROJECTFILE}/images/player.png
    * ```
    */
-  readonly imagePath: string;
+  imagePath: string;
 }
 export class Sprite<AnimationID extends string> extends Definable {
   private readonly _options: CreateSpriteOptions<AnimationID>;

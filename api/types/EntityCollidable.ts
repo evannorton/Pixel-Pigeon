@@ -11,9 +11,9 @@ export interface EntityCollidable<CollisionLayer extends string> {
   /**
    * String CollisionLayer that the collided entity is apart of
    */
-  readonly collisionLayer: CollisionLayer;
+  collisionLayer: CollisionLayer;
   /**
    * String entityID of the collided entity
    */
-  readonly entityID: string;
+  entityID: string;
 }

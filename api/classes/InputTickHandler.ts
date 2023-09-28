@@ -6,7 +6,7 @@ export interface InputTickHandlerGroup<GroupID> {
   /**
    * An array of numbers that corresponds to different inputs on a controller
    */
-  readonly gamepadButtons?: number[];
+  gamepadButtons?: number[];
   /**
    * ID to differentiate inputs from the same overarching GroupID
    * @example
@@ -19,17 +19,17 @@ export interface InputTickHandlerGroup<GroupID> {
    * // Both are under the XDirection umbrella, however they are in different directions so they have different logic for animations and movement.
    * ```
    */
-  readonly id: GroupID;
+  id: GroupID;
   /**
    * An array of strings that represents different inputs on a keyboard
    */
-  readonly keys?: InputKey[];
+  keys?: InputKey[];
 }
 /**
  * Uses an array of InputTickHandlers to allow any number of inputs to be set up under one GroupID
  */
 export interface CreateInputTickHandlerOptions<GroupID extends string> {
-  readonly groups: InputTickHandlerGroup<GroupID>[];
+  groups: InputTickHandlerGroup<GroupID>[];
 }
 export class InputTickHandler<GroupID extends string> extends Definable {
   private readonly _options: CreateInputTickHandlerOptions<GroupID>;

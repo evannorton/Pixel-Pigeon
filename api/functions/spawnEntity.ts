@@ -1,5 +1,6 @@
 import { CollisionData } from "../types/CollisionData";
 import { EntityCollidable } from "../types/EntityCollidable";
+import { EntityPosition } from "../types/EntityPosition";
 import { Layer, Level } from "../types/World";
 import { OverlapData } from "../types/OverlapData";
 import { getToken } from "./getToken";
@@ -7,34 +8,31 @@ import { state } from "../state";
 
 export interface SpawnEntityOptions<CollisionLayer extends string> {
   /** An array of strings for LayerIDs that the entity can collide with and not pass through */
-  readonly collidableLayers?: CollisionLayer[];
+  collidableLayers?: CollisionLayer[];
   /** The string LayerID the entity is apart of for the sake of collisions with other entities */
-  readonly collisionLayer?: CollisionLayer;
+  collisionLayer?: CollisionLayer;
   /** The actual height of the hitbox of the entity */
-  readonly height: number;
+  height: number;
   /** The layerID the entity should be on, has to be created in LDTK */
-  readonly layerID: string;
+  layerID: string;
   /**
    * Callback that triggers whenever a collision stops entites from moving through each other. Will not trigger on tiles that have pmgfCollision set to true.
    * The same collision cannot trigger onCollision and onOverlap
    */
-  readonly onCollision?: (collisionData: CollisionData<CollisionLayer>) => void;
+  onCollision?: (collisionData: CollisionData<CollisionLayer>) => void;
   /**
    * Callback that triggers whenever an entity passes through another.
    * The same collision cannot trigger onCollision and onOverlap
    */
-  readonly onOverlap?: (overlapData: OverlapData<CollisionLayer>) => void;
+  onOverlap?: (overlapData: OverlapData<CollisionLayer>) => void;
   /** The X and Y position that the entity will spawn at */
-  readonly position?: {
-    readonly x: number;
-    readonly y: number;
-  };
+  position?: EntityPosition;
   /** A {@link createSpriteInstance | spriteInstanceID} in order to give the entity a sprite */
-  readonly spriteInstanceID?: string;
+  spriteInstanceID?: string;
   /** The actual width of the hitbox of the entity */
-  readonly width: number;
+  width: number;
   /** This number determines how entities are layered on-top of eachother */
-  readonly zIndex: number;
+  zIndex: number;
 }
 /**
  * Spawn an entity into the world if the world has already loaded in
@@ -81,8 +79,10 @@ export const spawnEntity = <CollisionLayer extends string>(
         }),
       ) ?? [],
     collisionLayer: spawnEntityOptions.collisionLayer ?? null,
+    hasTouchedPathingStartingTile: false,
     height: spawnEntityOptions.height,
     id,
+    lastPathedTilePosition: null,
     movementVelocity: null,
     onCollision: spawnEntityOptions.onCollision ?? null,
     onOverlap: spawnEntityOptions.onOverlap ?? null,

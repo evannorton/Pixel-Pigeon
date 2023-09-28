@@ -8,9 +8,9 @@ export interface CollisionData<CollisionLayer extends string> {
   /**
    * Array of Entities that have been collided with
    */
-  readonly entityCollidables: EntityCollidable<CollisionLayer>[];
+  entityCollidables: EntityCollidable<CollisionLayer>[];
   /**
    * Is the collision on the world map as defined by the world boundaries?
    */
-  readonly map: boolean;
+  map: boolean;
 }

@@ -9,7 +9,7 @@ export interface SetEntityPositionOptions {
   /**
    * The position to set the entity to
    */
-  readonly position: EntityPosition;
+  position: EntityPosition;
 }
 /**
  * Set the specified entity from their current position to a new position
@@ -40,7 +40,10 @@ export const setEntityPosition = (
   for (const layer of level.layers) {
     for (const [layerEntityID, entity] of layer.entities) {
       if (layerEntityID === entityID) {
-        entity.position = options.position;
+        entity.position = {
+          x: options.position.x,
+          y: options.position.y,
+        };
         entity.pathing = null;
         const collisionData: CollisionData<string> = getRectangleCollisionData(
           {

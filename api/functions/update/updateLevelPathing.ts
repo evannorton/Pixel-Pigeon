@@ -1,5 +1,6 @@
 import { js as EasyStar } from "easystarjs";
 import { Level } from "../../types/World";
+import { TilePosition } from "../../types/TilePosition";
 import { getPathingMatrix } from "../getPathingMatrix";
 import { state } from "../../state";
 
@@ -23,31 +24,73 @@ export const updateLevelPathing = (): void => {
   }
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
-      entity.path = null;
       if (entity.position !== null && entity.pathing !== null) {
         const matrix: number[][] = getPathingMatrix();
+        const startX: number = Math.round(entity.position.x / layer.tileSize);
+        const startY: number = Math.round(entity.position.y / layer.tileSize);
+        const endX: number = Math.round(entity.pathing.x / 16);
+        const endY: number = Math.round(entity.pathing.y / 16);
         const easystar: EasyStar = new EasyStar();
         easystar.setAcceptableTiles([0]);
         easystar.setGrid(matrix);
         easystar.enableDiagonals();
         easystar.disableCornerCutting();
         easystar.enableSync();
-        const startX: number = Math.floor(entity.position.x / layer.tileSize);
-        const startY: number = Math.floor(entity.position.y / layer.tileSize);
-        const endX: number = Math.floor(entity.pathing.x / 16);
-        const endY: number = Math.floor(entity.pathing.y / 16);
         easystar.findPath(
           startX,
           startY,
           endX,
           endY,
-          (
-            path: {
-              x: number;
-              y: number;
-            }[],
-          ): void => {
+          (path: TilePosition[]): void => {
+            if (entity.position === null) {
+              throw new Error(
+                `Attempted to path Entity "${entity.id}" with no position.`,
+              );
+            }
             entity.path = path;
+            const nextTilePosition: TilePosition =
+              path.length > 1
+                ? path[1]
+                : path.length === 1
+                ? path[0]
+                : {
+                    x: startX,
+                    y: startY,
+                  };
+            if (
+              entity.lastPathedTilePosition === null ||
+              entity.lastPathedTilePosition.x !== nextTilePosition.x ||
+              entity.lastPathedTilePosition.y !== nextTilePosition.y
+            ) {
+              entity.hasTouchedPathingStartingTile = false;
+            }
+            entity.lastPathedTilePosition = {
+              x: nextTilePosition.x,
+              y: nextTilePosition.y,
+            };
+            const nextTileX: number = entity.hasTouchedPathingStartingTile
+              ? nextTilePosition.x * layer.tileSize
+              : startX * layer.tileSize;
+            const nextTileY: number = entity.hasTouchedPathingStartingTile
+              ? nextTilePosition.y * layer.tileSize
+              : startY * layer.tileSize;
+            const step: number = 0.1;
+            if (nextTileX > entity.position.x) {
+              entity.position.x = Math.min(entity.position.x + step, nextTileX);
+            } else {
+              entity.position.x = Math.max(entity.position.x - step, nextTileX);
+            }
+            if (nextTileY > entity.position.y) {
+              entity.position.y = Math.min(entity.position.y + step, nextTileY);
+            } else {
+              entity.position.y = Math.max(entity.position.y - step, nextTileY);
+            }
+            if (
+              entity.position.x === nextTileX &&
+              entity.position.y === nextTileY
+            ) {
+              entity.hasTouchedPathingStartingTile = true;
+            }
           },
         );
         easystar.calculate();

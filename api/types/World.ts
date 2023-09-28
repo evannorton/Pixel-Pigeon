@@ -2,17 +2,19 @@ import { CollisionData } from "./CollisionData";
 import { EntityCollidable } from "./EntityCollidable";
 import { EntityPosition } from "./EntityPosition";
 import { OverlapData } from "./OverlapData";
-import { PathCoordinates } from "./PathCoordinates";
 import { Pathing } from "./Pathing";
+import { TilePosition } from "./TilePosition";
 
 export interface Entity<CollisionLayer extends string> {
   readonly collidables: EntityCollidable<string>[];
   readonly collisionLayer: string | null;
+  hasTouchedPathingStartingTile: boolean;
   readonly height: number;
   readonly id: string;
+  lastPathedTilePosition: EntityPosition | null;
   readonly onCollision: ((data: CollisionData<CollisionLayer>) => void) | null;
   readonly onOverlap: ((data: OverlapData<CollisionLayer>) => void) | null;
-  path: PathCoordinates[] | null;
+  path: TilePosition[] | null;
   pathing: Pathing | null;
   position: EntityPosition | null;
   readonly spriteInstanceID: string | null;

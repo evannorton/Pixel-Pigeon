@@ -16,9 +16,9 @@ export interface OverlapData<CollisionLayer extends string> {
   /**
    * Array of entites the entity with {@link SpawnEntityOptions.onOverlap | onOverlap} collided with
    */
-  readonly entityCollidables: EntityCollidable<CollisionLayer>[];
+  entityCollidables: EntityCollidable<CollisionLayer>[];
   /**
    * Does the collision take place on the world map?
    */
-  readonly map: boolean;
+  map: boolean;
 }

@@ -2,9 +2,9 @@ import { Level } from "../types/World";
 import { state } from "../state";
 
 export interface PathEntityOptions {
-  readonly velocity: number;
-  readonly x: number;
-  readonly y: number;
+  velocity: number;
+  x: number;
+  y: number;
 }
 export const pathEntity = (
   entityID: string,

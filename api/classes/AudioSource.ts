@@ -62,7 +62,7 @@ export class AudioSource extends Definable {
   }
 }
 export interface PlayAudioSourceOptions {
-  readonly loopPoint?: number;
+  loopPoint?: number;
 }
 /**
  * Play the provided audio within the game

@@ -8,11 +8,11 @@ export interface MoveEntityOptions {
   /**
    * Amount the entity is moving across the X-axis
    */
-  readonly xVelocity?: number;
+  xVelocity?: number;
   /**
    * Amount the entity is moving across the Y-axis
    */
-  readonly yVelocity?: number;
+  yVelocity?: number;
 }
 /**
  * Move the specified entity by the specified amount in the world
@@ -47,6 +47,9 @@ export const moveEntity = (
           x: options.xVelocity ?? 0,
           y: options.yVelocity ?? 0,
         };
+        entity.hasTouchedPathingStartingTile = false;
+        entity.lastPathedTilePosition = null;
+        entity.path = null;
         entity.pathing = null;
       }
     }

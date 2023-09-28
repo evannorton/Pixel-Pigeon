@@ -8,7 +8,7 @@ import {
   Sprite,
 } from "../classes/Sprite";
 import { Definable } from "./Definable";
-import { PathCoordinates } from "../types/PathCoordinates";
+import { TilePosition } from "../types/TilePosition";
 import { Entity as WorldLevelLayerEntity } from "../types/World";
 import { drawImage } from "../functions/draw/drawImage";
 import { drawRectangle } from "../functions/draw/drawRectangle";
@@ -23,28 +23,28 @@ export interface CreateSpriteInstanceOptions<AnimationID extends string> {
   /**
    * Optional coordinates that can be used to preciesly define where the SpriteInstance should be in the world
    */
-  readonly coordinates?: {
+  coordinates?: {
     /**
      * Callback that decides whether or not coordinates should be used
      */
-    readonly condition?: () => boolean;
+    condition?: () => boolean;
     /**
      * The X value in the world where the SpriteInstance is displayed
      */
-    readonly x: number;
+    x: number;
     /**
      * The Y value in the world where the SpriteInstance is displayed
      */
-    readonly y: number;
+    y: number;
   };
   /**
    * Callback that should decide what animation should be playing at any given moment, and then return the AnimationID so it can be played
    */
-  readonly getAnimationID: () => AnimationID | null;
+  getAnimationID: () => AnimationID | null;
   /**
    * String SpriteID used to refer to the SpriteInstance
    */
-  readonly spriteID: string;
+  spriteID: string;
 }
 export class SpriteInstance<AnimationID extends string> extends Definable {
   private _animation: {
@@ -107,9 +107,13 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
         zIndex,
       );
       if (state.values.dev.renderPathing) {
-        const path: PathCoordinates[] | null = entity.path;
+        const path: TilePosition[] | null =
+          entity.path !== null ? [...entity.path] : null;
         if (path !== null) {
-          path.forEach(({ x, y }: PathCoordinates, pathIndex: number): void => {
+          if (entity.hasTouchedPathingStartingTile) {
+            path.splice(0, 1);
+          }
+          path.forEach(({ x, y }: TilePosition, pathIndex: number): void => {
             const color: string =
               pathIndex === 0
                 ? "#0084ff"
@@ -119,9 +123,9 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
             drawRectangle(
               "#ffffff",
               1,
-              Math.floor(x * entity.width + entity.width / 4) -
+              Math.round(x * entity.width + entity.width / 4) -
                 cameraCoordinates.x,
-              Math.floor(y * entity.height + entity.height / 4) -
+              Math.round(y * entity.height + entity.height / 4) -
                 cameraCoordinates.y,
               entity.width / 2,
               entity.height / 2,
@@ -130,10 +134,10 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
             drawRectangle(
               color,
               1,
-              Math.floor(x * entity.width + entity.width / 4) -
+              Math.round(x * entity.width + entity.width / 4) -
                 cameraCoordinates.x +
                 1,
-              Math.floor(y * entity.height + entity.height / 4) -
+              Math.round(y * entity.height + entity.height / 4) -
                 cameraCoordinates.y +
                 1,
               entity.width / 2 - 2,
