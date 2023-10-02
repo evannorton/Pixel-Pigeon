@@ -30,7 +30,8 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
 ```json
 {
   "height": 360,
-  "width": 640
+  "width": 640,
+  "volumeChannelIDs": []
 }
 ```
 4. Create a `dev.pmgf` file at the root of your game's codebase.

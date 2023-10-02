@@ -37,4 +37,5 @@ export const validIDCharacters: string[] = [
   "9",
   "0",
   "-",
+  "/",
 ];

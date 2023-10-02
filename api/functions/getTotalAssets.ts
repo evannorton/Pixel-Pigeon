@@ -14,6 +14,8 @@ export const getTotalAssets = (): number => {
     getDefinables(AudioSource).size +
     // Image sources
     getDefinables(ImageSource).size +
+    // Volume test sound
+    1 +
     // RetroPixels font
     1
   );

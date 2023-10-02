@@ -1,4 +1,7 @@
 body {
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
   image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
@@ -22,6 +25,29 @@ canvas {
   cursor: url("./cursors/default.png"), default;
   position: absolute;
   top: 0;
+}
+
+#settings {
+  align-items: center;
+  display: flex;
+  font-size: 3em;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.volume-slider {
+  display: flex;
+  flex-direction: column;
+}
+
+.volume-slider label {
+  margin-bottom: 0.25em;
+  text-align: center;
+}
+
+.volume-slider input {
+  margin-bottom: .5em;
 }
 
 body:not(.paused) #pause-menu {

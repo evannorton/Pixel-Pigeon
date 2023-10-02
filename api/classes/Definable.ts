@@ -11,7 +11,6 @@ export abstract class Definable {
         .split("")
         .some(
           (character: string): boolean =>
-            character !== "/" &&
             validIDCharacters.includes(character) === false,
         )
     ) {

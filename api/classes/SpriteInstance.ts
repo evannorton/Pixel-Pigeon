@@ -19,7 +19,7 @@ import { state } from "../state";
 /**
  * Information used to decide when an animation should be played for a {@link createSpriteInstance | SpriteInstance}
  */
-export interface CreateSpriteInstanceOptions<AnimationID extends string> {
+export interface CreateSpriteInstanceOptions {
   /**
    * Optional coordinates that can be used to preciesly define where the SpriteInstance should be in the world
    */
@@ -40,31 +40,31 @@ export interface CreateSpriteInstanceOptions<AnimationID extends string> {
   /**
    * Callback that should decide what animation should be playing at any given moment, and then return the AnimationID so it can be played
    */
-  getAnimationID: () => AnimationID | null;
+  getAnimationID: () => string | null;
   /**
    * String SpriteID used to refer to the SpriteInstance
    */
   spriteID: string;
 }
-export class SpriteInstance<AnimationID extends string> extends Definable {
+export class SpriteInstance extends Definable {
   private _animation: {
     readonly id: string;
     readonly startedAt: number;
   } | null = null;
 
-  private readonly _options: CreateSpriteInstanceOptions<AnimationID>;
+  private readonly _options: CreateSpriteInstanceOptions;
 
-  public constructor(options: CreateSpriteInstanceOptions<AnimationID>) {
+  public constructor(options: CreateSpriteInstanceOptions) {
     super(getToken());
     this._options = options;
   }
 
-  private get sprite(): Sprite<AnimationID> {
-    return getDefinable(Sprite<AnimationID>, this._options.spriteID);
+  private get sprite(): Sprite {
+    return getDefinable(Sprite, this._options.spriteID);
   }
 
   public playAnimation(): void {
-    const animationID: AnimationID | null = this._options.getAnimationID();
+    const animationID: string | null = this._options.getAnimationID();
     if (animationID === null) {
       this._animation = null;
     } else if (this._animation === null || animationID !== this._animation.id) {
@@ -156,13 +156,11 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
         `SpriteInstance "${this._id}" of ImageSource "${this.sprite.imageSource.id}" attempted to draw with no animation.`,
       );
     }
-    const animation: SpriteInstance<AnimationID>["_animation"] =
-      this._animation;
-    const currentAnimation: CreateSpriteOptionsAnimation<AnimationID> | null =
+    const animation: SpriteInstance["_animation"] = this._animation;
+    const currentAnimation: CreateSpriteOptionsAnimation | null =
       this.sprite.animations.find(
-        (
-          spriteInstanceAnimation: CreateSpriteOptionsAnimation<AnimationID>,
-        ): boolean => spriteInstanceAnimation.id === animation.id,
+        (spriteInstanceAnimation: CreateSpriteOptionsAnimation): boolean =>
+          spriteInstanceAnimation.id === animation.id,
       ) ?? null;
     if (currentAnimation === null) {
       throw new Error(
@@ -250,17 +248,12 @@ export class SpriteInstance<AnimationID extends string> extends Definable {
  * @param options - Creation options for the sprite
  * @returns String ID of the SpriteInstance created
  */
-export const createSpriteInstance = <AnimationID extends string>(
-  options: CreateSpriteInstanceOptions<AnimationID>,
+export const createSpriteInstance = (
+  options: CreateSpriteInstanceOptions,
 ): string => new SpriteInstance(options).id;
 /**
  * @param spriteInstanceID - String SpriteInstanceID of the sprite to remove
  */
-export const removeSpriteInstance = <AnimationID extends string>(
-  spriteInstanceID: string,
-): void => {
-  getDefinable<SpriteInstance<AnimationID>>(
-    SpriteInstance<AnimationID>,
-    spriteInstanceID,
-  ).remove();
+export const removeSpriteInstance = (spriteInstanceID: string): void => {
+  getDefinable<SpriteInstance>(SpriteInstance, spriteInstanceID).remove();
 };

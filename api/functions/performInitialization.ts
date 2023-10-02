@@ -6,6 +6,7 @@ import { ImageSource } from "../classes/ImageSource";
 import { InputPressHandler } from "../classes/InputPressHandler";
 import { InputTickHandler } from "../classes/InputTickHandler";
 import { LDTK } from "../types/LDTK";
+import { VolumeChannel } from "../classes/VolumeChannel";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
@@ -190,9 +191,12 @@ export const performInitialization = async (): Promise<void> => {
     document.body.classList.remove("paused");
     screenElement.focus();
     for (const audioSourceID of state.values.pauseMenuPausedAudioSourceIDs) {
-      getDefinable(AudioSource, audioSourceID).play();
+      getDefinable(AudioSource, audioSourceID).resume();
     }
   });
+  for (const volumeChannelConfig of config.volumeChannels) {
+    new VolumeChannel(volumeChannelConfig.id, volumeChannelConfig.name);
+  }
   screenElement.appendChild(app.view as HTMLCanvasElement);
   sizeScreen();
   app.ticker.add(tick);

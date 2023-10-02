@@ -14,6 +14,7 @@ module.exports = [
     `node ${join(__dirname, "buildCursors")}`,
     `node ${join(__dirname, "buildAudio")}`,
     `node ${join(__dirname, "buildImages")}`,
+    `node ${join(__dirname, "buildMP3")}`,
     `node ${join(__dirname, "buildSVG")}`,
     `node ${join(__dirname, "buildFonts")}`,
     `node ${join(__dirname, "buildConfig")}`,

@@ -40,11 +40,11 @@ export interface CreateSpriteOptionsAnimationFrame {
 /**
  * A combination of {@link CreateSpriteOptionsAnimationFrame | SpriteAnimationFrames} and an string AnimationID to form a completed animation
  */
-export interface CreateSpriteOptionsAnimation<AnimationID extends string> {
+export interface CreateSpriteOptionsAnimation {
   /**
    * String AnimationID that will be used to refer to the animation
    */
-  id: AnimationID;
+  id: string;
   /**
    * Array of AnimationFrames used to create the overall animation
    */
@@ -53,11 +53,11 @@ export interface CreateSpriteOptionsAnimation<AnimationID extends string> {
 /**
  * A combination of multiple {@link CreateSpriteOptionsAnimation | SpriteAnimations} and a sprite sheet to create an overall sprite
  */
-export interface CreateSpriteOptions<AnimationID extends string> {
+export interface CreateSpriteOptions {
   /**
    * Array of Animations that are able to be indentified by their AnimationID to play the animation
    */
-  animations: CreateSpriteOptionsAnimation<AnimationID>[];
+  animations: CreateSpriteOptionsAnimation[];
   /**
    * String path to the sprite sheet. **AUOMATICALLY STARTS IN IMAGES FOLDER**
    * @example
@@ -67,10 +67,10 @@ export interface CreateSpriteOptions<AnimationID extends string> {
    */
   imagePath: string;
 }
-export class Sprite<AnimationID extends string> extends Definable {
-  private readonly _options: CreateSpriteOptions<AnimationID>;
+export class Sprite extends Definable {
+  private readonly _options: CreateSpriteOptions;
 
-  public constructor(options: CreateSpriteOptions<AnimationID>) {
+  public constructor(options: CreateSpriteOptions) {
     const animationIDs: string[] = [];
     for (const animation of options.animations) {
       if (animationIDs.includes(animation.id)) {
@@ -84,7 +84,7 @@ export class Sprite<AnimationID extends string> extends Definable {
     this._options = options;
   }
 
-  public get animations(): CreateSpriteOptionsAnimation<AnimationID>[] {
+  public get animations(): CreateSpriteOptionsAnimation[] {
     return [...this._options.animations];
   }
 
@@ -99,6 +99,5 @@ export class Sprite<AnimationID extends string> extends Definable {
  * @param options - Options that defines a sprite's image path and animations
  * @returns String SpriteID that can be used to reference the sprite
  */
-export const createSprite = <AnimationID extends string>(
-  options: CreateSpriteOptions<AnimationID>,
-): string => new Sprite(options).id;
+export const createSprite = (options: CreateSpriteOptions): string =>
+  new Sprite(options).id;

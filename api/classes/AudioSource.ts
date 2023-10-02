@@ -1,5 +1,6 @@
 import { Definable } from "./Definable";
 import { Howl } from "howler";
+import { VolumeChannelConfig } from "../types/Config";
 import { getDefinable } from "../functions/getDefinable";
 import { state } from "../state";
 
@@ -10,7 +11,7 @@ interface AudioSourceOptions {
 export class AudioSource extends Definable {
   private readonly _howl: Howl;
   private readonly _options: AudioSourceOptions;
-  private _loopPoint: number | null = null;
+  private _playOptions: PlayAudioSourceOptions | null = null;
 
   public constructor(options: AudioSourceOptions) {
     super(options.audioPath);
@@ -34,13 +35,28 @@ export class AudioSource extends Definable {
     return this._howl.playing();
   }
 
+  public isPlayingInVolumeChannel(volumeChannelID: string): boolean {
+    return (
+      this._playOptions !== null &&
+      this._playOptions.volumeChannelID === volumeChannelID
+    );
+  }
+
   public pause(): void {
     this._howl.pause();
   }
 
-  public play(playAudioOptions?: PlayAudioSourceOptions): void {
+  public play(playAudioOptions: PlayAudioSourceOptions): void {
     this._howl.play();
-    this._loopPoint = playAudioOptions?.loopPoint ?? null;
+    this._playOptions = playAudioOptions;
+  }
+
+  public resume(): void {
+    this._howl.play();
+  }
+
+  public setVolume(volume: number): void {
+    this._howl.volume(volume / 100);
   }
 
   public stop(): void {
@@ -48,9 +64,14 @@ export class AudioSource extends Definable {
   }
 
   private onHowlEnd(): void {
-    if (this._loopPoint !== null) {
+    if (this._playOptions === null) {
+      throw new Error(
+        `OnHowlEnd was triggered for AudioSource "${this._id}" with no play options.`,
+      );
+    }
+    if (typeof this._playOptions.loopPoint !== "undefined") {
       this.stop();
-      this._howl.seek(this._loopPoint / 1000);
+      this._howl.seek(this._playOptions.loopPoint / 1000);
       this._howl.play();
     }
   }
@@ -63,6 +84,7 @@ export class AudioSource extends Definable {
 }
 export interface PlayAudioSourceOptions {
   loopPoint?: number;
+  volumeChannelID: string;
 }
 /**
  * Play the provided audio within the game
@@ -75,8 +97,23 @@ export interface PlayAudioSourceOptions {
  */
 export const playAudioSource = (
   audioSourceID: string,
-  playAudioOptions?: PlayAudioSourceOptions,
+  playAudioOptions: PlayAudioSourceOptions,
 ): void => {
+  if (state.values.config === null) {
+    throw new Error(
+      `An attempt was made to play AudioSource "${audioSourceID}" before config was loaded.`,
+    );
+  }
+  if (
+    state.values.config.volumeChannels.some(
+      (volumeChannel: VolumeChannelConfig): boolean =>
+        volumeChannel.id === playAudioOptions.volumeChannelID,
+    ) === false
+  ) {
+    throw new Error(
+      `An attempt was made to play AudioSource "${audioSourceID}" with a nonexistant volume channel.`,
+    );
+  }
   getDefinable<AudioSource>(AudioSource, audioSourceID).play(playAudioOptions);
 };
 /**

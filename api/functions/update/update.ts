@@ -62,7 +62,7 @@ export const update = (): void => {
       onTickCallback();
     }
     getDefinables(SpriteInstance).forEach(
-      (spriteInstance: SpriteInstance<string>): void => {
+      (spriteInstance: SpriteInstance): void => {
         spriteInstance.playAnimation();
         spriteInstance.drawAtCoordinates();
       },

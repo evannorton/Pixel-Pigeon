@@ -5,7 +5,7 @@ const { join } = require("path");
 const { generate } = require("ts-to-zod");
 
 const configSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "types", "Config.ts")).toString() }).getZodSchemasFile();
-writeFileSync(join(__dirname, "configSchema.js"), configSchemaText.replace("export const ", "").replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { configSchema };");
+writeFileSync(join(__dirname, "configSchema.js"), configSchemaText.replace("export const ", "").replace("export const ", "").replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { configSchema };");
 const { configSchema } = require("./configSchema");
 
 const devSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "types", "Dev.ts")).toString() }).getZodSchemasFile();
