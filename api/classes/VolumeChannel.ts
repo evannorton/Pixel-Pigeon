@@ -26,7 +26,7 @@ export class VolumeChannel extends Definable {
     this._volumeSliderElement.classList.add("volume-slider");
     const inputElementID: string = `volume-slider-input-${this._id}`;
     this._volumeLabelElement.setAttribute("for", inputElementID);
-    this._volumeLabelElement.innerText = `${volumeChannelName} volume`;
+    this._volumeLabelElement.innerText = `${volumeChannelName} Volume`;
     this._volumeInputElement.id = inputElementID;
     this._volumeInputElement.name = inputElementID;
     this._volumeInputElement.type = "range";
