@@ -1,7 +1,9 @@
 import { Definable } from "./Definable";
 import { Howl } from "howler";
+import { VolumeChannel } from "./VolumeChannel";
 import { VolumeChannelConfig } from "../types/Config";
 import { getDefinable } from "../functions/getDefinable";
+import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
 import { state } from "../state";
 
 interface AudioSourceOptions {
@@ -55,12 +57,24 @@ export class AudioSource extends Definable {
     this._howl.play();
   }
 
-  public setVolume(volume: number): void {
-    this._howl.volume(volume / 100);
-  }
-
   public stop(): void {
     this._howl.stop();
+  }
+
+  public updateVolume(): void {
+    if (this._playOptions === null) {
+      throw new Error(
+        `An attempt was made to update the volume of AudioSource "${this._id}" with no play options.`,
+      );
+    }
+    const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
+      VolumeChannel,
+      this._playOptions.volumeChannelID,
+    );
+    this._howl.volume(
+      getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
+        100,
+    );
   }
 
   private onHowlEnd(): void {

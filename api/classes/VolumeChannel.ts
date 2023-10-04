@@ -1,6 +1,7 @@
 import { AudioSource } from "./AudioSource";
 import { Definable } from "./Definable";
 import { getDefinables } from "../functions/getDefinables";
+import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
 import { state } from "../state";
 
 export class VolumeChannel extends Definable {
@@ -32,21 +33,26 @@ export class VolumeChannel extends Definable {
     this._volumeInputElement.min = "0";
     this._volumeInputElement.max = "100";
     this._volumeInputElement.value = "50";
-    this._volumeInputElement.addEventListener("input", (e: Event): void => {
-      const target: HTMLInputElement = e.target as HTMLInputElement;
+    this._volumeInputElement.addEventListener("input", (): void => {
       for (const [, audioSource] of getDefinables(AudioSource)) {
         if (audioSource.isPlayingInVolumeChannel(this._id)) {
-          audioSource.setVolume(target.valueAsNumber);
+          audioSource.updateVolume();
         }
       }
     });
     this._volumeInputElement.addEventListener("mouseup", (e: Event): void => {
       const target: HTMLInputElement = e.target as HTMLInputElement;
-      state.values.volumeTestHowl.volume(target.valueAsNumber / 100);
+      state.values.volumeTestHowl.volume(
+        getMainAdjustedVolume(target.valueAsNumber) / 100,
+      );
       state.values.volumeTestHowl.play();
     });
     this._volumeSliderElement.appendChild(this._volumeLabelElement);
     this._volumeSliderElement.appendChild(this._volumeInputElement);
     volumeSlidersElement.appendChild(this._volumeSliderElement);
+  }
+
+  public get volumeSliderElement(): HTMLInputElement {
+    return this._volumeInputElement;
   }
 }

@@ -47,6 +47,13 @@ export const performInitialization = async (): Promise<void> => {
       "An attempt was made to init with no unpause button element in the DOM.",
     );
   }
+  const mainVolumeSliderInputElement: HTMLElement | null =
+    document.getElementById("main-volume-slider-input");
+  if (mainVolumeSliderInputElement === null) {
+    throw new Error(
+      "An attempt was made to get main adjusted volume with no main volume slider element in the DOM.",
+    );
+  }
   state.setValues({ isInitialized: true });
   const devRes: Response = await fetch("./dev.pmgf");
   const dev: Dev = (await devRes.json()) as Dev;
@@ -197,6 +204,16 @@ export const performInitialization = async (): Promise<void> => {
   for (const volumeChannelConfig of config.volumeChannels) {
     new VolumeChannel(volumeChannelConfig.id, volumeChannelConfig.name);
   }
+  mainVolumeSliderInputElement.addEventListener("input", (): void => {
+    for (const [, audioSource] of getDefinables(AudioSource)) {
+      audioSource.updateVolume();
+    }
+  });
+  mainVolumeSliderInputElement.addEventListener("mouseup", (e: Event): void => {
+    const target: HTMLInputElement = e.target as HTMLInputElement;
+    state.values.volumeTestHowl.volume(target.valueAsNumber / 100);
+    state.values.volumeTestHowl.play();
+  });
   screenElement.appendChild(app.view as HTMLCanvasElement);
   sizeScreen();
   app.ticker.add(tick);
