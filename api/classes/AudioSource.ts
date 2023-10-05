@@ -44,6 +44,10 @@ export class AudioSource extends Definable {
     );
   }
 
+  public mute(): void {
+    this._howl.mute(true);
+  }
+
   public pause(): void {
     this._howl.pause();
   }
@@ -59,6 +63,10 @@ export class AudioSource extends Definable {
 
   public stop(): void {
     this._howl.stop();
+  }
+
+  public unmute(): void {
+    this._howl.mute(false);
   }
 
   public updateVolume(): void {

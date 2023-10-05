@@ -20,37 +20,6 @@ canvas {
   width: 100%;
 }
 
-#pause-menu {
-  background-color: rgba(0, 0, 0, .5);
-  cursor: url("./cursors/default.png"), default;
-  outline: none;
-  position: absolute;
-  top: 0;
-}
-
-#settings {
-  align-items: center;
-  display: flex;
-  font-size: 3em;
-  height: 100%;
-  justify-content: center;
-  width: 100%;
-}
-
-.volume-slider {
-  display: flex;
-  flex-direction: column;
-}
-
-.volume-slider label {
-  margin-bottom: 0.25em;
-  text-align: center;
-}
-
-.volume-slider input {
-  margin-bottom: .5em;
-}
-
 body:not(.paused) #pause-menu {
   display: none;
 }
@@ -75,4 +44,49 @@ body.paused #pause-button {
 
 body:not(.paused) #unpause-button {
   display: none;
+}
+
+#pause-menu {
+  background-color: rgba(0, 0, 0, .5);
+  cursor: url("./cursors/default.png"), default;
+  outline: none;
+  position: absolute;
+  top: 0;
+}
+
+#settings {
+  align-items: center;
+  display: flex;
+  font-size: 3em;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+#settings label {
+  margin-bottom: 0.25em;
+  text-align: center;
+}
+
+#mute-toggle {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+#mute-toggle-input {
+  height: 0.75em;
+  margin-bottom: .5em;
+  width: 0.75em;
+}
+
+.volume-slider {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.volume-slider input {
+  margin-bottom: .5em;
+  width: 6em;
 }

@@ -54,6 +54,13 @@ export const performInitialization = async (): Promise<void> => {
       "An attempt was made to get main adjusted volume with no main volume slider element in the DOM.",
     );
   }
+  const muteToggleInputElement: HTMLElement | null =
+    document.getElementById("mute-toggle-input");
+  if (muteToggleInputElement === null) {
+    throw new Error(
+      "An attempt was made to get main adjusted volume with no mute toggle element in the DOM.",
+    );
+  }
   state.setValues({ isInitialized: true });
   const devRes: Response = await fetch("./dev.pmgf");
   const dev: Dev = (await devRes.json()) as Dev;
@@ -209,10 +216,22 @@ export const performInitialization = async (): Promise<void> => {
       audioSource.updateVolume();
     }
   });
-  mainVolumeSliderInputElement.addEventListener("mouseup", (e: Event): void => {
-    const target: HTMLInputElement = e.target as HTMLInputElement;
-    state.values.volumeTestHowl.volume(target.valueAsNumber / 100);
+  mainVolumeSliderInputElement.addEventListener("mouseup", (): void => {
+    state.values.volumeTestHowl.volume(
+      (mainVolumeSliderInputElement as HTMLInputElement).valueAsNumber / 100,
+    );
     state.values.volumeTestHowl.play();
+  });
+  muteToggleInputElement.addEventListener("click", (): void => {
+    if ((muteToggleInputElement as HTMLInputElement).checked) {
+      getDefinables(AudioSource).forEach((audioSource: AudioSource): void => {
+        audioSource.mute();
+      });
+    } else {
+      getDefinables(AudioSource).forEach((audioSource: AudioSource): void => {
+        audioSource.unmute();
+      });
+    }
   });
   screenElement.appendChild(app.view as HTMLCanvasElement);
   sizeScreen();
