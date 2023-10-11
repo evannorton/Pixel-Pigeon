@@ -41,55 +41,69 @@ export const updateLevelPathing = (): void => {
           startY,
           endX,
           endY,
-          (path: TilePosition[]): void => {
-            if (entity.position === null) {
-              throw new Error(
-                `Attempted to path Entity "${entity.id}" with no position.`,
-              );
-            }
-            entity.path = path;
-            const nextTilePosition: TilePosition =
-              path.length > 1
-                ? path[1]
-                : path.length === 1
-                ? path[0]
-                : {
-                    x: startX,
-                    y: startY,
-                  };
-            if (
-              entity.lastPathedTilePosition === null ||
-              entity.lastPathedTilePosition.x !== nextTilePosition.x ||
-              entity.lastPathedTilePosition.y !== nextTilePosition.y
-            ) {
-              entity.hasTouchedPathingStartingTile = false;
-            }
-            entity.lastPathedTilePosition = {
-              x: nextTilePosition.x,
-              y: nextTilePosition.y,
-            };
-            const nextTileX: number = entity.hasTouchedPathingStartingTile
-              ? nextTilePosition.x * layer.tileSize
-              : startX * layer.tileSize;
-            const nextTileY: number = entity.hasTouchedPathingStartingTile
-              ? nextTilePosition.y * layer.tileSize
-              : startY * layer.tileSize;
-            const step: number = 0.1;
-            if (nextTileX > entity.position.x) {
-              entity.position.x = Math.min(entity.position.x + step, nextTileX);
-            } else {
-              entity.position.x = Math.max(entity.position.x - step, nextTileX);
-            }
-            if (nextTileY > entity.position.y) {
-              entity.position.y = Math.min(entity.position.y + step, nextTileY);
-            } else {
-              entity.position.y = Math.max(entity.position.y - step, nextTileY);
-            }
-            if (
-              entity.position.x === nextTileX &&
-              entity.position.y === nextTileY
-            ) {
-              entity.hasTouchedPathingStartingTile = true;
+          (path: TilePosition[] | null): void => {
+            if (path !== null) {
+              if (entity.position === null) {
+                throw new Error(
+                  `Attempted to path Entity "${entity.id}" with no position.`,
+                );
+              }
+              entity.path = path;
+              const nextTilePosition: TilePosition =
+                path.length > 1
+                  ? path[1]
+                  : path.length === 1
+                  ? path[0]
+                  : {
+                      x: startX,
+                      y: startY,
+                    };
+              if (
+                entity.lastPathedTilePosition === null ||
+                entity.lastPathedTilePosition.x !== nextTilePosition.x ||
+                entity.lastPathedTilePosition.y !== nextTilePosition.y
+              ) {
+                entity.hasTouchedPathingStartingTile = false;
+              }
+              entity.lastPathedTilePosition = {
+                x: nextTilePosition.x,
+                y: nextTilePosition.y,
+              };
+              const nextTileX: number = entity.hasTouchedPathingStartingTile
+                ? nextTilePosition.x * layer.tileSize
+                : startX * layer.tileSize;
+              const nextTileY: number = entity.hasTouchedPathingStartingTile
+                ? nextTilePosition.y * layer.tileSize
+                : startY * layer.tileSize;
+              const step: number = 0.1;
+              if (nextTileX > entity.position.x) {
+                entity.position.x = Math.min(
+                  entity.position.x + step,
+                  nextTileX,
+                );
+              } else {
+                entity.position.x = Math.max(
+                  entity.position.x - step,
+                  nextTileX,
+                );
+              }
+              if (nextTileY > entity.position.y) {
+                entity.position.y = Math.min(
+                  entity.position.y + step,
+                  nextTileY,
+                );
+              } else {
+                entity.position.y = Math.max(
+                  entity.position.y - step,
+                  nextTileY,
+                );
+              }
+              if (
+                entity.position.x === nextTileX &&
+                entity.position.y === nextTileY
+              ) {
+                entity.hasTouchedPathingStartingTile = true;
+              }
             }
           },
         );
