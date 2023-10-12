@@ -123,9 +123,6 @@ export const performInitialization = async (): Promise<void> => {
         if (!state.values.hasInteracted) {
           state.setValues({ hasInteracted: true });
           document.body.classList.add("interacted");
-          for (const onRunCallback of state.values.onRunCallbacks) {
-            onRunCallback();
-          }
         } else {
           getDefinables(InputPressHandler).forEach(
             (inputPressHandler: InputPressHandler): void => {

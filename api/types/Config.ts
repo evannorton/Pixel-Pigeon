@@ -4,6 +4,7 @@ export interface VolumeChannelConfig {
 }
 export interface Config {
   readonly height: number;
+  readonly name: string;
   readonly volumeChannels: VolumeChannelConfig[];
   readonly width: number;
 }

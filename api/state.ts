@@ -12,6 +12,7 @@ interface StateSchema {
   readonly currentTime: number;
   readonly dev: Dev | null;
   readonly hasDoneInputPressForTick: boolean;
+  readonly hasExecutedOnRunCallbacks: boolean;
   readonly hasInteracted: boolean;
   readonly heldGamepadButtons: number[];
   readonly heldKeys: string[];
@@ -40,6 +41,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   currentTime: 0,
   dev: null,
   hasDoneInputPressForTick: false,
+  hasExecutedOnRunCallbacks: false,
   hasInteracted: false,
   heldGamepadButtons: [],
   heldKeys: [],

@@ -14,4 +14,10 @@ export const tick = (): void => {
     update();
     render();
   }
+  if (state.values.hasInteracted && !state.values.hasExecutedOnRunCallbacks) {
+    for (const onRunCallback of state.values.onRunCallbacks) {
+      onRunCallback();
+    }
+    state.setValues({ hasExecutedOnRunCallbacks: true });
+  }
 };

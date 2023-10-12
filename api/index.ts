@@ -49,6 +49,7 @@ import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
+import { takeScreenshot } from "./functions/takeScreenshot";
 
 export {
   CollisionData,
@@ -93,4 +94,5 @@ export {
   State,
   stopAudioSource,
   stopEntity,
+  takeScreenshot,
 };
