@@ -1,3 +1,4 @@
+.VSCodeCounter
 cli/configSchema.js
 cli/devSchema.js
 cli/ldtkSchema.js

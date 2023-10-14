@@ -11,13 +11,9 @@ export const tick = (): void => {
     state.setValues({
       currentTime: state.values.currentTime + state.values.app.ticker.deltaMS,
     });
-    update();
-    render();
-  }
-  if (state.values.hasInteracted && !state.values.hasExecutedOnRunCallbacks) {
-    for (const onRunCallback of state.values.onRunCallbacks) {
-      onRunCallback();
+    if (state.values.hasInteracted) {
+      update();
     }
-    state.setValues({ hasExecutedOnRunCallbacks: true });
+    render();
   }
 };

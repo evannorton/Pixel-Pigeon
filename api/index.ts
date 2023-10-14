@@ -21,7 +21,7 @@ import {
 } from "./classes/Sprite";
 import { EntityCollidable } from "./types/EntityCollidable";
 import { EntityPosition } from "./types/EntityPosition";
-import { InputKey } from "./types/InputKey";
+import { KeyboardButton } from "./types/KeyboardButton";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
 import { OverlapData } from "./types/OverlapData";
 import { PathEntityOptions, pathEntity } from "./functions/pathEntity";
@@ -71,7 +71,7 @@ export {
   getInputTickHandlerGroupID,
   goToLevel,
   initialize,
-  InputKey,
+  KeyboardButton as InputKey,
   InputTickHandlerGroup,
   isEntityPathing,
   lockCameraToEntity,

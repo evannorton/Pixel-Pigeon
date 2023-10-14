@@ -1,6 +1,7 @@
 import { Definable } from "./Definable";
-import { InputKey } from "../types/InputKey";
+import { KeyboardButton } from "../types/KeyboardButton";
 import { getToken } from "../functions/getToken";
+import { state } from "../state";
 
 export interface InputTickHandlerGroup<GroupID> {
   /**
@@ -20,10 +21,8 @@ export interface InputTickHandlerGroup<GroupID> {
    * ```
    */
   id: GroupID;
-  /**
-   * An array of strings that represents different inputs on a keyboard
-   */
-  keys?: InputKey[];
+  keyboardButtons?: KeyboardButton[];
+  mouseButtons?: number[];
 }
 /**
  * Uses an array of InputTickHandlers to allow any number of inputs to be set up under one GroupID
@@ -33,7 +32,7 @@ export interface CreateInputTickHandlerOptions<GroupID extends string> {
 }
 export class InputTickHandler<GroupID extends string> extends Definable {
   private readonly _options: CreateInputTickHandlerOptions<GroupID>;
-  private readonly _groupIDs: GroupID[] = [];
+  private _groupIDs: GroupID[] = [];
 
   public constructor(options: CreateInputTickHandlerOptions<GroupID>) {
     super(getToken());
@@ -44,63 +43,76 @@ export class InputTickHandler<GroupID extends string> extends Definable {
     return this._groupIDs[0] ?? null;
   }
 
-  public handleKeyDown(button: string, numlock: boolean): void {
-    for (const group of this._options.groups) {
-      if (
-        typeof group.keys !== "undefined" &&
-        group.keys.some((key: InputKey): boolean => {
-          if (key.value === button) {
-            if (key.numlock === true) {
-              return numlock;
-            }
-            if (key.withoutNumlock === true) {
-              return !numlock;
-            }
-            return true;
-          }
-          return false;
-        })
-      ) {
-        this._groupIDs.unshift(group.id);
-      }
-    }
-  }
-
-  public handleKeyUp(button: string): void {
-    for (const group of this._options.groups) {
-      if (
-        typeof group.keys !== "undefined" &&
-        group.keys.some((key: InputKey): boolean => key.value === button)
-      ) {
-        this._groupIDs.splice(this._groupIDs.indexOf(group.id), 1);
-      }
-    }
-  }
-
-  public handleGamepadButtonDown(button: number): void {
-    for (const group of this._options.groups) {
-      if (
-        typeof group.gamepadButtons !== "undefined" &&
-        group.gamepadButtons.includes(button)
-      ) {
-        this._groupIDs.unshift(group.id);
-      }
-    }
-  }
-
-  public handleGamepadButtonUp(button: number): void {
-    for (const group of this._options.groups) {
-      if (
-        typeof group.gamepadButtons !== "undefined" &&
-        group.gamepadButtons.includes(button)
-      ) {
-        this._groupIDs.splice(this._groupIDs.indexOf(group.id), 1);
-      }
-    }
-  }
-
   public empty(): void {
     this._groupIDs.length = 0;
+  }
+
+  public updateHeldButtons(): void {
+    for (const group of this._options.groups) {
+      if (this.groupHasHeldButton(group)) {
+        if (this._groupIDs.includes(group.id) === false) {
+          this._groupIDs.unshift(group.id);
+        }
+      } else {
+        this._groupIDs = this._groupIDs.filter(
+          (groupID: GroupID): boolean => groupID !== group.id,
+        );
+      }
+    }
+  }
+
+  private groupHasHeldButton(group: InputTickHandlerGroup<GroupID>): boolean {
+    if (typeof group.keyboardButtons !== "undefined") {
+      for (const heldKeyboardInput of state.values.heldKeyboardInputs) {
+        if (
+          group.keyboardButtons.some(
+            (keyboardButton: KeyboardButton): boolean => {
+              if (keyboardButton.value === heldKeyboardInput.button) {
+                if (keyboardButton.numlock === true) {
+                  return heldKeyboardInput.numlock;
+                }
+                if (keyboardButton.withoutNumlock === true) {
+                  return heldKeyboardInput.numlock === false;
+                }
+                return true;
+              }
+              return false;
+            },
+          )
+        ) {
+          return true;
+        }
+      }
+    }
+    if (typeof group.mouseButtons !== "undefined") {
+      for (const heldMouseInput of state.values.heldMouseInputs) {
+        if (
+          group.mouseButtons.some((mouseButton: number): boolean => {
+            if (mouseButton === heldMouseInput.button) {
+              return true;
+            }
+            return false;
+          })
+        ) {
+          return true;
+        }
+      }
+    }
+    if (typeof group.gamepadButtons !== "undefined") {
+      for (const heldGameInput of state.values.heldGamepadInputs) {
+        if (
+          group.gamepadButtons.some((gamepadButton: number): boolean => {
+            if (gamepadButton === heldGameInput.button) {
+              return true;
+            }
+            return false;
+          })
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
 /**

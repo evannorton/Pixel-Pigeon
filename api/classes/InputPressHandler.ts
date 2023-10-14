@@ -1,7 +1,9 @@
 import { Definable } from "./Definable";
-import { InputKey } from "../types/InputKey";
+import { GamepadInput } from "../types/GamepadInput";
+import { KeyboardButton } from "../types/KeyboardButton";
+import { KeyboardInput } from "../types/KeyboardInput";
+import { MouseInput } from "../types/MouseInput";
 import { getToken } from "../functions/getToken";
-import { state } from "../state";
 
 /** Defines options for InputPressHandlers, which mainly is about what inputs to press and the callbacks */
 export interface CreateInputPressHandlerOptions {
@@ -17,19 +19,12 @@ export interface CreateInputPressHandlerOptions {
   /**
    * An array of strings that represents different inputs on a keyboard
    */
-  keys?: InputKey[];
-  /**
-   * Should the input activate on left click?
-   */
-  leftClick?: boolean;
+  keyboardButtons?: KeyboardButton[];
+  mouseButtons?: number[];
   /**
    * Callback that triggers when supplied inputs are pressed and condition is true, if it exists
    */
   onInput: () => void;
-  /**
-   * Should the input activate on right click?
-   */
-  rightClick?: boolean;
 }
 export class InputPressHandler extends Definable {
   private readonly _options: CreateInputPressHandlerOptions;
@@ -39,25 +34,25 @@ export class InputPressHandler extends Definable {
     this._options = options;
   }
 
-  public handleClick(button: number): void {
+  public handleGamepadInput(gamepadInput: GamepadInput): void {
     if (
-      (Boolean(this._options.leftClick) && button === 0) ||
-      (Boolean(this._options.rightClick) && button === 2)
+      typeof this._options.gamepadButtons !== "undefined" &&
+      this._options.gamepadButtons.includes(gamepadInput.button)
     ) {
       this.attemptInput();
     }
   }
 
-  public handleKey(button: string, numlock: boolean): void {
+  public handleKeyboardInput(keyboardInput: KeyboardInput): void {
     if (
-      typeof this._options.keys !== "undefined" &&
-      this._options.keys.some((key: InputKey): boolean => {
-        if (key.value === button) {
+      typeof this._options.keyboardButtons !== "undefined" &&
+      this._options.keyboardButtons.some((key: KeyboardButton): boolean => {
+        if (key.value === keyboardInput.button) {
           if (key.numlock === true) {
-            return numlock;
+            return keyboardInput.numlock;
           }
           if (key.withoutNumlock === true) {
-            return !numlock;
+            return keyboardInput.numlock === false;
           }
           return true;
         }
@@ -68,10 +63,10 @@ export class InputPressHandler extends Definable {
     }
   }
 
-  public handleGamepadButton(button: number): void {
+  public handleMouseInput(mouseInput: MouseInput): void {
     if (
-      typeof this._options.gamepadButtons !== "undefined" &&
-      this._options.gamepadButtons.includes(button)
+      typeof this._options.mouseButtons !== "undefined" &&
+      this._options.mouseButtons.includes(mouseInput.button)
     ) {
       this.attemptInput();
     }
@@ -79,11 +74,9 @@ export class InputPressHandler extends Definable {
 
   private attemptInput(): void {
     if (
-      !state.values.hasDoneInputPressForTick &&
-      (typeof this._options.condition === "undefined" ||
-        this._options.condition())
+      typeof this._options.condition === "undefined" ||
+      this._options.condition()
     ) {
-      state.setValues({ hasDoneInputPressForTick: true });
       this._options.onInput();
     }
   }

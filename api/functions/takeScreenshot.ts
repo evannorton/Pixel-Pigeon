@@ -1,4 +1,4 @@
-import { Container } from "pixi.js";
+import { ICanvas } from "pixi.js";
 import { state } from "../state";
 
 export const takeScreenshot = (): void => {
@@ -10,12 +10,14 @@ export const takeScreenshot = (): void => {
   }
   const anchor: HTMLAnchorElement = document.createElement("a");
   anchor.download = `${state.values.config.name} screenshot.png`;
-  anchor.href = (
-    state.values.app.renderer.plugins.extract as {
-      canvas: (stage: Container) => HTMLCanvasElement;
-    }
-  )
-    .canvas(state.values.app.stage)
-    .toDataURL();
+  const canvas: ICanvas = state.values.app.renderer.extract.canvas(
+    state.values.app.stage,
+  );
+  if (typeof canvas.toDataURL === "undefined") {
+    throw new Error(
+      'Attempted to take screenshot of a canvas with no "toDataURL" method.',
+    );
+  }
+  anchor.href = canvas.toDataURL();
   anchor.click();
 };

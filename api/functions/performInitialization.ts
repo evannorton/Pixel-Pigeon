@@ -3,9 +3,9 @@ import { AudioSource } from "../classes/AudioSource";
 import { Config } from "../types/Config";
 import { Dev } from "../types/Dev";
 import { ImageSource } from "../classes/ImageSource";
-import { InputPressHandler } from "../classes/InputPressHandler";
-import { InputTickHandler } from "../classes/InputTickHandler";
+import { KeyboardInput } from "../types/KeyboardInput";
 import { LDTK } from "../types/LDTK";
+import { MouseInput } from "../types/MouseInput";
 import { VolumeChannel } from "../classes/VolumeChannel";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { getDefinable } from "./getDefinable";
@@ -101,14 +101,8 @@ export const performInitialization = async (): Promise<void> => {
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {
     state.setValues({
-      heldGamepadButtons: [],
-      heldKeys: [],
+      didBlur: true,
     });
-    getDefinables(InputTickHandler).forEach(
-      (inputTickHandler: InputTickHandler<string>): void => {
-        inputTickHandler.empty();
-      },
-    );
   });
   app.renderer.view.addEventListener?.(
     "contextmenu",
@@ -119,18 +113,41 @@ export const performInitialization = async (): Promise<void> => {
   screenElement.addEventListener(
     "mousedown",
     (mousedownEvent: MouseEvent): void => {
-      if (assetsAreLoaded()) {
-        if (!state.values.hasInteracted) {
-          state.setValues({ hasInteracted: true });
-          document.body.classList.add("interacted");
-        } else {
-          getDefinables(InputPressHandler).forEach(
-            (inputPressHandler: InputPressHandler): void => {
-              inputPressHandler.handleClick(mousedownEvent.button);
-            },
-          );
+      if (assetsAreLoaded() && !state.values.hasInteracted) {
+        state.setValues({ hasInteracted: true });
+        document.body.classList.add("interacted");
+      } else if (
+        state.values.heldMouseInputs.some(
+          (heldMouseInput: MouseInput): boolean =>
+            heldMouseInput.button === mousedownEvent.button,
+        ) === false
+      ) {
+        const mouseInput: MouseInput = {
+          button: mousedownEvent.button,
+        };
+        state.setValues({
+          heldMouseInputs: [...state.values.heldMouseInputs, mouseInput],
+        });
+        if (state.values.hasInteracted) {
+          state.setValues({
+            pressedMouseInputs: [
+              ...state.values.pressedMouseInputs,
+              mouseInput,
+            ],
+          });
         }
       }
+    },
+  );
+  screenElement.addEventListener(
+    "mouseup",
+    (mouseupEvent: MouseEvent): void => {
+      state.setValues({
+        heldMouseInputs: state.values.heldMouseInputs.filter(
+          (heldMouseInput: MouseInput): boolean =>
+            heldMouseInput.button !== mouseupEvent.button,
+        ),
+      });
     },
   );
   addEventListener("keydown", (keydownEvent: KeyboardEvent): void => {
@@ -150,41 +167,36 @@ export const performInitialization = async (): Promise<void> => {
         }
         break;
     }
-    if (!state.values.heldKeys.includes(keydownEvent.code)) {
+    if (
+      state.values.heldKeyboardInputs.some(
+        (heldKeyboardInput: KeyboardInput): boolean =>
+          heldKeyboardInput.button === keydownEvent.code,
+      ) === false
+    ) {
+      const keyboardInput: KeyboardInput = {
+        button: keydownEvent.code,
+        numlock: keydownEvent.getModifierState("NumLock"),
+      };
       state.setValues({
-        heldKeys: [...state.values.heldKeys, keydownEvent.code],
+        heldKeyboardInputs: [...state.values.heldKeyboardInputs, keyboardInput],
       });
-      getDefinables(InputPressHandler).forEach(
-        (inputPressHandler: InputPressHandler): void => {
-          inputPressHandler.handleKey(
-            keydownEvent.code,
-            keydownEvent.getModifierState("NumLock"),
-          );
-        },
-      );
-      getDefinables(InputTickHandler).forEach(
-        (inputTickHandler: InputTickHandler<string>): void => {
-          inputTickHandler.handleKeyDown(
-            keydownEvent.code,
-            keydownEvent.getModifierState("NumLock"),
-          );
-        },
-      );
+      if (state.values.hasInteracted) {
+        state.setValues({
+          pressedKeyboardInputs: [
+            ...state.values.pressedKeyboardInputs,
+            keyboardInput,
+          ],
+        });
+      }
     }
   });
   addEventListener("keyup", (keyupEvent: KeyboardEvent): void => {
-    if (state.values.heldKeys.includes(keyupEvent.code)) {
-      state.setValues({
-        heldKeys: state.values.heldKeys.filter(
-          (key: string): boolean => key !== keyupEvent.code,
-        ),
-      });
-      getDefinables(InputTickHandler).forEach(
-        (inputTickHandler: InputTickHandler<string>): void => {
-          inputTickHandler.handleKeyUp(keyupEvent.code);
-        },
-      );
-    }
+    state.setValues({
+      heldKeyboardInputs: state.values.heldKeyboardInputs.filter(
+        (heldKeyboardInput: KeyboardInput): boolean =>
+          heldKeyboardInput.button !== keyupEvent.code,
+      ),
+    });
   });
   pauseButtonElement.addEventListener("click", (): void => {
     document.body.classList.add("paused");

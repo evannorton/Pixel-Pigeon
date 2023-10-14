@@ -261,14 +261,6 @@
     "@typescript-eslint/prefer-string-starts-ends-with": [
       "error"
     ],
-    "@typescript-eslint/quotes": [
-      "error",
-      "double",
-      {
-        "allowTemplateLiterals": true,
-        "avoidEscape": false
-      }
-    ],
     "@typescript-eslint/require-await": [
       "error"
     ],
