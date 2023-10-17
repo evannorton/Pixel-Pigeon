@@ -29,9 +29,19 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
 3. Create a `config.pmgf` file at the root of your game's codebase.
 ```json
 {
+  "name": "My Cool Game",
   "height": 360,
   "width": 640,
-  "volumeChannelIDs": []
+   "volumeChannels": [
+    {
+      "id": "music",
+      "name": "Music"
+    },
+    {
+      "id": "sfx",
+      "name": "SFX"
+    }
+  ]
 }
 ```
 4. Create a `dev.pmgf` file at the root of your game's codebase.
