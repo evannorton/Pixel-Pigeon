@@ -1,7 +1,6 @@
 import { Definable } from "./Definable";
 import { Howl } from "howler";
 import { VolumeChannel } from "./VolumeChannel";
-import { VolumeChannelConfig } from "../types/Config";
 import { getDefinable } from "../functions/getDefinable";
 import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
 import { state } from "../state";
@@ -124,16 +123,6 @@ export const playAudioSource = (
   if (state.values.config === null) {
     throw new Error(
       `An attempt was made to play AudioSource "${audioSourceID}" before config was loaded.`,
-    );
-  }
-  if (
-    state.values.config.volumeChannels.some(
-      (volumeChannel: VolumeChannelConfig): boolean =>
-        volumeChannel.id === playAudioOptions.volumeChannelID,
-    ) === false
-  ) {
-    throw new Error(
-      `An attempt was made to play AudioSource "${audioSourceID}" with a nonexistant volume channel.`,
     );
   }
   getDefinable<AudioSource>(AudioSource, audioSourceID).play(playAudioOptions);

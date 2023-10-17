@@ -2,8 +2,12 @@ import { AudioSource } from "./AudioSource";
 import { Definable } from "./Definable";
 import { getDefinables } from "../functions/getDefinables";
 import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
+import { getToken } from "../functions/getToken";
 import { state } from "../state";
 
+export interface CreateVolumeChannelOptions {
+  readonly name: string;
+}
 export class VolumeChannel extends Definable {
   private readonly _volumeInputElement: HTMLInputElement =
     document.createElement("input");
@@ -14,8 +18,8 @@ export class VolumeChannel extends Definable {
   private readonly _volumeSliderElement: HTMLDivElement =
     document.createElement("div");
 
-  public constructor(id: string, volumeChannelName: string) {
-    super(id);
+  public constructor(options: CreateVolumeChannelOptions) {
+    super(getToken());
     const volumeSlidersElement: HTMLElement | null =
       document.getElementById("volume-sliders");
     if (volumeSlidersElement === null) {
@@ -26,7 +30,7 @@ export class VolumeChannel extends Definable {
     this._volumeSliderElement.classList.add("volume-slider");
     const inputElementID: string = `volume-slider-input-${this._id}`;
     this._volumeLabelElement.setAttribute("for", inputElementID);
-    this._volumeLabelElement.innerText = `${volumeChannelName} Volume`;
+    this._volumeLabelElement.innerText = `${options.name} Volume`;
     this._volumeInputElement.id = inputElementID;
     this._volumeInputElement.name = inputElementID;
     this._volumeInputElement.type = "range";
@@ -56,3 +60,6 @@ export class VolumeChannel extends Definable {
     return this._volumeInputElement;
   }
 }
+export const createVolumeChannel = (
+  options: CreateVolumeChannelOptions,
+): string => new VolumeChannel(options).id;

@@ -19,6 +19,10 @@ import {
   CreateSpriteOptionsAnimationFrame,
   createSprite,
 } from "./classes/Sprite";
+import {
+  CreateVolumeChannelOptions,
+  createVolumeChannel,
+} from "./classes/VolumeChannel";
 import { EntityCollidable } from "./types/EntityCollidable";
 import { EntityPosition } from "./types/EntityPosition";
 import { KeyboardButton } from "./types/KeyboardButton";
@@ -63,6 +67,8 @@ export {
   CreateSpriteOptions,
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
+  createVolumeChannel,
+  CreateVolumeChannelOptions,
   despawnEntity,
   EntityCollidable,
   EntityPosition,
@@ -71,9 +77,9 @@ export {
   getInputTickHandlerGroupID,
   goToLevel,
   initialize,
-  KeyboardButton as InputKey,
   InputTickHandlerGroup,
   isEntityPathing,
+  KeyboardButton as InputKey,
   lockCameraToEntity,
   moveEntity,
   MoveEntityOptions,

@@ -31,17 +31,7 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
 {
   "name": "My Cool Game",
   "height": 360,
-  "width": 640,
-   "volumeChannels": [
-    {
-      "id": "music",
-      "name": "Music"
-    },
-    {
-      "id": "sfx",
-      "name": "SFX"
-    }
-  ]
+  "width": 640
 }
 ```
 4. Create a `dev.pmgf` file at the root of your game's codebase.

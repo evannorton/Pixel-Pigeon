@@ -6,7 +6,6 @@ import { ImageSource } from "../classes/ImageSource";
 import { KeyboardInput } from "../types/KeyboardInput";
 import { LDTK } from "../types/LDTK";
 import { MouseInput } from "../types/MouseInput";
-import { VolumeChannel } from "../classes/VolumeChannel";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
@@ -217,9 +216,6 @@ export const performInitialization = async (): Promise<void> => {
       getDefinable(AudioSource, audioSourceID).resume();
     }
   });
-  for (const volumeChannelConfig of config.volumeChannels) {
-    new VolumeChannel(volumeChannelConfig.id, volumeChannelConfig.name);
-  }
   mainVolumeSliderInputElement.addEventListener("input", (): void => {
     for (const [, audioSource] of getDefinables(AudioSource)) {
       audioSource.updateVolume();
