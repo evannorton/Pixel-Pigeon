@@ -6,7 +6,7 @@ import { getToken } from "../functions/getToken";
 import { state } from "../state";
 
 export interface CreateVolumeChannelOptions {
-  readonly name: string;
+  name: string;
 }
 export class VolumeChannel extends Definable {
   private readonly _volumeInputElement: HTMLInputElement =
@@ -30,7 +30,7 @@ export class VolumeChannel extends Definable {
     this._volumeSliderElement.classList.add("volume-slider");
     const inputElementID: string = `volume-slider-input-${this._id}`;
     this._volumeLabelElement.setAttribute("for", inputElementID);
-    this._volumeLabelElement.innerText = `${options.name} Volume`;
+    this._volumeLabelElement.innerText = `${options.name} volume`;
     this._volumeInputElement.id = inputElementID;
     this._volumeInputElement.name = inputElementID;
     this._volumeInputElement.type = "range";

@@ -46,18 +46,77 @@ body:not(.paused) #unpause-button {
   display: none;
 }
 
+#achievement-unlock-notices {
+  pointer-events: none;
+  user-select: none;
+}
+
+.achievement-unlock-notice {
+  align-items: center;
+  background-color: #343434;
+  border: 1px solid white;
+  border-radius: 8px;
+  display: flex;
+  font-size: 2em;
+  left: 0;
+  margin: 0 auto;
+  opacity: 0;
+  padding: .25em;
+  position: absolute;
+  right: 0;
+  top: 1em;
+  transition: opacity 1.5s linear;
+  width: 17.5em;
+}
+
+.achievement-unlock-notice.fading-in {
+  opacity: 1;
+}
+
+.achievement-unlock-notice.fading-out {
+  opacity: 0;
+}
+
+.achievement-unlock-notice-icon {
+  height: 3.5em;
+  width: 3.5em;
+}
+
+.achievement-unlock-notice-text {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: calc(100% - 4.5em);
+  padding: .5em;
+  width: 100%;
+}
+
+.achievement-unlock-notice-heading {
+  font-weight: bold;
+}
+
+.achievement-unlock-notice-name {
+  max-height: 1.5em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 #pause-menu {
   background-color: rgba(0, 0, 0, .5);
   cursor: url("./cursors/default.png"), default;
+  font-size: 3em;
   outline: none;
   position: absolute;
   top: 0;
+  user-select: none;;
 }
 
 #settings {
   align-items: center;
   display: flex;
-  font-size: 3em;
   height: 100%;
   justify-content: center;
   width: 100%;

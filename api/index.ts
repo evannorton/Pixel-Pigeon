@@ -1,5 +1,10 @@
 import { CollisionData } from "./types/CollisionData";
 import {
+  CreateAchievementOptions,
+  createAchievement,
+  unlockAchievement,
+} from "./classes/Achievement";
+import {
   CreateInputPressHandlerOptions,
   createInputPressHandler,
 } from "./classes/InputPressHandler";
@@ -57,6 +62,8 @@ import { takeScreenshot } from "./functions/takeScreenshot";
 
 export {
   CollisionData,
+  createAchievement,
+  CreateAchievementOptions,
   createInputPressHandler,
   CreateInputPressHandlerOptions,
   createInputTickHandler,
@@ -79,7 +86,7 @@ export {
   initialize,
   InputTickHandlerGroup,
   isEntityPathing,
-  KeyboardButton as InputKey,
+  KeyboardButton,
   lockCameraToEntity,
   moveEntity,
   MoveEntityOptions,
@@ -101,4 +108,5 @@ export {
   stopAudioSource,
   stopEntity,
   takeScreenshot,
+  unlockAchievement,
 };
