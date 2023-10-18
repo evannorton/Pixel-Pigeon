@@ -61,9 +61,9 @@ export const performInitialization = async (): Promise<void> => {
     );
   }
   state.setValues({ isInitialized: true });
-  const devRes: Response = await fetch("./dev.pmgf");
+  const devRes: Response = await fetch("./pp-dev.json");
   const dev: Dev = (await devRes.json()) as Dev;
-  const configRes: Response = await fetch("./config.pmgf");
+  const configRes: Response = await fetch("./pp-config.json");
   const config: Config = (await configRes.json()) as Config;
   const audioResponse: Response = await fetch("./audio.json");
   const audioPaths: string[] = (await audioResponse.json()) as string[];

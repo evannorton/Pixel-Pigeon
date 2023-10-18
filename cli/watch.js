@@ -11,7 +11,7 @@ writeFileSync(join(__dirname, "watchExecCompleted.json"), JSON.stringify(false))
 const watcher = nodemon({
   delay: 1,
   exec: `node ${join(__dirname, "handleWatch")} || exit 1`,
-  ext: "css,fnt,gif,js,json,mp3,mustache,png,ts,ttf,json,pmgf,ldtk",
+  ext: "css,fnt,gif,js,json,mp3,mustache,png,ts,ttf,json,ldtk",
   stdout: true,
   stderr: true,
   watch: [
@@ -21,8 +21,8 @@ const watcher = nodemon({
     "./node-modules/",
     "./package.json",
     "./package-lock.json",
-    "./config.pmgf",
-    "./dev.pmgf",
+    "./pp-config.json",
+    "./pp-dev.json",
     "./project.ldtk"
   ]
 });
@@ -73,10 +73,10 @@ watcher.addListener("restart", (files) => {
     if (joinedFilePieces === "package-lock.json") {
       return true;
     }
-    if (joinedFilePieces === "config.pmgf") {
+    if (joinedFilePieces === "pp-config.json") {
       return true;
     }
-    if (joinedFilePieces === "dev.pmgf") {
+    if (joinedFilePieces === "pp-dev.json") {
       return true;
     }
     return false;
@@ -115,7 +115,7 @@ watcher.addListener("restart", (files) => {
       commands.push(build);
     }
     else {
-      commands.push("node ./node_modules/pigeon-mode-game-framework/cli/buildHTML")
+      commands.push("node ./node_modules/pixel-pigeon/cli/buildHTML")
     }
 
     writeFileSync(join(__dirname, "watchExec.json"), JSON.stringify(commands));

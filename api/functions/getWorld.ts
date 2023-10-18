@@ -62,7 +62,7 @@ export const getWorld = (ldtk: LDTK): World => {
           ) as LDTKTileData;
           return {
             id: data.tileId,
-            isCollidable: properties.pmgfCollision ?? false,
+            isCollidable: properties.ppCollision ?? false,
           };
         },
       ),

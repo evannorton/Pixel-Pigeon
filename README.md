@@ -1,7 +1,7 @@
-# Pigeon Mode Game Framework
-Game framework for EvanMMO's typescript games.
+# Pixel Pigeon
+Game engine for EvanMMO's typescript games.
 
-![funny-dancing-pigeon-bird-9ykm83a04cil1x1l](https://github.com/evannorton/pigeon-mode-game-framework/assets/35230033/3af48e87-34b8-4d1c-8af4-a7d5dbc1ce35)
+![funny-dancing-pigeon-bird-9ykm83a04cil1x1l](https://github.com/evannorton/pixel-pigeon/assets/35230033/3af48e87-34b8-4d1c-8af4-a7d5dbc1ce35)
 
 ## Why make this?
 Evan wanted something specifically tailored to low spec pixel perfect games.
@@ -18,7 +18,7 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
     "zip": "pigeon zip"
   },
   "dependencies": {
-    "pigeon-mode-game-framework": "evannorton/pigeon-mode-game-framework"
+    "pixel-pigeon": "evannorton/pixel-pigeon"
   },
   "engines": {
     "npm": "9.5.1",
@@ -26,7 +26,7 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
   }
 }
 ```
-3. Create a `config.pmgf` file at the root of your game's codebase.
+3. Create a `pp-config.json` file at the root of your game's codebase.
 ```json
 {
   "name": "My Cool Game",
@@ -34,7 +34,7 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
   "width": 640
 }
 ```
-4. Create a `dev.pmgf` file at the root of your game's codebase.
+4. Create a `pp-dev.json` file at the root of your game's codebase.
 ```json
 {
   "renderPathing": false
@@ -44,7 +44,7 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
 6. Create a `.gitignore` file at the root of your game's codebase.
 ```
 node_modules
-dev.pmgf
+pp-dev.json
 game.zip
 ```
 7. Create an `audio` folder at the root of your game's codebase.
@@ -73,10 +73,10 @@ Create an `.eslintrc` with the following contents to use this extension.
 ```json
 {
   "parserOptions": {
-    "project": "./node_modules/pigeon-mode-game-framework/game-tsconfig.json"
+    "project": "./node_modules/pixel-pigeon/game-tsconfig.json"
   },
   "extends": [
-    "./node_modules/pigeon-mode-game-framework/.eslintrc"
+    "./node_modules/pixel-pigeon/.eslintrc"
   ],
   "rules": {
     "no-restricted-imports": [
@@ -91,5 +91,5 @@ Create an `.eslintrc` with the following contents to use this extension.
 2. Clone the framework somewhere on your PC, e.g. `D:\Code\Pigeon-Mode-Game-Framework`.
 3. Inside of the framework directory, run `npm link`.
 4. Inside of the game directory, run `npm ci`.
-5. Inside of the game directory, run `npm link pigeon-mode-game-framework`.
+5. Inside of the game directory, run `npm link pixel-pigeon`.
 6. You can now run your game like normal with `pigeon dev`. You must manually rerun this every time you make a local change to the framework, as hot reloading only listens for changes to your game's code.

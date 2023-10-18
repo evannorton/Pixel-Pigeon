@@ -16,7 +16,7 @@ export interface SpawnEntityOptions<CollisionLayer extends string> {
   /** The layerID the entity should be on, has to be created in LDTK */
   layerID: string;
   /**
-   * Callback that triggers whenever a collision stops entites from moving through each other. Will not trigger on tiles that have pmgfCollision set to true.
+   * Callback that triggers whenever a collision stops entites from moving through each other. Will not trigger on tiles that have ppCollision set to true.
    * The same collision cannot trigger onCollision and onOverlap
    */
   onCollision?: (collisionData: CollisionData<CollisionLayer>) => void;

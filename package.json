@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "name": "pigeon-mode-game-framework",
+    "name": "pixel-pigeon",
     "main": "./api/index.ts",
     "browser": "./api/index.ts",
     "module": "./api/index.ts",

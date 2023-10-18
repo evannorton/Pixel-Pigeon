@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "pigeon-mode-game-framework/*": [
+      "pixel-pigeon/*": [
         "../*"
       ]
     }

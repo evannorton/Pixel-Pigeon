@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
-      "pigeon-mode-game-framework/*": [
+      "pixel-pigeon/*": [
         "../*"
       ]
     }

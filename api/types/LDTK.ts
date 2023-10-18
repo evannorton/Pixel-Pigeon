@@ -159,5 +159,5 @@ export interface LDTK {
   readonly worlds: [];
 }
 export interface LDTKTileData {
-  readonly pmgfCollision?: boolean;
+  readonly ppCollision?: boolean;
 }

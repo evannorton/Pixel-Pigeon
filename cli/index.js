@@ -12,39 +12,39 @@ const devSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", 
 writeFileSync(join(__dirname, "devSchema.js"), devSchemaText.replace("export const ", "").replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { devSchema };");
 const { devSchema } = require("./devSchema");
 
-if (!existsSync(join("config.pmgf"))) {
-    throw new Error("You must create a config.pmgf file for use with Pigeon Mode Game Framework.");
+if (!existsSync(join("pp-config.json"))) {
+    throw new Error("You must create a pp-config.json file for use with Pigeon Mode Game Framework.");
 }
-const configString = readFileSync(join("config.pmgf")).toString();
+const configString = readFileSync(join("pp-config.json")).toString();
 try {
     JSON.parse(configString);
 }
 catch (error) {
-    throw new Error("Your config.pmgf file is not valid JSON.");
+    throw new Error("Your pp-config.json file is not valid JSON.");
 }
 try {
     configSchema.parse(JSON.parse(configString));
 }
 catch (error) {
-    console.error("Your config.pmgf file does not match the schema.");
+    console.error("Your pp-config.json file does not match the schema.");
     throw error;
 }
 
-if (!existsSync(join("dev.pmgf"))) {
-    throw new Error("You must create a dev.pmgf file for use with Pigeon Mode Game Framework.");
+if (!existsSync(join("pp-dev.json"))) {
+    throw new Error("You must create a pp-dev.json file for use with Pigeon Mode Game Framework.");
 }
-const devString = readFileSync(join("dev.pmgf")).toString();
+const devString = readFileSync(join("pp-dev.json")).toString();
 try {
     JSON.parse(devString);
 }
 catch (error) {
-    throw new Error("Your dev.pmgf file is not valid JSON.");
+    throw new Error("Your pp-dev.json file is not valid JSON.");
 }
 try {
     devSchema.parse(JSON.parse(devString));
 }
 catch (error) {
-    console.error("Your dev.pmgf file does not match the schema.");
+    console.error("Your pp-dev.json file does not match the schema.");
     throw error;
 }
 
