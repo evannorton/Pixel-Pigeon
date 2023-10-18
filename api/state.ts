@@ -9,6 +9,7 @@ import { State } from "./classes/State";
 import { World } from "./types/World";
 
 interface StateSchema {
+  readonly achievementUnlockRenderedAt: number | null;
   readonly app: Application | null;
   readonly cameraLockedEntityID: string | null;
   readonly config: Config | null;
@@ -42,6 +43,7 @@ const volumeTestHowl: Howl = new Howl({
 });
 
 export const state: State<StateSchema> = new State<StateSchema>({
+  achievementUnlockRenderedAt: null,
   app: null,
   cameraLockedEntityID: null,
   config: null,

@@ -48,6 +48,8 @@ body:not(.paused) #unpause-button {
 
 #achievement-unlock-notices {
   pointer-events: none;
+  position: absolute;
+  top: 0;
   user-select: none;
 }
 
@@ -111,7 +113,8 @@ body:not(.paused) #unpause-button {
   outline: none;
   position: absolute;
   top: 0;
-  user-select: none;;
+  user-select: none;
+  ;
 }
 
 #settings {

@@ -18,6 +18,15 @@ export const sizeScreen = (): void => {
   }
   screenElement.style.width = `${screenWidth}px`;
   screenElement.style.height = `${screenHeight}px`;
+  const achievementUnlockNoticesElement: HTMLElement | null =
+    document.getElementById("achievement-unlock-notices");
+  if (achievementUnlockNoticesElement === null) {
+    throw new Error(
+      "An attempt was made to size screen with no avh element in the DOM.",
+    );
+  }
+  achievementUnlockNoticesElement.style.width = `${screenWidth}px`;
+  achievementUnlockNoticesElement.style.height = `${screenHeight}px`;
   const pauseMenuElement: HTMLElement | null =
     document.getElementById("pause-menu");
   if (pauseMenuElement === null) {
