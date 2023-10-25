@@ -10,6 +10,7 @@ import { assetsAreLoaded } from "./assetsAreLoaded";
 import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
 import { getWorld } from "./getWorld";
+import { goToPauseMenuSection } from "./goToPauseMenuSection";
 import { loadAssets } from "./loadAssets";
 import { sizeScreen } from "./sizeScreen";
 import { state } from "../state";
@@ -60,6 +61,16 @@ export const performInitialization = async (): Promise<void> => {
       "An attempt was made to get main adjusted volume with no mute toggle element in the DOM.",
     );
   }
+  const achievementsButtonElement: HTMLElement | null = document.getElementById(
+    "achievements-button",
+  );
+  if (achievementsButtonElement === null) {
+    throw new Error(
+      "An attempt was made to init with no achievements button element in the DOM.",
+    );
+  }
+  const pauseBackButtonElements: HTMLCollectionOf<Element> =
+    document.getElementsByClassName("pause-back-button");
   state.setValues({ isInitialized: true });
   const devRes: Response = await fetch("./pp-dev.json");
   const dev: Dev = (await devRes.json()) as Dev;
@@ -199,6 +210,7 @@ export const performInitialization = async (): Promise<void> => {
   });
   pauseButtonElement.addEventListener("click", (): void => {
     document.body.classList.add("paused");
+    goToPauseMenuSection("main");
     const pauseMenuPausedAudioSourceIDs: string[] = [];
     getDefinables(AudioSource).forEach((audioSource: AudioSource): void => {
       if (audioSource.isPlaying()) {
@@ -238,6 +250,14 @@ export const performInitialization = async (): Promise<void> => {
       });
     }
   });
+  achievementsButtonElement.addEventListener("click", (): void => {
+    goToPauseMenuSection("achievements");
+  });
+  for (const pauseBackButtonElement of pauseBackButtonElements) {
+    pauseBackButtonElement.addEventListener("click", (): void => {
+      goToPauseMenuSection("main");
+    });
+  }
   screenElement.appendChild(app.view as HTMLCanvasElement);
   sizeScreen();
   app.ticker.add(tick);

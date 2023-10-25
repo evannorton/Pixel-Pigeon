@@ -56,19 +56,24 @@ body:not(.paused) #unpause-button {
 .achievement-unlock-notice {
   align-items: center;
   background-color: #343434;
-  border: 1px solid white;
+  border: .1em solid white;
   border-radius: 8px;
   display: flex;
   font-size: 2em;
-  left: 0;
+  left: 1em;
   margin: 0 auto;
-  opacity: 0;
+  max-height: calc(100% - 1.7em);
+  max-width: calc(90% - 2em);
+  opacity: 0;   
+  overflow: hidden;
   padding: .25em;
   position: absolute;
-  right: 0;
+  right: 1em;
+  text-align: center;
   top: 1em;
   transition: opacity 1.5s linear;
   width: 17.5em;
+  word-break: break-word;
 }
 
 .achievement-unlock-notice.fading-in {
@@ -98,14 +103,6 @@ body:not(.paused) #unpause-button {
   font-weight: bold;
 }
 
-.achievement-unlock-notice-name {
-  max-height: 1.5em;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 #pause-menu {
   background-color: rgba(0, 0, 0, .5);
   cursor: url("./cursors/default.png"), default;
@@ -114,18 +111,22 @@ body:not(.paused) #unpause-button {
   position: absolute;
   top: 0;
   user-select: none;
-  ;
 }
 
-#settings {
+#pause-main {
   align-items: center;
   display: flex;
+  flex-direction: column;
   height: 100%;
   justify-content: center;
   width: 100%;
 }
 
-#settings label {
+#pause-menu.achievements:not(.main) #pause-main {
+  display: none;
+}
+
+#pause-main label {
   margin-bottom: 0.25em;
   text-align: center;
 }
@@ -151,4 +152,77 @@ body:not(.paused) #unpause-button {
 .volume-slider input {
   margin-bottom: .5em;
   width: 6em;
+}
+
+#pause-menu button {
+  background-color: transparent;
+  border: 0.1em solid white;
+  color: white;
+  cursor: pointer;
+  margin-bottom: .5em;
+  padding: 0.125em 0.25em;
+}
+
+#pause-menu button:hover {
+  opacity: .75;
+}
+
+#pause-achievements {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+#achievements-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 75%;
+}
+
+.achievement-info {
+  align-items: center;
+  background-color: #343434;
+  border: .1em solid white;
+  border-radius: 8px;
+  display: flex;
+  font-size: .5em;
+  margin-bottom: .25em;
+  padding: .25em;
+  text-align: center;
+  width: 30em;
+}
+
+.achievement-info:not(.unlocked) {
+  color: #a8a8a8;
+}
+
+.achievement-info-icon {
+  height: 4em;
+  width: 4em;
+}
+
+.achievement-info:not(.unlocked) .achievement-info-icon {
+  filter: grayscale(1);
+}
+
+.achievement-info-text {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: calc(100% - 3em);
+  padding: .5em;
+  width: 100%;
+}
+
+.achievement-info-name {
+  font-weight: bold;
+}
+
+#pause-menu:not(.achievements) #pause-achievements {
+  display: none;
 }
