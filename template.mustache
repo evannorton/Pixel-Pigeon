@@ -14,22 +14,24 @@
     <div id="screen" tabindex="-1"></div>
     <div id="achievement-unlock-notices"></div>
     <div id="pause-menu" class="main" tabindex="-1">
-      <div id="pause-main">
-        <div id="mute-toggle">
-          <label for="mute-toggle-input">Mute</label>
-          <input id="mute-toggle-input" name="mute-toggle-input" type="checkbox" />
-        </div>
-        <div id="volume-sliders">
-          <div class="volume-slider">
-            <label for="main-volume-slider-input">Main volume</label>
-            <input id="main-volume-slider-input" name="main-volume-slider-input" type="range" value="100" min="0" max="100" />
+      <div id="pause-content">
+        <div id="pause-main">
+          <div id="mute-toggle">
+            <label for="mute-toggle-input">Mute</label>
+            <input id="mute-toggle-input" name="mute-toggle-input" type="checkbox" />
           </div>
+          <div id="volume-sliders">
+            <div class="volume-slider">
+              <label for="main-volume-slider-input">Main volume</label>
+              <input id="main-volume-slider-input" name="main-volume-slider-input" type="range" value="100" min="0" max="100" />
+            </div>
+          </div>
+          <button id="achievements-button">Achievements</button>
         </div>
-        <button id="achievements-button">Achievements</button>
-      </div>
-      <div id="pause-achievements">
-        <button id="achievements-back-button" class="pause-back-button">Back</button>
-        <div id="achievements-grid">
+        <div id="pause-achievements">
+          <button id="achievements-back-button" class="pause-back-button">Back</button>
+          <div id="achievements-grid">
+          </div>
         </div>
       </div>
     </div>
