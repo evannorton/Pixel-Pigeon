@@ -104,7 +104,7 @@ body:not(.paused) #unpause-button {
 }
 
 #pause-menu {
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, .75);
   cursor: url("./cursors/default.png"), default;
   font-size: 2em;
   outline: none;
