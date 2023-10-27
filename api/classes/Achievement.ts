@@ -10,12 +10,17 @@ export interface CreateAchievementOptions {
   id: string;
   imagePath: string;
   name: string;
+  isSecret?: boolean;
 }
 export interface UnlockAchievementOptions {
   id: string;
 }
 export class Achievement extends Definable {
+  private readonly _infoDescriptionElement: HTMLSpanElement;
   private readonly _infoElement: HTMLDivElement;
+  private readonly _infoIconElement: HTMLImageElement;
+  private readonly _infoNameElement: HTMLSpanElement;
+  private readonly _infoTextElement: HTMLDivElement;
   private readonly _options: CreateAchievementOptions;
   public constructor(options: CreateAchievementOptions) {
     super(options.id);
@@ -29,25 +34,22 @@ export class Achievement extends Definable {
     }
     this._infoElement = document.createElement("div");
     this._infoElement.classList.add("achievement-info");
-    // Image
-    const iconElement: HTMLImageElement = document.createElement("img");
-    iconElement.src = `./images/${this._options.imagePath}.png`;
-    iconElement.classList.add("achievement-info-icon");
-    this._infoElement.appendChild(iconElement);
+    // Icon
+    this._infoIconElement = document.createElement("img");
+    this._infoIconElement.classList.add("achievement-info-icon");
+    this._infoElement.appendChild(this._infoIconElement);
     // Text
-    const textElement: HTMLDivElement = document.createElement("div");
-    textElement.classList.add("achievement-info-text");
+    this._infoTextElement = document.createElement("div");
+    this._infoTextElement.classList.add("achievement-info-text");
     // Name
-    const nameElement: HTMLSpanElement = document.createElement("span");
-    nameElement.innerText = this._options.name;
-    nameElement.classList.add("achievement-info-name");
-    textElement.appendChild(nameElement);
+    this._infoNameElement = document.createElement("span");
+    this._infoNameElement.classList.add("achievement-info-name");
+    this._infoTextElement.appendChild(this._infoNameElement);
     // Description
-    const descriptionElement: HTMLSpanElement = document.createElement("span");
-    descriptionElement.innerText = this._options.description;
-    descriptionElement.classList.add("achievement-info-description");
-    textElement.appendChild(descriptionElement);
-    this._infoElement.appendChild(textElement);
+    this._infoDescriptionElement = document.createElement("span");
+    this._infoDescriptionElement.classList.add("achievement-info-description");
+    this._infoTextElement.appendChild(this._infoDescriptionElement);
+    this._infoElement.appendChild(this._infoTextElement);
     achievementsGridElement.appendChild(this._infoElement);
     this.updateInfoElements();
   }
@@ -118,6 +120,18 @@ export class Achievement extends Definable {
           achievementInfoElement.classList.add("unlocked");
         } else {
           achievementInfoElement.classList.remove("unlocked");
+        }
+        if (unlockedAt === null && this._options.isSecret === true) {
+          this._infoIconElement.classList.add("secret");
+          this._infoIconElement.src = "./svg/lock.svg";
+          this._infoNameElement.innerText = "Secret Achievement";
+          this._infoDescriptionElement.innerText =
+            "Unlock this achievement to see its details.";
+        } else {
+          this._infoIconElement.classList.remove("secret");
+          this._infoIconElement.src = `./images/${this._options.imagePath}.png`;
+          this._infoNameElement.innerText = this._options.name;
+          this._infoDescriptionElement.innerText = this._options.description;
         }
       }
     }

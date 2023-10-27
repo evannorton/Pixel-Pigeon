@@ -133,6 +133,10 @@ body:not(.paused) #unpause-button {
   max-width: 100%;
 }
 
+#volume-sliders:not(:last-child) {
+  margin-bottom: .5em;
+}
+
 #pause-menu.achievements:not(.main) #pause-main {
   display: none;
 }
@@ -163,9 +167,12 @@ body:not(.paused) #unpause-button {
   flex-direction: column;
 }
 
+.volume-slider:not(:last-child) {
+  margin-bottom: .5em;
+}
+
 .volume-slider input {
   cursor: url("./cursors/default.png"), default;
-  margin-bottom: .5em;
   max-width: 100%;
   width: 6em;
 }
@@ -176,9 +183,12 @@ body:not(.paused) #unpause-button {
   border-radius: 8px;
   color: white;
   cursor: url("./cursors/pointer.png") 7 2, pointer;
-  margin-bottom: .5em;
   padding: 0.125em 0.25em;
   word-break: break-word;
+}
+
+#pause-menu button:not(:last-child) {
+  margin-bottom: .5em;
 }
 
 #pause-menu button:hover {
@@ -209,12 +219,16 @@ body:not(.paused) #unpause-button {
 }
 
 .achievement-info-icon {
-  height: 4em;
   width: 4em;
 }
 
 .achievement-info:not(.unlocked) .achievement-info-icon {
   filter: grayscale(1);
+}
+
+.achievement-info-icon.secret {
+  padding: .75em;
+  width: 2.5em;
 }
 
 .achievement-info-text {
