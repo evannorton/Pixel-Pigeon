@@ -40,20 +40,27 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
   "renderPathing": false
 }
 ```
-5. Create a `project.ldtk` file at the root of your game's codebase, using the LDTK level editor.
-6. Create a `.gitignore` file at the root of your game's codebase.
+5. Create a `pp-env.json` file at the root of your game's codebase.
+```json
+{
+  "newgroundsAppID": null,
+  "newgroundsEncryptionKey": null
+}
+```
+6. Create a `project.ldtk` file at the root of your game's codebase, using the LDTK level editor.
+7. Create a `.gitignore` file at the root of your game's codebase.
 ```
 node_modules
 pp-dev.json
 game.zip
 ```
-7. Create an `audio` folder at the root of your game's codebase.
-8. Create an `images` folder at the root of your game's codebase.
-9. Create a `src` folder at the root of your game's codebase.
-10. Create an `index.ts` file inside of the `src` folder.
-11. Run `npm install`.
-12. Run `npm run dev` to start a dev server with hot reloading on port 3000.
-13. Explore the documentation: https://evannorton.github.io/Pigeon-Mode-Game-Framework/
+8. Create an `audio` folder at the root of your game's codebase.
+9. Create an `images` folder at the root of your game's codebase.
+10. Create a `src` folder at the root of your game's codebase.
+11. Create an `index.ts` file inside of the `src` folder.
+12. Run `npm install`.
+13. Run `npm run dev` to start a dev server with hot reloading on port 3000.
+14. Explore the documentation: https://evannorton.github.io/Pigeon-Mode-Game-Framework/
 
 ## Command line interface
 ### `pigeon dev`

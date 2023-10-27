@@ -110,3 +110,13 @@ export {
   takeScreenshot,
   unlockAchievement,
 };
+interface NGIOInitOptions {}
+declare global {
+  class NGIO {
+    public static init: (
+      appID: string,
+      encryptionKey: string,
+      options: NGIOInitOptions,
+    ) => void;
+  }
+}

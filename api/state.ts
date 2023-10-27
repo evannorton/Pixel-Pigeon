@@ -1,6 +1,7 @@
 import { Application } from "pixi.js";
 import { Config } from "./types/Config";
 import { Dev } from "./types/Dev";
+import { Env } from "./types/Env";
 import { GamepadInput } from "./types/GamepadInput";
 import { Howl } from "howler";
 import { KeyboardInput } from "./types/KeyboardInput";
@@ -16,6 +17,7 @@ interface StateSchema {
   readonly currentTime: number;
   readonly dev: Dev | null;
   readonly didBlur: boolean;
+  readonly env: Env | null;
   readonly hasExecutedOnRunCallbacks: boolean;
   readonly hasInteracted: boolean;
   readonly heldGamepadInputs: GamepadInput[];
@@ -50,6 +52,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   currentTime: 0,
   dev: null,
   didBlur: false,
+  env: null,
   hasExecutedOnRunCallbacks: false,
   hasInteracted: false,
   heldGamepadInputs: [],

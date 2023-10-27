@@ -16,12 +16,18 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "eslint.format.enable": true,
     "files.eol": "\n",
-    "[jsonc]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
     "javascript.preferences.importModuleSpecifier": "project-relative",
     "typescript.preferences.importModuleSpecifier": "project-relative",
     "[css]": {
         "editor.defaultFormatter": "michelemelluso.code-beautifier"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
     }
 }

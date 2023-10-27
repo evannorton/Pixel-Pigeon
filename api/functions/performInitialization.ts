@@ -2,6 +2,7 @@ import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import { AudioSource } from "../classes/AudioSource";
 import { Config } from "../types/Config";
 import { Dev } from "../types/Dev";
+import { Env } from "../types/Env";
 import { ImageSource } from "../classes/ImageSource";
 import { KeyboardInput } from "../types/KeyboardInput";
 import { LDTK } from "../types/LDTK";
@@ -72,6 +73,8 @@ export const performInitialization = async (): Promise<void> => {
   const pauseBackButtonElements: HTMLCollectionOf<Element> =
     document.getElementsByClassName("pause-back-button");
   state.setValues({ isInitialized: true });
+  const envRes: Response = await fetch("./pp-env.json");
+  const env: Env = (await envRes.json()) as Env;
   const devRes: Response = await fetch("./pp-dev.json");
   const dev: Dev = (await devRes.json()) as Dev;
   const configRes: Response = await fetch("./pp-config.json");
@@ -100,6 +103,7 @@ export const performInitialization = async (): Promise<void> => {
     app,
     config,
     dev,
+    env,
     world: getWorld(ldtk),
   });
   loadAssets();
@@ -107,6 +111,9 @@ export const performInitialization = async (): Promise<void> => {
   BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
   if (settings.RENDER_OPTIONS) {
     settings.RENDER_OPTIONS.hello = false;
+  }
+  if (env.newgroundsAppID !== null && env.newgroundsEncryptionKey !== null) {
+    NGIO.init(env.newgroundsAppID, env.newgroundsEncryptionKey, {});
   }
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {

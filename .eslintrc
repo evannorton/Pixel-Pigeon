@@ -146,7 +146,7 @@
       {
         "allowConstructorOnly": false,
         "allowEmpty": false,
-        "allowStaticOnly": false
+        "allowStaticOnly": true
       }
     ],
     "@typescript-eslint/no-inferrable-types": [

@@ -12,6 +12,10 @@ const devSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", 
 writeFileSync(join(__dirname, "devSchema.js"), devSchemaText.replace("export const ", "").replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { devSchema };");
 const { devSchema } = require("./devSchema");
 
+const envSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "types", "Env.ts")).toString() }).getZodSchemasFile();
+writeFileSync(join(__dirname, "envSchema.js"), envSchemaText.replace("export const ", "").replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { envSchema };");
+const { envSchema } = require("./envSchema");
+
 if (!existsSync(join("pp-config.json"))) {
     throw new Error("You must create a pp-config.json file for use with Pigeon Mode Game Framework.");
 }
@@ -45,6 +49,24 @@ try {
 }
 catch (error) {
     console.error("Your pp-dev.json file does not match the schema.");
+    throw error;
+}
+
+if (!existsSync(join("pp-env.json"))) {
+    throw new Error("You must create a pp-env.json file for use with Pigeon Mode Game Framework.");
+}
+const envString = readFileSync(join("pp-env.json")).toString();
+try {
+    JSON.parse(envString);
+}
+catch (error) {
+    throw new Error("Your pp-env.json file is not valid JSON.");
+}
+try {
+    envSchema.parse(JSON.parse(envString));
+}
+catch (error) {
+    console.error("Your pp-env.json file does not match the schema.");
     throw error;
 }
 

@@ -23,6 +23,7 @@ const watcher = nodemon({
     "./package-lock.json",
     "./pp-config.json",
     "./pp-dev.json",
+    "./pp-env.json",
     "./project.ldtk"
   ]
 });
@@ -77,6 +78,9 @@ watcher.addListener("restart", (files) => {
       return true;
     }
     if (joinedFilePieces === "pp-dev.json") {
+      return true;
+    }
+    if (joinedFilePieces === "pp-env.json") {
       return true;
     }
     return false;
