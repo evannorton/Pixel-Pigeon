@@ -110,13 +110,23 @@ export {
   takeScreenshot,
   unlockAchievement,
 };
-interface NGIOInitOptions {}
+interface NGIOInitOptions {
+  readonly autoLogNewView?: boolean;
+  readonly checkHostLicense?: boolean;
+  readonly preloadMedals?: boolean;
+  readonly preloadSaveSlots?: boolean;
+  readonly preloadScoreBoards?: boolean;
+}
 declare global {
   class NGIO {
+    public static unlockMedal: (medalID: string, callback?: () => void) => void;
+    public static getMedal: (medalID: string) => void;
     public static init: (
       appID: string,
       encryptionKey: string,
       options: NGIOInitOptions,
     ) => void;
+
+    public static medals: unknown;
   }
 }

@@ -473,14 +473,6 @@
       "error",
       "always-multiline"
     ],
-    "new-cap": [
-      "error",
-      {
-        "capIsNew": true,
-        "newIsCap": true,
-        "properties": true
-      }
-    ],
     "no-async-promise-executor": [
       "error"
     ],

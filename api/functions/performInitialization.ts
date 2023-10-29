@@ -113,7 +113,9 @@ export const performInitialization = async (): Promise<void> => {
     settings.RENDER_OPTIONS.hello = false;
   }
   if (env.newgroundsAppID !== null && env.newgroundsEncryptionKey !== null) {
-    NGIO.init(env.newgroundsAppID, env.newgroundsEncryptionKey, {});
+    NGIO.init(env.newgroundsAppID, env.newgroundsEncryptionKey, {
+      preloadMedals: true,
+    });
   }
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {

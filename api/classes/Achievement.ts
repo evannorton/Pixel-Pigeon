@@ -10,6 +10,7 @@ export interface CreateAchievementOptions {
   id: string;
   imagePath: string;
   name: string;
+  newgroundsMedalID?: string;
   isSecret?: boolean;
 }
 export interface UnlockAchievementOptions {
@@ -103,6 +104,9 @@ export class Achievement extends Definable {
     }
     setStorageItem(`achievement-${this._id}`, Date.now());
     this.updateInfoElements();
+    if (typeof this._options.newgroundsMedalID !== "undefined") {
+      NGIO.unlockMedal(this._options.newgroundsMedalID);
+    }
   }
 
   public updateInfoElements(): void {
