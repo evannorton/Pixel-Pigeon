@@ -113,13 +113,19 @@ export {
 interface NGIOInitOptions {
   readonly autoLogNewView?: boolean;
   readonly checkHostLicense?: boolean;
+  readonly debugMode?: boolean;
   readonly preloadMedals?: boolean;
   readonly preloadSaveSlots?: boolean;
   readonly preloadScoreBoards?: boolean;
+  readonly version: string;
 }
 declare global {
   class NGIO {
     public static unlockMedal: (medalID: string, callback?: () => void) => void;
+    public static getConnectionStatus: (
+      callback: (connectionStatus: unknown) => unknown,
+    ) => void;
+
     public static getMedal: (medalID: string) => void;
     public static init: (
       appID: string,
