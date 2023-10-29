@@ -113,19 +113,7 @@ export const performInitialization = async (): Promise<void> => {
     settings.RENDER_OPTIONS.hello = false;
   }
   if (env.newgroundsAppID !== null && env.newgroundsEncryptionKey !== null) {
-    NGIO.getConnectionStatus((connectionStatus: unknown): void => {
-      console.log("connection status change");
-      console.log(connectionStatus);
-    });
-    NGIO.init(env.newgroundsAppID, env.newgroundsEncryptionKey, {
-      autoLogNewView: true,
-      checkHostLicense: true,
-      debugMode: true,
-      preloadMedals: true,
-      preloadSaveSlots: true,
-      preloadScoreBoards: true,
-      version: "1.0.0",
-    });
+    // TODO: Init newgrounds
   }
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {

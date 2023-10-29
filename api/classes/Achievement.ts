@@ -105,7 +105,7 @@ export class Achievement extends Definable {
     setStorageItem(`achievement-${this._id}`, Date.now());
     this.updateInfoElements();
     if (typeof this._options.newgroundsMedalID !== "undefined") {
-      NGIO.unlockMedal(this._options.newgroundsMedalID);
+      // TODO: Unlock newgrounds medal
     }
   }
 
