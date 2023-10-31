@@ -1,4 +1,5 @@
 import { Definable } from "./Definable";
+import { StorageAchievement } from "../types/Storage";
 import { getAchievementUnlockRenderStartTime } from "../functions/getAchievementUnlockRenderStartTime";
 import { getDefinable } from "../functions/getDefinable";
 import { state } from "../state";
@@ -10,7 +11,7 @@ export interface CreateAchievementOptions {
   id: string;
   imagePath: string;
   name: string;
-  newgroundsMedalID?: string;
+  newgroundsMedalID?: number;
   isSecret?: boolean;
 }
 export interface UnlockAchievementOptions {
@@ -52,7 +53,25 @@ export class Achievement extends Definable {
     this._infoTextElement.appendChild(this._infoDescriptionElement);
     this._infoElement.appendChild(this._infoTextElement);
     achievementsGridElement.appendChild(this._infoElement);
+    const storageAchievements: StorageAchievement[] =
+      (getStorageItem("achievements") as StorageAchievement[] | null) ?? [];
+    if (
+      storageAchievements.every(
+        (achievementStorage: StorageAchievement): boolean =>
+          achievementStorage.id !== this._id,
+      )
+    ) {
+      storageAchievements.push({
+        id: this._id,
+        unlockedAt: null,
+      });
+      setStorageItem("achievements", storageAchievements);
+    }
     this.updateInfoElements();
+  }
+
+  public get newgroundsMedalID(): number | null {
+    return this._options.newgroundsMedalID ?? null;
   }
 
   public unlock(): void {
@@ -64,7 +83,19 @@ export class Achievement extends Definable {
         `An attempt was made to unlock Achievement "${this._id}" with no achievement unlocks notices element in the DOM.`,
       );
     }
-    if (getStorageItem(`achievement-${this._id}`) === null) {
+    const storageAchievements: StorageAchievement[] =
+      (getStorageItem("achievements") as StorageAchievement[] | null) ?? [];
+    const matchedStorageAchievement: StorageAchievement | null =
+      storageAchievements.find(
+        (storageAchievement: StorageAchievement): boolean =>
+          storageAchievement.id === this._id,
+      ) ?? null;
+    if (matchedStorageAchievement === null) {
+      throw new Error(
+        `An attempt was made to update Achievement "${this._id}" info elements with the achievement missing from storage.`,
+      );
+    }
+    if (matchedStorageAchievement.unlockedAt === null) {
       const startTime: number = getAchievementUnlockRenderStartTime();
       state.setValues({ achievementUnlockRenderedAt: startTime });
       setTimeout((): void => {
@@ -102,30 +133,56 @@ export class Achievement extends Definable {
         }, 6000);
       }, startTime - state.values.currentTime);
     }
-    setStorageItem(`achievement-${this._id}`, Date.now());
+    setStorageItem(
+      "achievements",
+      storageAchievements.map(
+        (storageAchievement: StorageAchievement): StorageAchievement =>
+          storageAchievement.id === this._id
+            ? {
+                ...storageAchievement,
+                unlockedAt: Date.now(),
+              }
+            : storageAchievement,
+      ),
+    );
     this.updateInfoElements();
     if (typeof this._options.newgroundsMedalID !== "undefined") {
-      // TODO: Unlock newgrounds medal
+      try {
+        window.newgrounds.callComponent("Medal.unlock", {
+          id: this._options.newgroundsMedalID,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
-  public updateInfoElements(): void {
-    const unlockedAt: unknown = getStorageItem(`achievement-${this._id}`);
-    if (typeof unlockedAt !== "number" && unlockedAt !== null) {
+  private updateInfoElements(): void {
+    const storageAchievements: StorageAchievement[] =
+      (getStorageItem("achievements") as StorageAchievement[] | null) ?? [];
+    const matchedStorageAchievement: StorageAchievement | null =
+      storageAchievements.find(
+        (storageAchievement: StorageAchievement): boolean =>
+          storageAchievement.id === this._id,
+      ) ?? null;
+    if (matchedStorageAchievement === null) {
       throw new Error(
-        `An attempt was made to update Achievement "${this._id}" info elements with an invalid unlocked at value.`,
+        `An attempt was made to update Achievement "${this._id}" info elements with the achievement missing from storage.`,
       );
     }
     const achievementInfoElements: NodeListOf<HTMLElement> =
       document.querySelectorAll(".achievement-info");
     for (const achievementInfoElement of achievementInfoElements) {
       if (achievementInfoElement === this._infoElement) {
-        if (unlockedAt !== null) {
+        if (matchedStorageAchievement.unlockedAt !== null) {
           achievementInfoElement.classList.add("unlocked");
         } else {
           achievementInfoElement.classList.remove("unlocked");
         }
-        if (unlockedAt === null && this._options.isSecret === true) {
+        if (
+          matchedStorageAchievement.unlockedAt === null &&
+          this._options.isSecret === true
+        ) {
           this._infoIconElement.classList.add("secret");
           this._infoIconElement.src = "./svg/lock.svg";
           this._infoNameElement.innerText = "Secret Achievement";

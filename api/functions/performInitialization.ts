@@ -15,6 +15,7 @@ import { goToPauseMenuSection } from "./goToPauseMenuSection";
 import { loadAssets } from "./loadAssets";
 import { sizeScreen } from "./sizeScreen";
 import { state } from "../state";
+import { syncNewgroundsMedals } from "./syncNewgroundsMedals";
 import { tick } from "./tick";
 
 export const performInitialization = async (): Promise<void> => {
@@ -106,14 +107,12 @@ export const performInitialization = async (): Promise<void> => {
     env,
     world: getWorld(ldtk),
   });
+  syncNewgroundsMedals();
   loadAssets();
   settings.ROUND_PIXELS = true;
   BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
   if (settings.RENDER_OPTIONS) {
     settings.RENDER_OPTIONS.hello = false;
-  }
-  if (env.newgroundsAppID !== null && env.newgroundsEncryptionKey !== null) {
-    // TODO: Init newgrounds
   }
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {

@@ -32,6 +32,7 @@ import { EntityCollidable } from "./types/EntityCollidable";
 import { EntityPosition } from "./types/EntityPosition";
 import { KeyboardButton } from "./types/KeyboardButton";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
+import { Newgrounds } from "./types/Newgrounds";
 import { OverlapData } from "./types/OverlapData";
 import { PathEntityOptions, pathEntity } from "./functions/pathEntity";
 import {
@@ -110,3 +111,8 @@ export {
   takeScreenshot,
   unlockAchievement,
 };
+declare global {
+  interface Window {
+    newgrounds: Newgrounds;
+  }
+}
