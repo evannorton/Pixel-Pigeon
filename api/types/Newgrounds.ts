@@ -1,4 +1,5 @@
 export interface Newgrounds {
+  readonly session_id: string | null;
   callComponent(componentID: string, options: unknown): void;
   executeQueue(): void;
   queueComponent(

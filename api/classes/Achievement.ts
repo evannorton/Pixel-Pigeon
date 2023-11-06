@@ -147,12 +147,10 @@ export class Achievement extends Definable {
     );
     this.updateInfoElements();
     if (typeof this._options.newgroundsMedalID !== "undefined") {
-      try {
+      if (window.newgrounds.session_id !== null) {
         window.newgrounds.callComponent("Medal.unlock", {
           id: this._options.newgroundsMedalID,
         });
-      } catch (error) {
-        console.error(error);
       }
     }
   }
