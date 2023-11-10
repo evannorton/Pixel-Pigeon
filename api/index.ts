@@ -113,6 +113,6 @@ export {
 };
 declare global {
   interface Window {
-    newgrounds: Newgrounds;
+    newgrounds: Newgrounds | null;
   }
 }

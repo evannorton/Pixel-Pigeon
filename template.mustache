@@ -38,7 +38,8 @@
     <img id="pause-button" class="pause-toggle" src="./svg/pause.svg" />
     <img id="unpause-button" class="pause-toggle" src="./svg/unpause.svg" />
     <script src="https://cdn.jsdelivr.net/gh/PsychoGoldfishNG/newgrounds.io-for-javascript-html5@2d7dcda/bin/newgroundsio.min.js"></script>
-    <script>window.newgrounds = new window.Newgrounds.io.core("{{{newgroundsAppID}}}", "{{{newgroundsEncryptionKey}}}")</script>
+    <script>try {
+      window.newgrounds = new window.Newgrounds.io.core("{{{newgroundsAppID}}}", "{{{newgroundsEncryptionKey}}}") } catch(e) { window.newgrounds = null; console.warn("newgrounds initialization failed"); }</script>
     <script src="./library-script.js"></script>
     <script src="./game-script.js"></script>
   </body>
