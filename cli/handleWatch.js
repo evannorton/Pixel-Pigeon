@@ -4,9 +4,7 @@ const { readFileSync } = require("fs");
 const { join } = require("path");
 
 killPort(3000)
-  .catch(() => {
-    // its fine, actually
-  })
+  .catch(() => { })
   .finally(() => {
     const commands = JSON.parse(
       readFileSync(join(__dirname, "watchExec.json")).toString()
