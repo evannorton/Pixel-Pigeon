@@ -147,7 +147,7 @@ export class Achievement extends Definable {
     );
     this.updateInfoElements();
     if (typeof this._options.newgroundsMedalID !== "undefined") {
-      if (window.newgrounds !== null) {
+      if (window.newgrounds !== null && window.newgrounds.session_id !== null) {
         window.newgrounds.callComponent("Medal.unlock", {
           id: this._options.newgroundsMedalID,
         });
