@@ -95,7 +95,7 @@ const batchedReloading = debounce(1000, () => {
   });
 
   const buildRelatedFilePieces = filesPieces.find((filePieces) => {
-    const joinedFilePieces = filePieces.join("/");
+    const joinedFilePieces = filePieces.join(sep);
     if (filePieces[0] === "node_modules") {
       return true;
     }
