@@ -15,7 +15,7 @@ export const syncNewgroundsMedals = (): void => {
       (result: unknown): void => {
         if (window.newgrounds === null) {
           throw new Error(
-            "Attempted to handle medal list with null newgrounds.",
+            "Attempted to handle medal list with no newgrounds object.",
           );
         }
         const medals: NewgroundsMedal[] =
