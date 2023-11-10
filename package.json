@@ -45,5 +45,8 @@
     },
     "bin": {
         "pigeon": "./cli/index.js"
+    },
+    "devDependencies": {
+        "throttle-debounce": "^5.0.0"
     }
 }
