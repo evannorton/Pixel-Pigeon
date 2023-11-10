@@ -8,7 +8,7 @@ import setStorageItem from "./storage/setStorageItem";
 export const syncNewgroundsMedals = (): void => {
   const storageAchievements: StorageAchievement[] =
     (getStorageItem("achievements") as StorageAchievement[] | null) ?? [];
-  if (window.newgrounds !== null && window.newgrounds.session_id !== null) {
+  if (window.newgrounds !== null) {
     window.newgrounds.queueComponent(
       "Medal.getList",
       {},
