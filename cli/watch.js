@@ -30,7 +30,7 @@ const extensions = [
 watch(".", { recursive: true }, (_, filename) => {
   const split = filename.split(".");
   const ext = split[split.length - 1];
-  if (filename.startsWith("node_modules/pixel-pigeon")) return;
+  if (filename.startsWith(`node_modules${sep}pixel-pigeon`)) return;
   if (extensions.includes(ext)) {
     addFile(filename);
   }
@@ -59,7 +59,7 @@ const restart = () => {
   console.warn("Hot reloading...");
   setTimeout(() => {
     killPort(3000)
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => {
         handler.kill();
         handler = start();
