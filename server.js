@@ -9,7 +9,6 @@ console.log("Running game server.");
 const runID = JSON.parse(readFileSync(join(__dirname, "run-id.json")));
 
 import("nanoid").then(({ nanoid }) => {
-
   const app = express();
 
   app.use((req, res, next) => {
@@ -28,10 +27,10 @@ import("nanoid").then(({ nanoid }) => {
   server.listen(3000);
 
   const io = new socketio.Server(server, {
-    serveClient: false
+    serveClient: false,
   });
 
-  const sockets = new Map;
+  const sockets = new Map();
 
   io.on("connection", (socket) => {
     sockets.set(socket.id, socket);
@@ -42,5 +41,4 @@ import("nanoid").then(({ nanoid }) => {
       socket.emit("run-id", runID);
     });
   }, 1000 / 30);
-
 });
