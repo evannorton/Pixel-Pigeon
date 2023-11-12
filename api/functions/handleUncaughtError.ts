@@ -12,7 +12,10 @@ export const handleUncaughtError = (error: unknown): void => {
     bodyElement.appendChild(messageElement);
     if (typeof eventError.stack !== "undefined") {
       const stackElement: HTMLPreElement = document.createElement("pre");
+      stackElement.style.backgroundColor = "#343434";
+      stackElement.style.border = "1px solid white";
       stackElement.style.overflowX = "auto";
+      stackElement.style.padding = "0.5em";
       stackElement.style.textAlign = "left";
       stackElement.innerText = eventError.stack;
       bodyElement.appendChild(stackElement);
