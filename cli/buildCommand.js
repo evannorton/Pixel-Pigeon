@@ -1,7 +1,11 @@
 const { join } = require("path");
 const nodeModulesPath = require("./nodeModulesPath");
+const randomString = require("./randomString");
 
-module.exports = [
+const buildID = randomString();
+
+const commands = [
+    `node ${join(__dirname, "writeBuildID")} ${buildID}`,
     `node ${join(__dirname, "clearOutput")}`,
     `node ${join(__dirname, "createLib")}`,
     `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(__dirname, "..", "game-tsconfig.json")} --outDir ${join(__dirname, "..", "game-lib")}`,
@@ -21,4 +25,13 @@ module.exports = [
     `node ${join(__dirname, "buildDev")}`,
     `node ${join(__dirname, "buildEnv")}`,
     `node ${join(__dirname, "buildLDTK")}`
-].join(" && ");
+];
+
+const protectedCommands = [];
+
+for (const command of commands) {
+    protectedCommands.push(command);
+    protectedCommands.push(`node ${join(__dirname, "checkBuildID")} ${buildID}`);
+}
+
+module.exports = protectedCommands.join(" && ");

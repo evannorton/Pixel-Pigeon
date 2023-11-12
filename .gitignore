@@ -5,6 +5,8 @@ cli/ldtkSchema.js
 cli/watchExec.json
 cli/watchExecCompleted.json
 cli/watchModifiedFiles.json
+build-command.json
+build-id.json
 game-lib
 hot-reload-lib
 node_modules
