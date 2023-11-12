@@ -28,11 +28,13 @@ const extensions = [
 ];
 
 watch(".", { recursive: true }, (_, filename) => {
-  const split = filename.split(".");
-  const ext = split[split.length - 1];
-  if (filename.startsWith(`node_modules${sep}pixel-pigeon`)) return;
-  if (extensions.includes(ext)) {
-    addFile(filename);
+  if (filename !== null) {
+    const split = filename.split(".");
+    const ext = split[split.length - 1];
+    if (filename.startsWith(`node_modules${sep}pixel-pigeon`)) return;
+    if (extensions.includes(ext)) {
+      addFile(filename);
+    }
   }
 });
 
