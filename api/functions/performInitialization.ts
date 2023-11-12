@@ -74,6 +74,8 @@ export const performInitialization = async (): Promise<void> => {
   const pauseBackButtonElements: HTMLCollectionOf<Element> =
     document.getElementsByClassName("pause-back-button");
   state.setValues({ isInitialized: true });
+  const typeRes: Response = await fetch("./type.json");
+  const type: string = (await typeRes.json()) as string;
   const envRes: Response = await fetch("./pp-env.json");
   const env: Env = (await envRes.json()) as Env;
   const devRes: Response = await fetch("./pp-dev.json");
@@ -105,6 +107,7 @@ export const performInitialization = async (): Promise<void> => {
     config,
     dev,
     env,
+    type,
     world: getWorld(ldtk),
   });
   syncNewgroundsMedals();

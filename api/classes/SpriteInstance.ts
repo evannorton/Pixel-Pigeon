@@ -93,6 +93,11 @@ export class SpriteInstance extends Definable {
     entity: WorldLevelLayerEntity<string>,
     layerIndex: number,
   ): void {
+    if (state.values.type === null) {
+      throw new Error(
+        "An attempt was made to draw an entity before type was loaded.",
+      );
+    }
     if (state.values.dev === null) {
       throw new Error(
         "An attempt was made to draw an entity before dev was loaded.",
@@ -106,7 +111,7 @@ export class SpriteInstance extends Definable {
         Math.floor(entity.position.y) - cameraCoordinates.y,
         zIndex,
       );
-      if (state.values.dev.renderPathing) {
+      if (state.values.type === "zip" && state.values.dev.renderPathing) {
         const path: TilePosition[] | null =
           entity.path !== null ? [...entity.path] : null;
         if (path !== null) {

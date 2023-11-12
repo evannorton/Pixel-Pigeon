@@ -33,6 +33,7 @@ interface StateSchema {
   readonly pressedGamepadInputs: GamepadInput[];
   readonly pressedKeyboardInputs: KeyboardInput[];
   readonly pressedMouseInputs: MouseInput[];
+  readonly type: string | null;
   readonly volumeTestHowl: Howl;
   readonly world: World | null;
 }
@@ -68,6 +69,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   pressedGamepadInputs: [],
   pressedKeyboardInputs: [],
   pressedMouseInputs: [],
+  type: null,
   volumeTestHowl,
   world: null,
 });

@@ -4,4 +4,4 @@ const { argv } = require("process");
 
 const buildID = argv[2];
 
-writeFileSync(join(__dirname, "..", "build-id.json"), JSON.stringify(buildID));
+writeFileSync(join(__dirname, "build-id.json"), JSON.stringify(buildID));

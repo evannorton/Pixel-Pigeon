@@ -72,6 +72,8 @@ catch (error) {
 
 require("./createGameTSConfig");
 
+writeFileSync(join(__dirname, "type.json"), JSON.stringify(process.argv[2]));
+
 switch (process.argv[2]) {
     case "dev":
         require("./watch");
