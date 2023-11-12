@@ -1,5 +1,6 @@
 import { SpriteInstance } from "../../classes/SpriteInstance";
 import { getDefinables } from "../getDefinables";
+import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
 import { updateInput } from "./updateInput";
 import { updateLevel } from "./updateLevel";
@@ -8,7 +9,11 @@ export const update = (): void => {
   updateInput();
   if (!state.values.hasExecutedOnRunCallbacks) {
     for (const onRunCallback of state.values.onRunCallbacks) {
-      onRunCallback();
+      try {
+        onRunCallback();
+      } catch (error: unknown) {
+        handleCaughtError(error, "onRun");
+      }
     }
     state.setValues({ hasExecutedOnRunCallbacks: true });
   }
@@ -16,7 +21,11 @@ export const update = (): void => {
     updateLevel();
   }
   for (const onTickCallback of state.values.onTickCallbacks) {
-    onTickCallback();
+    try {
+      onTickCallback();
+    } catch (error: unknown) {
+      handleCaughtError(error, "onTick");
+    }
   }
   getDefinables(SpriteInstance).forEach(
     (spriteInstance: SpriteInstance): void => {

@@ -1,15 +1,13 @@
+import { fireAlert } from "./fireAlert";
 import { state } from "../state";
-import fireAlert from "./fireAlert";
 
-export const handleError = (errorEvent: ErrorEvent): void => {
+export const handleUncaughtError = (error: unknown): void => {
   if (state.values.hasErrored === false) {
     state.setValues({ hasErrored: true });
     const bodyElement: HTMLElement = document.createElement("div");
     const messageElement: HTMLParagraphElement = document.createElement("p");
     const eventError: Error =
-      errorEvent.error instanceof Error
-        ? errorEvent.error
-        : new Error("An unknown error occurred.");
+      error instanceof Error ? error : new Error("An unknown error occurred.");
     messageElement.innerText = eventError.message;
     bodyElement.appendChild(messageElement);
     if (typeof eventError.stack !== "undefined") {
@@ -21,8 +19,8 @@ export const handleError = (errorEvent: ErrorEvent): void => {
     fireAlert({
       bodyElement,
       title: "Error",
-    }).catch((error: unknown): void => {
-      throw error;
+    }).catch((caughtError: unknown): void => {
+      throw caughtError;
     });
   }
 };

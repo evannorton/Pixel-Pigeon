@@ -2,6 +2,7 @@ import { CollisionData } from "../../types/CollisionData";
 import { EntityCollidable } from "../../types/EntityCollidable";
 import { Level } from "../../types/World";
 import { getRectangleCollisionData } from "../getRectangleCollisionData";
+import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
 
 export const updateLevelMovement = (): void => {
@@ -173,7 +174,13 @@ export const updateLevelMovement = (): void => {
             yCollisionData.map ||
             yCollisionData.entityCollidables.length > 0
           ) {
-            entity.onCollision?.(bothCollisionData);
+            if (entity.onCollision !== null) {
+              try {
+                entity.onCollision(bothCollisionData);
+              } catch (error: unknown) {
+                handleCaughtError(error, `Entity "${entity.id}" onCollision`);
+              }
+            }
           }
         }
         entity.position = {

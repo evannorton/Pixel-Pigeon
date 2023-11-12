@@ -3,6 +3,7 @@ import { EntityCollidable } from "../types/EntityCollidable";
 import { EntityPosition } from "../types/EntityPosition";
 import { Level } from "../types/World";
 import { getRectangleCollisionData } from "./getRectangleCollisionData";
+import { handleCaughtError } from "./handleCaughtError";
 import { state } from "../state";
 
 export interface SetEntityPositionOptions {
@@ -58,7 +59,13 @@ export const setEntityPosition = (
           ),
         );
         if (collisionData.entityCollidables.length > 0 || collisionData.map) {
-          entity.onCollision?.(collisionData);
+          if (entity.onCollision !== null) {
+            try {
+              entity.onCollision(collisionData);
+            } catch (error: unknown) {
+              handleCaughtError(error, `Entity "${entityID}" onCollision`);
+            }
+          }
         }
       }
     }

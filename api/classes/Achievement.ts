@@ -2,9 +2,9 @@ import { Definable } from "./Definable";
 import { StorageAchievement } from "../types/Storage";
 import { getAchievementUnlockRenderStartTime } from "../functions/getAchievementUnlockRenderStartTime";
 import { getDefinable } from "../functions/getDefinable";
+import { getStorageItem } from "../functions/storage/getStorageItem";
+import { setStorageItem } from "../functions/storage/setStorageItem";
 import { state } from "../state";
-import getStorageItem from "../functions/storage/getStorageItem";
-import setStorageItem from "../functions/storage/setStorageItem";
 
 export interface CreateAchievementOptions {
   description: string;

@@ -14,6 +14,7 @@ import { drawImage } from "../functions/draw/drawImage";
 import { drawRectangle } from "../functions/draw/drawRectangle";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
+import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
 /**
@@ -64,7 +65,7 @@ export class SpriteInstance extends Definable {
   }
 
   public playAnimation(): void {
-    const animationID: string | null = this._options.getAnimationID();
+    const animationID: string | null = this.getAnimationID();
     if (animationID === null) {
       this._animation = null;
     } else if (this._animation === null || animationID !== this._animation.id) {
@@ -78,8 +79,7 @@ export class SpriteInstance extends Definable {
   public drawAtCoordinates(): void {
     if (
       typeof this._options.coordinates !== "undefined" &&
-      (typeof this._options.coordinates.condition === "undefined" ||
-        this._options.coordinates.condition())
+      this.passesCoordinatesCondition()
     ) {
       this.drawAtPosition(
         this._options.coordinates.x,
@@ -244,6 +244,35 @@ export class SpriteInstance extends Definable {
       currentAnimationFrame.height,
       zIndex,
     );
+  }
+
+  private passesCoordinatesCondition(): boolean {
+    if (typeof this._options.coordinates === "undefined") {
+      throw new Error(
+        `SpriteInstance "${this._id}" attempted to check coordinates condition with no.`,
+      );
+    }
+    if (typeof this._options.coordinates.condition === "undefined") {
+      return true;
+    }
+    try {
+      return this._options.coordinates.condition();
+    } catch (error: unknown) {
+      handleCaughtError(
+        error,
+        `SpriteInstance "${this._id}" coordinates condition`,
+      );
+    }
+    return false;
+  }
+
+  private getAnimationID(): string | null {
+    try {
+      return this._options.getAnimationID();
+    } catch (error: unknown) {
+      handleCaughtError(error, `SpriteInstance "${this._id}" getAnimationID`);
+    }
+    return null;
   }
 }
 /**

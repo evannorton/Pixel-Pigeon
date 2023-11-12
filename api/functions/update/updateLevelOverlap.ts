@@ -1,6 +1,7 @@
 import { CollisionData } from "../../types/CollisionData";
 import { Level } from "../../types/World";
 import { getEntityRectangleOverlapData } from "../getEntityRectangleOverlapData";
+import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
 
 export const updateLevelOverlap = (): void => {
@@ -32,7 +33,13 @@ export const updateLevelOverlap = (): void => {
             y: Math.floor(entity.position.y),
           });
         if (collisionData.entityCollidables.length > 0 || collisionData.map) {
-          entity.onOverlap?.(collisionData);
+          if (entity.onOverlap !== null) {
+            try {
+              entity.onOverlap(collisionData);
+            } catch (error: unknown) {
+              handleCaughtError(error, `Entity "${entity.id}" onOverlap`);
+            }
+          }
         }
       }
     }

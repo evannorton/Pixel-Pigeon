@@ -58,7 +58,7 @@ const start = () => {
 let handler = start();
 
 const restart = () => {
-  console.warn("Hot reloading...");
+  console.warn("Restarting due to file changes...");
   setTimeout(() => {
     killPort(3000)
       .catch(() => { })

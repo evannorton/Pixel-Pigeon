@@ -4,6 +4,7 @@ import { KeyboardButton } from "../types/KeyboardButton";
 import { KeyboardInput } from "../types/KeyboardInput";
 import { MouseInput } from "../types/MouseInput";
 import { getToken } from "../functions/getToken";
+import { handleCaughtError } from "../functions/handleCaughtError";
 
 /** Defines options for InputPressHandlers, which mainly is about what inputs to press and the callbacks */
 export interface CreateInputPressHandlerOptions {
@@ -73,12 +74,25 @@ export class InputPressHandler extends Definable {
   }
 
   private attemptInput(): void {
-    if (
-      typeof this._options.condition === "undefined" ||
-      this._options.condition()
-    ) {
-      this._options.onInput();
+    if (this.passesCondition()) {
+      try {
+        this._options.onInput();
+      } catch (error: unknown) {
+        handleCaughtError(error, "onInput");
+      }
     }
+  }
+
+  private passesCondition(): boolean {
+    if (typeof this._options.condition === "undefined") {
+      return true;
+    }
+    try {
+      return this._options.condition();
+    } catch (error: unknown) {
+      handleCaughtError(error, `InputPressHandler "${this._id}" condition`);
+    }
+    return false;
   }
 }
 /**

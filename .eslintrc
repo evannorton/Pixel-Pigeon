@@ -725,6 +725,13 @@
     "no-regex-spaces": [
       "error"
     ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ExportDefaultDeclaration",
+        "message": "Prefer named exports"
+      }
+    ],
     "no-return-assign": [
       "error",
       "always"

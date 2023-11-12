@@ -12,7 +12,7 @@ import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
 import { getWorld } from "./getWorld";
 import { goToPauseMenuSection } from "./goToPauseMenuSection";
-import { handleError } from "./handleError";
+import { handleUncaughtError } from "./handleUncaughtError";
 import { loadAssets } from "./loadAssets";
 import { sizeScreen } from "./sizeScreen";
 import { state } from "../state";
@@ -271,5 +271,7 @@ export const performInitialization = async (): Promise<void> => {
   screenElement.appendChild(app.view as HTMLCanvasElement);
   sizeScreen();
   app.ticker.add(tick);
-  addEventListener("error", handleError);
+  addEventListener("error", (errorEvent: ErrorEvent): void => {
+    handleUncaughtError(errorEvent.error);
+  });
 };

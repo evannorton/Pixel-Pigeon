@@ -2,8 +2,8 @@ import { Achievement } from "../classes/Achievement";
 import { NewgroundsMedal } from "../types/Newgrounds";
 import { StorageAchievement } from "../types/Storage";
 import { getDefinable } from "./getDefinable";
-import getStorageItem from "./storage/getStorageItem";
-import setStorageItem from "./storage/setStorageItem";
+import { getStorageItem } from "./storage/getStorageItem";
+import { setStorageItem } from "./storage/setStorageItem";
 
 export const syncNewgroundsMedals = (): void => {
   const storageAchievements: StorageAchievement[] =

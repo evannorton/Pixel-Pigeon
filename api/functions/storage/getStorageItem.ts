@@ -1,7 +1,7 @@
 import { getPrefixedProperty } from "./getPrefixedProperty";
-import storage from "../../storage";
+import { storage } from "../../storage";
 
-const getStorageItem: (property: string) => unknown = (
+export const getStorageItem: (property: string) => unknown = (
   property: string,
 ): unknown => {
   const prefixedProperty: string = getPrefixedProperty(property);
@@ -18,5 +18,3 @@ const getStorageItem: (property: string) => unknown = (
   }
   return null;
 };
-
-export default getStorageItem;

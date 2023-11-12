@@ -8,7 +8,8 @@ interface FireAlertOptions {
   readonly showConfirmButton?: boolean;
   readonly showCancelButton?: boolean;
 }
-const fireAlert = async (options: FireAlertOptions): Promise<void> => {
+
+export const fireAlert = async (options: FireAlertOptions): Promise<void> => {
   const html: HTMLDivElement = document.createElement("div");
   const titleElement: HTMLHeadingElement = document.createElement("h2");
   titleElement.innerText = options.title;
@@ -27,5 +28,3 @@ const fireAlert = async (options: FireAlertOptions): Promise<void> => {
     options.onConfirm(res.isConfirmed);
   }
 };
-
-export default fireAlert;
