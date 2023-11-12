@@ -12,6 +12,7 @@ export const handleUncaughtError = (error: unknown): void => {
     bodyElement.appendChild(messageElement);
     if (typeof eventError.stack !== "undefined") {
       const stackElement: HTMLPreElement = document.createElement("pre");
+      stackElement.style.overflowX = "auto";
       stackElement.style.textAlign = "left";
       stackElement.innerText = eventError.stack;
       bodyElement.appendChild(stackElement);
