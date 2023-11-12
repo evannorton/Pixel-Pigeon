@@ -18,6 +18,7 @@ interface StateSchema {
   readonly dev: Dev | null;
   readonly didBlur: boolean;
   readonly env: Env | null;
+  readonly hasErrored: boolean;
   readonly hasExecutedOnRunCallbacks: boolean;
   readonly hasInteracted: boolean;
   readonly heldGamepadInputs: GamepadInput[];
@@ -54,6 +55,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   dev: null,
   didBlur: false,
   env: null,
+  hasErrored: false,
   hasExecutedOnRunCallbacks: false,
   hasInteracted: false,
   heldGamepadInputs: [],

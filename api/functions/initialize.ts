@@ -5,7 +5,7 @@ import { performInitialization } from "./performInitialization";
  *
  */
 export const initialize = (): void => {
-  performInitialization().catch((error: Error): void => {
+  performInitialization().catch((error: unknown): void => {
     throw error;
   });
 };
