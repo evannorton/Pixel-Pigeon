@@ -55,7 +55,7 @@ body:not(.paused) #unpause-button {
 
 .achievement-unlock-notice {
   align-items: center;
-  background-color: #343434;
+  background-color: #151515;
   border: .1em solid white;
   border-radius: 8px;
   display: flex;
@@ -203,7 +203,7 @@ body:not(.paused) #unpause-button {
 
 .achievement-info {
   align-items: center;
-  background-color: #343434;
+  background-color: #151515;
   border: .1em solid white;
   border-radius: 8px;
   display: flex;
@@ -255,21 +255,21 @@ body:not(.paused) #unpause-button {
 }
 
 .swal2-container .swal2-modal {
-  background-color: #000000;
-  border: 0.125em solid #ffffff;
+  background-color: #151515;
+  border: 0.125em solid white;
 }
 
 .swal2-container .swal2-title {
-  color: #ffffff;
+  color: white;
 }
 
 .swal2-container .swal2-html-container {
-  color: #ffffff;
+  color: white;
   margin-bottom: 0;
 }
 
 .swal2-container .swal2-content {
-  color: #ffffff;
+  color: white;
 }
 
 .swal2-container ul {
@@ -278,18 +278,18 @@ body:not(.paused) #unpause-button {
 
 .swal2-container button {
   background-color: transparent;
-  border: 0.125em solid #ffffff;
+  border: 0.125em solid white;
   border-radius: 0;
-  color: #ffffff;
+  color: white;
   cursor: pointer;
   font-weight: bold;
   padding: 0.75em 1.5em;
 }
 
 .swal2-container button:hover, .swal2-container button:focus {
-  background-color: #ffffff;
+  background-color: white;
   background-image: none;
-  color: #000000;
+  color: #151515;
 }
 
 .swal2-cancel {
