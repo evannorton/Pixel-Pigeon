@@ -17,7 +17,7 @@ writeFileSync(join(__dirname, "envSchema.js"), envSchemaText.replace("export con
 const { envSchema } = require("./envSchema");
 
 if (!existsSync(join("pp-config.json"))) {
-    throw new Error("You must create a pp-config.json file for use with Pigeon Mode Game Framework.");
+    throw new Error("You must create a pp-config.json file for use with Pixel Pigeon.");
 }
 const configString = readFileSync(join("pp-config.json")).toString();
 try {
@@ -35,7 +35,7 @@ catch (error) {
 }
 
 if (!existsSync(join("pp-dev.json"))) {
-    throw new Error("You must create a pp-dev.json file for use with Pigeon Mode Game Framework.");
+    throw new Error("You must create a pp-dev.json file for use with Pixel Pigeon.");
 }
 const devString = readFileSync(join("pp-dev.json")).toString();
 try {
@@ -53,7 +53,7 @@ catch (error) {
 }
 
 if (!existsSync(join("pp-env.json"))) {
-    throw new Error("You must create a pp-env.json file for use with Pigeon Mode Game Framework.");
+    throw new Error("You must create a pp-env.json file for use with Pixel Pigeon.");
 }
 const envString = readFileSync(join("pp-env.json")).toString();
 try {

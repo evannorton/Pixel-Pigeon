@@ -1,7 +1,9 @@
 {
-  "entryPoints": ["api"],
+  "entryPoints": [
+    "api"
+  ],
   "out": "docs/",
   "readme": "README.md",
-  "name": "Pigeon Mode Game Framework Documentation",
+  "name": "Pixel Pigeon Documentation",
   "tsconfig": "./api/tsconfig.json"
 }
