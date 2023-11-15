@@ -7,6 +7,9 @@ Game engine for EvanMMO's typescript games.
 Evan wanted something specifically tailored to low spec pixel perfect games.
 
 ## Getting started
+
+You may use the [Template Game](https://github.com/evannorton/Pixel-Pigeon-Template) as a starting point, or create a repository from scratch using these instructions.
+
 1. Install Node.js v18.16.0.
 2. Create a `package.json` file at the root of your game's codebase.
 ```json
