@@ -63,7 +63,7 @@ game.zip
 11. Create an `index.ts` file inside of the `src` folder.
 12. Run `npm install`.
 13. Run `npm run dev` to start a dev server with hot reloading on port 3000.
-14. Explore the documentation: https://evannorton.github.io/Pigeon-Mode-Game-Framework/
+14. Explore the documentation: https://pp.evanmmo.com/
 
 ## Command line interface
 ### `pigeon dev`
