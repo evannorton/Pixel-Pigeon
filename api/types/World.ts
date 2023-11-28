@@ -5,15 +5,15 @@ import { OverlapData } from "./OverlapData";
 import { Pathing } from "./Pathing";
 import { TilePosition } from "./TilePosition";
 
-export interface Entity<CollisionLayer extends string> {
-  readonly collidables: EntityCollidable<string>[];
+export interface Entity {
+  readonly collidables: EntityCollidable[];
   readonly collisionLayer: string | null;
   hasTouchedPathingStartingTile: boolean;
   readonly height: number;
   readonly id: string;
   lastPathedTilePosition: EntityPosition | null;
-  readonly onCollision: ((data: CollisionData<CollisionLayer>) => void) | null;
-  readonly onOverlap: ((data: OverlapData<CollisionLayer>) => void) | null;
+  readonly onCollision: ((data: CollisionData) => void) | null;
+  readonly onOverlap: ((data: OverlapData) => void) | null;
   path: TilePosition[] | null;
   pathing: Pathing | null;
   position: EntityPosition | null;
@@ -25,8 +25,8 @@ export interface Entity<CollisionLayer extends string> {
   } | null;
   readonly zIndex: number;
 }
-export interface Layer<CollisionLayer extends string> {
-  readonly entities: Map<string, Entity<CollisionLayer>>;
+export interface Layer {
+  readonly entities: Map<string, Entity>;
   readonly id: string;
   readonly tileSize: number;
   readonly tiles: {
@@ -38,7 +38,7 @@ export interface Layer<CollisionLayer extends string> {
 }
 export interface Level {
   readonly height: number;
-  readonly layers: Layer<string>[];
+  readonly layers: Layer[];
   readonly width: number;
 }
 export interface Tileset {

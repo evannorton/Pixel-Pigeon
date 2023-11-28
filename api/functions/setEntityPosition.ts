@@ -46,7 +46,7 @@ export const setEntityPosition = (
           y: options.position.y,
         };
         entity.pathing = null;
-        const collisionData: CollisionData<string> = getRectangleCollisionData(
+        const collisionData: CollisionData = getRectangleCollisionData(
           {
             height: entity.height,
             width: entity.width,
@@ -54,7 +54,7 @@ export const setEntityPosition = (
             y: Math.floor(entity.position.y),
           },
           entity.collidables.map(
-            (entityCollidable: EntityCollidable<string>): string =>
+            (entityCollidable: EntityCollidable): string =>
               entityCollidable.collisionLayer,
           ),
         );

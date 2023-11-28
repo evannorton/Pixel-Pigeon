@@ -6,11 +6,11 @@ import { OverlapData } from "../types/OverlapData";
 import { getToken } from "./getToken";
 import { state } from "../state";
 
-export interface SpawnEntityOptions<CollisionLayer extends string> {
+export interface SpawnEntityOptions {
   /** An array of strings for LayerIDs that the entity can collide with and not pass through */
-  collidableLayers?: CollisionLayer[];
+  collidableLayers?: string[];
   /** The string LayerID the entity is apart of for the sake of collisions with other entities */
-  collisionLayer?: CollisionLayer;
+  collisionLayer?: string;
   /** The actual height of the hitbox of the entity */
   height: number;
   /** The layerID the entity should be on, has to be created in LDTK */
@@ -19,12 +19,12 @@ export interface SpawnEntityOptions<CollisionLayer extends string> {
    * Callback that triggers whenever a collision stops entites from moving through each other. Will not trigger on tiles that have ppCollision set to true.
    * The same collision cannot trigger onCollision and onOverlap
    */
-  onCollision?: (collisionData: CollisionData<CollisionLayer>) => void;
+  onCollision?: (collisionData: CollisionData) => void;
   /**
    * Callback that triggers whenever an entity passes through another.
    * The same collision cannot trigger onCollision and onOverlap
    */
-  onOverlap?: (overlapData: OverlapData<CollisionLayer>) => void;
+  onOverlap?: (overlapData: OverlapData) => void;
   /** The X and Y position that the entity will spawn at */
   position?: EntityPosition;
   /** A {@link createSpriteInstance | spriteInstanceID} in order to give the entity a sprite */
@@ -39,9 +39,7 @@ export interface SpawnEntityOptions<CollisionLayer extends string> {
  * @param spawnEntityOptions Options used to define what an entity is and their attributes
  * @returns String ID of the entity
  */
-export const spawnEntity = <CollisionLayer extends string>(
-  spawnEntityOptions: SpawnEntityOptions<CollisionLayer>,
-): string => {
+export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to spawn an entity before world was loaded.",
@@ -59,9 +57,9 @@ export const spawnEntity = <CollisionLayer extends string>(
       "An attempt was made to spawn an entity with a nonexistant active level.",
     );
   }
-  const layer: Layer<CollisionLayer> | null =
+  const layer: Layer | null =
     level.layers.find(
-      (levelLayer: Layer<CollisionLayer>): boolean =>
+      (levelLayer: Layer): boolean =>
         levelLayer.id === spawnEntityOptions.layerID,
     ) ?? null;
   if (layer === null) {
@@ -73,7 +71,7 @@ export const spawnEntity = <CollisionLayer extends string>(
   layer.entities.set(id, {
     collidables:
       spawnEntityOptions.collidableLayers?.map(
-        (collisionLayer: string): EntityCollidable<string> => ({
+        (collisionLayer: string): EntityCollidable => ({
           collisionLayer,
           entityID: id,
         }),

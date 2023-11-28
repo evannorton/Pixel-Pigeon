@@ -8,7 +8,7 @@ import { state } from "../state";
 export const getEntityRectangleOverlapData = (
   entityID: string,
   rectangle: Rectangle,
-): OverlapData<string> => {
+): OverlapData => {
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to check rectangle overlap before world was loaded.",
@@ -27,7 +27,7 @@ export const getEntityRectangleOverlapData = (
     );
   }
   let map: boolean = false;
-  const entityCollidables: EntityCollidable<string>[] = [];
+  const entityCollidables: EntityCollidable[] = [];
   if (
     rectangle.x < 0 ||
     rectangle.y < 0 ||

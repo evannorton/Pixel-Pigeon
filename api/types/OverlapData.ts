@@ -5,18 +5,18 @@ import { EntityCollidable } from "./EntityCollidable";
  * @example
  * ```ts
  *  if (overlapData.entityCollidables.length > 0) { // Ensure there is at least one entity that was collided with
-    const entityCollidable: EntityCollidable<CollisionLayer> = overlapData.entityCollidables[0]; // Get the first collided entity
+    const entityCollidable: EntityCollidable = overlapData.entityCollidables[0]; // Get the first collided entity
     if (enemyID == entityCollidable.entityID) { // enemyID would be the entityID of an pre-defined enemy
       console.log("The player collided with an enemy!");
     }
   }
  * ```
 */
-export interface OverlapData<CollisionLayer extends string> {
+export interface OverlapData {
   /**
    * Array of entites the entity with {@link SpawnEntityOptions.onOverlap | onOverlap} collided with
    */
-  entityCollidables: EntityCollidable<CollisionLayer>[];
+  entityCollidables: EntityCollidable[];
   /**
    * Does the collision take place on the world map?
    */

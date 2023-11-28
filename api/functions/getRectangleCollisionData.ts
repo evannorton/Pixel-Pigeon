@@ -8,7 +8,7 @@ import { state } from "../state";
 export const getRectangleCollisionData = (
   rectangle: Rectangle,
   collisionLayers: string[],
-): CollisionData<string> => {
+): CollisionData => {
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to check rectangle collision before world was loaded.",
@@ -27,7 +27,7 @@ export const getRectangleCollisionData = (
     );
   }
   let map: boolean = false;
-  const entityCollidables: EntityCollidable<string>[] = [];
+  const entityCollidables: EntityCollidable[] = [];
   if (
     rectangle.x < 0 ||
     rectangle.y < 0 ||

@@ -89,10 +89,7 @@ export class SpriteInstance extends Definable {
     }
   }
 
-  public drawAtEntity(
-    entity: WorldLevelLayerEntity<string>,
-    layerIndex: number,
-  ): void {
+  public drawAtEntity(entity: WorldLevelLayerEntity, layerIndex: number): void {
     if (state.values.type === null) {
       throw new Error(
         "An attempt was made to draw an entity before type was loaded.",
