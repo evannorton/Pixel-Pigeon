@@ -27,25 +27,20 @@ const extensions = [
   "ldtk",
 ];
 
-watch(".", { recursive: true }, (e, filename) => {
-  const split = filename.split(".");
-  const ext = split[split.length - 1];
-  if (filename.startsWith("node_modules/pixel-pigeon")) return;
-  if (extensions.includes(ext)) {
-    console.warn("Received watch event!", e);
-    addFile(filename);
+watch(".", { recursive: true }, (_, filename) => {
+  if (filename !== null) {
+    const split = filename.split(".");
+    const ext = split[split.length - 1];
+    if (filename.startsWith(`node_modules${sep}pixel-pigeon`)) return;
+    if (extensions.includes(ext)) {
+      addFile(filename);
+    }
   }
 });
 
 const hardRestart = () => {
-  setTimeout(() => {
-    killPort(3000)
-      .catch(() => {})
-      .finally(() => {
-        handler.kill();
-        process.exit();
-      });
-  }, 0);
+  handler.kill();
+  process.exit();
 };
 
 const start = () => {
