@@ -70,7 +70,6 @@ export const getRectangleCollisionData = (
       if (
         typeof matchedLayer !== "undefined" &&
         entity.collisionLayer !== null &&
-        entity.position !== null &&
         rectanglesOverlap(rectangle, {
           height: entity.height,
           width: entity.width,

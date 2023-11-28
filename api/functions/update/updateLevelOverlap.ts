@@ -24,23 +24,21 @@ export const updateLevelOverlap = (): void => {
   }
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
-      if (entity.position !== null) {
-        const collisionData: CollisionData = getEntityRectangleOverlapData(
-          entity.id,
-          {
-            height: entity.height,
-            width: entity.width,
-            x: Math.floor(entity.position.x),
-            y: Math.floor(entity.position.y),
-          },
-        );
-        if (collisionData.entityCollidables.length > 0 || collisionData.map) {
-          if (entity.onOverlap !== null) {
-            try {
-              entity.onOverlap(collisionData);
-            } catch (error: unknown) {
-              handleCaughtError(error, `Entity "${entity.id}" onOverlap`);
-            }
+      const collisionData: CollisionData = getEntityRectangleOverlapData(
+        entity.id,
+        {
+          height: entity.height,
+          width: entity.width,
+          x: Math.floor(entity.position.x),
+          y: Math.floor(entity.position.y),
+        },
+      );
+      if (collisionData.entityCollidables.length > 0 || collisionData.map) {
+        if (entity.onOverlap !== null) {
+          try {
+            entity.onOverlap(collisionData);
+          } catch (error: unknown) {
+            handleCaughtError(error, `Entity "${entity.id}" onOverlap`);
           }
         }
       }

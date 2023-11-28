@@ -24,7 +24,7 @@ export const updateLevelPathing = (): void => {
   }
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
-      if (entity.position !== null && entity.pathing !== null) {
+      if (entity.pathing !== null) {
         const matrix: number[][] = getPathingMatrix();
         const startX: number = Math.floor(entity.position.x / layer.tileSize);
         const startY: number = Math.floor(entity.position.y / layer.tileSize);
@@ -43,11 +43,6 @@ export const updateLevelPathing = (): void => {
           endY,
           (path: TilePosition[] | null): void => {
             if (path !== null) {
-              if (entity.position === null) {
-                throw new Error(
-                  `Attempted to path Entity "${entity.id}" with no position.`,
-                );
-              }
               entity.path = path;
               const nextTilePosition: TilePosition =
                 path.length > 1

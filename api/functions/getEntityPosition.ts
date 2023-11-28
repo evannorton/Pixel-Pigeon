@@ -28,13 +28,10 @@ export const getEntityPosition = (entityID: string): EntityPosition | null => {
   for (const layer of level.layers) {
     for (const [layerEntityID, entity] of layer.entities) {
       if (layerEntityID === entityID) {
-        if (entity.position !== null) {
-          return {
-            x: entity.position.x,
-            y: entity.position.y,
-          };
-        }
-        return null;
+        return {
+          x: entity.position.x,
+          y: entity.position.y,
+        };
       }
     }
   }

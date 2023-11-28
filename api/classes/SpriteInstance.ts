@@ -101,53 +101,51 @@ export class SpriteInstance extends Definable {
       );
     }
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
-    if (entity.position !== null) {
-      const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
-      this.drawAtPosition(
-        Math.floor(entity.position.x) - cameraCoordinates.x,
-        Math.floor(entity.position.y) - cameraCoordinates.y,
-        zIndex,
-      );
-      if (state.values.type === "zip" && state.values.dev.renderPathing) {
-        const path: TilePosition[] | null =
-          entity.path !== null ? [...entity.path] : null;
-        if (path !== null) {
-          if (entity.hasTouchedPathingStartingTile) {
-            path.splice(0, 1);
-          }
-          path.forEach(({ x, y }: TilePosition, pathIndex: number): void => {
-            const color: string =
-              pathIndex === 0
-                ? "#0084ff"
-                : pathIndex === path.length - 1
-                ? "#139d08"
-                : "#000000";
-            drawRectangle(
-              "#ffffff",
-              1,
-              Math.round(x * entity.width + entity.width / 4) -
-                cameraCoordinates.x,
-              Math.round(y * entity.height + entity.height / 4) -
-                cameraCoordinates.y,
-              entity.width / 2,
-              entity.height / 2,
-              zIndex,
-            );
-            drawRectangle(
-              color,
-              1,
-              Math.round(x * entity.width + entity.width / 4) -
-                cameraCoordinates.x +
-                1,
-              Math.round(y * entity.height + entity.height / 4) -
-                cameraCoordinates.y +
-                1,
-              entity.width / 2 - 2,
-              entity.height / 2 - 2,
-              zIndex,
-            );
-          });
+    const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
+    this.drawAtPosition(
+      Math.floor(entity.position.x) - cameraCoordinates.x,
+      Math.floor(entity.position.y) - cameraCoordinates.y,
+      zIndex,
+    );
+    if (state.values.type === "zip" && state.values.dev.renderPathing) {
+      const path: TilePosition[] | null =
+        entity.path !== null ? [...entity.path] : null;
+      if (path !== null) {
+        if (entity.hasTouchedPathingStartingTile) {
+          path.splice(0, 1);
         }
+        path.forEach(({ x, y }: TilePosition, pathIndex: number): void => {
+          const color: string =
+            pathIndex === 0
+              ? "#0084ff"
+              : pathIndex === path.length - 1
+              ? "#139d08"
+              : "#000000";
+          drawRectangle(
+            "#ffffff",
+            1,
+            Math.round(x * entity.width + entity.width / 4) -
+              cameraCoordinates.x,
+            Math.round(y * entity.height + entity.height / 4) -
+              cameraCoordinates.y,
+            entity.width / 2,
+            entity.height / 2,
+            zIndex,
+          );
+          drawRectangle(
+            color,
+            1,
+            Math.round(x * entity.width + entity.width / 4) -
+              cameraCoordinates.x +
+              1,
+            Math.round(y * entity.height + entity.height / 4) -
+              cameraCoordinates.y +
+              1,
+            entity.width / 2 - 2,
+            entity.height / 2 - 2,
+            zIndex,
+          );
+        });
       }
     }
   }

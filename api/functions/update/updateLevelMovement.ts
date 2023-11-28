@@ -30,11 +30,7 @@ export const updateLevelMovement = (): void => {
   }
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
-      if (
-        entity.pathing === null &&
-        entity.position !== null &&
-        entity.movementVelocity !== null
-      ) {
+      if (entity.pathing === null && entity.movementVelocity !== null) {
         const unnormalizedEntityX: number =
           entity.position.x +
           entity.movementVelocity.x * (state.values.app.ticker.deltaMS / 1000);
