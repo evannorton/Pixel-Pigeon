@@ -4,6 +4,7 @@ import { VolumeChannel } from "./VolumeChannel";
 import { getDefinable } from "../functions/getDefinable";
 import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
 import { state } from "../state";
+import { defaultVolume } from "constants/defaultVolume";
 
 interface AudioSourceOptions {
   readonly audioPath: string;
@@ -22,7 +23,7 @@ export class AudioSource extends Definable {
       loop: false,
       preload: true,
       src: [`audio/${this._options.audioPath}.mp3`],
-      volume: 0.5,
+      volume: defaultVolume,
     });
     this._howl.on("end", (): void => {
       this.onHowlEnd();
