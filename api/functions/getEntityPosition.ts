@@ -7,7 +7,7 @@ import { state } from "../state";
  * @param entityID - The string entityID of the entity to get the position of
  * @returns The position of the entity if it exists
  */
-export const getEntityPosition = (entityID: string): EntityPosition | null => {
+export const getEntityPosition = (entityID: string): EntityPosition => {
   if (state.values.world === null) {
     throw new Error(
       `An attempt was made to get entity "${entityID}" data before world was loaded.`,

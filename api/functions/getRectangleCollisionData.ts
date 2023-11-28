@@ -7,7 +7,7 @@ import { state } from "../state";
 
 export const getRectangleCollisionData = (
   rectangle: Rectangle,
-  collisionLayers: string[],
+  collisionLayers: string[] = [],
 ): CollisionData => {
   if (state.values.world === null) {
     throw new Error(

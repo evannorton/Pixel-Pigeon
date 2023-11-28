@@ -41,10 +41,6 @@ import {
   stopAudioSource,
 } from "./classes/AudioSource";
 import { Rectangle } from "./types/Rectangle";
-import {
-  SetEntityPositionOptions,
-  setEntityPosition,
-} from "./functions/setEntityPosition";
 import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
 import { State } from "./classes/State";
 import { despawnEntity } from "./functions/despawnEntity";
@@ -57,6 +53,7 @@ import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
+import { setEntityPosition } from "./functions/setEntityPosition";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
 import { takeScreenshot } from "./functions/takeScreenshot";
@@ -101,7 +98,6 @@ export {
   Rectangle,
   removeSpriteInstance,
   setEntityPosition,
-  SetEntityPositionOptions,
   setPauseMenuCondition,
   spawnEntity,
   SpawnEntityOptions,

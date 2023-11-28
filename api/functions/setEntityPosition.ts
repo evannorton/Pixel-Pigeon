@@ -6,20 +6,14 @@ import { getRectangleCollisionData } from "./getRectangleCollisionData";
 import { handleCaughtError } from "./handleCaughtError";
 import { state } from "../state";
 
-export interface SetEntityPositionOptions {
-  /**
-   * The position to set the entity to
-   */
-  position: EntityPosition;
-}
 /**
  * Set the specified entity from their current position to a new position
  * @param entityID - String entityID of the entity whos position is being set
- * @param options - Options for setting EntityPositions
+ * @param position - New EntityPosition to be set
  */
 export const setEntityPosition = (
   entityID: string,
-  options: SetEntityPositionOptions,
+  position: EntityPosition,
 ): void => {
   if (state.values.world === null) {
     throw new Error(
@@ -42,8 +36,8 @@ export const setEntityPosition = (
     for (const [layerEntityID, entity] of layer.entities) {
       if (layerEntityID === entityID) {
         entity.position = {
-          x: options.position.x,
-          y: options.position.y,
+          x: position.x,
+          y: position.y,
         };
         entity.pathing = null;
         const collisionData: CollisionData = getRectangleCollisionData(
