@@ -1,10 +1,10 @@
 import { Definable } from "./Definable";
 import { Howl } from "howler";
 import { VolumeChannel } from "./VolumeChannel";
+import { defaultVolume } from "constants/defaultVolume";
 import { getDefinable } from "../functions/getDefinable";
 import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
 import { state } from "../state";
-import { defaultVolume } from "constants/defaultVolume";
 
 interface AudioSourceOptions {
   readonly audioPath: string;
