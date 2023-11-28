@@ -198,6 +198,6 @@ export class Achievement extends Definable {
 }
 export const createAchievement = (options: CreateAchievementOptions): string =>
   new Achievement(options).id;
-export const unlockAchievement = (achievmentID: string): void => {
-  getDefinable<Achievement>(Achievement, achievmentID).unlock();
+export const unlockAchievement = (achievementID: string): void => {
+  getDefinable<Achievement>(Achievement, achievementID).unlock();
 };

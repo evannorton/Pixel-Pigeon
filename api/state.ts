@@ -8,6 +8,7 @@ import { KeyboardInput } from "./types/KeyboardInput";
 import { MouseInput } from "./types/MouseInput";
 import { State } from "./classes/State";
 import { World } from "./types/World";
+import { defaultVolume } from "./constants/defaultVolume";
 
 interface StateSchema {
   readonly achievementUnlockRenderedAt: number | null;
@@ -43,7 +44,7 @@ const volumeTestHowl: Howl = new Howl({
   loop: false,
   preload: true,
   src: ["mp3/volume-test.mp3"],
-  volume: 0.5,
+  volume: defaultVolume,
 });
 
 export const state: State<StateSchema> = new State<StateSchema>({
