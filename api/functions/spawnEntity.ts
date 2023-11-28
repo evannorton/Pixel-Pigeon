@@ -26,7 +26,7 @@ export interface SpawnEntityOptions {
    */
   onOverlap?: (overlapData: OverlapData) => void;
   /** The X and Y position that the entity will spawn at */
-  position?: EntityPosition;
+  position: EntityPosition;
   /** A {@link createSpriteInstance | spriteInstanceID} in order to give the entity a sprite */
   spriteInstanceID?: string;
   /** The actual width of the hitbox of the entity */
@@ -86,13 +86,10 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
     onOverlap: spawnEntityOptions.onOverlap ?? null,
     path: null,
     pathing: null,
-    position:
-      typeof spawnEntityOptions.position !== "undefined"
-        ? {
-            x: spawnEntityOptions.position.x,
-            y: spawnEntityOptions.position.y,
-          }
-        : null,
+    position: {
+      x: spawnEntityOptions.position.x,
+      y: spawnEntityOptions.position.y,
+    },
     spriteInstanceID: spawnEntityOptions.spriteInstanceID ?? null,
     width: spawnEntityOptions.width,
     zIndex: spawnEntityOptions.zIndex,

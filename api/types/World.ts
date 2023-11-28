@@ -16,7 +16,7 @@ export interface Entity {
   readonly onOverlap: ((data: OverlapData) => void) | null;
   path: TilePosition[] | null;
   pathing: Pathing | null;
-  position: EntityPosition | null;
+  position: EntityPosition;
   readonly spriteInstanceID: string | null;
   readonly width: number;
   movementVelocity: {
