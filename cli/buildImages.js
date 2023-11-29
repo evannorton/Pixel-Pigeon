@@ -11,18 +11,18 @@ else {
 
 const paths = [];
 const logDirectory = (source) => {
-  for (const file of readdirSync(source)) {
+  for (const file of readdirSync(join(resolve(), "out", "images", ...source))) {
     if (file.includes(".")) {
-      paths.push(join(source, file));
+      paths.push([...source, file]);
     }
     else {
-      logDirectory(join(source, file));
+      logDirectory([...source, file]);
     }
   }
 };
-logDirectory(join(resolve(), "out", "images"));
+logDirectory([]);
 const formattedPaths = paths.map((path) => {
-  const pathWithExtension = path.replace(join(resolve(), "images"), "").split("\\").join("/").substring(1);
-  return pathWithExtension.substring(0, pathWithExtension.length - 4);
+  const joined = path.join("/");
+  return joined.substring(0, joined.lastIndexOf("."));
 })
 writeFileSync(join(resolve(), "out", "images.json"), JSON.stringify(formattedPaths));
