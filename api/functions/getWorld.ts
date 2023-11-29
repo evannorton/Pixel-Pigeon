@@ -1,5 +1,11 @@
-import { LDTK, LDTKTileData } from "../types/LDTK";
-import { Level, Tileset, World, WorldTilesetTile } from "../types/World";
+import {
+  Entity,
+  Level,
+  Tileset,
+  World,
+  WorldTilesetTile,
+} from "../types/World";
+import { LDTK, LDTKFieldInstance, LDTKTileData } from "../types/LDTK";
 
 export const getWorld = (ldtk: LDTK): World => {
   const levels: Map<string, Level> = new Map();
@@ -18,8 +24,58 @@ export const getWorld = (ldtk: LDTK): World => {
                 (ldtkDefLayer: LDTK["defs"]["layers"][0]): boolean =>
                   ldtkDefLayer.uid === ldtkLayerInstance.layerDefUid,
               ) ?? null;
+            const entities: Map<string, Entity> = new Map();
+            for (const ldtkEntityInstance of ldtkLayerInstance.entityInstances) {
+              const collisionLayerFieldInstance: LDTKFieldInstance | null =
+                ldtkEntityInstance.fieldInstances.find(
+                  (fieldInstance: LDTKFieldInstance): boolean =>
+                    fieldInstance.__identifier === "pp_collision_layer",
+                ) ?? null;
+              if (
+                collisionLayerFieldInstance !== null &&
+                typeof collisionLayerFieldInstance.__value !== "string"
+              ) {
+                throw new Error(
+                  `Entity instance "${ldtkEntityInstance.iid}" has an invalid "pp_collision_layer" value.`,
+                );
+              }
+              const fieldValues: Map<string, unknown> = new Map();
+              for (const fieldInstance of ldtkEntityInstance.fieldInstances) {
+                fieldValues.set(
+                  fieldInstance.__identifier,
+                  fieldInstance.__value,
+                );
+              }
+              entities.set(ldtkEntityInstance.iid, {
+                collidables: [],
+                collisionLayer:
+                  collisionLayerFieldInstance !== null
+                    ? (collisionLayerFieldInstance.__value as string)
+                    : null,
+                fieldValues,
+                hasTouchedPathingStartingTile: false,
+                height: ldtkEntityInstance.height,
+                id: ldtkEntityInstance.iid,
+                lastPathedTilePosition: null,
+                movementVelocity: {
+                  x: 0,
+                  y: 0,
+                },
+                onCollision: null,
+                onOverlap: null,
+                path: null,
+                pathing: null,
+                position: {
+                  x: ldtkEntityInstance.px[0],
+                  y: ldtkEntityInstance.px[1],
+                },
+                spriteInstanceID: null,
+                width: ldtkEntityInstance.width,
+                zIndex: 0,
+              });
+            }
             return {
-              entities: new Map(),
+              entities,
               id: ldtkLayerInstance.__identifier,
               tileSize: ldtkLayerInstance.__gridSize,
               tiles: ldtkLayerInstance.gridTiles.map(

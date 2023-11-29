@@ -38,7 +38,7 @@ catch (error) {
   throw new Error("Your project.ldtk file is not valid JSON.");
 }
 const configSchemaText = generate({ sourceText: readFileSync(join(__dirname, "..", "api", "types", "LDTK.ts")).toString() }).getZodSchemasFile();
-writeFileSync(join(__dirname, "ldtkSchema.js"), configSchemaText.replace("export const ", "").replace("export const ", "").replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { ldtkSchema };");
+writeFileSync(join(__dirname, "ldtkSchema.js"), configSchemaText.replace("export const ", "").replace("export const ", "").replace("export const ", "").replace("import { z } from \"zod\";", "const { z } = require(\"zod\");") + "\n" + "module.exports = { ldtkSchema };");
 const { ldtkSchema } = require("./ldtkSchema");
 try {
   ldtkSchema.parse(JSON.parse(ldtkString));

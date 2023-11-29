@@ -77,6 +77,7 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
         }),
       ) ?? [],
     collisionLayer: spawnEntityOptions.collisionLayer ?? null,
+    fieldValues: new Map(),
     hasTouchedPathingStartingTile: false,
     height: spawnEntityOptions.height,
     id,

@@ -45,6 +45,7 @@ import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
 import { State } from "./classes/State";
 import { despawnEntity } from "./functions/despawnEntity";
 import { getCurrentTime } from "./functions/getCurrentTime";
+import { getEntityFieldValue } from "./functions/getEntityFieldValue";
 import { getEntityPosition } from "./functions/getEntityPosition";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
 import { goToLevel } from "./functions/goToLevel";
@@ -53,6 +54,7 @@ import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
+import { setEntityLevel } from "./functions/setEntityLevel";
 import { setEntityPosition } from "./functions/setEntityPosition";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
@@ -78,6 +80,7 @@ export {
   EntityCollidable,
   EntityPosition,
   getCurrentTime,
+  getEntityFieldValue,
   getEntityPosition,
   getInputTickHandlerGroupID,
   goToLevel,
@@ -97,6 +100,7 @@ export {
   PlayAudioSourceOptions,
   Rectangle,
   removeSpriteInstance,
+  setEntityLevel,
   setEntityPosition,
   setPauseMenuCondition,
   spawnEntity,

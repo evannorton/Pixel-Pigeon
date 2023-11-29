@@ -8,6 +8,7 @@ import { TilePosition } from "./TilePosition";
 export interface Entity {
   readonly collidables: EntityCollidable[];
   readonly collisionLayer: string | null;
+  readonly fieldValues: Map<string, unknown>;
   hasTouchedPathingStartingTile: boolean;
   readonly height: number;
   readonly id: string;
