@@ -1,7 +1,7 @@
 const express = require("express");
 const { readFileSync } = require("fs");
 const http = require("http");
-const { join } = require("path");
+const { join, resolve } = require("path");
 const socketio = require("socket.io");
 
 console.log("Running game server.");
@@ -20,7 +20,7 @@ import("nanoid").then(({ nanoid }) => {
     express.json()(req, res, next);
   });
 
-  app.use("/", express.static(join(__dirname, "out")));
+  app.use("/", express.static(join(resolve(), "out")));
 
   const server = new http.Server(app);
 

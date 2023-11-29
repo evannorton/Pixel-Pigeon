@@ -1,4 +1,4 @@
 const { copyFileSync } = require("fs");
-const { join } = require("path");
+const { join, resolve } = require("path");
 
-copyFileSync(join(__dirname, "..", "style.css"), join(__dirname, "..", "out", "style.css"))
+copyFileSync(join(__dirname, "..", "style.css"), join(resolve(), "out", "style.css"))

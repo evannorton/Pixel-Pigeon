@@ -1,4 +1,4 @@
-const { join } = require("path");
+const { join, resolve } = require("path");
 const nodeModulesPath = require("./nodeModulesPath");
 const randomString = require("./randomString");
 
@@ -10,7 +10,7 @@ const commands = [
     `node ${join(__dirname, "createLib")}`,
     `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(__dirname, "..", "game-tsconfig.json")} --outDir ${join(__dirname, "..", "game-lib")}`,
     `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(__dirname, "..", "hot-reload", "tsconfig.json")} --outDir ${join(__dirname, "..", "hot-reload-lib")}`,
-    `${join(nodeModulesPath, ".bin", "esbuild")} ${join(__dirname, "..", "hot-reload-lib", "index.js")} --bundle --sourcemap --outfile=${join(__dirname, "..", "out", "library-script.js")}`,
+    `${join(nodeModulesPath, ".bin", "esbuild")} ${join(__dirname, "..", "hot-reload-lib", "index.js")} --bundle --sourcemap --outfile=${join(resolve(), "out", "library-script.js")}`,
     `node ${join(__dirname, "buildGameBundle")}`,
     `node ${join(__dirname, "buildHTML")}`,
     `node ${join(__dirname, "buildNormalize")}`,

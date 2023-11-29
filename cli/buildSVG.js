@@ -1,4 +1,4 @@
 const { copyDirectorySync } = require("./utils");
-const { join } = require("path");
+const { join, resolve } = require("path");
 
-copyDirectorySync(join(__dirname, "..", "svg"), join(__dirname, "..", "out", "svg"));
+copyDirectorySync(join(__dirname, "..", "svg"), join(resolve(), "out", "svg"));

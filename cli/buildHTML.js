@@ -15,4 +15,4 @@ const html = Mustache.render(readFileSync(join(__dirname, "..", "template.mustac
   newgroundsEncryptionKey: res.newgroundsEncryptionKey
 });
 
-writeFileSync(join(__dirname, "..", "out", "index.html"), html);
+writeFileSync(join(resolve(), "out", "index.html"), html);

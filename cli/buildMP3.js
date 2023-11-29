@@ -1,4 +1,4 @@
 const { copyDirectorySync } = require("./utils");
-const { join } = require("path");
+const { join, resolve } = require("path");
 
-copyDirectorySync(join(__dirname, "..", "mp3"), join(__dirname, "..", "out", "mp3"));
+copyDirectorySync(join(__dirname, "..", "mp3"), join(resolve(), "out", "mp3"));

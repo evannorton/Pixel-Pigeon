@@ -2,7 +2,7 @@ const { copyDirectorySync } = require("./utils");
 const { join, resolve } = require("path");
 const { readdirSync, writeFileSync } = require("fs");
 
-copyDirectorySync(join(resolve(), "images"), join(__dirname, "..", "out", "images"));
+copyDirectorySync(join(resolve(), "images"), join(resolve(), "out", "images"));
 
 const paths = [];
 const logDirectory = (source) => {
@@ -20,4 +20,4 @@ const formattedPaths = paths.map((path) => {
   const pathWithExtension = path.replace(join(resolve(), "images"), "").split("\\").join("/").substring(1);
   return pathWithExtension.substring(0, pathWithExtension.length - 4);
 })
-writeFileSync(join(__dirname, "..", "out", "images.json"), JSON.stringify(formattedPaths));
+writeFileSync(join(resolve(), "out", "images.json"), JSON.stringify(formattedPaths));
