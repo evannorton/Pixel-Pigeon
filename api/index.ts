@@ -13,6 +13,7 @@ import {
   InputTickHandlerGroup,
   createInputTickHandler,
 } from "./classes/InputTickHandler";
+import { CreateLabelOptions, createLabel, removeLabel } from "./classes/Label";
 import {
   CreateSpriteInstanceOptions,
   createSpriteInstance,
@@ -43,7 +44,6 @@ import {
 import { Rectangle } from "./types/Rectangle";
 import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
 import { State } from "./classes/State";
-import { createLabel, removeLabel } from "./classes/Label";
 import { despawnEntity } from "./functions/despawnEntity";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
@@ -70,6 +70,7 @@ export {
   createInputTickHandler,
   CreateInputTickHandlerOptions,
   createLabel,
+  CreateLabelOptions,
   createSprite,
   createSpriteInstance,
   CreateSpriteInstanceOptions,
