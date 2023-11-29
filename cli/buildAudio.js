@@ -1,8 +1,13 @@
 const { copyDirectorySync } = require("./utils");
 const { join, resolve } = require("path");
-const { readdirSync, writeFileSync } = require("fs");
+const { readdirSync, writeFileSync, existsSync, mkdirSync } = require("fs");
 
-copyDirectorySync(join(resolve(), "audio"), join(resolve(), "out", "audio"));
+if (!existsSync(join(resolve(), "audio"))) {
+  mkdirSync(join(resolve(), "out", "audio"));
+}
+else {
+  copyDirectorySync(join(resolve(), "audio"), join(resolve(), "out", "audio"));
+}
 
 const paths = [];
 const logDirectory = (source) => {
@@ -15,7 +20,7 @@ const logDirectory = (source) => {
     }
   }
 };
-logDirectory(join(resolve(), "audio"));
+logDirectory(join(resolve(), "out", "audio"));
 const formattedPaths = paths.map((path) => {
   const pathWithExtension = path.replace(join(resolve(), "audio"), "").split("\\").join("/").substring(1);
   return pathWithExtension.substring(0, pathWithExtension.length - 4);

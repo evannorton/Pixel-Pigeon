@@ -12,18 +12,6 @@ if (!existsSync(join("src", "index.ts"))) {
   throw new Error("You must create an index.ts file in src for use with Pixel Pigeon.");
 }
 
-// Validate audio
-
-if (!existsSync(join("audio"))) {
-  throw new Error("You must create an audio folder for use with Pixel Pigeon.");
-}
-
-// Validate images
-
-if (!existsSync(join("images"))) {
-  throw new Error("You must create an images folder for use with Pixel Pigeon.");
-}
-
 // Validate ldtk
 
 if (!existsSync(join("project.ldtk"))) {
