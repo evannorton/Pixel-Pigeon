@@ -7,7 +7,6 @@ const buildID = randomString();
 const commands = [
     `node ${join(__dirname, "writeBuildID")} ${buildID}`,
     `node ${join(__dirname, "clearOutput")}`,
-    `node ${join(__dirname, "clearOut")}`,
     `node ${join(__dirname, "createLib")}`,
     `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(__dirname, "..", "game-tsconfig.json")} --outDir ${join(__dirname, "..", "game-lib")}`,
     `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(__dirname, "..", "hot-reload", "tsconfig.json")} --outDir ${join(__dirname, "..", "hot-reload-lib")}`,

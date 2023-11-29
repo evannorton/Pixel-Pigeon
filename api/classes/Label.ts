@@ -1,4 +1,5 @@
 import { Definable } from "./Definable";
+import { TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
 import { drawText } from "../functions/draw/drawText";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
@@ -25,6 +26,8 @@ export interface CreateLabelOptions {
     y: number;
   };
   getText: () => string;
+  horizontalAlignment: TextStyleAlign;
+  verticalAlignment: TextStyleTextBaseline;
 }
 export class Label extends Definable {
   private readonly _options: CreateLabelOptions;
@@ -51,8 +54,8 @@ export class Label extends Definable {
           1,
           state.values.config.width,
           1,
-          "left",
-          "top",
+          this._options.horizontalAlignment,
+          this._options.verticalAlignment,
           2,
         );
       }
@@ -62,7 +65,7 @@ export class Label extends Definable {
   private passesCoordinatesCondition(): boolean {
     if (typeof this._options.coordinates === "undefined") {
       throw new Error(
-        `Label "${this._id}" attempted to check coordinates condition with no.`,
+        `Label "${this._id}" attempted to check coordinates condition with no coordinates.`,
       );
     }
     if (typeof this._options.coordinates.condition === "undefined") {

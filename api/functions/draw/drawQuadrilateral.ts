@@ -1,7 +1,7 @@
 import { Graphics } from "pixi.js";
 import { state } from "../../state";
 
-export const drawRectangle = (
+export const drawQuadrilateral = (
   color: string,
   opacity: number,
   x: number,

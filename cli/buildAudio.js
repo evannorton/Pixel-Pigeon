@@ -1,6 +1,10 @@
 const { copyDirectorySync } = require("./utils");
 const { join, resolve } = require("path");
-const { readdirSync, writeFileSync, existsSync, mkdirSync } = require("fs");
+const { readdirSync, writeFileSync, existsSync, mkdirSync, rmSync } = require("fs");
+
+if (existsSync(join(resolve(), "out", "audio"))) {
+  rmSync(join(resolve(), "out", "audio"), { recursive: true, force: true });
+}
 
 if (!existsSync(join(resolve(), "audio"))) {
   mkdirSync(join(resolve(), "out", "audio"));

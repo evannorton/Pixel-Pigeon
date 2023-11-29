@@ -15,6 +15,12 @@ import {
 } from "./classes/InputTickHandler";
 import { CreateLabelOptions, createLabel, removeLabel } from "./classes/Label";
 import {
+  CreateQuadrilateralOptions,
+  Quadrilateral,
+  createQuadrilateral,
+  removeQuadrilateral,
+} from "./classes/Quadrilateral";
+import {
   CreateSpriteInstanceOptions,
   createSpriteInstance,
   removeSpriteInstance,
@@ -44,6 +50,7 @@ import {
 import { Rectangle } from "./types/Rectangle";
 import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
 import { State } from "./classes/State";
+import { TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
 import { despawnEntity } from "./functions/despawnEntity";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
@@ -71,6 +78,8 @@ export {
   CreateInputTickHandlerOptions,
   createLabel,
   CreateLabelOptions,
+  createQuadrilateral,
+  CreateQuadrilateralOptions,
   createSprite,
   createSpriteInstance,
   CreateSpriteInstanceOptions,
@@ -101,8 +110,10 @@ export {
   PathEntityOptions,
   playAudioSource,
   PlayAudioSourceOptions,
+  Quadrilateral,
   Rectangle,
   removeLabel,
+  removeQuadrilateral,
   removeSpriteInstance,
   setEntityLevel,
   setEntityPosition,
@@ -113,6 +124,8 @@ export {
   stopAudioSource,
   stopEntity,
   takeScreenshot,
+  TextStyleAlign,
+  TextStyleTextBaseline,
   unlockAchievement,
 };
 declare global {

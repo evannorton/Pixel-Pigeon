@@ -5,10 +5,11 @@ import {
 import { ImageSource } from "../classes/ImageSource";
 import { Label } from "../classes/Label";
 import { Layer, Level, Tileset, World } from "../types/World";
+import { Quadrilateral } from "../classes/Quadrilateral";
 import { SpriteInstance } from "../classes/SpriteInstance";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { drawImage } from "./draw/drawImage";
-import { drawRectangle } from "./draw/drawRectangle";
+import { drawQuadrilateral } from "./draw/drawQuadrilateral";
 import { drawText } from "./draw/drawText";
 import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
@@ -23,7 +24,7 @@ export const render = (): void => {
     throw new Error("An attempt was made to render before config was loaded.");
   }
   state.values.app.stage.removeChildren();
-  drawRectangle(
+  drawQuadrilateral(
     "#000000",
     1,
     0,
@@ -40,8 +41,16 @@ export const render = (): void => {
     const x: number = Math.floor((state.values.config.width - width) / 2);
     const height: number = 32;
     const y: number = Math.floor((state.values.config.height - height) / 2);
-    drawRectangle("#343434", 1, x, y, width, height, 0);
-    drawRectangle("#7b7b7b", 1, x, y, Math.floor(width * percent), height, 0);
+    drawQuadrilateral("#343434", 1, x, y, width, height, 0);
+    drawQuadrilateral(
+      "#7b7b7b",
+      1,
+      x,
+      y,
+      Math.floor(width * percent),
+      height,
+      0,
+    );
   } else if (!state.values.hasInteracted) {
     drawText(
       "Click to focus",
@@ -109,6 +118,11 @@ export const render = (): void => {
     getDefinables(SpriteInstance).forEach(
       (spriteInstance: SpriteInstance): void => {
         spriteInstance.drawAtCoordinates();
+      },
+    );
+    getDefinables(Quadrilateral).forEach(
+      (quadrilateral: Quadrilateral): void => {
+        quadrilateral.drawAtCoordinates();
       },
     );
     getDefinables(Label).forEach((label: Label): void => {

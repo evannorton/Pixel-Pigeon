@@ -11,7 +11,7 @@ import { Definable } from "./Definable";
 import { TilePosition } from "../types/TilePosition";
 import { Entity as WorldLevelLayerEntity } from "../types/World";
 import { drawImage } from "../functions/draw/drawImage";
-import { drawRectangle } from "../functions/draw/drawRectangle";
+import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
@@ -120,7 +120,7 @@ export class SpriteInstance extends Definable {
               : pathIndex === path.length - 1
               ? "#139d08"
               : "#000000";
-          drawRectangle(
+          drawQuadrilateral(
             "#ffffff",
             1,
             Math.round(x * entity.width + entity.width / 4) -
@@ -131,7 +131,7 @@ export class SpriteInstance extends Definable {
             entity.height / 2,
             zIndex,
           );
-          drawRectangle(
+          drawQuadrilateral(
             color,
             1,
             Math.round(x * entity.width + entity.width / 4) -
@@ -243,7 +243,7 @@ export class SpriteInstance extends Definable {
   private passesCoordinatesCondition(): boolean {
     if (typeof this._options.coordinates === "undefined") {
       throw new Error(
-        `SpriteInstance "${this._id}" attempted to check coordinates condition with no.`,
+        `SpriteInstance "${this._id}" attempted to check coordinates condition with no coordinates.`,
       );
     }
     if (typeof this._options.coordinates.condition === "undefined") {
