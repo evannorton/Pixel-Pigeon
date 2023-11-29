@@ -78,9 +78,9 @@ export const performInitialization = async (): Promise<void> => {
   const typeRes: Response = await fetch("./type.json");
   const type: string = (await typeRes.json()) as string;
   const envRes: Response = await fetch("./pp-env.json");
-  const env: Env = (await envRes.json()) as Env;
+  const env: Env | null = envRes.ok ? ((await envRes.json()) as Env) : null;
   const devRes: Response = await fetch("./pp-dev.json");
-  const dev: Dev = (await devRes.json()) as Dev;
+  const dev: Dev | null = devRes.ok ? ((await devRes.json()) as Dev) : null;
   const configRes: Response = await fetch("./pp-config.json");
   const config: Config = (await configRes.json()) as Config;
   const audioResponse: Response = await fetch("./audio.json");

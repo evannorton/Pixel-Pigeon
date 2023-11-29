@@ -34,40 +34,38 @@ catch (error) {
     throw error;
 }
 
-if (!existsSync(join("pp-dev.json"))) {
-    throw new Error("You must create a pp-dev.json file for use with Pixel Pigeon.");
-}
-const devString = readFileSync(join("pp-dev.json")).toString();
-try {
-    JSON.parse(devString);
-}
-catch (error) {
-    throw new Error("Your pp-dev.json file is not valid JSON.");
-}
-try {
-    devSchema.parse(JSON.parse(devString));
-}
-catch (error) {
-    console.error("Your pp-dev.json file does not match the schema.");
-    throw error;
+if (existsSync(join("pp-dev.json"))) {
+    const devString = readFileSync(join("pp-dev.json")).toString();
+    try {
+        JSON.parse(devString);
+    }
+    catch (error) {
+        throw new Error("Your pp-dev.json file is not valid JSON.");
+    }
+    try {
+        devSchema.parse(JSON.parse(devString));
+    }
+    catch (error) {
+        console.error("Your pp-dev.json file does not match the schema.");
+        throw error;
+    }
 }
 
-if (!existsSync(join("pp-env.json"))) {
-    throw new Error("You must create a pp-env.json file for use with Pixel Pigeon.");
-}
-const envString = readFileSync(join("pp-env.json")).toString();
-try {
-    JSON.parse(envString);
-}
-catch (error) {
-    throw new Error("Your pp-env.json file is not valid JSON.");
-}
-try {
-    envSchema.parse(JSON.parse(envString));
-}
-catch (error) {
-    console.error("Your pp-env.json file does not match the schema.");
-    throw error;
+if (existsSync(join("pp-env.json"))) {
+    const envString = readFileSync(join("pp-env.json")).toString();
+    try {
+        JSON.parse(envString);
+    }
+    catch (error) {
+        throw new Error("Your pp-env.json file is not valid JSON.");
+    }
+    try {
+        envSchema.parse(JSON.parse(envString));
+    }
+    catch (error) {
+        console.error("Your pp-env.json file does not match the schema.");
+        throw error;
+    }
 }
 
 require("./createGameTSConfig");

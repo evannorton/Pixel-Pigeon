@@ -95,11 +95,6 @@ export class SpriteInstance extends Definable {
         "An attempt was made to draw an entity before type was loaded.",
       );
     }
-    if (state.values.dev === null) {
-      throw new Error(
-        "An attempt was made to draw an entity before dev was loaded.",
-      );
-    }
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
     this.drawAtPosition(
@@ -107,7 +102,11 @@ export class SpriteInstance extends Definable {
       Math.floor(entity.position.y) - cameraCoordinates.y,
       zIndex,
     );
-    if (state.values.type === "zip" && state.values.dev.renderPathing) {
+    if (
+      state.values.type === "zip" &&
+      state.values.dev !== null &&
+      state.values.dev.renderPathing
+    ) {
       const path: TilePosition[] | null =
         entity.path !== null ? [...entity.path] : null;
       if (path !== null) {
