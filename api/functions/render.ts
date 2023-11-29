@@ -3,6 +3,7 @@ import {
   getCameraCoordinates,
 } from "./getCameraCoordinates";
 import { ImageSource } from "../classes/ImageSource";
+import { Label } from "../classes/Label";
 import { Layer, Level, Tileset, World } from "../types/World";
 import { SpriteInstance } from "../classes/SpriteInstance";
 import { assetsAreLoaded } from "./assetsAreLoaded";
@@ -52,6 +53,7 @@ export const render = (): void => {
       1,
       "center",
       "middle",
+      0,
     );
   } else {
     if (state.values.world === null) {
@@ -109,6 +111,9 @@ export const render = (): void => {
         spriteInstance.drawAtCoordinates();
       },
     );
+    getDefinables(Label).forEach((label: Label): void => {
+      label.drawAtCoordinates();
+    });
   }
   state.values.app.stage.sortChildren();
   state.values.app.render();

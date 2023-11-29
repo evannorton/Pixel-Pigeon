@@ -12,6 +12,7 @@ export const drawText = (
   maxLines: number,
   horizontalAlignment: TextStyleAlign,
   verticalAlignment: TextStyleTextBaseline,
+  zIndex: number,
 ): void => {
   if (state.values.app === null) {
     throw new Error(
@@ -47,5 +48,6 @@ export const drawText = (
       ? (size * 7) / 2 / (size * 7)
       : 0,
   );
+  sprite.zIndex = zIndex;
   state.values.app.stage.addChild(sprite);
 };

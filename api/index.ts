@@ -43,6 +43,7 @@ import {
 import { Rectangle } from "./types/Rectangle";
 import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
 import { State } from "./classes/State";
+import { createLabel, removeLabel } from "./classes/Label";
 import { despawnEntity } from "./functions/despawnEntity";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
@@ -68,6 +69,7 @@ export {
   CreateInputPressHandlerOptions,
   createInputTickHandler,
   CreateInputTickHandlerOptions,
+  createLabel,
   createSprite,
   createSpriteInstance,
   CreateSpriteInstanceOptions,
@@ -99,6 +101,7 @@ export {
   playAudioSource,
   PlayAudioSourceOptions,
   Rectangle,
+  removeLabel,
   removeSpriteInstance,
   setEntityLevel,
   setEntityPosition,

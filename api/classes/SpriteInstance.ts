@@ -22,7 +22,7 @@ import { state } from "../state";
  */
 export interface CreateSpriteInstanceOptions {
   /**
-   * Optional coordinates that can be used to preciesly define where the SpriteInstance should be in the world
+   * Optional coordinates that can be used to precisely define where the SpriteInstance should be on the screen
    */
   coordinates?: {
     /**
@@ -30,11 +30,11 @@ export interface CreateSpriteInstanceOptions {
      */
     condition?: () => boolean;
     /**
-     * The X value in the world where the SpriteInstance is displayed
+     * The X value on the screen where the SpriteInstance is displayed
      */
     x: number;
     /**
-     * The Y value in the world where the SpriteInstance is displayed
+     * The Y value on the screen where the SpriteInstance is displayed
      */
     y: number;
   };
