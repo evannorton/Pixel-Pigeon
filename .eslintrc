@@ -637,7 +637,7 @@
     "no-labels": [
       "error",
       {
-        "allowLoop": false,
+        "allowLoop": true,
         "allowSwitch": false
       }
     ],

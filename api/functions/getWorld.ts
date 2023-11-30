@@ -5,7 +5,7 @@ import {
   World,
   WorldTilesetTile,
 } from "../types/World";
-import { LDTK, LDTKFieldInstance, LDTKTileData } from "../types/LDTK";
+import { LDTK, LDTKTileData } from "../types/LDTK";
 
 export const getWorld = (ldtk: LDTK): World => {
   const levels: Map<string, Level> = new Map();
@@ -26,19 +26,6 @@ export const getWorld = (ldtk: LDTK): World => {
               ) ?? null;
             const entities: Map<string, Entity> = new Map();
             for (const ldtkEntityInstance of ldtkLayerInstance.entityInstances) {
-              const collisionLayerFieldInstance: LDTKFieldInstance | null =
-                ldtkEntityInstance.fieldInstances.find(
-                  (fieldInstance: LDTKFieldInstance): boolean =>
-                    fieldInstance.__identifier === "pp_collision_layer",
-                ) ?? null;
-              if (
-                collisionLayerFieldInstance !== null &&
-                typeof collisionLayerFieldInstance.__value !== "string"
-              ) {
-                throw new Error(
-                  `Entity instance "${ldtkEntityInstance.iid}" has an invalid "pp_collision_layer" value.`,
-                );
-              }
               const fieldValues: Map<string, unknown> = new Map();
               for (const fieldInstance of ldtkEntityInstance.fieldInstances) {
                 fieldValues.set(
@@ -48,10 +35,7 @@ export const getWorld = (ldtk: LDTK): World => {
               }
               entities.set(ldtkEntityInstance.iid, {
                 collidables: [],
-                collisionLayer:
-                  collisionLayerFieldInstance !== null
-                    ? (collisionLayerFieldInstance.__value as string)
-                    : null,
+                collisionLayer: ldtkLayerInstance.__identifier,
                 fieldValues,
                 hasTouchedPathingStartingTile: false,
                 height: ldtkEntityInstance.height,

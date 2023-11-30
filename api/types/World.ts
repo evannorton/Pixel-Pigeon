@@ -18,7 +18,7 @@ export interface Entity {
   path: TilePosition[] | null;
   pathing: Pathing | null;
   position: EntityPosition;
-  readonly spriteInstanceID: string | null;
+  spriteInstanceID: string | null;
   readonly width: number;
   movementVelocity: {
     readonly x: number;

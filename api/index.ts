@@ -56,6 +56,7 @@ import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
 import { getEntityPosition } from "./functions/getEntityPosition";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
+import { getLayerEntityIDs } from "./functions/getLayerEntityIDs";
 import { goToLevel } from "./functions/goToLevel";
 import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
@@ -64,6 +65,7 @@ import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
 import { setEntityLevel } from "./functions/setEntityLevel";
 import { setEntityPosition } from "./functions/setEntityPosition";
+import { setEntitySpriteInstance } from "./functions/setEntitySpriteInstance";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
 import { takeScreenshot } from "./functions/takeScreenshot";
@@ -95,6 +97,7 @@ export {
   getEntityFieldValue,
   getEntityPosition,
   getInputTickHandlerGroupID,
+  getLayerEntityIDs,
   goToLevel,
   initialize,
   InputTickHandlerGroup,
@@ -118,6 +121,7 @@ export {
   setEntityLevel,
   setEntityPosition,
   setPauseMenuCondition,
+  setEntitySpriteInstance,
   spawnEntity,
   SpawnEntityOptions,
   State,
