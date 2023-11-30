@@ -37,6 +37,10 @@ import {
 } from "./classes/VolumeChannel";
 import { EntityCollidable } from "./types/EntityCollidable";
 import { EntityPosition } from "./types/EntityPosition";
+import {
+  GetEntityCalculatedPathOptions,
+  getEntityCalculatedPath,
+} from "./functions/getEntityCalculatedPath";
 import { KeyboardButton } from "./types/KeyboardButton";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
 import { Newgrounds } from "./types/Newgrounds";
@@ -52,6 +56,7 @@ import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
 import { State } from "./classes/State";
 import { TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
 import { despawnEntity } from "./functions/despawnEntity";
+import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
 import { getEntityIDs } from "./functions/getEntityIDs";
@@ -93,7 +98,10 @@ export {
   despawnEntity,
   EntityCollidable,
   EntityPosition,
+  getActiveLevelID,
   getCurrentTime,
+  getEntityCalculatedPath,
+  GetEntityCalculatedPathOptions,
   getEntityFieldValue,
   getEntityIDs,
   getEntityPosition,

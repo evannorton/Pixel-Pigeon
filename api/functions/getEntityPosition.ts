@@ -9,7 +9,7 @@ import { state } from "../state";
 export const getEntityPosition = (entityID: string): EntityPosition => {
   if (state.values.world === null) {
     throw new Error(
-      `An attempt was made to get entity "${entityID}" data before world was loaded.`,
+      `An attempt was made to get entity "${entityID}" position before world was loaded.`,
     );
   }
   for (const level of state.values.world.levels.values()) {
@@ -25,6 +25,6 @@ export const getEntityPosition = (entityID: string): EntityPosition => {
     }
   }
   throw new Error(
-    `An attempt was made to get entity "${entityID}" data for a nonexistant entity.`,
+    `An attempt was made to get entity "${entityID}" position for a nonexistant entity.`,
   );
 };
