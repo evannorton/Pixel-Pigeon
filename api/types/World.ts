@@ -39,6 +39,7 @@ export interface Layer {
 }
 export interface Level {
   readonly height: number;
+  readonly id: string;
   readonly layers: Layer[];
   readonly width: number;
 }

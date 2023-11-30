@@ -13,6 +13,7 @@ export const getWorld = (ldtk: LDTK): World => {
   for (const ldtkLevel of ldtk.levels) {
     levels.set(ldtkLevel.identifier, {
       height: ldtkLevel.pxHei,
+      id: ldtkLevel.identifier,
       layers: [...ldtkLevel.layerInstances]
         .reverse()
         .map(

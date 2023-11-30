@@ -54,9 +54,9 @@ import { TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
 import { despawnEntity } from "./functions/despawnEntity";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
+import { getEntityIDs } from "./functions/getEntityIDs";
 import { getEntityPosition } from "./functions/getEntityPosition";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
-import { getLayerEntityIDs } from "./functions/getLayerEntityIDs";
 import { goToLevel } from "./functions/goToLevel";
 import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
@@ -95,9 +95,9 @@ export {
   EntityPosition,
   getCurrentTime,
   getEntityFieldValue,
+  getEntityIDs,
   getEntityPosition,
   getInputTickHandlerGroupID,
-  getLayerEntityIDs,
   goToLevel,
   initialize,
   InputTickHandlerGroup,
@@ -120,8 +120,8 @@ export {
   removeSpriteInstance,
   setEntityLevel,
   setEntityPosition,
-  setPauseMenuCondition,
   setEntitySpriteInstance,
+  setPauseMenuCondition,
   spawnEntity,
   SpawnEntityOptions,
   State,
