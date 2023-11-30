@@ -12,4 +12,7 @@ eslint.lintFiles("./src").then((results) => {
       console.error(`${result.filePath}:${message.line}:${message.column} ${message.message} (${message.ruleId})`);
     }
   }
+  if (results.length > 0) {
+    process.exit(1);
+  }
 });
