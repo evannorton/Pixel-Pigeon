@@ -50,7 +50,7 @@ export class Quadrilateral extends Definable {
         this._options.coordinates.y,
         this._options.width,
         this._options.height,
-        2,
+        100,
       );
     }
   }

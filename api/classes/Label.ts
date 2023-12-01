@@ -56,7 +56,7 @@ export class Label extends Definable {
           1,
           this._options.horizontalAlignment,
           this._options.verticalAlignment,
-          2,
+          100,
         );
       }
     }

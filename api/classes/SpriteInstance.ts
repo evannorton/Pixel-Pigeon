@@ -84,7 +84,7 @@ export class SpriteInstance extends Definable {
       this.drawAtPosition(
         this._options.coordinates.x,
         this._options.coordinates.y,
-        2,
+        100,
       );
     }
   }
