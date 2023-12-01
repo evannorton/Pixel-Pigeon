@@ -11,7 +11,7 @@
         "docs": "npx typedoc --plugin typedoc-plugin-missing-exports"
     },
     "dependencies": {
-        "@types/howler": "2.2.8",
+        "@types/howler": "2.2.11",
         "@typescript-eslint/eslint-plugin": "5.59.6",
         "@typescript-eslint/parser": "5.59.6",
         "archiver-promise": "1.0.0",
@@ -23,7 +23,7 @@
         "eslint-plugin-prettier": "5.0.0",
         "eslint-plugin-sort-imports-es6-autofix": "0.6.0",
         "express": "4.18.2",
-        "howler": "2.2.3",
+        "howler": "2.2.4",
         "kill-port": "2.0.1",
         "mustache": "4.2.0",
         "nanoid": "4.0.2",
