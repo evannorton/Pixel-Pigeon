@@ -25,7 +25,7 @@ export const updateLevelPathing = (): void => {
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
       if (entity.pathing !== null) {
-        const matrix: number[][] = getPathingMatrix();
+        const matrix: number[][] = getPathingMatrix([]);
         const startX: number = Math.floor(entity.position.x / layer.tileSize);
         const startY: number = Math.floor(entity.position.y / layer.tileSize);
         const endX: number = Math.floor(entity.pathing.x / layer.tileSize);

@@ -1,7 +1,7 @@
 import { Level, Tileset, WorldTilesetTile } from "../types/World";
 import { state } from "../state";
 
-export const getPathingMatrix = (): number[][] => {
+export const getPathingMatrix = (collisionLayers: string[]): number[][] => {
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to get pathing matrix before world was loaded.",
@@ -45,6 +45,19 @@ export const getPathingMatrix = (): number[][] => {
         if (matchedTile !== null && matchedTile.isCollidable) {
           matrix[y][x] = 1;
         }
+      }
+    }
+    for (const entity of layer.entities.values()) {
+      if (
+        entity.collisionLayer !== null &&
+        collisionLayers.includes(entity.collisionLayer)
+      ) {
+        const x: number = entity.position.x / layer.tileSize;
+        const y: number = entity.position.y / layer.tileSize;
+        if (typeof matrix[y] === "undefined") {
+          matrix[y] = [];
+        }
+        matrix[y][x] = 1;
       }
     }
   }

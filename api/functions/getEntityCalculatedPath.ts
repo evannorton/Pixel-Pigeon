@@ -5,6 +5,7 @@ import { getPathingMatrix } from "./getPathingMatrix";
 import { state } from "../state";
 
 export interface GetEntityCalculatedPathOptions {
+  collisionLayers?: string[];
   x: number;
   y: number;
 }
@@ -22,7 +23,9 @@ export const getEntityCalculatedPath = (
     for (const layer of level.layers) {
       for (const entity of layer.entities.values()) {
         if (entity.id === entityID) {
-          const matrix: number[][] = getPathingMatrix();
+          const matrix: number[][] = getPathingMatrix(
+            options.collisionLayers ?? [],
+          );
           const startX: number = Math.floor(entity.position.x / layer.tileSize);
           const startY: number = Math.floor(entity.position.y / layer.tileSize);
           const endX: number = Math.floor(options.x / layer.tileSize);
