@@ -1,3 +1,4 @@
+import { removeSpriteInstance } from "../classes/SpriteInstance";
 import { state } from "../state";
 
 /**
@@ -12,8 +13,11 @@ export const despawnEntity = (entityID: string): void => {
   }
   for (const level of state.values.world.levels.values()) {
     for (const layer of level.layers) {
-      for (const [layerEntityID] of layer.entities) {
+      for (const [layerEntityID, layerEntity] of layer.entities) {
         if (layerEntityID === entityID) {
+          if (layerEntity.spriteInstanceID !== null) {
+            removeSpriteInstance(layerEntity.spriteInstanceID);
+          }
           layer.entities.delete(layerEntityID);
         }
       }
