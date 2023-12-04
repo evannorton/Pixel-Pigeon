@@ -23,7 +23,9 @@ export const render = (): void => {
   if (state.values.config === null) {
     throw new Error("An attempt was made to render before config was loaded.");
   }
-  state.values.app.stage.removeChildren();
+  for (const child of state.values.app.stage.removeChildren()) {
+    child.destroy();
+  }
   drawQuadrilateral(
     "#000000",
     1,
