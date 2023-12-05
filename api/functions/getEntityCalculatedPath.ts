@@ -6,6 +6,7 @@ import { state } from "../state";
 
 export interface GetEntityCalculatedPathOptions {
   collisionLayers?: string[];
+  excludedPositions?: EntityPosition[];
   x: number;
   y: number;
 }
@@ -23,13 +24,19 @@ export const getEntityCalculatedPath = (
     for (const layer of level.layers) {
       for (const entity of layer.entities.values()) {
         if (entity.id === entityID) {
-          const matrix: number[][] = getPathingMatrix(
-            options.collisionLayers ?? [],
-          );
           const startX: number = Math.floor(entity.position.x / layer.tileSize);
           const startY: number = Math.floor(entity.position.y / layer.tileSize);
           const endX: number = Math.floor(options.x / layer.tileSize);
           const endY: number = Math.floor(options.y / layer.tileSize);
+          const matrix: number[][] = getPathingMatrix(
+            options.collisionLayers ?? [],
+            (options.excludedPositions ?? []).map(
+              (excludedPosition: EntityPosition): TilePosition => ({
+                x: Math.floor(excludedPosition.x / layer.tileSize),
+                y: Math.floor(excludedPosition.y / layer.tileSize),
+              }),
+            ),
+          );
           const easystar: EasyStar = new EasyStar();
           easystar.setAcceptableTiles([0]);
           easystar.setGrid(matrix);
