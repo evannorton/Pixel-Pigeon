@@ -86,16 +86,11 @@ export const render = (): void => {
             throw Error("An attempt was made to render a nonexistent tileset.");
           }
           for (const tile of layer.tiles) {
-            const sourceX: number =
-              (tile.id * tileset.tileSize) % tileset.width;
-            const sourceY: number =
-              Math.floor((tile.id * tileset.tileSize) / tileset.width) *
-              tileset.tileSize;
             drawImage(
               getDefinable(ImageSource, tileset.imageSourceID).texture,
               1,
-              sourceX,
-              sourceY,
+              tile.sourceX,
+              tile.sourceY,
               tileset.tileSize,
               tileset.tileSize,
               tile.x - cameraCoordinates.x,

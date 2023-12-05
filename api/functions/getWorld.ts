@@ -68,6 +68,8 @@ export const getWorld = (ldtk: LDTK): World => {
                   ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0],
                 ): Level["layers"][0]["tiles"][0] => ({
                   id: ldtkGridTile.t,
+                  sourceX: ldtkGridTile.src[0],
+                  sourceY: ldtkGridTile.src[1],
                   x: ldtkGridTile.px[0],
                   y: ldtkGridTile.px[1],
                 }),

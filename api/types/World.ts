@@ -32,6 +32,8 @@ export interface Layer {
   readonly tileSize: number;
   readonly tiles: {
     readonly id: number;
+    readonly sourceX: number;
+    readonly sourceY: number;
     readonly x: number;
     readonly y: number;
   }[];

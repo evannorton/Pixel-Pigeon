@@ -31,6 +31,7 @@ export interface LDTK {
       }[];
       readonly gridTiles: {
         readonly px: [number, number];
+        readonly src: [number, number];
         readonly t: number;
       }[];
       readonly layerDefUid: number;
