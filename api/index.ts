@@ -16,7 +16,6 @@ import {
 import { CreateLabelOptions, createLabel, removeLabel } from "./classes/Label";
 import {
   CreateQuadrilateralOptions,
-  Quadrilateral,
   createQuadrilateral,
   removeQuadrilateral,
 } from "./classes/Quadrilateral";
@@ -41,6 +40,7 @@ import {
   GetEntityCalculatedPathOptions,
   getEntityCalculatedPath,
 } from "./functions/getEntityCalculatedPath";
+import { GetEntityIDsOptions, getEntityIDs } from "./functions/getEntityIDs";
 import { KeyboardButton } from "./types/KeyboardButton";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
 import { Newgrounds } from "./types/Newgrounds";
@@ -59,7 +59,6 @@ import { despawnEntity } from "./functions/despawnEntity";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
-import { getEntityIDs } from "./functions/getEntityIDs";
 import { getEntityPosition } from "./functions/getEntityPosition";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
 import { goToLevel } from "./functions/goToLevel";
@@ -104,6 +103,7 @@ export {
   GetEntityCalculatedPathOptions,
   getEntityFieldValue,
   getEntityIDs,
+  GetEntityIDsOptions,
   getEntityPosition,
   getInputTickHandlerGroupID,
   goToLevel,
@@ -121,7 +121,6 @@ export {
   PathEntityOptions,
   playAudioSource,
   PlayAudioSourceOptions,
-  Quadrilateral,
   Rectangle,
   removeLabel,
   removeQuadrilateral,

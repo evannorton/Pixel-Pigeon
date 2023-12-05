@@ -1,10 +1,9 @@
 import { state } from "../state";
 
-interface GetEntityIDsOptions {
+export interface GetEntityIDsOptions {
   layerID?: string;
   levelID?: string;
 }
-
 export const getEntityIDs = (options: GetEntityIDsOptions): string[] => {
   if (state.values.world === null) {
     throw new Error(

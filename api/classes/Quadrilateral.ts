@@ -28,7 +28,7 @@ export interface CreateQuadrilateralOptions {
   opacity: number;
   width: number;
 }
-export class Quadrilateral extends Definable {
+class Quadrilateral extends Definable {
   private readonly _options: CreateQuadrilateralOptions;
 
   public constructor(options: CreateQuadrilateralOptions) {
@@ -75,6 +75,7 @@ export class Quadrilateral extends Definable {
     return false;
   }
 }
+
 export const createQuadrilateral = (
   options: CreateQuadrilateralOptions,
 ): string => new Quadrilateral(options).id;
