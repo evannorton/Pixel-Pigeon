@@ -3,6 +3,7 @@ import { state } from "../state";
 export interface GetEntityIDsOptions {
   layerIDs?: string[];
   levelIDs?: string[];
+  types?: string[];
 }
 export const getEntityIDs = (options: GetEntityIDsOptions): string[] => {
   if (state.values.world === null) {
@@ -22,7 +23,12 @@ export const getEntityIDs = (options: GetEntityIDsOptions): string[] => {
           options.layerIDs.includes(layer.id)
         ) {
           for (const entity of layer.entities.values()) {
-            entityIDs.push(entity.id);
+            if (
+              typeof options.types === "undefined" ||
+              (entity.type !== null && options.types.includes(entity.type))
+            ) {
+              entityIDs.push(entity.id);
+            }
           }
         }
       }

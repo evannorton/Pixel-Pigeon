@@ -93,7 +93,7 @@ export const updateLevelMovement = (): void => {
             },
             entity.collidables.map(
               (entityCollidable: EntityCollidable): string =>
-                entityCollidable.collisionLayer,
+                entityCollidable.type,
             ),
           );
           const yCollisionData: CollisionData | null =
@@ -106,7 +106,7 @@ export const updateLevelMovement = (): void => {
               },
               entity.collidables.map(
                 (entityCollidable: EntityCollidable): string =>
-                  entityCollidable.collisionLayer,
+                  entityCollidable.type,
               ),
             );
           const bothCollisionData: CollisionData = getRectangleCollisionData(
@@ -118,24 +118,24 @@ export const updateLevelMovement = (): void => {
             },
             entity.collidables.map(
               (entityCollidable: EntityCollidable): string =>
-                entityCollidable.collisionLayer,
+                entityCollidable.type,
             ),
           );
           const canMoveX: boolean =
             // Entity has no collision layer
-            entity.collisionLayer === null ||
+            entity.type === null ||
             // Entity collided with nothing
             (xCollisionData.entityCollidables.length === 0 &&
               !xCollisionData.map);
           const canMoveY: boolean =
             // Entity has no collision layer
-            entity.collisionLayer === null ||
+            entity.type === null ||
             // Entity collided with nothing
             (yCollisionData.entityCollidables.length === 0 &&
               !yCollisionData.map);
           const canMoveBoth: boolean =
             // Entity has no collision layer
-            entity.collisionLayer === null ||
+            entity.type === null ||
             // Entity collided with nothing
             (bothCollisionData.entityCollidables.length === 0 &&
               !bothCollisionData.map);

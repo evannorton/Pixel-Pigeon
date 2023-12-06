@@ -3,7 +3,7 @@ import { PathingTileExclusion } from "../types/PathingTileExclusion";
 import { state } from "../state";
 
 export const getPathingMatrix = (
-  collisionLayers: string[],
+  types: string[],
   exclusions: PathingTileExclusion[],
 ): number[][] => {
   if (state.values.world === null) {
@@ -52,10 +52,7 @@ export const getPathingMatrix = (
       }
     }
     for (const entity of layer.entities.values()) {
-      if (
-        entity.collisionLayer !== null &&
-        collisionLayers.includes(entity.collisionLayer)
-      ) {
+      if (entity.type !== null && types.includes(entity.type)) {
         const blockingX: number | null =
           entity.blockingPosition !== null
             ? Math.floor(entity.blockingPosition.x / layer.tileSize)
@@ -78,7 +75,7 @@ export const getPathingMatrix = (
         if (
           exclusions.some(
             (exclusion: PathingTileExclusion): boolean =>
-              exclusion.collisionLayer === layer.id &&
+              exclusion.type === layer.id &&
               exclusion.tilePosition.x === x &&
               exclusion.tilePosition.y === y,
           )

@@ -36,7 +36,7 @@ export const setEntityPosition = (
             },
             entity.collidables.map(
               (entityCollidable: EntityCollidable): string =>
-                entityCollidable.collisionLayer,
+                entityCollidable.type,
             ),
           );
           if (collisionData.entityCollidables.length > 0 || collisionData.map) {

@@ -69,7 +69,7 @@ export const getEntityRectangleOverlapData = (
     for (const [, entity] of layer.entities) {
       if (
         entity.id !== entityID &&
-        entity.collisionLayer !== null &&
+        entity.type !== null &&
         rectanglesOverlap(rectangle, {
           height: entity.height,
           width: entity.width,
@@ -78,8 +78,8 @@ export const getEntityRectangleOverlapData = (
         })
       ) {
         entityCollidables.push({
-          collisionLayer: entity.collisionLayer,
           entityID: entity.id,
+          type: entity.type,
         });
       }
     }

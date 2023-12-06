@@ -11,7 +11,7 @@ import { state } from "../state";
 
 export const getRectangleCollisionData = (
   rectangle: Rectangle,
-  collisionLayers: string[] = [],
+  types: string[] = [],
 ): CollisionData => {
   if (state.values.world === null) {
     throw new Error(
@@ -67,13 +67,12 @@ export const getRectangleCollisionData = (
       }
     }
     for (const [, entity] of layer.entities) {
-      const matchedLayer: string | undefined = collisionLayers.find(
-        (collisionLayer: string): boolean =>
-          collisionLayer === entity.collisionLayer,
+      const matchedLayer: string | undefined = types.find(
+        (type: string): boolean => type === entity.type,
       );
       if (
         typeof matchedLayer !== "undefined" &&
-        entity.collisionLayer !== null &&
+        entity.type !== null &&
         rectanglesOverlap(rectangle, {
           height: entity.height,
           width: entity.width,
@@ -82,8 +81,8 @@ export const getRectangleCollisionData = (
         })
       ) {
         entityCollidables.push({
-          collisionLayer: matchedLayer,
           entityID: entity.id,
+          type: matchedLayer,
         });
       }
     }

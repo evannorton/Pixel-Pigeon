@@ -25,6 +25,7 @@ export interface LDTK {
       readonly entityInstances: {
         readonly fieldInstances: LDTKFieldInstance[];
         readonly height: number;
+        readonly __identifier: string;
         readonly iid: string;
         readonly px: [number, number];
         readonly width: number;

@@ -7,7 +7,7 @@ import { getPathingMatrix } from "./getPathingMatrix";
 import { state } from "../state";
 
 export interface GetEntityCalculatedPathOptions {
-  collisionLayers?: string[];
+  types?: string[];
   exclusions?: PathingEntityExclusion[];
   x: number;
   y: number;
@@ -31,14 +31,14 @@ export const getEntityCalculatedPath = (
           const endX: number = Math.floor(options.x / layer.tileSize);
           const endY: number = Math.floor(options.y / layer.tileSize);
           const matrix: number[][] = getPathingMatrix(
-            options.collisionLayers ?? [],
+            options.types ?? [],
             (options.exclusions ?? []).map(
               (exclusion: PathingEntityExclusion): PathingTileExclusion => ({
-                collisionLayer: exclusion.collisionLayer,
                 tilePosition: {
                   x: Math.floor(exclusion.entityPosition.x / layer.tileSize),
                   y: Math.floor(exclusion.entityPosition.y / layer.tileSize),
                 },
+                type: exclusion.type,
               }),
             ),
           );

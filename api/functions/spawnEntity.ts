@@ -13,8 +13,6 @@ import { state } from "../state";
 export interface SpawnEntityOptions {
   /** An array of strings for LayerIDs that the entity can collide with and not pass through */
   collidableLayers?: string[];
-  /** The string LayerID the entity is apart of for the sake of collisions with other entities */
-  collisionLayer?: string;
   /** The actual height of the hitbox of the entity */
   height: number;
   /** The layerID the entity should be on, has to be created in LDTK */
@@ -34,6 +32,7 @@ export interface SpawnEntityOptions {
   quadrilaterals?: EntityQuadrilateral[];
   /** A {@link createSpriteInstance | spriteInstanceID} in order to give the entity a sprite */
   spriteInstanceID?: string;
+  type?: string;
   /** The actual width of the hitbox of the entity */
   width: number;
   /** This number determines how entities are layered on-top of eachother */
@@ -77,12 +76,11 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
     blockingPosition: null,
     collidables:
       spawnEntityOptions.collidableLayers?.map(
-        (collisionLayer: string): EntityCollidable => ({
-          collisionLayer,
+        (type: string): EntityCollidable => ({
           entityID: id,
+          type,
         }),
       ) ?? [],
-    collisionLayer: spawnEntityOptions.collisionLayer ?? null,
     fieldValues: new Map(),
     hasTouchedPathingStartingTile: false,
     height: spawnEntityOptions.height,
@@ -99,6 +97,7 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
     },
     quadrilaterals: spawnEntityOptions.quadrilaterals ?? [],
     spriteInstanceID: spawnEntityOptions.spriteInstanceID ?? null,
+    type: spawnEntityOptions.type ?? null,
     width: spawnEntityOptions.width,
     zIndex: spawnEntityOptions.zIndex,
   });

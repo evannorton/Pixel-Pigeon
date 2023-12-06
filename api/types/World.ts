@@ -14,13 +14,13 @@ import { TilePosition } from "./TilePosition";
  */
 export interface EntityCollidable {
   /**
-   * String CollisionLayer that the collided entity is apart of
-   */
-  collisionLayer: string;
-  /**
    * String entityID of the collided entity
    */
   entityID: string;
+  /**
+   * String type that the collided entity is apart of
+   */
+  type: string;
 }
 /**
  * A representation of where the entity is in the world
@@ -43,7 +43,6 @@ export interface EntityQuadrilateral {
 export interface Entity {
   blockingPosition: EntityPosition | null;
   readonly collidables: EntityCollidable[];
-  readonly collisionLayer: string | null;
   readonly fieldValues: Map<string, unknown>;
   hasTouchedPathingStartingTile: boolean;
   readonly height: number;
@@ -56,6 +55,7 @@ export interface Entity {
   position: EntityPosition;
   quadrilaterals: EntityQuadrilateral[];
   spriteInstanceID: string | null;
+  readonly type: string | null;
   readonly width: number;
   movementVelocity: {
     readonly x: number;

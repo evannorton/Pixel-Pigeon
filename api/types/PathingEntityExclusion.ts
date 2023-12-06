@@ -1,6 +1,6 @@
 import { EntityPosition } from "./World";
 
 export interface PathingEntityExclusion {
-  collisionLayer: string;
+  type: string;
   entityPosition: EntityPosition;
 }
