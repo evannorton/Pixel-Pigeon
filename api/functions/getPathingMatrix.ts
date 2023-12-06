@@ -75,7 +75,7 @@ export const getPathingMatrix = (
         if (
           exclusions.some(
             (exclusion: PathingTileExclusion): boolean =>
-              exclusion.type === layer.id &&
+              exclusion.type === entity.type &&
               exclusion.tilePosition.x === x &&
               exclusion.tilePosition.y === y,
           )
