@@ -1,8 +1,8 @@
 import { state } from "../state";
 
 export interface GetEntityIDsOptions {
-  layerID?: string;
-  levelID?: string;
+  layerIDs?: string[];
+  levelIDs?: string[];
 }
 export const getEntityIDs = (options: GetEntityIDsOptions): string[] => {
   if (state.values.world === null) {
@@ -13,13 +13,13 @@ export const getEntityIDs = (options: GetEntityIDsOptions): string[] => {
   const entityIDs: string[] = [];
   for (const level of state.values.world.levels.values()) {
     if (
-      typeof options.levelID === "undefined" ||
-      level.id === options.levelID
+      typeof options.levelIDs === "undefined" ||
+      options.levelIDs.includes(level.id)
     ) {
       for (const layer of level.layers) {
         if (
-          typeof options.layerID === "undefined" ||
-          layer.id === options.layerID
+          typeof options.layerIDs === "undefined" ||
+          options.layerIDs.includes(layer.id)
         ) {
           for (const entity of layer.entities.values()) {
             entityIDs.push(entity.id);
