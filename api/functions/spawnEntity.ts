@@ -74,6 +74,7 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
   }
   const id: string = getToken();
   layer.entities.set(id, {
+    blockingPosition: null,
     collidables:
       spawnEntityOptions.collidableLayers?.map(
         (collisionLayer: string): EntityCollidable => ({

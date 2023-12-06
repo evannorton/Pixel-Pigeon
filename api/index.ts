@@ -71,6 +71,7 @@ import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
+import { setEntityBlockingPosition } from "./functions/setEntityBlockingPosition";
 import { setEntityLevel } from "./functions/setEntityLevel";
 import { setEntityPosition } from "./functions/setEntityPosition";
 import { setEntitySpriteInstance } from "./functions/setEntitySpriteInstance";
@@ -132,6 +133,7 @@ export {
   removeLabel,
   removeQuadrilateral,
   removeSpriteInstance,
+  setEntityBlockingPosition,
   setEntityLevel,
   setEntityPosition,
   setEntitySpriteInstance,

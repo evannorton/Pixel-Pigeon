@@ -1,0 +1,22 @@
+import { EntityPosition } from "../types/World";
+import { state } from "../state";
+
+export const setEntityBlockingPosition = (
+  entityID: string,
+  blockingPosition: EntityPosition,
+): void => {
+  if (state.values.world === null) {
+    throw new Error(
+      `An attempt was made to set entity "${entityID}" blockingPosition before world was loaded.`,
+    );
+  }
+  for (const level of state.values.world.levels.values()) {
+    for (const layer of level.layers) {
+      for (const [layerEntityID, entity] of layer.entities) {
+        if (layerEntityID === entityID) {
+          entity.blockingPosition = blockingPosition;
+        }
+      }
+    }
+  }
+};

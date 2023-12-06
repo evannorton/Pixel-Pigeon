@@ -41,6 +41,7 @@ export interface EntityQuadrilateral {
   y?: number;
 }
 export interface Entity {
+  blockingPosition: EntityPosition | null;
   readonly collidables: EntityCollidable[];
   readonly collisionLayer: string | null;
   readonly fieldValues: Map<string, unknown>;

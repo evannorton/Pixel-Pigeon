@@ -1,12 +1,14 @@
 import { js as EasyStar } from "easystarjs";
 import { EntityPosition } from "../types/World";
+import { PathingEntityExclusion } from "../types/PathingEntityExclusion";
+import { PathingTileExclusion } from "../types/PathingTileExclusion";
 import { TilePosition } from "../types/TilePosition";
 import { getPathingMatrix } from "./getPathingMatrix";
 import { state } from "../state";
 
 export interface GetEntityCalculatedPathOptions {
   collisionLayers?: string[];
-  excludedPositions?: EntityPosition[];
+  exclusions?: PathingEntityExclusion[];
   x: number;
   y: number;
 }
@@ -30,10 +32,13 @@ export const getEntityCalculatedPath = (
           const endY: number = Math.floor(options.y / layer.tileSize);
           const matrix: number[][] = getPathingMatrix(
             options.collisionLayers ?? [],
-            (options.excludedPositions ?? []).map(
-              (excludedPosition: EntityPosition): TilePosition => ({
-                x: Math.floor(excludedPosition.x / layer.tileSize),
-                y: Math.floor(excludedPosition.y / layer.tileSize),
+            (options.exclusions ?? []).map(
+              (exclusion: PathingEntityExclusion): PathingTileExclusion => ({
+                collisionLayer: exclusion.collisionLayer,
+                tilePosition: {
+                  x: Math.floor(exclusion.entityPosition.x / layer.tileSize),
+                  y: Math.floor(exclusion.entityPosition.y / layer.tileSize),
+                },
               }),
             ),
           );

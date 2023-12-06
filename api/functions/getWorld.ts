@@ -35,6 +35,7 @@ export const getWorld = (ldtk: LDTK): World => {
                 );
               }
               entities.set(ldtkEntityInstance.iid, {
+                blockingPosition: null,
                 collidables: [],
                 collisionLayer: ldtkLayerInstance.__identifier,
                 fieldValues,

@@ -1,10 +1,10 @@
 import { Level, Tileset, WorldTilesetTile } from "../types/World";
-import { TilePosition } from "../types/TilePosition";
+import { PathingTileExclusion } from "../types/PathingTileExclusion";
 import { state } from "../state";
 
 export const getPathingMatrix = (
   collisionLayers: string[],
-  exclusions: TilePosition[],
+  exclusions: PathingTileExclusion[],
 ): number[][] => {
   if (state.values.world === null) {
     throw new Error(
@@ -38,8 +38,8 @@ export const getPathingMatrix = (
           tileset.tiles.find(
             (tile: WorldTilesetTile): boolean => layerTile.id === tile.id,
           ) ?? null;
-        const x: number = layerTile.x / layer.tileSize;
-        const y: number = layerTile.y / layer.tileSize;
+        const x: number = Math.floor(layerTile.x / layer.tileSize);
+        const y: number = Math.floor(layerTile.y / layer.tileSize);
         if (typeof matrix[y] === "undefined") {
           matrix[y] = [];
         }
@@ -56,17 +56,39 @@ export const getPathingMatrix = (
         entity.collisionLayer !== null &&
         collisionLayers.includes(entity.collisionLayer)
       ) {
-        const x: number = entity.position.x / layer.tileSize;
-        const y: number = entity.position.y / layer.tileSize;
+        const blockingX: number | null =
+          entity.blockingPosition !== null
+            ? Math.floor(entity.blockingPosition.x / layer.tileSize)
+            : null;
+        const blockingY: number | null =
+          entity.blockingPosition !== null
+            ? Math.floor(entity.blockingPosition.y / layer.tileSize)
+            : null;
+        const x: number =
+          blockingX !== null
+            ? blockingX
+            : Math.floor(entity.position.x / layer.tileSize);
+        const y: number =
+          blockingY !== null
+            ? blockingY
+            : Math.floor(entity.position.y / layer.tileSize);
         if (typeof matrix[y] === "undefined") {
           matrix[y] = [];
         }
-        matrix[y][x] = 1;
+        if (
+          exclusions.some(
+            (exclusion: PathingTileExclusion): boolean =>
+              exclusion.collisionLayer === layer.id &&
+              exclusion.tilePosition.x === x &&
+              exclusion.tilePosition.y === y,
+          )
+        ) {
+          matrix[y][x] = 0;
+        } else {
+          matrix[y][x] = 1;
+        }
       }
     }
-  }
-  for (const exclusion of exclusions) {
-    matrix[exclusion.y][exclusion.x] = 0;
   }
   return matrix;
 };
