@@ -8,8 +8,8 @@ import {
   Sprite,
 } from "../classes/Sprite";
 import { Definable } from "./Definable";
+import { Entity } from "../types/World";
 import { TilePosition } from "../types/TilePosition";
-import { Entity as WorldLevelLayerEntity } from "../types/World";
 import { drawImage } from "../functions/draw/drawImage";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
 import { getDefinable } from "../functions/getDefinable";
@@ -21,6 +21,7 @@ import { state } from "../state";
  * Information used to decide when an animation should be played for a {@link createSpriteInstance | SpriteInstance}
  */
 export interface CreateSpriteInstanceOptions {
+  animationID: string | (() => string);
   /**
    * Optional coordinates that can be used to precisely define where the SpriteInstance should be on the screen
    */
@@ -38,10 +39,6 @@ export interface CreateSpriteInstanceOptions {
      */
     y: number;
   };
-  /**
-   * Callback that should decide what animation should be playing at any given moment, and then return the AnimationID so it can be played
-   */
-  getAnimationID: () => string | null;
   /**
    * String SpriteID used to refer to the SpriteInstance
    */
@@ -89,7 +86,7 @@ export class SpriteInstance extends Definable {
     }
   }
 
-  public drawAtEntity(entity: WorldLevelLayerEntity, layerIndex: number): void {
+  public drawAtEntity(entity: Entity, layerIndex: number): void {
     if (state.values.type === null) {
       throw new Error(
         "An attempt was made to draw an entity before type was loaded.",
@@ -261,10 +258,13 @@ export class SpriteInstance extends Definable {
   }
 
   private getAnimationID(): string | null {
+    if (typeof this._options.animationID === "string") {
+      return this._options.animationID;
+    }
     try {
-      return this._options.getAnimationID();
+      return this._options.animationID();
     } catch (error: unknown) {
-      handleCaughtError(error, `SpriteInstance "${this._id}" getAnimationID`);
+      handleCaughtError(error, `SpriteInstance "${this._id}" animationID`);
     }
     return null;
   }

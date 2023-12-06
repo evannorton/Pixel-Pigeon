@@ -1,5 +1,5 @@
 import { js as EasyStar } from "easystarjs";
-import { EntityPosition } from "../types/EntityPosition";
+import { EntityPosition } from "../types/World";
 import { TilePosition } from "../types/TilePosition";
 import { getPathingMatrix } from "./getPathingMatrix";
 import { state } from "../state";

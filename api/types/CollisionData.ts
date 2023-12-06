@@ -1,4 +1,4 @@
-import { EntityCollidable } from "./EntityCollidable";
+import { EntityCollidable } from "./World";
 
 /**
  * Holds information of Collisions between entites, and determines whether or not the entities are on the map. Used in {@link SpawnEntityOptions.onCollision}.

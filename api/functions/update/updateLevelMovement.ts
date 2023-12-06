@@ -1,6 +1,5 @@
 import { CollisionData } from "../../types/CollisionData";
-import { EntityCollidable } from "../../types/EntityCollidable";
-import { Level } from "../../types/World";
+import { EntityCollidable, Level } from "../../types/World";
 import { getRectangleCollisionData } from "../getRectangleCollisionData";
 import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";

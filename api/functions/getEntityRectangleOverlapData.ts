@@ -1,5 +1,9 @@
-import { EntityCollidable } from "../types/EntityCollidable";
-import { Level, Tileset, WorldTilesetTile } from "../types/World";
+import {
+  EntityCollidable,
+  Level,
+  Tileset,
+  WorldTilesetTile,
+} from "../types/World";
 import { OverlapData } from "../types/OverlapData";
 import { Rectangle } from "../types/Rectangle";
 import { rectanglesOverlap } from "./rectanglesOverlap";

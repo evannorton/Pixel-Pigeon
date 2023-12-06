@@ -1,3 +1,4 @@
+import { removeQuadrilateral } from "../classes/Quadrilateral";
 import { removeSpriteInstance } from "../classes/SpriteInstance";
 import { state } from "../state";
 
@@ -17,6 +18,9 @@ export const despawnEntity = (entityID: string): void => {
         if (layerEntityID === entityID) {
           if (layerEntity.spriteInstanceID !== null) {
             removeSpriteInstance(layerEntity.spriteInstanceID);
+          }
+          for (const entityQuadrilateral of layerEntity.quadrilaterals) {
+            removeQuadrilateral(entityQuadrilateral.quadrilateralID);
           }
           layer.entities.delete(layerEntityID);
         }

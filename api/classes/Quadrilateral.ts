@@ -1,4 +1,9 @@
+import {
+  CameraCoordinates,
+  getCameraCoordinates,
+} from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
+import { Entity, EntityQuadrilateral } from "../types/World";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
@@ -10,7 +15,7 @@ export interface CreateQuadrilateralOptions {
   /**
    * Coordinates that can be used to precisely define where the Quadrilateral should be on the screen
    */
-  coordinates: {
+  coordinates?: {
     /**
      * Callback that decides whether or not coordinates should be used
      */
@@ -24,9 +29,9 @@ export interface CreateQuadrilateralOptions {
      */
     y: number;
   };
-  height: number;
-  opacity: number;
-  width: number;
+  height: number | (() => number);
+  opacity?: number | (() => number);
+  width: number | (() => number);
 }
 export class Quadrilateral extends Definable {
   private readonly _options: CreateQuadrilateralOptions;
@@ -42,15 +47,50 @@ export class Quadrilateral extends Definable {
         `Quadrilateral "${this._id}" attempted to draw at coordinates before config was loaded.`,
       );
     }
-    if (this.passesCoordinatesCondition()) {
+    if (
+      typeof this._options.coordinates !== "undefined" &&
+      this.passesCoordinatesCondition()
+    ) {
+      const opacity: number | null = this.getOpacity();
+      const width: number | null = this.getWidth();
+      const height: number | null = this.getHeight();
+      if (opacity !== null && width !== null && height !== null) {
+        drawQuadrilateral(
+          this._options.color,
+          opacity,
+          this._options.coordinates.x,
+          this._options.coordinates.y,
+          width,
+          height,
+          100,
+        );
+      }
+    }
+  }
+
+  public drawAtEntity(
+    entity: Entity,
+    entityQuadrilateral: EntityQuadrilateral,
+    layerIndex: number,
+  ): void {
+    const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
+    const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
+    const opacity: number | null = this.getOpacity();
+    const width: number | null = this.getWidth();
+    const height: number | null = this.getHeight();
+    if (opacity !== null && width !== null && height !== null) {
       drawQuadrilateral(
         this._options.color,
-        this._options.opacity,
-        this._options.coordinates.x,
-        this._options.coordinates.y,
-        this._options.width,
-        this._options.height,
-        100,
+        opacity,
+        Math.floor(entity.position.x) +
+          (entityQuadrilateral.x ?? 0) -
+          cameraCoordinates.x,
+        Math.floor(entity.position.y) +
+          (entityQuadrilateral.y ?? 0) -
+          cameraCoordinates.y,
+        width,
+        height,
+        zIndex,
       );
     }
   }
@@ -73,6 +113,45 @@ export class Quadrilateral extends Definable {
       );
     }
     return false;
+  }
+
+  private getHeight(): number | null {
+    if (typeof this._options.height === "number") {
+      return this._options.height;
+    }
+    try {
+      return this._options.height();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Quadrilateral "${this._id}" height`);
+      return null;
+    }
+  }
+
+  private getOpacity(): number | null {
+    if (typeof this._options.opacity !== "undefined") {
+      if (typeof this._options.opacity === "number") {
+        return this._options.opacity;
+      }
+      try {
+        return this._options.opacity();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Quadrilateral "${this._id}" opacity`);
+        return null;
+      }
+    }
+    return 1;
+  }
+
+  private getWidth(): number | null {
+    if (typeof this._options.width === "number") {
+      return this._options.width;
+    }
+    try {
+      return this._options.width();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Quadrilateral "${this._id}" width`);
+      return null;
+    }
   }
 }
 export const createQuadrilateral = (

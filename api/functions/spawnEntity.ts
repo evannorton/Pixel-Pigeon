@@ -1,7 +1,11 @@
 import { CollisionData } from "../types/CollisionData";
-import { EntityCollidable } from "../types/EntityCollidable";
-import { EntityPosition } from "../types/EntityPosition";
-import { Layer, Level } from "../types/World";
+import {
+  EntityCollidable,
+  EntityPosition,
+  EntityQuadrilateral,
+  Layer,
+  Level,
+} from "../types/World";
 import { OverlapData } from "../types/OverlapData";
 import { getToken } from "./getToken";
 import { state } from "../state";
@@ -27,6 +31,7 @@ export interface SpawnEntityOptions {
   onOverlap?: (overlapData: OverlapData) => void;
   /** The X and Y position that the entity will spawn at */
   position: EntityPosition;
+  quadrilaterals?: EntityQuadrilateral[];
   /** A {@link createSpriteInstance | spriteInstanceID} in order to give the entity a sprite */
   spriteInstanceID?: string;
   /** The actual width of the hitbox of the entity */
@@ -91,6 +96,7 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
       x: spawnEntityOptions.position.x,
       y: spawnEntityOptions.position.y,
     },
+    quadrilaterals: spawnEntityOptions.quadrilaterals ?? [],
     spriteInstanceID: spawnEntityOptions.spriteInstanceID ?? null,
     width: spawnEntityOptions.width,
     zIndex: spawnEntityOptions.zIndex,

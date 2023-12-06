@@ -34,8 +34,11 @@ import {
   CreateVolumeChannelOptions,
   createVolumeChannel,
 } from "./classes/VolumeChannel";
-import { EntityCollidable } from "./types/EntityCollidable";
-import { EntityPosition } from "./types/EntityPosition";
+import {
+  EntityCollidable,
+  EntityPosition,
+  EntityQuadrilateral,
+} from "./types/World";
 import {
   GetEntityCalculatedPathOptions,
   getEntityCalculatedPath,
@@ -55,6 +58,7 @@ import { Rectangle } from "./types/Rectangle";
 import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
 import { State } from "./classes/State";
 import { TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
+import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
 import { despawnEntity } from "./functions/despawnEntity";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
@@ -70,11 +74,13 @@ import { onTick } from "./functions/onTick";
 import { setEntityLevel } from "./functions/setEntityLevel";
 import { setEntityPosition } from "./functions/setEntityPosition";
 import { setEntitySpriteInstance } from "./functions/setEntitySpriteInstance";
+import { setEntityZIndex } from "./functions/setEntityZIndex";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
 import { takeScreenshot } from "./functions/takeScreenshot";
 
 export {
+  addEntityQuadrilateral,
   CollisionData,
   createAchievement,
   CreateAchievementOptions,
@@ -97,6 +103,7 @@ export {
   despawnEntity,
   EntityCollidable,
   EntityPosition,
+  EntityQuadrilateral,
   getActiveLevelID,
   getCurrentTime,
   getEntityCalculatedPath,
@@ -128,6 +135,7 @@ export {
   setEntityLevel,
   setEntityPosition,
   setEntitySpriteInstance,
+  setEntityZIndex,
   setPauseMenuCondition,
   spawnEntity,
   SpawnEntityOptions,

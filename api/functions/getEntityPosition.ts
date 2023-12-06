@@ -1,4 +1,4 @@
-import { EntityPosition } from "../types/EntityPosition";
+import { EntityPosition } from "../types/World";
 import { state } from "../state";
 
 /**

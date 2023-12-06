@@ -1,4 +1,4 @@
-import { EntityCollidable } from "./EntityCollidable";
+import { EntityCollidable } from "./World";
 
 /**
  * Data provided from {@link SpawnEntityOptions.onOverlap}. Has a list of collisions and whether or not they exist on the world map.

@@ -109,6 +109,13 @@ export const render = (): void => {
             );
             spriteInstance.drawAtEntity(entity, layerIndex);
           }
+          for (const entityQuadrilateral of entity.quadrilaterals) {
+            const quadrilateral: Quadrilateral = getDefinable(
+              Quadrilateral,
+              entityQuadrilateral.quadrilateralID,
+            );
+            quadrilateral.drawAtEntity(entity, entityQuadrilateral, layerIndex);
+          }
         }
       });
     }

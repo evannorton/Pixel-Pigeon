@@ -54,6 +54,7 @@ export const getWorld = (ldtk: LDTK): World => {
                   x: ldtkEntityInstance.px[0],
                   y: ldtkEntityInstance.px[1],
                 },
+                quadrilaterals: [],
                 spriteInstanceID: null,
                 width: ldtkEntityInstance.width,
                 zIndex: 0,
