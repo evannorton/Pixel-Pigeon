@@ -54,6 +54,7 @@ import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
 import { State } from "./classes/State";
 import { TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
 import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
+import { addEntitySprite } from "./functions/addEntitySprite";
 import { despawnEntity } from "./functions/despawnEntity";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
@@ -69,7 +70,6 @@ import { onTick } from "./functions/onTick";
 import { setEntityBlockingPosition } from "./functions/setEntityBlockingPosition";
 import { setEntityLevel } from "./functions/setEntityLevel";
 import { setEntityPosition } from "./functions/setEntityPosition";
-import { setEntitySprite } from "./functions/setEntitySprite";
 import { setEntityZIndex } from "./functions/setEntityZIndex";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
@@ -77,6 +77,7 @@ import { takeScreenshot } from "./functions/takeScreenshot";
 
 export {
   addEntityQuadrilateral,
+  addEntitySprite,
   CollisionData,
   createAchievement,
   CreateAchievementOptions,
@@ -128,7 +129,6 @@ export {
   setEntityBlockingPosition,
   setEntityLevel,
   setEntityPosition,
-  setEntitySprite,
   setEntityZIndex,
   setPauseMenuCondition,
   spawnEntity,

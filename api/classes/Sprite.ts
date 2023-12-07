@@ -3,7 +3,7 @@ import {
   getCameraCoordinates,
 } from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
-import { Entity } from "../types/World";
+import { Entity, EntitySprite } from "../types/World";
 import { ImageSource } from "./ImageSource";
 import { TilePosition } from "../types/TilePosition";
 import { drawImage } from "../functions/draw/drawImage";
@@ -150,7 +150,11 @@ export class Sprite extends Definable {
     }
   }
 
-  public drawAtEntity(entity: Entity, layerIndex: number): void {
+  public drawAtEntity(
+    entity: Entity,
+    entitySprite: EntitySprite,
+    layerIndex: number,
+  ): void {
     if (state.values.type === null) {
       throw new Error(
         "An attempt was made to draw an entity before type was loaded.",
@@ -159,8 +163,12 @@ export class Sprite extends Definable {
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
     this.drawAtPosition(
-      Math.floor(entity.position.x) - cameraCoordinates.x,
-      Math.floor(entity.position.y) - cameraCoordinates.y,
+      Math.floor(entity.position.x) +
+        (entitySprite.x ?? 0) -
+        cameraCoordinates.x,
+      Math.floor(entity.position.y) +
+        (entitySprite.y ?? 0) -
+        cameraCoordinates.y,
       zIndex,
     );
     if (

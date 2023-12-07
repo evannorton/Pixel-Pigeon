@@ -40,6 +40,11 @@ export interface EntityQuadrilateral {
   x?: number;
   y?: number;
 }
+export interface EntitySprite {
+  spriteID: string;
+  x?: number;
+  y?: number;
+}
 export interface Entity {
   blockingPosition: EntityPosition | null;
   readonly collidables: EntityCollidable[];
@@ -58,7 +63,7 @@ export interface Entity {
   pathing: Pathing | null;
   position: EntityPosition;
   quadrilaterals: EntityQuadrilateral[];
-  spriteID: string | null;
+  sprites: EntitySprite[];
   readonly type: string | null;
   readonly width: number;
   zIndex: number;

@@ -7,7 +7,7 @@ export const addEntityQuadrilateral = (
 ): void => {
   if (state.values.world === null) {
     throw new Error(
-      `An attempt was made to set entity "${entityID}" spriteID before world was loaded.`,
+      `An attempt was made to add entity "${entityID}" quadrilateral before world was loaded.`,
     );
   }
   for (const level of state.values.world.levels.values()) {

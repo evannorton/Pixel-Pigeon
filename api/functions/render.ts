@@ -102,12 +102,9 @@ export const render = (): void => {
           }
         }
         for (const [, entity] of layer.entities) {
-          if (entity.spriteID !== null) {
-            const sprite: Sprite = getDefinable<Sprite>(
-              Sprite,
-              entity.spriteID,
-            );
-            sprite.drawAtEntity(entity, layerIndex);
+          for (const entitySprite of entity.sprites) {
+            const sprite: Sprite = getDefinable(Sprite, entitySprite.spriteID);
+            sprite.drawAtEntity(entity, entitySprite, layerIndex);
           }
           for (const entityQuadrilateral of entity.quadrilaterals) {
             const quadrilateral: Quadrilateral = getDefinable(

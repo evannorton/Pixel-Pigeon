@@ -3,6 +3,7 @@ import {
   EntityCollidable,
   EntityPosition,
   EntityQuadrilateral,
+  EntitySprite,
   Layer,
   Level,
 } from "../types/World";
@@ -30,8 +31,7 @@ export interface SpawnEntityOptions {
   /** The X and Y position that the entity will spawn at */
   position: EntityPosition;
   quadrilaterals?: EntityQuadrilateral[];
-  /** A {@link createSprite | spriteID} in order to give the entity a sprite */
-  spriteID?: string;
+  sprites?: EntitySprite[];
   type?: string;
   /** The actual width of the hitbox of the entity */
   width: number;
@@ -96,7 +96,7 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
       y: spawnEntityOptions.position.y,
     },
     quadrilaterals: spawnEntityOptions.quadrilaterals ?? [],
-    spriteID: spawnEntityOptions.spriteID ?? null,
+    sprites: spawnEntityOptions.sprites ?? [],
     type: spawnEntityOptions.type ?? null,
     width: spawnEntityOptions.width,
     zIndex: spawnEntityOptions.zIndex,
