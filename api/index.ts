@@ -20,11 +20,6 @@ import {
   removeQuadrilateral,
 } from "./classes/Quadrilateral";
 import {
-  CreateSpriteInstanceOptions,
-  createSpriteInstance,
-  removeSpriteInstance,
-} from "./classes/SpriteInstance";
-import {
   CreateSpriteOptions,
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
@@ -74,7 +69,7 @@ import { onTick } from "./functions/onTick";
 import { setEntityBlockingPosition } from "./functions/setEntityBlockingPosition";
 import { setEntityLevel } from "./functions/setEntityLevel";
 import { setEntityPosition } from "./functions/setEntityPosition";
-import { setEntitySpriteInstance } from "./functions/setEntitySpriteInstance";
+import { setEntitySprite } from "./functions/setEntitySprite";
 import { setEntityZIndex } from "./functions/setEntityZIndex";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
@@ -94,8 +89,6 @@ export {
   createQuadrilateral,
   CreateQuadrilateralOptions,
   createSprite,
-  createSpriteInstance,
-  CreateSpriteInstanceOptions,
   CreateSpriteOptions,
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
@@ -132,11 +125,10 @@ export {
   Rectangle,
   removeLabel,
   removeQuadrilateral,
-  removeSpriteInstance,
   setEntityBlockingPosition,
   setEntityLevel,
   setEntityPosition,
-  setEntitySpriteInstance,
+  setEntitySprite,
   setEntityZIndex,
   setPauseMenuCondition,
   spawnEntity,

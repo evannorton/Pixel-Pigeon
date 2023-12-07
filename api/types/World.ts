@@ -54,7 +54,7 @@ export interface Entity {
   pathing: Pathing | null;
   position: EntityPosition;
   quadrilaterals: EntityQuadrilateral[];
-  spriteInstanceID: string | null;
+  SpriteID: string | null;
   readonly type: string | null;
   readonly width: number;
   movementVelocity: {

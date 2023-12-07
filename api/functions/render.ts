@@ -6,7 +6,7 @@ import { ImageSource } from "../classes/ImageSource";
 import { Label } from "../classes/Label";
 import { Layer, Level, Tileset, World } from "../types/World";
 import { Quadrilateral } from "../classes/Quadrilateral";
-import { SpriteInstance } from "../classes/SpriteInstance";
+import { Sprite } from "../classes/Sprite";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { drawImage } from "./draw/drawImage";
 import { drawQuadrilateral } from "./draw/drawQuadrilateral";
@@ -102,12 +102,12 @@ export const render = (): void => {
           }
         }
         for (const [, entity] of layer.entities) {
-          if (entity.spriteInstanceID !== null) {
-            const spriteInstance: SpriteInstance = getDefinable<SpriteInstance>(
-              SpriteInstance,
-              entity.spriteInstanceID,
+          if (entity.SpriteID !== null) {
+            const sprite: Sprite = getDefinable<Sprite>(
+              Sprite,
+              entity.SpriteID,
             );
-            spriteInstance.drawAtEntity(entity, layerIndex);
+            sprite.drawAtEntity(entity, layerIndex);
           }
           for (const entityQuadrilateral of entity.quadrilaterals) {
             const quadrilateral: Quadrilateral = getDefinable(
@@ -119,11 +119,9 @@ export const render = (): void => {
         }
       });
     }
-    getDefinables(SpriteInstance).forEach(
-      (spriteInstance: SpriteInstance): void => {
-        spriteInstance.drawAtCoordinates();
-      },
-    );
+    getDefinables(Sprite).forEach((sprite: Sprite): void => {
+      sprite.drawAtCoordinates();
+    });
     getDefinables(Quadrilateral).forEach(
       (quadrilateral: Quadrilateral): void => {
         quadrilateral.drawAtCoordinates();

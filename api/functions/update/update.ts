@@ -1,4 +1,4 @@
-import { SpriteInstance } from "../../classes/SpriteInstance";
+import { Sprite } from "../../classes/Sprite";
 import { getDefinables } from "../getDefinables";
 import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
@@ -27,12 +27,10 @@ export const update = (): void => {
       handleCaughtError(error, "onTick");
     }
   }
-  getDefinables(SpriteInstance).forEach(
-    (spriteInstance: SpriteInstance): void => {
-      spriteInstance.playAnimation();
-      spriteInstance.drawAtCoordinates();
-    },
-  );
+  getDefinables(Sprite).forEach((sprite: Sprite): void => {
+    sprite.playAnimation();
+    sprite.drawAtCoordinates();
+  });
   if (
     state.values.pauseMenuCondition !== null &&
     state.values.pauseMenuCondition()
