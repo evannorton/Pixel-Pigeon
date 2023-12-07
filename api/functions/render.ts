@@ -102,10 +102,10 @@ export const render = (): void => {
           }
         }
         for (const [, entity] of layer.entities) {
-          if (entity.SpriteID !== null) {
+          if (entity.spriteID !== null) {
             const sprite: Sprite = getDefinable<Sprite>(
               Sprite,
-              entity.SpriteID,
+              entity.spriteID,
             );
             sprite.drawAtEntity(entity, layerIndex);
           }

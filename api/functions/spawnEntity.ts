@@ -30,8 +30,8 @@ export interface SpawnEntityOptions {
   /** The X and Y position that the entity will spawn at */
   position: EntityPosition;
   quadrilaterals?: EntityQuadrilateral[];
-  /** A {@link createSprite | SpriteID} in order to give the entity a sprite */
-  SpriteID?: string;
+  /** A {@link createSprite | spriteID} in order to give the entity a sprite */
+  spriteID?: string;
   type?: string;
   /** The actual width of the hitbox of the entity */
   width: number;
@@ -96,7 +96,7 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
       y: spawnEntityOptions.position.y,
     },
     quadrilaterals: spawnEntityOptions.quadrilaterals ?? [],
-    SpriteID: spawnEntityOptions.SpriteID ?? null,
+    spriteID: spawnEntityOptions.spriteID ?? null,
     type: spawnEntityOptions.type ?? null,
     width: spawnEntityOptions.width,
     zIndex: spawnEntityOptions.zIndex,

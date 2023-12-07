@@ -48,19 +48,19 @@ export interface Entity {
   readonly height: number;
   readonly id: string;
   lastPathedTilePosition: EntityPosition | null;
+  movementVelocity: {
+    readonly x: number;
+    readonly y: number;
+  } | null;
   readonly onCollision: ((data: CollisionData) => void) | null;
   readonly onOverlap: ((data: OverlapData) => void) | null;
   path: TilePosition[] | null;
   pathing: Pathing | null;
   position: EntityPosition;
   quadrilaterals: EntityQuadrilateral[];
-  SpriteID: string | null;
+  spriteID: string | null;
   readonly type: string | null;
   readonly width: number;
-  movementVelocity: {
-    readonly x: number;
-    readonly y: number;
-  } | null;
   zIndex: number;
 }
 export interface Layer {

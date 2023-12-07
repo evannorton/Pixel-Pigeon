@@ -16,8 +16,8 @@ export const despawnEntity = (entityID: string): void => {
     for (const layer of level.layers) {
       for (const [layerEntityID, layerEntity] of layer.entities) {
         if (layerEntityID === entityID) {
-          if (layerEntity.SpriteID !== null) {
-            removeSprite(layerEntity.SpriteID);
+          if (layerEntity.spriteID !== null) {
+            removeSprite(layerEntity.spriteID);
           }
           for (const entityQuadrilateral of layerEntity.quadrilaterals) {
             removeQuadrilateral(entityQuadrilateral.quadrilateralID);
