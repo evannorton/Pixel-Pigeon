@@ -20,7 +20,7 @@ export const setEntityLevel = (entityID: string, levelID: string): void => {
           (layerEntity: [string, Entity]): boolean =>
             layerEntity[0] === entityID,
         ) ?? null;
-      if (matchedEntity !== null) {
+      if (matchedEntity !== null && level.id !== levelID) {
         const entity: Entity | null =
           layer.entities.get(matchedEntity[0]) ?? null;
         if (entity !== null) {
