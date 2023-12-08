@@ -36,7 +36,6 @@ export const getWorld = (ldtk: LDTK): World => {
               }
               entities.set(ldtkEntityInstance.iid, {
                 blockingPosition: null,
-                collidables: [],
                 fieldValues,
                 hasTouchedPathingStartingTile: false,
                 height: ldtkEntityInstance.height,

@@ -1,6 +1,5 @@
 import { CollisionData } from "../types/CollisionData";
 import {
-  EntityCollidable,
   EntityPosition,
   EntityQuadrilateral,
   EntitySprite,
@@ -11,9 +10,7 @@ import { OverlapData } from "../types/OverlapData";
 import { getToken } from "./getToken";
 import { state } from "../state";
 
-export interface SpawnEntityOptions {
-  /** An array of strings for LayerIDs that the entity can collide with and not pass through */
-  collidableLayers?: string[];
+export interface CreateEntityOptions {
   /** The actual height of the hitbox of the entity */
   height: number;
   /** The layerID the entity should be on, has to be created in LDTK */
@@ -36,14 +33,16 @@ export interface SpawnEntityOptions {
   /** The actual width of the hitbox of the entity */
   width: number;
   /** This number determines how entities are layered on-top of eachother */
-  zIndex: number;
+  zIndex?: number;
 }
 /**
  * Spawn an entity into the world if the world has already loaded in
- * @param spawnEntityOptions Options used to define what an entity is and their attributes
+ * @param createEntityOptions Options used to define what an entity is and their attributes
  * @returns String ID of the entity
  */
-export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
+export const createEntity = (
+  createEntityOptions: CreateEntityOptions,
+): string => {
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to spawn an entity before world was loaded.",
@@ -64,7 +63,7 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
   const layer: Layer | null =
     level.layers.find(
       (levelLayer: Layer): boolean =>
-        levelLayer.id === spawnEntityOptions.layerID,
+        levelLayer.id === createEntityOptions.layerID,
     ) ?? null;
   if (layer === null) {
     throw new Error(
@@ -74,32 +73,25 @@ export const spawnEntity = (spawnEntityOptions: SpawnEntityOptions): string => {
   const id: string = getToken();
   layer.entities.set(id, {
     blockingPosition: null,
-    collidables:
-      spawnEntityOptions.collidableLayers?.map(
-        (type: string): EntityCollidable => ({
-          entityID: id,
-          type,
-        }),
-      ) ?? [],
     fieldValues: new Map(),
     hasTouchedPathingStartingTile: false,
-    height: spawnEntityOptions.height,
+    height: createEntityOptions.height,
     id,
     lastPathedTilePosition: null,
     movementVelocity: null,
-    onCollision: spawnEntityOptions.onCollision ?? null,
-    onOverlap: spawnEntityOptions.onOverlap ?? null,
+    onCollision: createEntityOptions.onCollision ?? null,
+    onOverlap: createEntityOptions.onOverlap ?? null,
     path: null,
     pathing: null,
     position: {
-      x: spawnEntityOptions.position.x,
-      y: spawnEntityOptions.position.y,
+      x: createEntityOptions.position.x,
+      y: createEntityOptions.position.y,
     },
-    quadrilaterals: spawnEntityOptions.quadrilaterals ?? [],
-    sprites: spawnEntityOptions.sprites ?? [],
-    type: spawnEntityOptions.type ?? null,
-    width: spawnEntityOptions.width,
-    zIndex: spawnEntityOptions.zIndex,
+    quadrilaterals: createEntityOptions.quadrilaterals ?? [],
+    sprites: createEntityOptions.sprites ?? [],
+    type: createEntityOptions.type ?? null,
+    width: createEntityOptions.width,
+    zIndex: createEntityOptions.zIndex ?? 0,
   });
   return id;
 };

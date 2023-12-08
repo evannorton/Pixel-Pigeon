@@ -4,6 +4,7 @@ import {
   createAchievement,
   unlockAchievement,
 } from "./classes/Achievement";
+import { CreateEntityOptions, createEntity } from "./functions/createEntity";
 import {
   CreateInputPressHandlerOptions,
   createInputPressHandler,
@@ -50,12 +51,10 @@ import {
   stopAudioSource,
 } from "./classes/AudioSource";
 import { Rectangle } from "./types/Rectangle";
-import { SpawnEntityOptions, spawnEntity } from "./functions/spawnEntity";
 import { State } from "./classes/State";
 import { TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
 import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
 import { addEntitySprite } from "./functions/addEntitySprite";
-import { despawnEntity } from "./functions/despawnEntity";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
@@ -67,6 +66,7 @@ import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
+import { removeEntity } from "./functions/removeEntity";
 import { removeEntitySprite } from "./functions/removeEntitySprite";
 import { setEntityBlockingPosition } from "./functions/setEntityBlockingPosition";
 import { setEntityLevel } from "./functions/setEntityLevel";
@@ -82,6 +82,8 @@ export {
   CollisionData,
   createAchievement,
   CreateAchievementOptions,
+  createEntity,
+  CreateEntityOptions,
   createInputPressHandler,
   CreateInputPressHandlerOptions,
   createInputTickHandler,
@@ -96,7 +98,6 @@ export {
   CreateSpriteOptionsAnimationFrame,
   createVolumeChannel,
   CreateVolumeChannelOptions,
-  despawnEntity,
   EntityCollidable,
   EntityPosition,
   EntityQuadrilateral,
@@ -125,6 +126,7 @@ export {
   playAudioSource,
   PlayAudioSourceOptions,
   Rectangle,
+  removeEntity,
   removeEntitySprite,
   removeLabel,
   removeQuadrilateral,
@@ -133,8 +135,6 @@ export {
   setEntityPosition,
   setEntityZIndex,
   setPauseMenuCondition,
-  spawnEntity,
-  SpawnEntityOptions,
   State,
   stopAudioSource,
   stopEntity,

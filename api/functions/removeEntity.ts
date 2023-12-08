@@ -4,12 +4,12 @@ import { state } from "../state";
 
 /**
  * Removes the given entity from the world
- * @param entityID - String entityID of the entity to despawn
+ * @param entityID - String entityID of the entity to remove
  */
-export const despawnEntity = (entityID: string): void => {
+export const removeEntity = (entityID: string): void => {
   if (state.values.world === null) {
     throw new Error(
-      `An attempt was made to despawn entity instance "${entityID}" before world was loaded.`,
+      `An attempt was made to remove entity instance "${entityID}" before world was loaded.`,
     );
   }
   for (const level of state.values.world.levels.values()) {

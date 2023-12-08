@@ -1,7 +1,7 @@
 import { EntityCollidable } from "./World";
 
 /**
- * Data provided from {@link SpawnEntityOptions.onOverlap}. Has a list of collisions and whether or not they exist on the world map.
+ * Data provided from {@link CreateEntityOptions.onOverlap}. Has a list of collisions and whether or not they exist on the world map.
  * @example
  * ```ts
  *  if (overlapData.entityCollidables.length > 0) { // Ensure there is at least one entity that was collided with
@@ -14,7 +14,7 @@ import { EntityCollidable } from "./World";
 */
 export interface OverlapData {
   /**
-   * Array of entites the entity with {@link SpawnEntityOptions.onOverlap | onOverlap} collided with
+   * Array of entites the entity with {@link CreateEntityOptions.onOverlap | onOverlap} collided with
    */
   entityCollidables: EntityCollidable[];
   /**

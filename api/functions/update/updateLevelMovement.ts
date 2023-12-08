@@ -1,5 +1,5 @@
 import { CollisionData } from "../../types/CollisionData";
-import { EntityCollidable, Level } from "../../types/World";
+import { Level } from "../../types/World";
 import { getRectangleCollisionData } from "../getRectangleCollisionData";
 import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
@@ -84,43 +84,25 @@ export const updateLevelMovement = (): void => {
               pieceYEnd -= largerAddition;
             }
           }
-          const xCollisionData: CollisionData = getRectangleCollisionData(
-            {
-              height: entity.height,
-              width: entity.width,
-              x: Math.floor(xEnd + pieceXEnd),
-              y: Math.floor(yEnd),
-            },
-            entity.collidables.map(
-              (entityCollidable: EntityCollidable): string =>
-                entityCollidable.type,
-            ),
-          );
+          const xCollisionData: CollisionData = getRectangleCollisionData({
+            height: entity.height,
+            width: entity.width,
+            x: Math.floor(xEnd + pieceXEnd),
+            y: Math.floor(yEnd),
+          });
           const yCollisionData: CollisionData | null =
-            getRectangleCollisionData(
-              {
-                height: entity.height,
-                width: entity.width,
-                x: Math.floor(xEnd),
-                y: Math.floor(yEnd + pieceYEnd),
-              },
-              entity.collidables.map(
-                (entityCollidable: EntityCollidable): string =>
-                  entityCollidable.type,
-              ),
-            );
-          const bothCollisionData: CollisionData = getRectangleCollisionData(
-            {
+            getRectangleCollisionData({
               height: entity.height,
               width: entity.width,
-              x: Math.floor(xEnd + pieceXEnd),
+              x: Math.floor(xEnd),
               y: Math.floor(yEnd + pieceYEnd),
-            },
-            entity.collidables.map(
-              (entityCollidable: EntityCollidable): string =>
-                entityCollidable.type,
-            ),
-          );
+            });
+          const bothCollisionData: CollisionData = getRectangleCollisionData({
+            height: entity.height,
+            width: entity.width,
+            x: Math.floor(xEnd + pieceXEnd),
+            y: Math.floor(yEnd + pieceYEnd),
+          });
           const canMoveX: boolean =
             // Entity has no collision layer
             entity.type === null ||

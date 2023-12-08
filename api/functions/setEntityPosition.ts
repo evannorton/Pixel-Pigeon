@@ -1,5 +1,5 @@
 import { CollisionData } from "../types/CollisionData";
-import { EntityCollidable, EntityPosition } from "../types/World";
+import { EntityPosition } from "../types/World";
 import { getRectangleCollisionData } from "./getRectangleCollisionData";
 import { handleCaughtError } from "./handleCaughtError";
 import { state } from "../state";
@@ -27,18 +27,12 @@ export const setEntityPosition = (
             y: position.y,
           };
           entity.pathing = null;
-          const collisionData: CollisionData = getRectangleCollisionData(
-            {
-              height: entity.height,
-              width: entity.width,
-              x: Math.floor(entity.position.x),
-              y: Math.floor(entity.position.y),
-            },
-            entity.collidables.map(
-              (entityCollidable: EntityCollidable): string =>
-                entityCollidable.type,
-            ),
-          );
+          const collisionData: CollisionData = getRectangleCollisionData({
+            height: entity.height,
+            width: entity.width,
+            x: Math.floor(entity.position.x),
+            y: Math.floor(entity.position.y),
+          });
           if (collisionData.entityCollidables.length > 0 || collisionData.map) {
             if (entity.onCollision !== null) {
               try {
