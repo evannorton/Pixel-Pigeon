@@ -15,6 +15,7 @@ export interface CreateEntityOptions {
   height: number;
   /** The layerID the entity should be on, has to be created in LDTK */
   layerID: string;
+  levelID: string;
   /**
    * Callback that triggers whenever a collision stops entites from moving through each other. Will not trigger on tiles that have ppCollision set to true.
    * The same collision cannot trigger onCollision and onOverlap
@@ -37,24 +38,17 @@ export interface CreateEntityOptions {
 }
 /**
  * Spawn an entity into the world if the world has already loaded in
- * @param createEntityOptions Options used to define what an entity is and their attributes
+ * @param options Options used to define what an entity is and their attributes
  * @returns String ID of the entity
  */
-export const createEntity = (
-  createEntityOptions: CreateEntityOptions,
-): string => {
+export const createEntity = (options: CreateEntityOptions): string => {
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to spawn an entity before world was loaded.",
     );
   }
-  if (state.values.levelID === null) {
-    throw new Error(
-      "An attempt was made to spawn an entity with no active level.",
-    );
-  }
   const level: Level | null =
-    state.values.world.levels.get(state.values.levelID) ?? null;
+    state.values.world.levels.get(options.levelID) ?? null;
   if (level === null) {
     throw new Error(
       "An attempt was made to spawn an entity with a nonexistant active level.",
@@ -62,8 +56,7 @@ export const createEntity = (
   }
   const layer: Layer | null =
     level.layers.find(
-      (levelLayer: Layer): boolean =>
-        levelLayer.id === createEntityOptions.layerID,
+      (levelLayer: Layer): boolean => levelLayer.id === options.layerID,
     ) ?? null;
   if (layer === null) {
     throw new Error(
@@ -75,23 +68,23 @@ export const createEntity = (
     blockingPosition: null,
     fieldValues: new Map(),
     hasTouchedPathingStartingTile: false,
-    height: createEntityOptions.height,
+    height: options.height,
     id,
     lastPathedTilePosition: null,
     movementVelocity: null,
-    onCollision: createEntityOptions.onCollision ?? null,
-    onOverlap: createEntityOptions.onOverlap ?? null,
+    onCollision: options.onCollision ?? null,
+    onOverlap: options.onOverlap ?? null,
     path: null,
     pathing: null,
     position: {
-      x: createEntityOptions.position.x,
-      y: createEntityOptions.position.y,
+      x: options.position.x,
+      y: options.position.y,
     },
-    quadrilaterals: createEntityOptions.quadrilaterals ?? [],
-    sprites: createEntityOptions.sprites ?? [],
-    type: createEntityOptions.type ?? null,
-    width: createEntityOptions.width,
-    zIndex: createEntityOptions.zIndex ?? 0,
+    quadrilaterals: options.quadrilaterals ?? [],
+    sprites: options.sprites ?? [],
+    type: options.type ?? null,
+    width: options.width,
+    zIndex: options.zIndex ?? 0,
   });
   return id;
 };

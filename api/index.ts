@@ -60,6 +60,7 @@ import { addEntitySprite } from "./functions/addEntitySprite";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
+import { getEntityLevelID } from "./functions/getEntityLevelID";
 import { getEntityPosition } from "./functions/getEntityPosition";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
 import { goToLevel } from "./functions/goToLevel";
@@ -111,6 +112,7 @@ export {
   getEntityFieldValue,
   getEntityIDs,
   GetEntityIDsOptions,
+  getEntityLevelID,
   getEntityPosition,
   getInputTickHandlerGroupID,
   goToLevel,
