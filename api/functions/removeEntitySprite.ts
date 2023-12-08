@@ -3,7 +3,7 @@ import { state } from "../state";
 
 export const removeEntitySprite = (
   entityID: string,
-  entitySprite: EntitySprite,
+  spriteID: string,
 ): void => {
   if (state.values.world === null) {
     throw new Error(
@@ -15,8 +15,7 @@ export const removeEntitySprite = (
       for (const [layerEntityID, entity] of layer.entities) {
         if (layerEntityID === entityID) {
           entity.sprites = entity.sprites.filter(
-            (sprite: EntitySprite): boolean =>
-              sprite.spriteID !== entitySprite.spriteID,
+            (sprite: EntitySprite): boolean => sprite.spriteID !== spriteID,
           );
         }
       }
