@@ -48,11 +48,11 @@ export const updateLevelPathing = (): void => {
                 path.length > 1
                   ? path[1]
                   : path.length === 1
-                  ? path[0]
-                  : {
-                      x: startX,
-                      y: startY,
-                    };
+                    ? path[0]
+                    : {
+                        x: startX,
+                        y: startY,
+                      };
               if (
                 entity.lastPathedTilePosition === null ||
                 entity.lastPathedTilePosition.x !== nextTilePosition.x ||

@@ -58,12 +58,11 @@ export const render = (): void => {
       "Click to focus",
       "#ffffff",
       Math.floor(state.values.config.width / 2),
-      Math.floor(state.values.config.height / 2),
+      Math.floor(state.values.config.height / 2) - 3,
       1,
       state.values.config.width,
       1,
       "center",
-      "middle",
       0,
     );
   } else {

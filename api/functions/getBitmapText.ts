@@ -18,10 +18,11 @@ export const getBitmapText = (
   });
   if (
     bitmapText.textHeight <= size * maxLines * 11 &&
-    bitmapText.width <= maxWidth
+    bitmapText.textWidth <= maxWidth
   ) {
     return bitmapText;
   }
+  bitmapText.destroy();
   const indices: number[] = [];
   text.split("").forEach((char: string, key: number): void => {
     if (char === "*") {

@@ -187,8 +187,8 @@ export class Sprite extends Definable {
             pathIndex === 0
               ? "#0084ff"
               : pathIndex === path.length - 1
-              ? "#139d08"
-              : "#000000";
+                ? "#139d08"
+                : "#000000";
           drawQuadrilateral(
             "#ffffff",
             1,

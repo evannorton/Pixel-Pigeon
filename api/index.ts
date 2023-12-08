@@ -52,7 +52,7 @@ import {
 } from "./classes/AudioSource";
 import { Rectangle } from "./types/Rectangle";
 import { State } from "./classes/State";
-import { TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
+import { TextStyleAlign } from "pixi.js";
 import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
 import { addEntitySprite } from "./functions/addEntitySprite";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
@@ -140,7 +140,6 @@ export {
   stopEntity,
   takeScreenshot,
   TextStyleAlign,
-  TextStyleTextBaseline,
   unlockAchievement,
 };
 declare global {

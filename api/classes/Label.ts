@@ -1,5 +1,5 @@
 import { Definable } from "./Definable";
-import { TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
+import { TextStyleAlign } from "pixi.js";
 import { drawText } from "../functions/draw/drawText";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
@@ -27,7 +27,6 @@ export interface CreateLabelOptions {
   };
   text: string | (() => string);
   horizontalAlignment: TextStyleAlign;
-  verticalAlignment: TextStyleTextBaseline;
 }
 export class Label extends Definable {
   private readonly _options: CreateLabelOptions;
@@ -55,7 +54,6 @@ export class Label extends Definable {
           state.values.config.width,
           1,
           this._options.horizontalAlignment,
-          this._options.verticalAlignment,
           100,
         );
       }

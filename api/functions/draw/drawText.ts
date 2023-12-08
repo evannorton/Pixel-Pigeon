@@ -1,4 +1,4 @@
-import { BitmapText, TextStyleAlign, TextStyleTextBaseline } from "pixi.js";
+import { BitmapText, TextStyleAlign } from "pixi.js";
 import { getBitmapText } from "../getBitmapText";
 import { state } from "../../state";
 
@@ -11,7 +11,6 @@ export const drawText = (
   maxWidth: number,
   maxLines: number,
   horizontalAlignment: TextStyleAlign,
-  verticalAlignment: TextStyleTextBaseline,
   zIndex: number,
 ): void => {
   if (state.values.app === null) {
@@ -30,24 +29,11 @@ export const drawText = (
   const startX: number = x - size;
   sprite.x =
     horizontalAlignment === "right"
-      ? startX - sprite.width
+      ? startX - sprite.textWidth
       : horizontalAlignment === "center"
-      ? startX - Math.ceil(sprite.width / 2)
-      : startX;
-  sprite.y =
-    verticalAlignment === "bottom"
-      ? y + size * 3
-      : verticalAlignment === "middle"
-      ? y
-      : y - size * 3;
-  sprite.anchor.set(
-    0,
-    verticalAlignment === "bottom"
-      ? 1
-      : verticalAlignment === "middle"
-      ? (size * 7) / 2 / (size * 7)
-      : 0,
-  );
+        ? startX - Math.ceil(sprite.textWidth / 2)
+        : startX;
+  sprite.y = y - size * 3;
   sprite.zIndex = zIndex;
   state.values.app.stage.addChild(sprite);
 };
