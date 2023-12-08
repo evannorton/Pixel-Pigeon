@@ -25,7 +25,7 @@ export interface CreateLabelOptions {
      */
     y: number;
   };
-  getText: () => string;
+  text: string | (() => string);
   horizontalAlignment: TextStyleAlign;
   verticalAlignment: TextStyleTextBaseline;
 }
@@ -80,10 +80,13 @@ export class Label extends Definable {
   }
 
   private getText(): string | null {
+    if (typeof this._options.text === "string") {
+      return this._options.text;
+    }
     try {
-      return this._options.getText();
+      return this._options.text();
     } catch (error: unknown) {
-      handleCaughtError(error, `Label "${this._id}" getText`);
+      handleCaughtError(error, `Label "${this._id}" text`);
     }
     return null;
   }
