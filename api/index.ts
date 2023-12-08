@@ -34,6 +34,7 @@ import {
   EntityCollidable,
   EntityPosition,
   EntityQuadrilateral,
+  EntitySprite,
 } from "./types/World";
 import {
   GetEntityCalculatedPathOptions,
@@ -45,6 +46,7 @@ import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
 import { Newgrounds } from "./types/Newgrounds";
 import { OverlapData } from "./types/OverlapData";
 import { PathEntityOptions, pathEntity } from "./functions/pathEntity";
+import { PathingEntityExclusion } from "./types/PathingEntityExclusion";
 import {
   PlayAudioSourceOptions,
   playAudioSource,
@@ -101,6 +103,7 @@ export {
   EntityCollidable,
   EntityPosition,
   EntityQuadrilateral,
+  EntitySprite,
   getActiveLevelID,
   getCurrentTime,
   getEntityCalculatedPath,
@@ -123,6 +126,7 @@ export {
   OverlapData,
   pathEntity,
   PathEntityOptions,
+  PathingEntityExclusion,
   playAudioSource,
   PlayAudioSourceOptions,
   Rectangle,
