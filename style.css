@@ -106,6 +106,7 @@ body:not(.paused) #unpause-button {
 #pause-menu {
   background-color: rgba(0, 0, 0, .75);
   cursor: url("./cursors/default.png"), default;
+  display: flex;
   font-size: 2em;
   outline: none;
   position: absolute;
@@ -118,8 +119,7 @@ body:not(.paused) #unpause-button {
   display: flex;
   height: 80%;
   margin: auto;
-  margin-top: 10%;
-  max-width: 80%;
+  width: 80%;
   overflow-y: auto;
   text-align: center;
 }
