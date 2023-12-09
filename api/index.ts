@@ -63,6 +63,7 @@ import { getEntityFieldValue } from "./functions/getEntityFieldValue";
 import { getEntityLevelID } from "./functions/getEntityLevelID";
 import { getEntityPosition } from "./functions/getEntityPosition";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
+import { getRectangleCollisionData } from "./functions/getRectangleCollisionData";
 import { goToLevel } from "./functions/goToLevel";
 import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
@@ -115,6 +116,7 @@ export {
   getEntityLevelID,
   getEntityPosition,
   getInputTickHandlerGroupID,
+  getRectangleCollisionData,
   goToLevel,
   initialize,
   InputTickHandlerGroup,
