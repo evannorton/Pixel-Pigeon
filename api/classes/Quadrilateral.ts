@@ -158,8 +158,8 @@ export const createQuadrilateral = (
   options: CreateQuadrilateralOptions,
 ): string => new Quadrilateral(options).id;
 /**
- * @param labelID - String QuadrilateralID of the sprite to remove
+ * @param quadrilateralID - String QuadrilateralID of the sprite to remove
  */
-export const removeQuadrilateral = (labelID: string): void => {
-  getDefinable<Quadrilateral>(Quadrilateral, labelID).remove();
+export const removeQuadrilateral = (quadrilateralID: string): void => {
+  getDefinable<Quadrilateral>(Quadrilateral, quadrilateralID).remove();
 };

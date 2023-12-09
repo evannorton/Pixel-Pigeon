@@ -31,8 +31,11 @@ export const drawText = (
     horizontalAlignment === "right"
       ? startX - sprite.textWidth
       : horizontalAlignment === "center"
-        ? startX - Math.ceil(sprite.textWidth / 2)
+        ? startX - Math.floor(sprite.textWidth / 2)
         : startX;
+  if (horizontalAlignment === "center" && sprite.textWidth % 2 === 0) {
+    sprite.x++;
+  }
   sprite.y = y - size * 3;
   sprite.zIndex = zIndex;
   state.values.app.stage.addChild(sprite);
