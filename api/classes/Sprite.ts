@@ -70,7 +70,7 @@ export interface CreateSpriteOptions {
    */
   animations: CreateSpriteOptionsAnimation[];
   /**
-   * String path to the sprite sheet. **AUTOMATICALLY STARTS IN IMAGES FOLDER**
+   * String path to the sprite sheet, automatically starts in images folder**
    * @example
    * ```ts
    * imagePath: "player", // The actual path to the file is {PROJECTFILE}/images/player.png
