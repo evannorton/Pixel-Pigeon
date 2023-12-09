@@ -115,14 +115,14 @@ export const render = (): void => {
         }
       });
     }
-    getDefinables(Sprite).forEach((sprite: Sprite): void => {
-      sprite.drawAtCoordinates();
-    });
     getDefinables(Quadrilateral).forEach(
       (quadrilateral: Quadrilateral): void => {
         quadrilateral.drawAtCoordinates();
       },
     );
+    getDefinables(Sprite).forEach((sprite: Sprite): void => {
+      sprite.drawAtCoordinates();
+    });
     getDefinables(Label).forEach((label: Label): void => {
       label.drawAtCoordinates();
     });
