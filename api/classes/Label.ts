@@ -7,7 +7,7 @@ import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
 export interface CreateLabelOptions {
-  color: string;
+  color: string | (() => string);
   /**
    * Coordinates that can be used to precisely define where the Label should be on the screen
    */
@@ -44,10 +44,11 @@ export class Label extends Definable {
     }
     if (this.passesCoordinatesCondition()) {
       const text: string | null = this.getText();
-      if (text !== null) {
+      const color: string | null = this.getColor();
+      if (text !== null && color !== null) {
         drawText(
           text,
-          this._options.color,
+          color,
           this._options.coordinates.x,
           this._options.coordinates.y,
           1,
@@ -75,6 +76,18 @@ export class Label extends Definable {
       handleCaughtError(error, `Label "${this._id}" coordinates condition`);
     }
     return false;
+  }
+
+  private getColor(): string | null {
+    if (typeof this._options.color === "string") {
+      return this._options.color;
+    }
+    try {
+      return this._options.color();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Label "${this._id}" color`);
+    }
+    return null;
   }
 
   private getText(): string | null {
