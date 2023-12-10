@@ -194,9 +194,6 @@
         "allowDestructuring": true
       }
     ],
-    "@typescript-eslint/no-unnecessary-condition": [
-      "error"
-    ],
     "@typescript-eslint/no-unnecessary-qualifier": [
       "error"
     ],
