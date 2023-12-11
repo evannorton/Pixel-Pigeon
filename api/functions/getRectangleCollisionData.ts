@@ -76,8 +76,8 @@ export const getRectangleCollisionData = (
         rectanglesOverlap(rectangle, {
           height: entity.height,
           width: entity.width,
-          x: Math.floor(entity.position.x),
-          y: Math.floor(entity.position.y),
+          x: Math.floor((entity.blockingPosition ?? entity.position).x),
+          y: Math.floor((entity.blockingPosition ?? entity.position).y),
         })
       ) {
         entityCollidables.push({
