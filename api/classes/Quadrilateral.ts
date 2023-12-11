@@ -23,11 +23,11 @@ export interface CreateQuadrilateralOptions {
     /**
      * The X value on the screen where the Quadrilateral is displayed
      */
-    x: number;
+    x: number | (() => number);
     /**
      * The Y value on the screen where the Quadrilateral is displayed
      */
-    y: number;
+    y: number | (() => number);
   };
   height: number | (() => number);
   opacity?: number | (() => number);
@@ -54,12 +54,20 @@ export class Quadrilateral extends Definable {
       const opacity: number | null = this.getOpacity();
       const width: number | null = this.getWidth();
       const height: number | null = this.getHeight();
-      if (opacity !== null && width !== null && height !== null) {
+      const x: number | null = this.getCoordinatesX();
+      const y: number | null = this.getCoordinatesY();
+      if (
+        opacity !== null &&
+        width !== null &&
+        height !== null &&
+        x !== null &&
+        y !== null
+      ) {
         drawQuadrilateral(
           this._options.color,
           opacity,
-          this._options.coordinates.x,
-          this._options.coordinates.y,
+          x,
+          y,
           width,
           height,
           100,
@@ -113,6 +121,34 @@ export class Quadrilateral extends Definable {
       );
     }
     return false;
+  }
+
+  private getCoordinatesX(): number | null {
+    if (typeof this._options.coordinates !== "undefined") {
+      if (typeof this._options.coordinates.x === "number") {
+        return this._options.coordinates.x;
+      }
+      try {
+        return this._options.coordinates.x();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Quadrilateral "${this._id}" x`);
+      }
+    }
+    return null;
+  }
+
+  private getCoordinatesY(): number | null {
+    if (typeof this._options.coordinates !== "undefined") {
+      if (typeof this._options.coordinates.y === "number") {
+        return this._options.coordinates.y;
+      }
+      try {
+        return this._options.coordinates.y();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Quadrilateral "${this._id}" y`);
+      }
+    }
+    return null;
   }
 
   private getHeight(): number | null {

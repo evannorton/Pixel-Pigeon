@@ -19,11 +19,11 @@ export interface CreateLabelOptions {
     /**
      * The X value on the screen where the Label is displayed
      */
-    x: number;
+    x: number | (() => number);
     /**
      * The Y value on the screen where the Label is displayed
      */
-    y: number;
+    y: number | (() => number);
   };
   text: string | (() => string);
   horizontalAlignment: TextStyleAlign;
@@ -45,12 +45,14 @@ export class Label extends Definable {
     if (this.passesCoordinatesCondition()) {
       const text: string | null = this.getText();
       const color: string | null = this.getColor();
-      if (text !== null && color !== null) {
+      const x: number | null = this.getCoordinatesX();
+      const y: number | null = this.getCoordinatesY();
+      if (text !== null && color !== null && x !== null && y !== null) {
         drawText(
           text,
           color,
-          this._options.coordinates.x,
-          this._options.coordinates.y,
+          x,
+          y,
           1,
           state.values.config.width,
           1,
@@ -86,6 +88,34 @@ export class Label extends Definable {
       return this._options.color();
     } catch (error: unknown) {
       handleCaughtError(error, `Label "${this._id}" color`);
+    }
+    return null;
+  }
+
+  private getCoordinatesX(): number | null {
+    if (typeof this._options.coordinates !== "undefined") {
+      if (typeof this._options.coordinates.x === "number") {
+        return this._options.coordinates.x;
+      }
+      try {
+        return this._options.coordinates.x();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Label "${this._id}" x`);
+      }
+    }
+    return null;
+  }
+
+  private getCoordinatesY(): number | null {
+    if (typeof this._options.coordinates !== "undefined") {
+      if (typeof this._options.coordinates.y === "number") {
+        return this._options.coordinates.y;
+      }
+      try {
+        return this._options.coordinates.y();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Label "${this._id}" y`);
+      }
     }
     return null;
   }
