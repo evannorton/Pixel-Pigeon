@@ -35,16 +35,17 @@ export class InputPressHandler extends Definable {
     this._options = options;
   }
 
-  public handleGamepadInput(gamepadInput: GamepadInput): void {
+  public getGamepadOnInput(gamepadInput: GamepadInput): (() => void) | null {
     if (
       typeof this._options.gamepadButtons !== "undefined" &&
       this._options.gamepadButtons.includes(gamepadInput.button)
     ) {
-      this.attemptInput();
+      return this.getOnInput();
     }
+    return null;
   }
 
-  public handleKeyboardInput(keyboardInput: KeyboardInput): void {
+  public getKeyboardOnInput(keyboardInput: KeyboardInput): (() => void) | null {
     if (
       typeof this._options.keyboardButtons !== "undefined" &&
       this._options.keyboardButtons.some((key: KeyboardButton): boolean => {
@@ -60,27 +61,26 @@ export class InputPressHandler extends Definable {
         return false;
       })
     ) {
-      this.attemptInput();
+      return this.getOnInput();
     }
+    return null;
   }
 
-  public handleMouseInput(mouseInput: MouseInput): void {
+  public getMouseOnInput(mouseInput: MouseInput): (() => void) | null {
     if (
       typeof this._options.mouseButtons !== "undefined" &&
       this._options.mouseButtons.includes(mouseInput.button)
     ) {
-      this.attemptInput();
+      return this.getOnInput();
     }
+    return null;
   }
 
-  private attemptInput(): void {
+  private getOnInput(): (() => void) | null {
     if (this.passesCondition()) {
-      try {
-        this._options.onInput();
-      } catch (error: unknown) {
-        handleCaughtError(error, "onInput");
-      }
+      return this._options.onInput;
     }
+    return null;
   }
 
   private passesCondition(): boolean {

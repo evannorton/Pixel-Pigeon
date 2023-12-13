@@ -2,6 +2,7 @@ import { GamepadInput } from "../../types/GamepadInput";
 import { InputPressHandler } from "../../classes/InputPressHandler";
 import { InputTickHandler } from "../../classes/InputTickHandler";
 import { getDefinables } from "../getDefinables";
+import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
 
 export const updateInput = (): void => {
@@ -63,26 +64,36 @@ export const updateInput = (): void => {
       );
     }
   });
+  const onInputs: ((() => void) | null)[] = [];
   for (const pressedGamepadInput of state.values.pressedGamepadInputs) {
     getDefinables(InputPressHandler).forEach(
       (inputPressHandler: InputPressHandler): void => {
-        inputPressHandler.handleGamepadInput(pressedGamepadInput);
+        onInputs.push(inputPressHandler.getGamepadOnInput(pressedGamepadInput));
       },
     );
   }
   for (const pressedMouseInput of state.values.pressedMouseInputs) {
     getDefinables(InputPressHandler).forEach(
       (inputPressHandler: InputPressHandler): void => {
-        inputPressHandler.handleMouseInput(pressedMouseInput);
+        onInputs.push(inputPressHandler.getMouseOnInput(pressedMouseInput));
       },
     );
   }
   for (const keyboardPress of state.values.pressedKeyboardInputs) {
     getDefinables(InputPressHandler).forEach(
       (inputPressHandler: InputPressHandler): void => {
-        inputPressHandler.handleKeyboardInput(keyboardPress);
+        onInputs.push(inputPressHandler.getKeyboardOnInput(keyboardPress));
       },
     );
+  }
+  for (const onInput of onInputs) {
+    if (onInput !== null) {
+      try {
+        onInput();
+      } catch (error: unknown) {
+        handleCaughtError(error, "onInput");
+      }
+    }
   }
   getDefinables(InputTickHandler).forEach(
     (inputTickHandler: InputTickHandler<string>): void => {
