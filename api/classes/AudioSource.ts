@@ -55,6 +55,7 @@ export class AudioSource extends Definable {
   public play(playAudioOptions: PlayAudioSourceOptions): void {
     this._howl.play();
     this._playOptions = playAudioOptions;
+    this.updateVolume();
   }
 
   public resume(): void {
@@ -70,19 +71,16 @@ export class AudioSource extends Definable {
   }
 
   public updateVolume(): void {
-    if (this._playOptions === null) {
-      throw new Error(
-        `An attempt was made to update the volume of AudioSource "${this._id}" with no play options.`,
+    if (this._playOptions !== null) {
+      const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
+        VolumeChannel,
+        this._playOptions.volumeChannelID,
+      );
+      this._howl.volume(
+        getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
+          100,
       );
     }
-    const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
-      VolumeChannel,
-      this._playOptions.volumeChannelID,
-    );
-    this._howl.volume(
-      getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
-        100,
-    );
   }
 
   private onHowlEnd(): void {
