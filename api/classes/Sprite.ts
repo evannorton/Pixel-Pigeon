@@ -235,78 +235,83 @@ export class Sprite extends Definable {
         `Sprite "${this._id}" does not contain an animation with ID "${this._animation.id}".`,
       );
     }
-    const animationContainsEndlessFrame: boolean = currentAnimation.frames.some(
-      (frame: CreateSpriteOptionsAnimationFrame): boolean =>
-        typeof frame.duration === "undefined",
-    );
-    const animationDuration: number = currentAnimation.frames.reduce(
-      (accumulator: number, frame: CreateSpriteOptionsAnimationFrame): number =>
-        accumulator + (frame.duration ?? 0),
-      0,
-    );
-    const timeSinceAnimationStarted: number =
-      state.values.currentTime - this._animation.startedAt;
-    const animationTime: number = animationContainsEndlessFrame
-      ? timeSinceAnimationStarted
-      : timeSinceAnimationStarted % animationDuration;
-    const currentAnimationFrame: CreateSpriteOptionsAnimationFrame | null =
-      currentAnimation.frames.find(
+    if (currentAnimation.frames.length > 0) {
+      const animationContainsEndlessFrame: boolean =
+        currentAnimation.frames.some(
+          (frame: CreateSpriteOptionsAnimationFrame): boolean =>
+            typeof frame.duration === "undefined",
+        );
+      const animationDuration: number = currentAnimation.frames.reduce(
         (
+          accumulator: number,
           frame: CreateSpriteOptionsAnimationFrame,
-          frameIndex: number,
-        ): boolean => {
-          const duration: number | null = frame.duration ?? null;
-          if (duration === null) {
-            return true;
-          }
-          const loopedDuration: number =
-            frameIndex > 0
-              ? currentAnimation.frames
-                  .slice(0, frameIndex - 1)
+        ): number => accumulator + (frame.duration ?? 0),
+        0,
+      );
+      const timeSinceAnimationStarted: number =
+        state.values.currentTime - this._animation.startedAt;
+      const animationTime: number = animationContainsEndlessFrame
+        ? timeSinceAnimationStarted
+        : timeSinceAnimationStarted % animationDuration;
+      const currentAnimationFrame: CreateSpriteOptionsAnimationFrame | null =
+        currentAnimation.frames.find(
+          (
+            frame: CreateSpriteOptionsAnimationFrame,
+            frameIndex: number,
+          ): boolean => {
+            const duration: number | null = frame.duration ?? null;
+            if (duration === null) {
+              return true;
+            }
+            const loopedDuration: number =
+              frameIndex > 0
+                ? currentAnimation.frames
+                    .slice(0, frameIndex - 1)
+                    .reduce(
+                      (
+                        accumulator: number,
+                        loopedFrame: CreateSpriteOptionsAnimationFrame,
+                      ): number => accumulator + (loopedFrame.duration ?? 0),
+                      0,
+                    ) + duration
+                : 0;
+            if (animationTime >= loopedDuration) {
+              const nextLoopedDuration: number =
+                currentAnimation.frames
+                  .slice(0, frameIndex)
                   .reduce(
                     (
                       accumulator: number,
                       loopedFrame: CreateSpriteOptionsAnimationFrame,
                     ): number => accumulator + (loopedFrame.duration ?? 0),
                     0,
-                  ) + duration
-              : 0;
-          if (animationTime >= loopedDuration) {
-            const nextLoopedDuration: number =
-              currentAnimation.frames
-                .slice(0, frameIndex)
-                .reduce(
-                  (
-                    accumulator: number,
-                    loopedFrame: CreateSpriteOptionsAnimationFrame,
-                  ): number => accumulator + (loopedFrame.duration ?? 0),
-                  0,
-                ) + duration;
-            if (animationTime < nextLoopedDuration) {
-              return true;
+                  ) + duration;
+              if (animationTime < nextLoopedDuration) {
+                return true;
+              }
             }
-          }
-          return false;
-        },
-      ) ?? null;
-    if (currentAnimationFrame === null) {
-      throw new Error(
-        `Sprite "${this._id}" could not get the current frame for animation "${this._animation.id}".`,
+            return false;
+          },
+        ) ?? null;
+      if (currentAnimationFrame === null) {
+        throw new Error(
+          `Sprite "${this._id}" could not get the current frame for animation "${this._animation.id}".`,
+        );
+      }
+      drawImage(
+        this.imageSource.texture,
+        1,
+        currentAnimationFrame.sourceX,
+        currentAnimationFrame.sourceY,
+        currentAnimationFrame.sourceWidth,
+        currentAnimationFrame.sourceHeight,
+        x,
+        y,
+        currentAnimationFrame.width,
+        currentAnimationFrame.height,
+        zIndex,
       );
     }
-    drawImage(
-      this.imageSource.texture,
-      1,
-      currentAnimationFrame.sourceX,
-      currentAnimationFrame.sourceY,
-      currentAnimationFrame.sourceWidth,
-      currentAnimationFrame.sourceHeight,
-      x,
-      y,
-      currentAnimationFrame.width,
-      currentAnimationFrame.height,
-      zIndex,
-    );
   }
 
   private passesCoordinatesCondition(): boolean {
