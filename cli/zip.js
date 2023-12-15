@@ -4,6 +4,6 @@ var archive = archiver('game.zip',{
   store: true
 });
 
-archive.directory('node_modules/pixel-pigeon/out', false);
+archive.directory('out', false);
 
 archive.finalize();

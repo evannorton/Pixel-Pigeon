@@ -1,12 +1,15 @@
 body {
+  align-items: center;
   background-color: black;
   color: white;
+  display: flex;
   font-family: sans-serif;
   image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: -o-crisp-edges;
   image-rendering: pixelated;
+  justify-content: center;
   overflow: hidden;
 }
 
