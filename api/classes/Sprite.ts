@@ -88,11 +88,11 @@ export interface CreateSpriteOptions {
     /**
      * The X value on the screen where the Sprite is displayed
      */
-    x: number;
+    x: number | (() => number);
     /**
      * The Y value on the screen where the Sprite is displayed
      */
-    y: number;
+    y: number | (() => number);
   };
 }
 export class Sprite extends Definable {
@@ -142,11 +142,11 @@ export class Sprite extends Definable {
       typeof this._options.coordinates !== "undefined" &&
       this.passesCoordinatesCondition()
     ) {
-      this.drawAtPosition(
-        this._options.coordinates.x,
-        this._options.coordinates.y,
-        100,
-      );
+      const x: number | null = this.getCoordinatesX();
+      const y: number | null = this.getCoordinatesY();
+      if (x !== null && y !== null) {
+        this.drawAtPosition(x, y, 100);
+      }
     }
   }
 
@@ -334,6 +334,34 @@ export class Sprite extends Definable {
       return this._options.animationID();
     } catch (error: unknown) {
       handleCaughtError(error, `Sprite "${this._id}" animationID`);
+    }
+    return null;
+  }
+
+  private getCoordinatesX(): number | null {
+    if (typeof this._options.coordinates !== "undefined") {
+      if (typeof this._options.coordinates.x === "number") {
+        return this._options.coordinates.x;
+      }
+      try {
+        return this._options.coordinates.x();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Sprite "${this._id}" coordinates x`);
+      }
+    }
+    return null;
+  }
+
+  private getCoordinatesY(): number | null {
+    if (typeof this._options.coordinates !== "undefined") {
+      if (typeof this._options.coordinates.y === "number") {
+        return this._options.coordinates.y;
+      }
+      try {
+        return this._options.coordinates.y();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Sprite "${this._id}" coordinates y`);
+      }
     }
     return null;
   }

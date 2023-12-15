@@ -131,7 +131,7 @@ export class Quadrilateral extends Definable {
       try {
         return this._options.coordinates.x();
       } catch (error: unknown) {
-        handleCaughtError(error, `Quadrilateral "${this._id}" x`);
+        handleCaughtError(error, `Quadrilateral "${this._id}" coordinates x`);
       }
     }
     return null;
@@ -145,7 +145,7 @@ export class Quadrilateral extends Definable {
       try {
         return this._options.coordinates.y();
       } catch (error: unknown) {
-        handleCaughtError(error, `Quadrilateral "${this._id}" y`);
+        handleCaughtError(error, `Quadrilateral "${this._id}" coordinates y`);
       }
     }
     return null;

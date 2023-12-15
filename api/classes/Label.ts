@@ -100,7 +100,7 @@ export class Label extends Definable {
       try {
         return this._options.coordinates.x();
       } catch (error: unknown) {
-        handleCaughtError(error, `Label "${this._id}" x`);
+        handleCaughtError(error, `Label "${this._id}" coordinates x`);
       }
     }
     return null;
@@ -114,7 +114,7 @@ export class Label extends Definable {
       try {
         return this._options.coordinates.y();
       } catch (error: unknown) {
-        handleCaughtError(error, `Label "${this._id}" y`);
+        handleCaughtError(error, `Label "${this._id}" coordinates y`);
       }
     }
     return null;
