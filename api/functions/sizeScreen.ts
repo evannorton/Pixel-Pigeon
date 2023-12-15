@@ -16,6 +16,12 @@ export const sizeScreen = (): void => {
       "An attempt was made to size screen with no screen element in the DOM.",
     );
   }
+  const anchorsElement: HTMLElement | null = document.getElementById("anchors");
+  if (anchorsElement === null) {
+    throw new Error(
+      "An attempt was made to size screen with no anchors element in the DOM.",
+    );
+  }
   screenElement.style.width = `${screenWidth}px`;
   screenElement.style.height = `${screenHeight}px`;
   const achievementUnlockNoticesElement: HTMLElement | null =
@@ -36,6 +42,8 @@ export const sizeScreen = (): void => {
   }
   pauseMenuElement.style.width = `${screenWidth}px`;
   pauseMenuElement.style.height = `${screenHeight}px`;
+  anchorsElement.style.width = `${screenWidth}px`;
+  anchorsElement.style.height = `${screenHeight}px`;
   const lowerDimension: number = Math.min(
     state.values.config.width,
     state.values.config.height,

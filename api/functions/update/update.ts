@@ -1,3 +1,4 @@
+import { Anchor } from "../../classes/Anchor";
 import { Sprite } from "../../classes/Sprite";
 import { getDefinables } from "../getDefinables";
 import { handleCaughtError } from "../handleCaughtError";
@@ -30,6 +31,9 @@ export const update = (): void => {
   getDefinables(Sprite).forEach((sprite: Sprite): void => {
     sprite.playAnimation();
     sprite.drawAtCoordinates();
+  });
+  getDefinables(Anchor).forEach((anchor: Anchor): void => {
+    anchor.update();
   });
   if (
     state.values.pauseMenuCondition !== null &&

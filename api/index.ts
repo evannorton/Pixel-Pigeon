@@ -1,3 +1,9 @@
+import {
+  Anchor,
+  CreateAnchorOptions,
+  createAnchor,
+  removeAnchor,
+} from "./classes/Anchor";
 import { CollisionData } from "./types/CollisionData";
 import {
   CreateAchievementOptions,
@@ -83,9 +89,12 @@ import { takeScreenshot } from "./functions/takeScreenshot";
 export {
   addEntityQuadrilateral,
   addEntitySprite,
+  Anchor,
   CollisionData,
   createAchievement,
   CreateAchievementOptions,
+  createAnchor,
+  CreateAnchorOptions,
   createEntity,
   CreateEntityOptions,
   createInputPressHandler,
@@ -134,6 +143,7 @@ export {
   playAudioSource,
   PlayAudioSourceOptions,
   Rectangle,
+  removeAnchor,
   removeEntity,
   removeEntitySprite,
   removeLabel,
