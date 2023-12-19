@@ -96,7 +96,7 @@ Create an `.eslintrc` with the following contents to use this extension.
 }
 ```
 
-## Running the framework locally
+## Running the engine locally
 1. Follow the "getting started" instructions to create a game somewhere on your PC, e.g. `D:\Code\My-Awesome-Game`.
 2. Clone the framework somewhere on your PC, e.g. `D:\Code\Pigeon-Mode-Game-Framework`.
 3. Inside of the framework directory, run `npm link`.
