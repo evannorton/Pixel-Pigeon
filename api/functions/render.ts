@@ -148,5 +148,4 @@ export const render = (): void => {
   }
   state.values.app.stage.sortChildren();
   state.values.app.render();
-  console.log(state.values.app.ticker.FPS);
 };
