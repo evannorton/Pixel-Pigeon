@@ -1,4 +1,4 @@
-import { Application } from "pixi.js";
+import { Application, BitmapText, Graphics } from "pixi.js";
 import { Config } from "./types/Config";
 import { Dev } from "./types/Dev";
 import { Env } from "./types/Env";
@@ -8,6 +8,7 @@ import { KeyboardInput } from "./types/KeyboardInput";
 import { MouseInput } from "./types/MouseInput";
 import { State } from "./classes/State";
 import { World } from "./types/World";
+import { attemptLoadWorld } from "./functions/attemptLoadWorld";
 import { defaultVolume } from "./constants/defaultVolume";
 
 interface StateSchema {
@@ -35,6 +36,7 @@ interface StateSchema {
   readonly pressedGamepadInputs: GamepadInput[];
   readonly pressedKeyboardInputs: KeyboardInput[];
   readonly pressedMouseInputs: MouseInput[];
+  readonly renderChildrenToDestroy: (BitmapText | Graphics)[];
   readonly type: string | null;
   readonly volumeTestHowl: Howl;
   readonly world: World | null;
@@ -72,6 +74,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   pressedGamepadInputs: [],
   pressedKeyboardInputs: [],
   pressedMouseInputs: [],
+  renderChildrenToDestroy: [],
   type: null,
   volumeTestHowl,
   world: null,
@@ -79,5 +82,8 @@ export const state: State<StateSchema> = new State<StateSchema>({
 volumeTestHowl.on("load", (): void => {
   state.setValues({
     loadedAssets: state.values.loadedAssets + 1,
+  });
+  attemptLoadWorld().catch((error: unknown): void => {
+    throw error;
   });
 });

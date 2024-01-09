@@ -1,5 +1,7 @@
 import { BitmapText, TextStyleAlign } from "pixi.js";
 
+const regex: RegExp = new RegExp("\\*", "gu");
+
 export const getBitmapText = (
   text: string,
   color: string,
@@ -8,7 +10,7 @@ export const getBitmapText = (
   maxLines: number,
   horizontalAlignment: TextStyleAlign,
 ): BitmapText => {
-  const replaced: string = text.replace(new RegExp("\\*", "gu"), "");
+  const replaced: string = text.replace(regex, "");
   const bitmapText: BitmapText = new BitmapText(replaced, {
     align: horizontalAlignment,
     fontName: "RetroPixels",
@@ -65,7 +67,10 @@ export const getBitmapText = (
         fontName: "RetroPixels",
         fontSize: size * 16,
       });
-      return word2BitmapText.width - word1BitmapText.width;
+      const diff: number = word2BitmapText.width - word1BitmapText.width;
+      word1BitmapText.destroy();
+      word2BitmapText.destroy();
+      return diff;
     },
   );
   const pieces: string[] = text.split("");

@@ -22,4 +22,10 @@ export const drawQuadrilateral = (
   rectangle.alpha = opacity;
   rectangle.zIndex = zIndex;
   state.values.app.stage.addChild(rectangle);
+  state.setValues({
+    renderChildrenToDestroy: [
+      ...state.values.renderChildrenToDestroy,
+      rectangle,
+    ],
+  });
 };

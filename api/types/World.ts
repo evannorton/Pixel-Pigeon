@@ -1,6 +1,7 @@
 import { CollisionData } from "./CollisionData";
 import { OverlapData } from "./OverlapData";
 import { Pathing } from "./Pathing";
+import { Sprite as PixiSprite, Texture } from "pixi.js";
 import { TilePosition } from "./TilePosition";
 
 /**
@@ -73,8 +74,9 @@ export interface Layer {
   readonly tileSize: number;
   readonly tiles: {
     readonly id: number;
-    readonly sourceX: number;
-    readonly sourceY: number;
+    readonly pixiSprite: PixiSprite;
+    readonly tilesetX: number;
+    readonly tilesetY: number;
     readonly x: number;
     readonly y: number;
   }[];
@@ -96,6 +98,7 @@ export interface Tileset {
 export interface WorldTilesetTile {
   readonly id: number;
   readonly isCollidable: boolean;
+  readonly texture: Texture;
 }
 export interface World {
   readonly levels: Map<string, Level>;

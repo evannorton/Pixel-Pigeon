@@ -2,13 +2,11 @@ import {
   CameraCoordinates,
   getCameraCoordinates,
 } from "./getCameraCoordinates";
-import { ImageSource } from "../classes/ImageSource";
 import { Label } from "../classes/Label";
 import { Layer, Level, Tileset, World } from "../types/World";
 import { Quadrilateral } from "../classes/Quadrilateral";
 import { Sprite } from "../classes/Sprite";
 import { assetsAreLoaded } from "./assetsAreLoaded";
-import { drawImage } from "./draw/drawImage";
 import { drawQuadrilateral } from "./draw/drawQuadrilateral";
 import { drawText } from "./draw/drawText";
 import { getDefinable } from "./getDefinable";
@@ -23,9 +21,14 @@ export const render = (): void => {
   if (state.values.config === null) {
     throw new Error("An attempt was made to render before config was loaded.");
   }
-  for (const child of state.values.app.stage.removeChildren()) {
+  getDefinables(Quadrilateral).forEach((quadrilateral: Quadrilateral): void => {
+    quadrilateral.clear();
+  });
+  state.values.app.stage.removeChildren();
+  for (const child of state.values.renderChildrenToDestroy) {
     child.destroy();
   }
+  state.setValues({ renderChildrenToDestroy: [] });
   drawQuadrilateral(
     "#000000",
     1,
@@ -78,6 +81,16 @@ export const render = (): void => {
         throw Error("An attempt was made to render a nonexistent level.");
       }
       level.layers.forEach((layer: Layer, layerIndex: number): void => {
+        if (state.values.config === null) {
+          throw new Error(
+            "An attempt was made to render before config was loaded.",
+          );
+        }
+        if (state.values.app === null) {
+          throw new Error(
+            "An attempt was made to render before app was created.",
+          );
+        }
         if (layer.tilesetID !== null) {
           const tileset: Tileset | null =
             world.tilesets.get(layer.tilesetID) ?? null;
@@ -85,19 +98,25 @@ export const render = (): void => {
             throw Error("An attempt was made to render a nonexistent tileset.");
           }
           for (const tile of layer.tiles) {
-            drawImage(
-              getDefinable(ImageSource, tileset.imageSourceID).texture,
-              1,
-              tile.sourceX,
-              tile.sourceY,
-              tileset.tileSize,
-              tileset.tileSize,
-              tile.x - cameraCoordinates.x,
-              tile.y - cameraCoordinates.y,
-              layer.tileSize,
-              layer.tileSize,
-              layerIndex + 1 / (1 + Math.exp(0)),
-            );
+            const x: number = tile.x - cameraCoordinates.x;
+            const y: number = tile.y - cameraCoordinates.y;
+            const width: number = tileset.tileSize;
+            const height: number = tileset.tileSize;
+            if (
+              x + width >= 0 &&
+              y + height >= 0 &&
+              x < state.values.config.width &&
+              y < state.values.config.height
+            ) {
+              tile.pixiSprite.texture = tileset.tiles[tile.id].texture;
+              tile.pixiSprite.x = x;
+              tile.pixiSprite.y = y;
+              tile.pixiSprite.width = width;
+              tile.pixiSprite.height = height;
+              tile.pixiSprite.alpha = 1;
+              tile.pixiSprite.zIndex = layerIndex + 1 / (1 / Math.exp(0));
+              state.values.app.stage.addChild(tile.pixiSprite);
+            }
           }
         }
         for (const [, entity] of layer.entities) {
@@ -129,4 +148,5 @@ export const render = (): void => {
   }
   state.values.app.stage.sortChildren();
   state.values.app.render();
+  console.log(state.values.app.ticker.FPS);
 };

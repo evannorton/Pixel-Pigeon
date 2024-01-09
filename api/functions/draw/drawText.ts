@@ -39,4 +39,7 @@ export const drawText = (
   sprite.y = y - size * 3;
   sprite.zIndex = zIndex;
   state.values.app.stage.addChild(sprite);
+  state.setValues({
+    renderChildrenToDestroy: [...state.values.renderChildrenToDestroy, sprite],
+  });
 };

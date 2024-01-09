@@ -5,8 +5,8 @@ import {
 import { Definable } from "./Definable";
 import { Entity, EntitySprite } from "../types/World";
 import { ImageSource } from "./ImageSource";
+import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
 import { TilePosition } from "../types/TilePosition";
-import { drawImage } from "../functions/draw/drawImage";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
@@ -95,17 +95,37 @@ export interface CreateSpriteOptions {
     y: number | (() => number);
   };
 }
-export class Sprite extends Definable {
-  private _animation: {
-    readonly id: string;
-    readonly startedAt: number;
-  } | null = null;
+interface SpriteAnimationPlay {
+  readonly id: string;
+  readonly startedAt: number;
+}
+interface SpriteCoordinates {
+  readonly condition: (() => boolean) | null;
+  readonly x: number | (() => number);
+  readonly y: number | (() => number);
+}
+interface SpriteAnimationFrame {
+  readonly duration: number | null;
+  readonly height: number;
+  readonly texture: Texture;
+  readonly width: number;
+}
+interface SpriteAnimation {
+  readonly id: string;
+  readonly frames: SpriteAnimationFrame[];
+}
 
-  private readonly _options: CreateSpriteOptions;
+export class Sprite extends Definable {
+  private _animationPlay: SpriteAnimationPlay | null = null;
+
+  private readonly _animationID: string | (() => string);
+  private readonly _animations: SpriteAnimation[];
+  private readonly _coordinates: SpriteCoordinates | null;
+  private readonly _imageSourceID: string;
+  private readonly _pixiSprite: PixiSprite = new PixiSprite();
 
   public constructor(options: CreateSpriteOptions) {
     super(getToken());
-    this._options = options;
     const animationIDs: string[] = [];
     for (const animation of options.animations) {
       if (animationIDs.includes(animation.id)) {
@@ -115,22 +135,51 @@ export class Sprite extends Definable {
       }
       animationIDs.push(animation.id);
     }
-  }
-
-  private get animations(): CreateSpriteOptionsAnimation[] {
-    return [...this._options.animations];
+    this._imageSourceID = options.imagePath;
+    this._animationID = options.animationID;
+    this._animations = options.animations.map(
+      (animation: CreateSpriteOptionsAnimation): SpriteAnimation => ({
+        frames: animation.frames.map(
+          (frame: CreateSpriteOptionsAnimationFrame): SpriteAnimationFrame => ({
+            duration: frame.duration ?? null,
+            height: frame.height,
+            texture: new Texture(
+              this.imageSource.texture.baseTexture,
+              new Rectangle(
+                frame.sourceX,
+                frame.sourceY,
+                frame.sourceWidth,
+                frame.sourceHeight,
+              ),
+            ),
+            width: frame.width,
+          }),
+        ),
+        id: animation.id,
+      }),
+    );
+    this._coordinates = options.coordinates
+      ? {
+          condition: options.coordinates.condition ?? null,
+          x: options.coordinates.x,
+          y: options.coordinates.y,
+        }
+      : null;
   }
 
   private get imageSource(): ImageSource {
-    return getDefinable(ImageSource, this._options.imagePath);
+    return getDefinable(ImageSource, this._imageSourceID);
   }
 
   public playAnimation(): void {
     const animationID: string | null = this.getAnimationID();
     if (animationID === null) {
-      this._animation = null;
-    } else if (this._animation === null || animationID !== this._animation.id) {
-      this._animation = {
+      this._animationPlay = null;
+    } else if (
+      this._animationPlay === null ||
+      animationID !== this._animationPlay.id
+    ) {
+      this._animationPlay = {
         id: animationID,
         startedAt: state.values.currentTime,
       };
@@ -138,10 +187,7 @@ export class Sprite extends Definable {
   }
 
   public drawAtCoordinates(): void {
-    if (
-      typeof this._options.coordinates !== "undefined" &&
-      this.passesCoordinatesCondition()
-    ) {
+    if (this._coordinates !== null && this.passesCoordinatesCondition()) {
       const x: number | null = this.getCoordinatesX();
       const y: number | null = this.getCoordinatesY();
       if (x !== null && y !== null) {
@@ -218,43 +264,54 @@ export class Sprite extends Definable {
     }
   }
 
+  public remove(): void {
+    super.remove();
+    this._pixiSprite.destroy();
+    for (const animation of this._animations) {
+      for (const frame of animation.frames) {
+        frame.texture.destroy();
+      }
+    }
+  }
+
   private drawAtPosition(x: number, y: number, zIndex: number): void {
-    if (this._animation === null) {
+    if (state.values.app === null) {
+      throw new Error(
+        `Sprite "${this._id}" of ImageSource "${this.imageSource.id}" attempted to draw before app was created.`,
+      );
+    }
+    if (this._animationPlay === null) {
       throw new Error(
         `Sprite "${this._id}" of ImageSource "${this.imageSource.id}" attempted to draw with no animation.`,
       );
     }
-    const animation: Sprite["_animation"] = this._animation;
-    const currentAnimation: CreateSpriteOptionsAnimation | null =
-      this.animations.find(
-        (spriteAnimation: CreateSpriteOptionsAnimation): boolean =>
+    const animation: SpriteAnimationPlay = this._animationPlay;
+    const currentAnimation: SpriteAnimation | null =
+      this._animations.find(
+        (spriteAnimation: SpriteAnimation): boolean =>
           spriteAnimation.id === animation.id,
       ) ?? null;
     if (currentAnimation === null) {
       throw new Error(
-        `Sprite "${this._id}" does not contain an animation with ID "${this._animation.id}".`,
+        `Sprite "${this._id}" does not contain an animation with ID "${this._animationPlay.id}".`,
       );
     }
     const animationContainsEndlessFrame: boolean = currentAnimation.frames.some(
-      (frame: CreateSpriteOptionsAnimationFrame): boolean =>
-        typeof frame.duration === "undefined",
+      (frame: SpriteAnimationFrame): boolean => frame.duration === null,
     );
     const animationDuration: number = currentAnimation.frames.reduce(
-      (accumulator: number, frame: CreateSpriteOptionsAnimationFrame): number =>
+      (accumulator: number, frame: SpriteAnimationFrame): number =>
         accumulator + (frame.duration ?? 0),
       0,
     );
     const timeSinceAnimationStarted: number =
-      state.values.currentTime - this._animation.startedAt;
+      state.values.currentTime - this._animationPlay.startedAt;
     const animationTime: number = animationContainsEndlessFrame
       ? timeSinceAnimationStarted
       : timeSinceAnimationStarted % animationDuration;
-    const currentAnimationFrame: CreateSpriteOptionsAnimationFrame | null =
+    const currentAnimationFrame: SpriteAnimationFrame | null =
       currentAnimation.frames.find(
-        (
-          frame: CreateSpriteOptionsAnimationFrame,
-          frameIndex: number,
-        ): boolean => {
+        (frame: SpriteAnimationFrame, frameIndex: number): boolean => {
           const duration: number | null = frame.duration ?? null;
           if (duration === null) {
             return true;
@@ -266,7 +323,7 @@ export class Sprite extends Definable {
                   .reduce(
                     (
                       accumulator: number,
-                      loopedFrame: CreateSpriteOptionsAnimationFrame,
+                      loopedFrame: SpriteAnimationFrame,
                     ): number => accumulator + (loopedFrame.duration ?? 0),
                     0,
                   ) + duration
@@ -278,7 +335,7 @@ export class Sprite extends Definable {
                 .reduce(
                   (
                     accumulator: number,
-                    loopedFrame: CreateSpriteOptionsAnimationFrame,
+                    loopedFrame: SpriteAnimationFrame,
                   ): number => accumulator + (loopedFrame.duration ?? 0),
                   0,
                 ) + duration;
@@ -291,35 +348,29 @@ export class Sprite extends Definable {
       ) ?? null;
     if (currentAnimationFrame === null) {
       throw new Error(
-        `Sprite "${this._id}" could not get the current frame for animation "${this._animation.id}".`,
+        `Sprite "${this._id}" could not get the current frame for animation "${this._animationPlay.id}".`,
       );
     }
-    drawImage(
-      this.imageSource.texture,
-      1,
-      currentAnimationFrame.sourceX,
-      currentAnimationFrame.sourceY,
-      currentAnimationFrame.sourceWidth,
-      currentAnimationFrame.sourceHeight,
-      x,
-      y,
-      currentAnimationFrame.width,
-      currentAnimationFrame.height,
-      zIndex,
-    );
+    this._pixiSprite.texture = currentAnimationFrame.texture;
+    this._pixiSprite.x = x;
+    this._pixiSprite.y = y;
+    this._pixiSprite.width = currentAnimationFrame.width;
+    this._pixiSprite.height = currentAnimationFrame.height;
+    this._pixiSprite.zIndex = zIndex;
+    state.values.app.stage.addChild(this._pixiSprite);
   }
 
   private passesCoordinatesCondition(): boolean {
-    if (typeof this._options.coordinates === "undefined") {
+    if (this._coordinates === null) {
       throw new Error(
         `Sprite "${this._id}" attempted to check coordinates condition with no coordinates.`,
       );
     }
-    if (typeof this._options.coordinates.condition === "undefined") {
+    if (this._coordinates.condition === null) {
       return true;
     }
     try {
-      return this._options.coordinates.condition();
+      return this._coordinates.condition();
     } catch (error: unknown) {
       handleCaughtError(error, `Sprite "${this._id}" coordinates condition`);
     }
@@ -327,11 +378,11 @@ export class Sprite extends Definable {
   }
 
   private getAnimationID(): string | null {
-    if (typeof this._options.animationID === "string") {
-      return this._options.animationID;
+    if (typeof this._animationID === "string") {
+      return this._animationID;
     }
     try {
-      return this._options.animationID();
+      return this._animationID();
     } catch (error: unknown) {
       handleCaughtError(error, `Sprite "${this._id}" animationID`);
     }
@@ -339,12 +390,12 @@ export class Sprite extends Definable {
   }
 
   private getCoordinatesX(): number | null {
-    if (typeof this._options.coordinates !== "undefined") {
-      if (typeof this._options.coordinates.x === "number") {
-        return this._options.coordinates.x;
+    if (this._coordinates !== null) {
+      if (typeof this._coordinates.x === "number") {
+        return this._coordinates.x;
       }
       try {
-        return this._options.coordinates.x();
+        return this._coordinates.x();
       } catch (error: unknown) {
         handleCaughtError(error, `Sprite "${this._id}" coordinates x`);
       }
@@ -353,12 +404,12 @@ export class Sprite extends Definable {
   }
 
   private getCoordinatesY(): number | null {
-    if (typeof this._options.coordinates !== "undefined") {
-      if (typeof this._options.coordinates.y === "number") {
-        return this._options.coordinates.y;
+    if (this._coordinates !== null) {
+      if (typeof this._coordinates.y === "number") {
+        return this._coordinates.y;
       }
       try {
-        return this._options.coordinates.y();
+        return this._coordinates.y();
       } catch (error: unknown) {
         handleCaughtError(error, `Sprite "${this._id}" coordinates y`);
       }

@@ -5,7 +5,10 @@ import {
   World,
   WorldTilesetTile,
 } from "../types/World";
-import { LDTK, LDTKTileData } from "../types/LDTK";
+import { ImageSource } from "../classes/ImageSource";
+import { LDTK, LDTKTileCustomData, LDTKTileData } from "../types/LDTK";
+import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
+import { getDefinable } from "./getDefinable";
 
 export const getWorld = (ldtk: LDTK): World => {
   const levels: Map<string, Level> = new Map();
@@ -69,8 +72,9 @@ export const getWorld = (ldtk: LDTK): World => {
                   ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0],
                 ): Level["layers"][0]["tiles"][0] => ({
                   id: ldtkGridTile.t,
-                  sourceX: ldtkGridTile.src[0],
-                  sourceY: ldtkGridTile.src[1],
+                  pixiSprite: new PixiSprite(),
+                  tilesetX: ldtkGridTile.src[0] / ldtkLayerInstance.__gridSize,
+                  tilesetY: ldtkGridTile.src[1] / ldtkLayerInstance.__gridSize,
                   x: ldtkGridTile.px[0],
                   y: ldtkGridTile.px[1],
                 }),
@@ -91,25 +95,62 @@ export const getWorld = (ldtk: LDTK): World => {
     });
   }
   for (const ldtkDefTileset of ldtk.defs.tilesets) {
+    const imageSourceID: string = ldtkDefTileset.relPath
+      .substring(0, ldtkDefTileset.relPath.length - 4)
+      .substring(7);
+    const tiles: WorldTilesetTile[] = [];
+    for (let y: number = 0; y < ldtkDefTileset.__cHei; y++) {
+      for (let x: number = 0; x < ldtkDefTileset.__cWid; x++) {
+        const id: number = y * ldtkDefTileset.__cWid + x;
+        const matchedCustomDatum: LDTKTileCustomData | null =
+          ldtkDefTileset.customData.find(
+            (customDatum: LDTKTileCustomData): boolean =>
+              customDatum.tileId === id,
+          ) ?? null;
+        const properties: LDTKTileData | null =
+          matchedCustomDatum !== null
+            ? (JSON.parse(matchedCustomDatum.data) as LDTKTileData)
+            : null;
+        const isCollidable: boolean = properties
+          ? properties.ppCollision ?? false
+          : false;
+        tiles.push({
+          id,
+          isCollidable,
+          texture: new Texture(
+            getDefinable(ImageSource, imageSourceID).texture.baseTexture,
+            new Rectangle(
+              x * ldtkDefTileset.tileGridSize,
+              y * ldtkDefTileset.tileGridSize,
+              ldtkDefTileset.tileGridSize,
+              ldtkDefTileset.tileGridSize,
+            ),
+          ),
+        });
+      }
+    }
     tilesets.set(ldtkDefTileset.identifier, {
       height: ldtkDefTileset.pxHei,
-      imageSourceID: ldtkDefTileset.relPath
-        .substring(0, ldtkDefTileset.relPath.length - 4)
-        .substring(7),
+      imageSourceID,
       tileSize: ldtkDefTileset.tileGridSize,
-      tiles: ldtkDefTileset.customData.map(
-        (
-          data: LDTK["defs"]["tilesets"][0]["customData"][0],
-        ): WorldTilesetTile => {
-          const properties: LDTKTileData = JSON.parse(
-            data.data,
-          ) as LDTKTileData;
-          return {
-            id: data.tileId,
-            isCollidable: properties.ppCollision ?? false,
-          };
-        },
-      ),
+      tiles,
+      // ldtkDefTileset.customData.map(
+      //   (
+      //     data: LDTK["defs"]["tilesets"][0]["customData"][0],
+      //   ): WorldTilesetTile => {
+      //     const properties: LDTKTileData = JSON.parse(
+      //       data.data,
+      //     ) as LDTKTileData;
+      //     return {
+      //       id: data.tileId,
+      //       isCollidable: properties.ppCollision ?? false,
+      //       texture: new Texture(
+      //         getDefinable(ImageSource, imageSourceID).texture.baseTexture,
+      //         new Rectangle(data.),
+      //       ),
+      //     };
+      //   },
+      // ),
       width: ldtkDefTileset.pxWid,
     });
   }

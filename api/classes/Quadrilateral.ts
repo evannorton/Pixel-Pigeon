@@ -4,7 +4,7 @@ import {
 } from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
 import { Entity, EntityQuadrilateral } from "../types/World";
-import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
+import { Graphics } from "pixi.js";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
@@ -33,12 +33,36 @@ export interface CreateQuadrilateralOptions {
   opacity?: number | (() => number);
   width: number | (() => number);
 }
-export class Quadrilateral extends Definable {
-  private readonly _options: CreateQuadrilateralOptions;
+interface QuadrilateralCoordinates {
+  readonly condition: (() => boolean) | null;
+  readonly x: number | (() => number);
+  readonly y: number | (() => number);
+}
 
+export class Quadrilateral extends Definable {
+  private readonly _color: string;
+  private readonly _coordinates: QuadrilateralCoordinates | null;
+  private readonly _height: number | (() => number);
+  private readonly _opacity: number | (() => number);
+  private readonly _pixiGraphics: Graphics = new Graphics();
+  private readonly _width: number | (() => number);
   public constructor(options: CreateQuadrilateralOptions) {
     super(getToken());
-    this._options = options;
+    this._color = options.color;
+    this._coordinates = options.coordinates
+      ? {
+          condition: options.coordinates.condition ?? null,
+          x: options.coordinates.x,
+          y: options.coordinates.y,
+        }
+      : null;
+    this._height = options.height;
+    this._opacity = options.opacity ?? 1;
+    this._width = options.width;
+  }
+
+  public clear(): void {
+    this._pixiGraphics.clear();
   }
 
   public drawAtCoordinates(): void {
@@ -47,31 +71,11 @@ export class Quadrilateral extends Definable {
         `Quadrilateral "${this._id}" attempted to draw at coordinates before config was loaded.`,
       );
     }
-    if (
-      typeof this._options.coordinates !== "undefined" &&
-      this.passesCoordinatesCondition()
-    ) {
-      const opacity: number | null = this.getOpacity();
-      const width: number | null = this.getWidth();
-      const height: number | null = this.getHeight();
+    if (this._coordinates !== null && this.passesCoordinatesCondition()) {
       const x: number | null = this.getCoordinatesX();
       const y: number | null = this.getCoordinatesY();
-      if (
-        opacity !== null &&
-        width !== null &&
-        height !== null &&
-        x !== null &&
-        y !== null
-      ) {
-        drawQuadrilateral(
-          this._options.color,
-          opacity,
-          x,
-          y,
-          width,
-          height,
-          100,
-        );
+      if (x !== null && y !== null) {
+        this.drawAtPosition(x, y, 100);
       }
     }
   }
@@ -83,53 +87,48 @@ export class Quadrilateral extends Definable {
   ): void {
     const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
+    const x: number =
+      Math.floor(entity.position.x) +
+      (entityQuadrilateral.x ?? 0) -
+      cameraCoordinates.x;
+    const y: number =
+      Math.floor(entity.position.y) +
+      (entityQuadrilateral.y ?? 0) -
+      cameraCoordinates.y;
+    this.drawAtPosition(x, y, zIndex);
+  }
+
+  public remove(): void {
+    super.remove();
+    this._pixiGraphics.destroy();
+  }
+
+  private drawAtPosition(x: number, y: number, zIndex: number): void {
+    if (state.values.app === null) {
+      throw new Error(
+        `Quadrilateral "${this._id}" attempted to draw before app was created.`,
+      );
+    }
     const opacity: number | null = this.getOpacity();
     const width: number | null = this.getWidth();
     const height: number | null = this.getHeight();
     if (opacity !== null && width !== null && height !== null) {
-      drawQuadrilateral(
-        this._options.color,
-        opacity,
-        Math.floor(entity.position.x) +
-          (entityQuadrilateral.x ?? 0) -
-          cameraCoordinates.x,
-        Math.floor(entity.position.y) +
-          (entityQuadrilateral.y ?? 0) -
-          cameraCoordinates.y,
-        width,
-        height,
-        zIndex,
-      );
+      this._pixiGraphics.beginFill(Number(`0x${this._color.substring(1)}`));
+      this._pixiGraphics.lineStyle(0, Number(`0x${this._color.substring(1)}`));
+      this._pixiGraphics.drawRect(x, y, width, height);
+      this._pixiGraphics.alpha = opacity;
+      this._pixiGraphics.zIndex = zIndex;
+      state.values.app.stage.addChild(this._pixiGraphics);
     }
-  }
-
-  private passesCoordinatesCondition(): boolean {
-    if (typeof this._options.coordinates === "undefined") {
-      throw new Error(
-        `Quadrilateral "${this._id}" attempted to check coordinates condition with no coordinates.`,
-      );
-    }
-    if (typeof this._options.coordinates.condition === "undefined") {
-      return true;
-    }
-    try {
-      return this._options.coordinates.condition();
-    } catch (error: unknown) {
-      handleCaughtError(
-        error,
-        `Quadrilateral "${this._id}" coordinates condition`,
-      );
-    }
-    return false;
   }
 
   private getCoordinatesX(): number | null {
-    if (typeof this._options.coordinates !== "undefined") {
-      if (typeof this._options.coordinates.x === "number") {
-        return this._options.coordinates.x;
+    if (this._coordinates !== null) {
+      if (typeof this._coordinates.x === "number") {
+        return this._coordinates.x;
       }
       try {
-        return this._options.coordinates.x();
+        return this._coordinates.x();
       } catch (error: unknown) {
         handleCaughtError(error, `Quadrilateral "${this._id}" coordinates x`);
       }
@@ -138,12 +137,12 @@ export class Quadrilateral extends Definable {
   }
 
   private getCoordinatesY(): number | null {
-    if (typeof this._options.coordinates !== "undefined") {
-      if (typeof this._options.coordinates.y === "number") {
-        return this._options.coordinates.y;
+    if (this._coordinates !== null) {
+      if (typeof this._coordinates.y === "number") {
+        return this._coordinates.y;
       }
       try {
-        return this._options.coordinates.y();
+        return this._coordinates.y();
       } catch (error: unknown) {
         handleCaughtError(error, `Quadrilateral "${this._id}" coordinates y`);
       }
@@ -152,11 +151,11 @@ export class Quadrilateral extends Definable {
   }
 
   private getHeight(): number | null {
-    if (typeof this._options.height === "number") {
-      return this._options.height;
+    if (typeof this._height === "number") {
+      return this._height;
     }
     try {
-      return this._options.height();
+      return this._height();
     } catch (error: unknown) {
       handleCaughtError(error, `Quadrilateral "${this._id}" height`);
       return null;
@@ -164,12 +163,12 @@ export class Quadrilateral extends Definable {
   }
 
   private getOpacity(): number | null {
-    if (typeof this._options.opacity !== "undefined") {
-      if (typeof this._options.opacity === "number") {
-        return this._options.opacity;
+    if (this._opacity !== null) {
+      if (typeof this._opacity === "number") {
+        return this._opacity;
       }
       try {
-        return this._options.opacity();
+        return this._opacity();
       } catch (error: unknown) {
         handleCaughtError(error, `Quadrilateral "${this._id}" opacity`);
         return null;
@@ -179,15 +178,35 @@ export class Quadrilateral extends Definable {
   }
 
   private getWidth(): number | null {
-    if (typeof this._options.width === "number") {
-      return this._options.width;
+    if (typeof this._width === "number") {
+      return this._width;
     }
     try {
-      return this._options.width();
+      return this._width();
     } catch (error: unknown) {
       handleCaughtError(error, `Quadrilateral "${this._id}" width`);
       return null;
     }
+  }
+
+  private passesCoordinatesCondition(): boolean {
+    if (this._coordinates === null) {
+      throw new Error(
+        `Quadrilateral "${this._id}" attempted to check coordinates condition with no coordinates.`,
+      );
+    }
+    if (this._coordinates.condition === null) {
+      return true;
+    }
+    try {
+      return this._coordinates.condition();
+    } catch (error: unknown) {
+      handleCaughtError(
+        error,
+        `Quadrilateral "${this._id}" coordinates condition`,
+      );
+    }
+    return false;
   }
 }
 export const createQuadrilateral = (

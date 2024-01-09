@@ -5,12 +5,10 @@ import { Dev } from "../types/Dev";
 import { Env } from "../types/Env";
 import { ImageSource } from "../classes/ImageSource";
 import { KeyboardInput } from "../types/KeyboardInput";
-import { LDTK } from "../types/LDTK";
 import { MouseInput } from "../types/MouseInput";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
-import { getWorld } from "./getWorld";
 import { goToPauseMenuSection } from "./goToPauseMenuSection";
 import { handleUncaughtError } from "./handleUncaughtError";
 import { loadAssets } from "./loadAssets";
@@ -97,8 +95,6 @@ export const performInitialization = async (): Promise<void> => {
       imagePath,
     });
   }
-  const ldtkRes: Response = await fetch("./project.ldtk");
-  const ldtk: LDTK = (await ldtkRes.json()) as LDTK;
   const app: Application = new Application({
     height: config.height,
     width: config.width,
@@ -109,7 +105,6 @@ export const performInitialization = async (): Promise<void> => {
     dev,
     env,
     type,
-    world: getWorld(ldtk),
   });
   syncNewgroundsMedals();
   loadAssets();

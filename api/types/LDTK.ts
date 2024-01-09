@@ -5,10 +5,9 @@ export interface LDTK {
       readonly uid: number;
     }[];
     readonly tilesets: {
-      readonly customData: {
-        readonly tileId: number;
-        readonly data: string;
-      }[];
+      readonly __cHei: number;
+      readonly __cWid: number;
+      readonly customData: LDTKTileCustomData[];
       readonly identifier: string;
       readonly pxHei: number;
       readonly pxWid: number;
@@ -40,6 +39,10 @@ export interface LDTK {
     readonly pxHei: number;
     readonly pxWid: number;
   }[];
+}
+export interface LDTKTileCustomData {
+  readonly tileId: number;
+  readonly data: string;
 }
 export interface LDTKTileData {
   readonly ppCollision?: boolean;
