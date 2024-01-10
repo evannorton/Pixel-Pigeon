@@ -34,10 +34,11 @@ export const getPathingMatrix = (
         );
       }
       for (const layerTile of layer.tiles) {
-        const matchedTile: WorldTilesetTile | null =
-          tileset.tiles.find(
-            (tile: WorldTilesetTile): boolean => layerTile.id === tile.id,
-          ) ?? null;
+        const matchedTile: WorldTilesetTile =
+          tileset.tiles[
+            layerTile.tilesetX +
+              layerTile.tilesetY * (tileset.width / tileset.tileSize)
+          ];
         const x: number = Math.floor(layerTile.x / layer.tileSize);
         const y: number = Math.floor(layerTile.y / layer.tileSize);
         if (typeof matrix[y] === "undefined") {

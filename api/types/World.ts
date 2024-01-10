@@ -73,7 +73,6 @@ export interface Layer {
   readonly id: string;
   readonly tileSize: number;
   readonly tiles: {
-    readonly id: number;
     readonly pixiSprite: PixiSprite;
     readonly tilesetX: number;
     readonly tilesetY: number;
@@ -96,7 +95,6 @@ export interface Tileset {
   readonly width: number;
 }
 export interface WorldTilesetTile {
-  readonly id: number;
   readonly isCollidable: boolean;
   readonly texture: Texture;
 }

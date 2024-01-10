@@ -3,7 +3,7 @@ import {
   getCameraCoordinates,
 } from "./getCameraCoordinates";
 import { Label } from "../classes/Label";
-import { Layer, Level, Tileset, World } from "../types/World";
+import { Layer, Level, Tileset, World, WorldTilesetTile } from "../types/World";
 import { Quadrilateral } from "../classes/Quadrilateral";
 import { Sprite } from "../classes/Sprite";
 import { assetsAreLoaded } from "./assetsAreLoaded";
@@ -108,7 +108,12 @@ export const render = (): void => {
               x < state.values.config.width &&
               y < state.values.config.height
             ) {
-              tile.pixiSprite.texture = tileset.tiles[tile.id].texture;
+              const matchedTile: WorldTilesetTile =
+                tileset.tiles[
+                  tile.tilesetX +
+                    tile.tilesetY * (tileset.width / tileset.tileSize)
+                ];
+              tile.pixiSprite.texture = matchedTile.texture;
               tile.pixiSprite.x = x;
               tile.pixiSprite.y = y;
               tile.pixiSprite.width = width;

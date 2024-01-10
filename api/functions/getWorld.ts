@@ -71,7 +71,6 @@ export const getWorld = (ldtk: LDTK): World => {
                 (
                   ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0],
                 ): Level["layers"][0]["tiles"][0] => ({
-                  id: ldtkGridTile.t,
                   pixiSprite: new PixiSprite(),
                   tilesetX: ldtkGridTile.src[0] / ldtkLayerInstance.__gridSize,
                   tilesetY: ldtkGridTile.src[1] / ldtkLayerInstance.__gridSize,
@@ -115,7 +114,6 @@ export const getWorld = (ldtk: LDTK): World => {
           ? properties.ppCollision ?? false
           : false;
         tiles.push({
-          id,
           isCollidable,
           texture: new Texture(
             getDefinable(ImageSource, imageSourceID).texture.baseTexture,
@@ -134,23 +132,6 @@ export const getWorld = (ldtk: LDTK): World => {
       imageSourceID,
       tileSize: ldtkDefTileset.tileGridSize,
       tiles,
-      // ldtkDefTileset.customData.map(
-      //   (
-      //     data: LDTK["defs"]["tilesets"][0]["customData"][0],
-      //   ): WorldTilesetTile => {
-      //     const properties: LDTKTileData = JSON.parse(
-      //       data.data,
-      //     ) as LDTKTileData;
-      //     return {
-      //       id: data.tileId,
-      //       isCollidable: properties.ppCollision ?? false,
-      //       texture: new Texture(
-      //         getDefinable(ImageSource, imageSourceID).texture.baseTexture,
-      //         new Rectangle(data.),
-      //       ),
-      //     };
-      //   },
-      // ),
       width: ldtkDefTileset.pxWid,
     });
   }

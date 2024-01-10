@@ -48,10 +48,11 @@ export const getRectangleCollisionData = (
         throw Error("An attempt was made to render a nonexistent tileset.");
       }
       for (const layerTile of layer.tiles) {
-        const matchedTile: WorldTilesetTile | null =
-          tileset.tiles.find(
-            (tile: WorldTilesetTile): boolean => layerTile.id === tile.id,
-          ) ?? null;
+        const matchedTile: WorldTilesetTile =
+          tileset.tiles[
+            layerTile.tilesetX +
+              layerTile.tilesetY * (tileset.width / tileset.tileSize)
+          ];
         if (matchedTile !== null && matchedTile.isCollidable) {
           if (
             rectanglesOverlap(rectangle, {
