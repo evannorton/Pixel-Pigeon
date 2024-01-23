@@ -9,7 +9,7 @@ writeFileSync(join(__dirname, "..", "run-id.json"), JSON.stringify(runID));
 
 const data = { runID };
 
-if (existsSync(join(resolve(), "pp-dev.json"))) {
+if (existsSync(join(resolve(), "pp-env.json"))) {
   const res = JSON.parse(readFileSync(join(resolve(), "pp-env.json")).toString());
   data.newgroundsAppID = res.newgroundsAppID;
   data.newgroundsEncryptionKey = res.newgroundsEncryptionKey;
