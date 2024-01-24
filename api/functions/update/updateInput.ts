@@ -18,52 +18,57 @@ export const updateInput = (): void => {
       },
     );
   }
-  navigator.getGamepads().forEach((gamepad: Gamepad | null): void => {
-    if (gamepad) {
-      gamepad.buttons.forEach(
-        (button: GamepadButton, buttonIndex: number): void => {
-          if (
-            !state.values.heldGamepadInputs.some(
-              (heldGamepadInput: GamepadInput): boolean =>
-                heldGamepadInput.button === buttonIndex,
-            ) &&
-            Boolean(button.pressed)
-          ) {
-            const gamepadInput: GamepadInput = {
-              button: buttonIndex,
-            };
-            state.setValues({
-              heldGamepadInputs: [
-                ...state.values.heldGamepadInputs,
-                gamepadInput,
-              ],
-            });
-            if (state.values.hasInteracted) {
-              state.setValues({
-                pressedGamepadInputs: [
-                  ...state.values.pressedGamepadInputs,
-                  gamepadInput,
-                ],
-              });
-            }
-          } else if (
-            state.values.heldGamepadInputs.some(
-              (heldGamepadInput: GamepadInput): boolean =>
-                heldGamepadInput.button === buttonIndex,
-            ) &&
-            !button.pressed
-          ) {
-            state.setValues({
-              heldGamepadInputs: state.values.heldGamepadInputs.filter(
-                (heldGamepadInput: GamepadInput): boolean =>
-                  heldGamepadInput.button !== buttonIndex,
-              ),
-            });
-          }
-        },
-      );
+  if (typeof navigator.getGamepads === "function") {
+    const gamepads: (Gamepad | null)[] = navigator.getGamepads();
+    if (typeof gamepads.forEach === "function") {
+      gamepads.forEach((gamepad: Gamepad | null): void => {
+        if (gamepad) {
+          gamepad.buttons.forEach(
+            (button: GamepadButton, buttonIndex: number): void => {
+              if (
+                !state.values.heldGamepadInputs.some(
+                  (heldGamepadInput: GamepadInput): boolean =>
+                    heldGamepadInput.button === buttonIndex,
+                ) &&
+                Boolean(button.pressed)
+              ) {
+                const gamepadInput: GamepadInput = {
+                  button: buttonIndex,
+                };
+                state.setValues({
+                  heldGamepadInputs: [
+                    ...state.values.heldGamepadInputs,
+                    gamepadInput,
+                  ],
+                });
+                if (state.values.hasInteracted) {
+                  state.setValues({
+                    pressedGamepadInputs: [
+                      ...state.values.pressedGamepadInputs,
+                      gamepadInput,
+                    ],
+                  });
+                }
+              } else if (
+                state.values.heldGamepadInputs.some(
+                  (heldGamepadInput: GamepadInput): boolean =>
+                    heldGamepadInput.button === buttonIndex,
+                ) &&
+                !button.pressed
+              ) {
+                state.setValues({
+                  heldGamepadInputs: state.values.heldGamepadInputs.filter(
+                    (heldGamepadInput: GamepadInput): boolean =>
+                      heldGamepadInput.button !== buttonIndex,
+                  ),
+                });
+              }
+            },
+          );
+        }
+      });
     }
-  });
+  }
   const onInputs: ((() => void) | null)[] = [];
   for (const pressedGamepadInput of state.values.pressedGamepadInputs) {
     getDefinables(InputPressHandler).forEach(
