@@ -2,6 +2,7 @@ import { Achievement } from "../classes/Achievement";
 import { NewgroundsMedal } from "../types/Newgrounds";
 import { StorageAchievement } from "../types/Storage";
 import { getDefinable } from "./getDefinable";
+import { getDefinables } from "./getDefinables";
 import { getStorageItem } from "./storage/getStorageItem";
 import { setStorageItem } from "./storage/setStorageItem";
 
@@ -56,6 +57,9 @@ export const syncNewgroundsMedals = (): void => {
           }
         }
         setStorageItem("achievements", storageAchievements);
+        getDefinables(Achievement).forEach((achievement: Achievement): void => {
+          achievement.updateInfoElements();
+        });
       },
     );
     window.newgrounds.executeQueue();

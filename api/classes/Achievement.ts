@@ -175,31 +175,25 @@ export class Achievement extends Definable {
         `An attempt was made to update Achievement "${this._id}" info elements with the achievement missing from storage.`,
       );
     }
-    const achievementInfoElements: NodeListOf<HTMLElement> =
-      document.querySelectorAll(".achievement-info");
-    for (const achievementInfoElement of achievementInfoElements) {
-      if (achievementInfoElement === this._infoElement) {
-        if (matchedStorageAchievement.unlockedAt !== null) {
-          achievementInfoElement.classList.add("unlocked");
-        } else {
-          achievementInfoElement.classList.remove("unlocked");
-        }
-        if (
-          matchedStorageAchievement.unlockedAt === null &&
-          this._options.isSecret === true
-        ) {
-          this._infoIconElement.classList.add("secret");
-          this._infoIconElement.src = "./svg/lock.svg";
-          this._infoNameElement.innerText = "Secret Achievement";
-          this._infoDescriptionElement.innerText =
-            "Unlock this achievement to see its details.";
-        } else {
-          this._infoIconElement.classList.remove("secret");
-          this._infoIconElement.src = `./images/${this._options.imagePath}.png`;
-          this._infoNameElement.innerText = this._options.name;
-          this._infoDescriptionElement.innerText = this._options.description;
-        }
-      }
+    if (matchedStorageAchievement.unlockedAt !== null) {
+      this._infoElement.classList.add("unlocked");
+    } else {
+      this._infoElement.classList.remove("unlocked");
+    }
+    if (
+      matchedStorageAchievement.unlockedAt === null &&
+      this._options.isSecret === true
+    ) {
+      this._infoIconElement.classList.add("secret");
+      this._infoIconElement.src = "./svg/lock.svg";
+      this._infoNameElement.innerText = "Secret Achievement";
+      this._infoDescriptionElement.innerText =
+        "Unlock this achievement to see its details.";
+    } else {
+      this._infoIconElement.classList.remove("secret");
+      this._infoIconElement.src = `./images/${this._options.imagePath}.png`;
+      this._infoNameElement.innerText = this._options.name;
+      this._infoDescriptionElement.innerText = this._options.description;
     }
   }
 }
