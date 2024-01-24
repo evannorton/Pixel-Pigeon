@@ -1,7 +1,7 @@
 import { Definable } from "./Definable";
 import { Howl } from "howler";
 import { VolumeChannel } from "./VolumeChannel";
-import { attemptLoadWorld } from "../functions/attemptLoadWorld";
+import { attemptGetWorld } from "../functions/attemptGetWorld";
 import { defaultVolume } from "../constants/defaultVolume";
 import { getDefinable } from "../functions/getDefinable";
 import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
@@ -101,9 +101,7 @@ export class AudioSource extends Definable {
     state.setValues({
       loadedAssets: state.values.loadedAssets + 1,
     });
-    attemptLoadWorld().catch((error: unknown): void => {
-      throw error;
-    });
+    attemptGetWorld();
   }
 }
 export interface PlayAudioSourceOptions {

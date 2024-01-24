@@ -68,6 +68,20 @@ if (existsSync(join("pp-env.json"))) {
     }
 }
 
+if (existsSync(join("pp-id.json"))) {
+    const idString = readFileSync(join("pp-id.json")).toString();
+    try {
+        JSON.parse(idString);
+    }
+    catch (error) {
+        throw new Error("Your pp-env.json file is not valid JSON.");
+    }
+    const value = JSON.parse(idString);
+    if (typeof value !== "string") {
+        throw new Error("Your pp-id.json does not match the schema.");
+    }
+}
+
 require("./createGameTSConfig");
 
 writeFileSync(join(__dirname, "type.json"), JSON.stringify(process.argv[2]));
@@ -84,6 +98,9 @@ switch (process.argv[2]) {
         break;
     case "lint:fix":
         require("./lintFix");
+        break;
+    case "id":
+        require("./id");
         break;
     default:
         console.log("xD");

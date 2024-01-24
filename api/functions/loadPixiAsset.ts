@@ -1,5 +1,5 @@
 import { Assets, Texture } from "pixi.js";
-import { attemptLoadWorld } from "./attemptLoadWorld";
+import { attemptGetWorld } from "./attemptGetWorld";
 import { state } from "../state";
 
 export const loadPixiAsset = async (path: string): Promise<Texture> => {
@@ -10,8 +10,6 @@ export const loadPixiAsset = async (path: string): Promise<Texture> => {
   state.setValues({
     loadedAssets: state.values.loadedAssets + 1,
   });
-  attemptLoadWorld().catch((error: unknown): void => {
-    throw error;
-  });
+  attemptGetWorld();
   return texture;
 };

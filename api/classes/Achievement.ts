@@ -25,6 +25,11 @@ export class Achievement extends Definable {
   private readonly _infoTextElement: HTMLDivElement;
   private readonly _options: CreateAchievementOptions;
   public constructor(options: CreateAchievementOptions) {
+    if (state.values.isInitialized) {
+      throw new Error(
+        `Attempted to create achievement ${options.id} after initialization.`,
+      );
+    }
     super(options.id);
     this._options = options;
     const achievementsGridElement: HTMLElement | null =
@@ -53,21 +58,6 @@ export class Achievement extends Definable {
     this._infoTextElement.appendChild(this._infoDescriptionElement);
     this._infoElement.appendChild(this._infoTextElement);
     achievementsGridElement.appendChild(this._infoElement);
-    const storageAchievements: StorageAchievement[] =
-      (getStorageItem("achievements") as StorageAchievement[] | null) ?? [];
-    if (
-      storageAchievements.every(
-        (achievementStorage: StorageAchievement): boolean =>
-          achievementStorage.id !== this._id,
-      )
-    ) {
-      storageAchievements.push({
-        id: this._id,
-        unlockedAt: null,
-      });
-      setStorageItem("achievements", storageAchievements);
-    }
-    this.updateInfoElements();
   }
 
   public get newgroundsMedalID(): number | null {
@@ -155,7 +145,24 @@ export class Achievement extends Definable {
     }
   }
 
-  private updateInfoElements(): void {
+  public addToStorage(): void {
+    const storageAchievements: StorageAchievement[] =
+      (getStorageItem("achievements") as StorageAchievement[] | null) ?? [];
+    if (
+      storageAchievements.every(
+        (achievementStorage: StorageAchievement): boolean =>
+          achievementStorage.id !== this._id,
+      )
+    ) {
+      storageAchievements.push({
+        id: this._id,
+        unlockedAt: null,
+      });
+      setStorageItem("achievements", storageAchievements);
+    }
+  }
+
+  public updateInfoElements(): void {
     const storageAchievements: StorageAchievement[] =
       (getStorageItem("achievements") as StorageAchievement[] | null) ?? [];
     const matchedStorageAchievement: StorageAchievement | null =

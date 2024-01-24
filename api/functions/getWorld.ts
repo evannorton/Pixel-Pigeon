@@ -9,8 +9,13 @@ import { ImageSource } from "../classes/ImageSource";
 import { LDTK, LDTKTileCustomData, LDTKTileData } from "../types/LDTK";
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
 import { getDefinable } from "./getDefinable";
+import { state } from "../state";
 
-export const getWorld = (ldtk: LDTK): World => {
+export const getWorld = (): World => {
+  if (state.values.ldtk === null) {
+    throw new Error("Attempted to get world with no LDTK.");
+  }
+  const ldtk: LDTK = state.values.ldtk;
   const levels: Map<string, Level> = new Map();
   const tilesets: Map<string, Tileset> = new Map();
   for (const ldtkLevel of ldtk.levels) {

@@ -1,19 +1,28 @@
-import { getPrefixedProperty } from "./getPrefixedProperty";
+import { getPrefixedStorageKey } from "./getPrefixedStorageKey";
+import { state } from "../../state";
 import { storage } from "../../storage";
+import { store } from "./store";
 
-export const getStorageItem: (property: string) => unknown = (
+export const getStorageItem = (
   property: string,
-): unknown => {
-  const prefixedProperty: string = getPrefixedProperty(property);
-  try {
-    const item: string | null = localStorage.getItem(prefixedProperty);
-    if (item !== null) {
-      return JSON.parse(item);
+): Exclude<unknown, undefined> => {
+  if (state.values.gameID !== null) {
+    const prefixedProperty: string = getPrefixedStorageKey(property);
+    try {
+      const item: string | null = localStorage.getItem(prefixedProperty);
+      if (item !== null) {
+        return JSON.parse(item);
+      }
+    } catch {
+      const value: string | undefined = storage.get(prefixedProperty);
+      if (typeof value !== "undefined") {
+        return JSON.parse(value);
+      }
     }
-  } catch {
-    const value: string | undefined = storage.get(prefixedProperty);
+  } else {
+    const value: unknown = store.get(property);
     if (typeof value !== "undefined") {
-      return JSON.parse(value);
+      return value;
     }
   }
   return null;

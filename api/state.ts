@@ -5,10 +5,11 @@ import { Env } from "./types/Env";
 import { GamepadInput } from "./types/GamepadInput";
 import { Howl } from "howler";
 import { KeyboardInput } from "./types/KeyboardInput";
+import { LDTK } from "./types/LDTK";
 import { MouseInput } from "./types/MouseInput";
 import { State } from "./classes/State";
 import { World } from "./types/World";
-import { attemptLoadWorld } from "./functions/attemptLoadWorld";
+import { attemptGetWorld } from "./functions/attemptGetWorld";
 import { defaultVolume } from "./constants/defaultVolume";
 
 interface StateSchema {
@@ -20,6 +21,7 @@ interface StateSchema {
   readonly dev: Dev | null;
   readonly didBlur: boolean;
   readonly env: Env | null;
+  readonly gameID: string | null;
   readonly hasErrored: boolean;
   readonly hasExecutedOnRunCallbacks: boolean;
   readonly hasInteracted: boolean;
@@ -27,6 +29,7 @@ interface StateSchema {
   readonly heldKeyboardInputs: KeyboardInput[];
   readonly heldMouseInputs: MouseInput[];
   readonly isInitialized: boolean;
+  readonly ldtk: LDTK | null;
   readonly levelID: string | null;
   readonly loadedAssets: number;
   readonly onRunCallbacks: (() => void)[];
@@ -58,6 +61,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   dev: null,
   didBlur: false,
   env: null,
+  gameID: null,
   hasErrored: false,
   hasExecutedOnRunCallbacks: false,
   hasInteracted: false,
@@ -65,6 +69,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   heldKeyboardInputs: [],
   heldMouseInputs: [],
   isInitialized: false,
+  ldtk: null,
   levelID: null,
   loadedAssets: 0,
   onRunCallbacks: [],
@@ -83,7 +88,5 @@ volumeTestHowl.on("load", (): void => {
   state.setValues({
     loadedAssets: state.values.loadedAssets + 1,
   });
-  attemptLoadWorld().catch((error: unknown): void => {
-    throw error;
-  });
+  attemptGetWorld();
 });

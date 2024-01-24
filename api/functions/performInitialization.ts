@@ -1,3 +1,4 @@
+import { Achievement } from "../classes/Achievement";
 import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import { AudioSource } from "../classes/AudioSource";
 import { Config } from "../types/Config";
@@ -5,8 +6,10 @@ import { Dev } from "../types/Dev";
 import { Env } from "../types/Env";
 import { ImageSource } from "../classes/ImageSource";
 import { KeyboardInput } from "../types/KeyboardInput";
+import { LDTK } from "../types/LDTK";
 import { MouseInput } from "../types/MouseInput";
 import { assetsAreLoaded } from "./assetsAreLoaded";
+import { cleanStorage } from "./storage/cleanStorage";
 import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
 import { goToPauseMenuSection } from "./goToPauseMenuSection";
@@ -81,6 +84,10 @@ export const performInitialization = async (): Promise<void> => {
   const dev: Dev | null = devRes.ok ? ((await devRes.json()) as Dev) : null;
   const configRes: Response = await fetch("./pp-config.json");
   const config: Config = (await configRes.json()) as Config;
+  const ldtkRes: Response = await fetch("./project.ldtk");
+  const ldtk: LDTK = (await ldtkRes.json()) as LDTK;
+  const gameIDRes: Response = await fetch("./pp-id.json");
+  const gameID: string | null = (await gameIDRes.json()) as string | null;
   const audioResponse: Response = await fetch("./audio.json");
   const audioPaths: string[] = (await audioResponse.json()) as string[];
   for (const audioPath of audioPaths) {
@@ -104,7 +111,14 @@ export const performInitialization = async (): Promise<void> => {
     config,
     dev,
     env,
+    gameID,
+    ldtk,
     type,
+  });
+  cleanStorage();
+  getDefinables(Achievement).forEach((achievement: Achievement): void => {
+    achievement.addToStorage();
+    achievement.updateInfoElements();
   });
   syncNewgroundsMedals();
   loadAssets();
