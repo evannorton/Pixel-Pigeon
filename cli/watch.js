@@ -89,6 +89,9 @@ watcher.addListener("restart", (files) => {
   if (typeof buildRelatedFilePieces !== "undefined") {
     console.log(`Exiting dev script because of a change to ${buildRelatedFilePieces.join("/")}.`);
     watcher.emit("quit");
+    killPort(3000).then(() => {
+      process.exit();
+    });
   }
   else {
     const commands = [];
