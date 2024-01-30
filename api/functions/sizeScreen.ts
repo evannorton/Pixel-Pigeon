@@ -42,6 +42,15 @@ export const sizeScreen = (): void => {
   }
   pauseMenuElement.style.width = `${screenWidth}px`;
   pauseMenuElement.style.height = `${screenHeight}px`;
+  const pauseButtonsElement: HTMLElement | null =
+    document.getElementById("pause-buttons");
+  if (pauseButtonsElement === null) {
+    throw new Error(
+      "An attempt was made to size screen with no pause menu element in the DOM.",
+    );
+  }
+  pauseButtonsElement.style.width = `${screenWidth}px`;
+  pauseButtonsElement.style.height = `${screenHeight}px`;
   anchorsElement.style.width = `${screenWidth}px`;
   anchorsElement.style.height = `${screenHeight}px`;
   const lowerDimension: number = Math.min(

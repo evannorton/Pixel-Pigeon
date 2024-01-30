@@ -261,6 +261,15 @@ body:not(.paused) #unpause-button {
   font-weight: bold;
 }
 
+#pause-buttons {
+  position: absolute;
+  pointer-events: none;
+}
+
+#pause-buttons img {
+  pointer-events: all;
+}
+
 #pause-menu:not(.achievements) #pause-achievements {
   display: none;
 }
