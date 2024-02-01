@@ -10,20 +10,24 @@ import { state } from "../state";
 interface AudioSourceOptions {
   readonly audioPath: string;
 }
+interface Play {
+  loopPoint: number | null;
+  volumeChannelID: string;
+}
 
 export class AudioSource extends Definable {
+  private readonly _audioPath: string;
   private readonly _howl: Howl;
-  private readonly _options: AudioSourceOptions;
-  private _playOptions: PlayAudioSourceOptions | null = null;
+  private _play: Play | null = null;
 
   public constructor(options: AudioSourceOptions) {
     super(options.audioPath);
-    this._options = options;
+    this._audioPath = options.audioPath;
     this._howl = new Howl({
       autoplay: false,
       loop: false,
       preload: true,
-      src: [`audio/${this._options.audioPath}.mp3`],
+      src: [`audio/${this._audioPath}.mp3`],
       volume: defaultVolume,
     });
     this._howl.on("end", (): void => {
@@ -40,8 +44,7 @@ export class AudioSource extends Definable {
 
   public isPlayingInVolumeChannel(volumeChannelID: string): boolean {
     return (
-      this._playOptions !== null &&
-      this._playOptions.volumeChannelID === volumeChannelID
+      this._play !== null && this._play.volumeChannelID === volumeChannelID
     );
   }
 
@@ -55,7 +58,10 @@ export class AudioSource extends Definable {
 
   public play(playAudioOptions: PlayAudioSourceOptions): void {
     this._howl.play();
-    this._playOptions = playAudioOptions;
+    this._play = {
+      loopPoint: playAudioOptions.loopPoint ?? null,
+      volumeChannelID: playAudioOptions.volumeChannelID,
+    };
     this.updateVolume();
   }
 
@@ -72,10 +78,10 @@ export class AudioSource extends Definable {
   }
 
   public updateVolume(): void {
-    if (this._playOptions !== null) {
+    if (this._play !== null) {
       const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
         VolumeChannel,
-        this._playOptions.volumeChannelID,
+        this._play.volumeChannelID,
       );
       this._howl.volume(
         getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
@@ -85,14 +91,14 @@ export class AudioSource extends Definable {
   }
 
   private onHowlEnd(): void {
-    if (this._playOptions === null) {
+    if (this._play === null) {
       throw new Error(
         `OnHowlEnd was triggered for AudioSource "${this._id}" with no play options.`,
       );
     }
-    if (typeof this._playOptions.loopPoint !== "undefined") {
+    if (this._play.loopPoint !== null) {
       this.stop();
-      this._howl.seek(this._playOptions.loopPoint / 1000);
+      this._howl.seek(this._play.loopPoint / 1000);
       this._howl.play();
     }
   }
