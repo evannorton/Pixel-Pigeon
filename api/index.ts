@@ -1,15 +1,14 @@
-import {
-  Anchor,
-  CreateAnchorOptions,
-  createAnchor,
-  removeAnchor,
-} from "./classes/Anchor";
 import { CollisionData } from "./types/CollisionData";
 import {
   CreateAchievementOptions,
   createAchievement,
   unlockAchievement,
 } from "./classes/Achievement";
+import {
+  CreateAnchorOptions,
+  createAnchor,
+  removeAnchor,
+} from "./classes/Anchor";
 import { CreateEntityOptions, createEntity } from "./functions/createEntity";
 import {
   CreateInputPressHandlerOptions,
@@ -90,7 +89,6 @@ import { takeScreenshot } from "./functions/takeScreenshot";
 export {
   addEntityQuadrilateral,
   addEntitySprite,
-  Anchor,
   CollisionData,
   createAchievement,
   CreateAchievementOptions,
