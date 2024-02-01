@@ -78,7 +78,7 @@ Run the linter on your game's source code and automatically fix some errors.
 Generate a unique ID for your game. Achievements will not persist across sessions if you don't have an ID. Generating a new ID will cause players to lose their achievement data.
 
 ## Example games
-- [Lair of the Moon Squid](https://github.com/evannorton/Lair-of-the-Moon-Squid) by [@evannorton](https://github.com/evannorton)
+- [Dungeon Deli](https://github.com/evannorton/Dungeon-Deli) by [@evannorton](https://github.com/evannorton)
 
 ## ESLint VS Code extension
 Create an `.eslintrc` with the following contents to use this extension. 
