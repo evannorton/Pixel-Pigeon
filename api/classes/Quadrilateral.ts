@@ -163,18 +163,15 @@ export class Quadrilateral extends Definable {
   }
 
   private getOpacity(): number | null {
-    if (this._opacity !== null) {
-      if (typeof this._opacity === "number") {
-        return this._opacity;
-      }
-      try {
-        return this._opacity();
-      } catch (error: unknown) {
-        handleCaughtError(error, `Quadrilateral "${this._id}" opacity`);
-        return null;
-      }
+    if (typeof this._opacity === "number") {
+      return this._opacity;
     }
-    return 1;
+    try {
+      return this._opacity();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Quadrilateral "${this._id}" opacity`);
+      return null;
+    }
   }
 
   private getWidth(): number | null {

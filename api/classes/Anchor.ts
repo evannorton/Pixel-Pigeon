@@ -84,11 +84,6 @@ export class Anchor extends Definable {
   }
 
   private passesCoordinatesCondition(): boolean {
-    if (this._coordinates === null) {
-      throw new Error(
-        `Anchor "${this._id}" attempted to check coordinates condition with no coordinates.`,
-      );
-    }
     if (this._coordinates.condition === null) {
       return true;
     }

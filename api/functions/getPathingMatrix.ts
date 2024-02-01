@@ -47,7 +47,7 @@ export const getPathingMatrix = (
         if (typeof matrix[y][x] === "undefined") {
           matrix[y][x] = 0;
         }
-        if (matchedTile !== null && matchedTile.isCollidable) {
+        if (matchedTile.isCollidable) {
           matrix[y][x] = 1;
         }
       }

@@ -53,7 +53,7 @@ export const getEntityRectangleOverlapData = (
             layerTile.tilesetX +
               layerTile.tilesetY * (tileset.width / tileset.tileSize)
           ];
-        if (matchedTile !== null && matchedTile.isCollidable) {
+        if (matchedTile.isCollidable) {
           if (
             rectanglesOverlap(rectangle, {
               height: tileset.tileSize,
