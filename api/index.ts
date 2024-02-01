@@ -17,7 +17,7 @@ import {
 } from "./classes/InputPressHandler";
 import {
   CreateInputTickHandlerOptions,
-  InputTickHandlerGroup,
+  CreateInputTickHandlerOptionsGroup,
   createInputTickHandler,
 } from "./classes/InputTickHandler";
 import { CreateLabelOptions, createLabel, removeLabel } from "./classes/Label";
@@ -47,7 +47,6 @@ import {
   getEntityCalculatedPath,
 } from "./functions/getEntityCalculatedPath";
 import { GetEntityIDsOptions, getEntityIDs } from "./functions/getEntityIDs";
-import { KeyboardButton } from "./types/KeyboardButton";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
 import { Newgrounds } from "./types/Newgrounds";
 import { OverlapData } from "./types/OverlapData";
@@ -128,9 +127,8 @@ export {
   getRectangleCollisionData,
   goToLevel,
   initialize,
-  InputTickHandlerGroup,
+  CreateInputTickHandlerOptionsGroup as InputTickHandlerGroup,
   isEntityPathing,
-  KeyboardButton,
   lockCameraToEntity,
   moveEntity,
   MoveEntityOptions,

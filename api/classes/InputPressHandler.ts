@@ -6,6 +6,11 @@ import { MouseInput } from "../types/MouseInput";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 
+export interface CreateInputPressHandlerOptionsGroupKeyboardButton {
+  numlock?: boolean;
+  value: string;
+  withoutNumlock?: boolean;
+}
 /** Defines options for InputPressHandlers, which mainly is about what inputs to press and the callbacks */
 export interface CreateInputPressHandlerOptions {
   /**
@@ -20,7 +25,7 @@ export interface CreateInputPressHandlerOptions {
   /**
    * An array of strings that represents different inputs on a keyboard
    */
-  keyboardButtons?: KeyboardButton[];
+  keyboardButtons?: CreateInputPressHandlerOptionsGroupKeyboardButton[];
   mouseButtons?: number[];
   /**
    * Callback that triggers when supplied inputs are pressed and condition is true, if it exists
@@ -28,18 +33,31 @@ export interface CreateInputPressHandlerOptions {
   onInput: () => void;
 }
 export class InputPressHandler extends Definable {
-  private readonly _options: CreateInputPressHandlerOptions;
+  private readonly _condition: (() => boolean) | null;
+  private readonly _gamepadButtons: number[];
+  private readonly _keyboardButtons: KeyboardButton[];
+  private readonly _mouseButtons: number[];
+  private readonly _onInput: () => void;
 
   public constructor(options: CreateInputPressHandlerOptions) {
     super(getToken());
-    this._options = options;
+    this._condition = options.condition ?? null;
+    this._gamepadButtons = options.gamepadButtons ?? [];
+    this._keyboardButtons = (options.keyboardButtons ?? []).map(
+      (
+        keyboardButton: CreateInputPressHandlerOptionsGroupKeyboardButton,
+      ): KeyboardButton => ({
+        numlock: keyboardButton.numlock ?? false,
+        value: keyboardButton.value,
+        withoutNumlock: keyboardButton.withoutNumlock ?? false,
+      }),
+    );
+    this._mouseButtons = options.mouseButtons ?? [];
+    this._onInput = options.onInput;
   }
 
   public getGamepadOnInput(gamepadInput: GamepadInput): (() => void) | null {
-    if (
-      typeof this._options.gamepadButtons !== "undefined" &&
-      this._options.gamepadButtons.includes(gamepadInput.button)
-    ) {
+    if (this._gamepadButtons.includes(gamepadInput.button)) {
       return this.getOnInput();
     }
     return null;
@@ -47,8 +65,7 @@ export class InputPressHandler extends Definable {
 
   public getKeyboardOnInput(keyboardInput: KeyboardInput): (() => void) | null {
     if (
-      typeof this._options.keyboardButtons !== "undefined" &&
-      this._options.keyboardButtons.some((key: KeyboardButton): boolean => {
+      this._keyboardButtons.some((key: KeyboardButton): boolean => {
         if (key.value === keyboardInput.button) {
           if (key.numlock === true) {
             return keyboardInput.numlock;
@@ -67,10 +84,7 @@ export class InputPressHandler extends Definable {
   }
 
   public getMouseOnInput(mouseInput: MouseInput): (() => void) | null {
-    if (
-      typeof this._options.mouseButtons !== "undefined" &&
-      this._options.mouseButtons.includes(mouseInput.button)
-    ) {
+    if (this._mouseButtons.includes(mouseInput.button)) {
       return this.getOnInput();
     }
     return null;
@@ -78,17 +92,17 @@ export class InputPressHandler extends Definable {
 
   private getOnInput(): (() => void) | null {
     if (this.passesCondition()) {
-      return this._options.onInput;
+      return this._onInput;
     }
     return null;
   }
 
   private passesCondition(): boolean {
-    if (typeof this._options.condition === "undefined") {
+    if (this._condition === null) {
       return true;
     }
     try {
-      return this._options.condition();
+      return this._condition();
     } catch (error: unknown) {
       handleCaughtError(error, `InputPressHandler "${this._id}" condition`);
     }

@@ -1,5 +1,5 @@
 export interface KeyboardButton {
-  numlock?: boolean;
+  numlock: boolean;
   value: string;
-  withoutNumlock?: boolean;
+  withoutNumlock: boolean;
 }

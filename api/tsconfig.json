@@ -9,6 +9,7 @@
     "noUnusedParameters": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "useUnknownInCatchVariables": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,

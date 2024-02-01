@@ -7,12 +7,12 @@ interface ImageSourceOptions {
 }
 
 export class ImageSource extends Definable {
-  private readonly _options: ImageSourceOptions;
+  private readonly _imagePath: string;
   private _texture: Texture | null = null;
 
   public constructor(options: ImageSourceOptions) {
     super(options.imagePath);
-    this._options = options;
+    this._imagePath = options.imagePath;
   }
 
   public get texture(): Texture {
@@ -23,7 +23,7 @@ export class ImageSource extends Definable {
   }
 
   public loadTexture(): void {
-    loadPixiAsset(`images/${this._options.imagePath}.png`)
+    loadPixiAsset(`images/${this._imagePath}.png`)
       .then((texture: Texture): void => {
         this._texture = texture;
       })
