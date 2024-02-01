@@ -13,11 +13,13 @@ import {
 import { CreateEntityOptions, createEntity } from "./functions/createEntity";
 import {
   CreateInputPressHandlerOptions,
+  CreateInputPressHandlerOptionsGroupKeyboardButton,
   createInputPressHandler,
 } from "./classes/InputPressHandler";
 import {
   CreateInputTickHandlerOptions,
   CreateInputTickHandlerOptionsGroup,
+  CreateInputTickHandlerOptionsGroupKeyboardButton,
   createInputTickHandler,
 } from "./classes/InputTickHandler";
 import { CreateLabelOptions, createLabel, removeLabel } from "./classes/Label";
@@ -98,8 +100,11 @@ export {
   CreateEntityOptions,
   createInputPressHandler,
   CreateInputPressHandlerOptions,
+  CreateInputPressHandlerOptionsGroupKeyboardButton,
   createInputTickHandler,
   CreateInputTickHandlerOptions,
+  CreateInputTickHandlerOptionsGroup,
+  CreateInputTickHandlerOptionsGroupKeyboardButton,
   createLabel,
   CreateLabelOptions,
   createQuadrilateral,
@@ -127,7 +132,6 @@ export {
   getRectangleCollisionData,
   goToLevel,
   initialize,
-  CreateInputTickHandlerOptionsGroup as InputTickHandlerGroup,
   isEntityPathing,
   lockCameraToEntity,
   moveEntity,
