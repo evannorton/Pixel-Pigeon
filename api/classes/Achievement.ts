@@ -18,12 +18,16 @@ export interface UnlockAchievementOptions {
   id: string;
 }
 export class Achievement extends Definable {
+  private readonly _description: string;
+  private readonly _imagePath: string;
   private readonly _infoDescriptionElement: HTMLSpanElement;
   private readonly _infoElement: HTMLDivElement;
   private readonly _infoIconElement: HTMLImageElement;
   private readonly _infoNameElement: HTMLSpanElement;
   private readonly _infoTextElement: HTMLDivElement;
-  private readonly _options: CreateAchievementOptions;
+  private readonly _isSecret: boolean = false;
+  private readonly _name: string;
+  private readonly _newgroundsMedalID: number | null;
   public constructor(options: CreateAchievementOptions) {
     if (state.values.isInitialized) {
       throw new Error(
@@ -31,7 +35,6 @@ export class Achievement extends Definable {
       );
     }
     super(options.id);
-    this._options = options;
     const achievementsGridElement: HTMLElement | null =
       document.getElementById("achievements-grid");
     if (achievementsGridElement === null) {
@@ -39,6 +42,10 @@ export class Achievement extends Definable {
         `An attempt was made to add Achievement "${this._id}" to the pause menu with no achievements grid element in the DOM.`,
       );
     }
+    this._description = options.description;
+    this._imagePath = options.imagePath;
+    this._name = options.name;
+    this._newgroundsMedalID = options.newgroundsMedalID ?? null;
     this._infoElement = document.createElement("div");
     this._infoElement.classList.add("achievement-info");
     // Icon
@@ -61,7 +68,7 @@ export class Achievement extends Definable {
   }
 
   public get newgroundsMedalID(): number | null {
-    return this._options.newgroundsMedalID ?? null;
+    return this._newgroundsMedalID ?? null;
   }
 
   public unlock(): void {
@@ -93,7 +100,7 @@ export class Achievement extends Definable {
         noticeElement.classList.add("achievement-unlock-notice");
         // Image
         const iconElement: HTMLImageElement = document.createElement("img");
-        iconElement.src = `./images/${this._options.imagePath}.png`;
+        iconElement.src = `./images/${this._imagePath}.png`;
         iconElement.classList.add("achievement-unlock-notice-icon");
         noticeElement.appendChild(iconElement);
         // Text
@@ -106,7 +113,7 @@ export class Achievement extends Definable {
         textElement.appendChild(headingElement);
         // Name
         const nameElement: HTMLSpanElement = document.createElement("span");
-        nameElement.innerText = this._options.name;
+        nameElement.innerText = this._name;
         nameElement.classList.add("achievement-unlock-notice-name");
         textElement.appendChild(nameElement);
         noticeElement.appendChild(textElement);
@@ -136,10 +143,10 @@ export class Achievement extends Definable {
       ),
     );
     this.updateInfoElements();
-    if (typeof this._options.newgroundsMedalID !== "undefined") {
+    if (typeof this._newgroundsMedalID !== "undefined") {
       if (window.newgrounds !== null && window.newgrounds.session_id !== null) {
         window.newgrounds.callComponent("Medal.unlock", {
-          id: this._options.newgroundsMedalID,
+          id: this._newgroundsMedalID,
         });
       }
     }
@@ -182,7 +189,7 @@ export class Achievement extends Definable {
     }
     if (
       matchedStorageAchievement.unlockedAt === null &&
-      this._options.isSecret === true
+      this._isSecret === true
     ) {
       this._infoIconElement.classList.add("secret");
       this._infoIconElement.src = "./svg/lock.svg";
@@ -191,9 +198,9 @@ export class Achievement extends Definable {
         "Unlock this achievement to see its details.";
     } else {
       this._infoIconElement.classList.remove("secret");
-      this._infoIconElement.src = `./images/${this._options.imagePath}.png`;
-      this._infoNameElement.innerText = this._options.name;
-      this._infoDescriptionElement.innerText = this._options.description;
+      this._infoIconElement.src = `./images/${this._imagePath}.png`;
+      this._infoNameElement.innerText = this._name;
+      this._infoDescriptionElement.innerText = this._description;
     }
   }
 }
