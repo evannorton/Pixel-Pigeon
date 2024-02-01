@@ -26,15 +26,31 @@ export interface CreateAnchorOptions {
   width: number;
   url: string;
 }
+interface AnchorCoordinates {
+  readonly condition: (() => boolean) | null;
+  readonly x: number;
+  readonly y: number;
+}
+
 export class Anchor extends Definable {
   private readonly _anchorElement: HTMLAnchorElement =
     document.createElement("a");
 
-  private readonly _options: CreateAnchorOptions;
+  private readonly _coordinates: AnchorCoordinates;
+  private readonly _height: number;
+  private readonly _url: string;
+  private readonly _width: number;
 
   public constructor(options: CreateAnchorOptions) {
     super(getToken());
-    this._options = options;
+    this._coordinates = {
+      condition: options.coordinates.condition ?? null,
+      x: options.coordinates.x,
+      y: options.coordinates.y,
+    };
+    this._height = options.height;
+    this._url = options.url;
+    this._width = options.width;
     const anchorsElement: HTMLElement | null =
       document.getElementById("anchors");
     if (anchorsElement === null) {
@@ -53,35 +69,31 @@ export class Anchor extends Definable {
     }
     if (this.passesCoordinatesCondition()) {
       this._anchorElement.style.display = "block";
-      const xPercent: number =
-        this._options.coordinates.x / state.values.config.width;
-      const yPercent: number =
-        this._options.coordinates.y / state.values.config.height;
-      const widthPercent: number =
-        this._options.width / state.values.config.width;
-      const heightPercent: number =
-        this._options.height / state.values.config.height;
+      const xPercent: number = this._coordinates.x / state.values.config.width;
+      const yPercent: number = this._coordinates.y / state.values.config.height;
+      const widthPercent: number = this._width / state.values.config.width;
+      const heightPercent: number = this._height / state.values.config.height;
       this._anchorElement.style.left = `${xPercent * 100}%`;
       this._anchorElement.style.top = `${yPercent * 100}%`;
       this._anchorElement.style.width = `${widthPercent * 100}%`;
       this._anchorElement.style.height = `${heightPercent * 100}%`;
-      this._anchorElement.href = this._options.url;
+      this._anchorElement.href = this._url;
     } else {
       this._anchorElement.style.display = "none";
     }
   }
 
   private passesCoordinatesCondition(): boolean {
-    if (typeof this._options.coordinates === "undefined") {
+    if (this._coordinates === null) {
       throw new Error(
         `Anchor "${this._id}" attempted to check coordinates condition with no coordinates.`,
       );
     }
-    if (typeof this._options.coordinates.condition === "undefined") {
+    if (this._coordinates.condition === null) {
       return true;
     }
     try {
-      return this._options.coordinates.condition();
+      return this._coordinates.condition();
     } catch (error: unknown) {
       handleCaughtError(error, `Anchor "${this._id}" coordinates condition`);
     }
