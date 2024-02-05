@@ -28,12 +28,27 @@ export interface CreateLabelOptions {
   text: string | (() => string);
   horizontalAlignment: TextStyleAlign;
 }
-export class Label extends Definable {
-  private readonly _options: CreateLabelOptions;
+interface LabelCoordinates {
+  readonly condition: (() => boolean) | null;
+  readonly x: number | (() => number);
+  readonly y: number | (() => number);
+}
 
+export class Label extends Definable {
+  private readonly _color: string | (() => string);
+  private readonly _coordinates: LabelCoordinates;
+  private readonly _horizontalAlignment: TextStyleAlign;
+  private readonly _text: string | (() => string);
   public constructor(options: CreateLabelOptions) {
     super(getToken());
-    this._options = options;
+    this._color = options.color;
+    this._coordinates = {
+      condition: options.coordinates.condition ?? null,
+      x: options.coordinates.x,
+      y: options.coordinates.y,
+    };
+    this._horizontalAlignment = options.horizontalAlignment;
+    this._text = options.text;
   }
 
   public drawAtCoordinates(): void {
@@ -56,7 +71,7 @@ export class Label extends Definable {
           1,
           state.values.config.width,
           1,
-          this._options.horizontalAlignment,
+          this._horizontalAlignment,
           100,
         );
       }
@@ -64,16 +79,11 @@ export class Label extends Definable {
   }
 
   private passesCoordinatesCondition(): boolean {
-    if (typeof this._options.coordinates === "undefined") {
-      throw new Error(
-        `Label "${this._id}" attempted to check coordinates condition with no coordinates.`,
-      );
-    }
-    if (typeof this._options.coordinates.condition === "undefined") {
+    if (this._coordinates.condition === null) {
       return true;
     }
     try {
-      return this._options.coordinates.condition();
+      return this._coordinates.condition();
     } catch (error: unknown) {
       handleCaughtError(error, `Label "${this._id}" coordinates condition`);
     }
@@ -81,11 +91,11 @@ export class Label extends Definable {
   }
 
   private getColor(): string | null {
-    if (typeof this._options.color === "string") {
-      return this._options.color;
+    if (typeof this._color === "string") {
+      return this._color;
     }
     try {
-      return this._options.color();
+      return this._color();
     } catch (error: unknown) {
       handleCaughtError(error, `Label "${this._id}" color`);
     }
@@ -93,39 +103,35 @@ export class Label extends Definable {
   }
 
   private getCoordinatesX(): number | null {
-    if (typeof this._options.coordinates !== "undefined") {
-      if (typeof this._options.coordinates.x === "number") {
-        return this._options.coordinates.x;
-      }
-      try {
-        return this._options.coordinates.x();
-      } catch (error: unknown) {
-        handleCaughtError(error, `Label "${this._id}" coordinates x`);
-      }
+    if (typeof this._coordinates.x === "number") {
+      return this._coordinates.x;
+    }
+    try {
+      return this._coordinates.x();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Label "${this._id}" coordinates x`);
     }
     return null;
   }
 
   private getCoordinatesY(): number | null {
-    if (typeof this._options.coordinates !== "undefined") {
-      if (typeof this._options.coordinates.y === "number") {
-        return this._options.coordinates.y;
-      }
-      try {
-        return this._options.coordinates.y();
-      } catch (error: unknown) {
-        handleCaughtError(error, `Label "${this._id}" coordinates y`);
-      }
+    if (typeof this._coordinates.y === "number") {
+      return this._coordinates.y;
+    }
+    try {
+      return this._coordinates.y();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Label "${this._id}" coordinates y`);
     }
     return null;
   }
 
   private getText(): string | null {
-    if (typeof this._options.text === "string") {
-      return this._options.text;
+    if (typeof this._text === "string") {
+      return this._text;
     }
     try {
-      return this._options.text();
+      return this._text();
     } catch (error: unknown) {
       handleCaughtError(error, `Label "${this._id}" text`);
     }
