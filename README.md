@@ -10,7 +10,7 @@ Evan wanted something specifically tailored to low spec pixel perfect games.
 
 You may use the [Template Game](https://github.com/evannorton/Pixel-Pigeon-Template) as a starting point, or create a repository from scratch using these instructions.
 
-1. Install Node.js v18.16.0.
+1. Install Node.js v20.11.0.
 2. Create a `package.json` file at the root of your game's codebase.
 ```json
 {
@@ -25,7 +25,7 @@ You may use the [Template Game](https://github.com/evannorton/Pixel-Pigeon-Templ
   },
   "engines": {
     "npm": "9.5.1",
-    "node": "18.16.0"
+    "node": "20.11.0"
   }
 }
 ```
