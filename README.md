@@ -24,7 +24,7 @@ You may use the [Template Game](https://github.com/evannorton/Pixel-Pigeon-Templ
     "pixel-pigeon": "evannorton/pixel-pigeon"
   },
   "engines": {
-    "npm": "9.5.1",
+    "npm": "10.2.4",
     "node": "20.11.0"
   }
 }
