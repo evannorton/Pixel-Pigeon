@@ -127,6 +127,9 @@ export const performInitialization = async (): Promise<void> => {
   if (settings.RENDER_OPTIONS) {
     settings.RENDER_OPTIONS.hello = false;
   }
+  if (getDefinables(Achievement).size === 0) {
+    achievementsButtonElement.style.display = "none";
+  }
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {
     state.setValues({
