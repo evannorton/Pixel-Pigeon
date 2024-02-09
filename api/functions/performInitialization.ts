@@ -18,6 +18,7 @@ import { loadAssets } from "./loadAssets";
 import { sizeScreen } from "./sizeScreen";
 import { state } from "../state";
 import { syncNewgroundsMedals } from "./syncNewgroundsMedals";
+import { takeScreenshot } from "./takeScreenshot";
 import { tick } from "./tick";
 import { updateAchievementsCount } from "./updateAchievementsCount";
 
@@ -64,6 +65,13 @@ export const performInitialization = async (): Promise<void> => {
   if (muteToggleInputElement === null) {
     throw new Error(
       "An attempt was made to get main adjusted volume with no mute toggle element in the DOM.",
+    );
+  }
+  const screenshotButtonElement: HTMLElement | null =
+    document.getElementById("screenshot-button");
+  if (screenshotButtonElement === null) {
+    throw new Error(
+      "An attempt was made to init with no screenshot button element in the DOM.",
     );
   }
   const achievementsButtonElement: HTMLElement | null = document.getElementById(
@@ -282,6 +290,9 @@ export const performInitialization = async (): Promise<void> => {
         audioSource.unmute();
       });
     }
+  });
+  screenshotButtonElement.addEventListener("click", (): void => {
+    takeScreenshot();
   });
   achievementsButtonElement.addEventListener("click", (): void => {
     goToPauseMenuSection("achievements");
