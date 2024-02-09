@@ -29,7 +29,7 @@ body:not(.paused) #pause-menu {
 
 .pause-toggle {
   cursor: url("./cursors/pointer.png") 7 2, pointer;
-  opacity: .75;
+  opacity: 0.75;
   position: absolute;
 }
 
@@ -71,7 +71,7 @@ body:not(.paused) #unpause-button {
 .achievement-unlock-notice {
   align-items: center;
   background-color: #151515;
-  border: .1em solid white;
+  border: 0.1em solid white;
   border-radius: 8px;
   display: flex;
   font-size: 2em;
@@ -81,7 +81,7 @@ body:not(.paused) #unpause-button {
   max-width: calc(90% - 2em);
   opacity: 0;
   overflow: hidden;
-  padding: .25em;
+  padding: 0.25em;
   position: absolute;
   right: 1em;
   text-align: center;
@@ -110,7 +110,7 @@ body:not(.paused) #unpause-button {
   flex-direction: column;
   justify-content: center;
   max-width: calc(100% - 4.5em);
-  padding: .5em;
+  padding: 0.5em;
   width: 100%;
 }
 
@@ -149,7 +149,7 @@ body:not(.paused) #unpause-button {
 }
 
 #volume-sliders:not(:last-child) {
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 #pause-menu.achievements:not(.main) #pause-main {
@@ -158,7 +158,7 @@ body:not(.paused) #unpause-button {
 
 #pause-main label {
   cursor: url("./cursors/default.png"), default;
-  margin-bottom: .25em;
+  margin-bottom: 0.25em;
   text-align: center;
   word-break: break-word;
 }
@@ -171,9 +171,9 @@ body:not(.paused) #unpause-button {
 
 #mute-toggle-input {
   cursor: url("./cursors/default.png"), default;
-  height: .75em;
-  margin-bottom: .5em;
-  width: .75em;
+  height: 0.75em;
+  margin-bottom: 0.5em;
+  width: 0.75em;
 }
 
 .volume-slider {
@@ -183,7 +183,7 @@ body:not(.paused) #unpause-button {
 }
 
 .volume-slider:not(:last-child) {
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 .volume-slider input {
@@ -194,20 +194,20 @@ body:not(.paused) #unpause-button {
 
 #pause-menu button {
   background-color: transparent;
-  border: .05em solid white;
+  border: 0.05em solid white;
   border-radius: 8px;
   color: white;
   cursor: url("./cursors/pointer.png") 7 2, pointer;
-  padding: .125em .25em;
+  padding: 0.125em .25em;
   word-break: break-word;
 }
 
 #pause-menu button:not(:last-child) {
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 #pause-menu button:hover {
-  opacity: .75;
+  opacity: 0.75;
 }
 
 #achievements-grid {
@@ -219,12 +219,12 @@ body:not(.paused) #unpause-button {
 .achievement-info {
   align-items: center;
   background-color: #151515;
-  border: .1em solid white;
+  border: 0.1em solid white;
   border-radius: 8px;
   display: flex;
-  font-size: .5em;
-  margin-bottom: .25em;
-  padding: .25em;
+  font-size: 0.5em;
+  margin-bottom: 0.25em;
+  padding: 0.25em;
   text-align: center;
   width: 100%;
 }
@@ -242,7 +242,7 @@ body:not(.paused) #unpause-button {
 }
 
 .achievement-info-icon.secret {
-  padding: .75em;
+  padding: 0.75em;
   width: 2.5em;
 }
 
@@ -252,7 +252,7 @@ body:not(.paused) #unpause-button {
   flex-direction: column;
   justify-content: center;
   max-width: calc(100% - 3em);
-  padding: .5em;
+  padding: 0.5em;
   width: 100%;
   word-break: break-word;
 }
@@ -272,6 +272,11 @@ body:not(.paused) #unpause-button {
 
 #pause-menu:not(.achievements) #pause-achievements {
   display: none;
+}
+
+#achievements-amount {
+  font-size: 0.8em;
+  margin-bottom: 0.5em;
 }
 
 .swal2-container {

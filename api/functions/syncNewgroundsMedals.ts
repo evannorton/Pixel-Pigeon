@@ -5,6 +5,7 @@ import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
 import { getStorageItem } from "./storage/getStorageItem";
 import { setStorageItem } from "./storage/setStorageItem";
+import { updateAchievementsCount } from "./updateAchievementsCount";
 
 export const syncNewgroundsMedals = (): void => {
   const storageAchievements: StorageAchievement[] =
@@ -60,6 +61,7 @@ export const syncNewgroundsMedals = (): void => {
         getDefinables(Achievement).forEach((achievement: Achievement): void => {
           achievement.updateInfoElements();
         });
+        updateAchievementsCount();
       },
     );
     window.newgrounds.executeQueue();

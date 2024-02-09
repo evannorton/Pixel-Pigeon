@@ -5,6 +5,7 @@ import { getDefinable } from "../functions/getDefinable";
 import { getStorageItem } from "../functions/storage/getStorageItem";
 import { setStorageItem } from "../functions/storage/setStorageItem";
 import { state } from "../state";
+import { updateAchievementsCount } from "../functions/updateAchievementsCount";
 
 export interface CreateAchievementOptions {
   description: string;
@@ -150,6 +151,7 @@ export class Achievement extends Definable {
         });
       }
     }
+    updateAchievementsCount();
   }
 
   public addToStorage(): void {
@@ -169,28 +171,18 @@ export class Achievement extends Definable {
     }
   }
 
+  public isUnlocked(): boolean {
+    return this.getStorageAchievement().unlockedAt !== null;
+  }
+
   public updateInfoElements(): void {
-    const storageAchievements: StorageAchievement[] =
-      (getStorageItem("achievements") as StorageAchievement[] | null) ?? [];
-    const matchedStorageAchievement: StorageAchievement | null =
-      storageAchievements.find(
-        (storageAchievement: StorageAchievement): boolean =>
-          storageAchievement.id === this._id,
-      ) ?? null;
-    if (matchedStorageAchievement === null) {
-      throw new Error(
-        `An attempt was made to update Achievement "${this._id}" info elements with the achievement missing from storage.`,
-      );
-    }
-    if (matchedStorageAchievement.unlockedAt !== null) {
+    const storageAchievement: StorageAchievement = this.getStorageAchievement();
+    if (storageAchievement.unlockedAt !== null) {
       this._infoElement.classList.add("unlocked");
     } else {
       this._infoElement.classList.remove("unlocked");
     }
-    if (
-      matchedStorageAchievement.unlockedAt === null &&
-      this._isSecret === true
-    ) {
+    if (storageAchievement.unlockedAt === null && this._isSecret === true) {
       this._infoIconElement.classList.add("secret");
       this._infoIconElement.src = "./svg/lock.svg";
       this._infoNameElement.innerText = "Secret Achievement";
@@ -202,6 +194,22 @@ export class Achievement extends Definable {
       this._infoNameElement.innerText = this._name;
       this._infoDescriptionElement.innerText = this._description;
     }
+  }
+
+  private getStorageAchievement(): StorageAchievement {
+    const storageAchievements: StorageAchievement[] =
+      (getStorageItem("achievements") as StorageAchievement[] | null) ?? [];
+    const matchedStorageAchievement: StorageAchievement | null =
+      storageAchievements.find(
+        (storageAchievement: StorageAchievement): boolean =>
+          storageAchievement.id === this._id,
+      ) ?? null;
+    if (matchedStorageAchievement === null) {
+      throw new Error(
+        `An attempt was made to get Achievement "${this._id}" StorageAchievement with the achievement missing from storage.`,
+      );
+    }
+    return matchedStorageAchievement;
   }
 }
 export const createAchievement = (options: CreateAchievementOptions): string =>

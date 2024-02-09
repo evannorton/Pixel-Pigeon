@@ -19,6 +19,7 @@ import { sizeScreen } from "./sizeScreen";
 import { state } from "../state";
 import { syncNewgroundsMedals } from "./syncNewgroundsMedals";
 import { tick } from "./tick";
+import { updateAchievementsCount } from "./updateAchievementsCount";
 
 export const performInitialization = async (): Promise<void> => {
   if (state.values.isInitialized) {
@@ -71,6 +72,13 @@ export const performInitialization = async (): Promise<void> => {
   if (achievementsButtonElement === null) {
     throw new Error(
       "An attempt was made to init with no achievements button element in the DOM.",
+    );
+  }
+  const achievementsAmountTotalElement: HTMLElement | null =
+    document.getElementById("achievements-amount-total");
+  if (achievementsAmountTotalElement === null) {
+    throw new Error(
+      "An attempt was made to init with no achievements amount total element in the DOM.",
     );
   }
   const pauseBackButtonElements: HTMLCollectionOf<Element> =
@@ -130,6 +138,9 @@ export const performInitialization = async (): Promise<void> => {
   if (getDefinables(Achievement).size === 0) {
     achievementsButtonElement.style.display = "none";
   }
+  updateAchievementsCount();
+  achievementsAmountTotalElement.innerText =
+    getDefinables(Achievement).size.toString();
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {
     state.setValues({
