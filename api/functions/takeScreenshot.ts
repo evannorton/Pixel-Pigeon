@@ -1,4 +1,4 @@
-import { ICanvas } from "pixi.js";
+import { ICanvas, Rectangle } from "pixi.js";
 import { state } from "../state";
 
 export const takeScreenshot = (): void => {
@@ -12,6 +12,7 @@ export const takeScreenshot = (): void => {
   anchor.download = `${state.values.config.name} screenshot.png`;
   const canvas: ICanvas = state.values.app.renderer.extract.canvas(
     state.values.app.stage,
+    new Rectangle(0, 0, state.values.config.width, state.values.config.height),
   );
   if (typeof canvas.toDataURL === "undefined") {
     throw new Error(

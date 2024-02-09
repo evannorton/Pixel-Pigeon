@@ -103,8 +103,8 @@ export const render = (): void => {
             const width: number = tileset.tileSize;
             const height: number = tileset.tileSize;
             if (
-              x + width >= 0 &&
-              y + height >= 0 &&
+              x + width > 0 &&
+              y + height > 0 &&
               x < state.values.config.width &&
               y < state.values.config.height
             ) {
