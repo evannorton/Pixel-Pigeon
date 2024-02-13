@@ -64,6 +64,35 @@ export class InputCollection extends Definable {
     // Values section
     const valuesSectionElement: HTMLDivElement = document.createElement("div");
     infoElement.appendChild(valuesSectionElement);
+    const valuesMouseElement: HTMLSpanElement = document.createElement("span");
+    const valuesGamepadElement: HTMLSpanElement =
+      document.createElement("span");
+    const valuesKeyboardElement: HTMLSpanElement =
+      document.createElement("span");
+    valuesMouseElement.innerText = `Mouse: ${this._mouseButtons.join(", ")}`;
+    if (this._mouseButtons.length === 0) {
+      valuesMouseElement.style.display = "none";
+    }
+    valuesGamepadElement.innerText = `Gamepad: ${this._gamepadButtons.join(
+      ", ",
+    )}`;
+    if (this._gamepadButtons.length === 0) {
+      valuesGamepadElement.style.display = "none";
+    }
+    valuesKeyboardElement.innerText = `Keyboard: ${this._keyboardButtons
+      .map(
+        (keyboardButton: KeyboardButton): string =>
+          `${keyboardButton.value}${
+            keyboardButton.numlock ? " (NumLock)" : ""
+          }`,
+      )
+      .join(", ")}`;
+    if (this._keyboardButtons.length === 0) {
+      valuesKeyboardElement.style.display = "none";
+    }
+    valuesSectionElement.appendChild(valuesMouseElement);
+    valuesSectionElement.appendChild(valuesGamepadElement);
+    valuesSectionElement.appendChild(valuesKeyboardElement);
     // Buttons section
     const buttonsSectionElement: HTMLDivElement = document.createElement("div");
     infoElement.appendChild(buttonsSectionElement);

@@ -1,3 +1,15 @@
+::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #343434;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #7b7b7b;
+}
+
 body {
   align-items: center;
   background-color: black;
@@ -312,7 +324,6 @@ body:not(.paused) #unpause-button {
 }
 
 .controls-info {
-  align-items: center;
   background-color: #151515;
   border: 0.1em solid white;
   border-radius: 8px;
@@ -325,7 +336,11 @@ body:not(.paused) #unpause-button {
 }
 
 .controls-info>div {
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5em;
 }
 
 .controls-info>div:not(:last-child) {
@@ -333,9 +348,11 @@ body:not(.paused) #unpause-button {
 }
 
 .controls-info span {
-  display: block;
-  padding: 0.5em;
   word-break: break-word;
+}
+
+.controls-info span:not(:last-child) {
+  margin-bottom: 0.5em;
 }
 
 .swal2-container {
