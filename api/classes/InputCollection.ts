@@ -59,7 +59,6 @@ export class InputCollection extends Definable {
     const nameSectionElement: HTMLDivElement = document.createElement("div");
     infoElement.appendChild(nameSectionElement);
     const nameTextElement: HTMLSpanElement = document.createElement("span");
-    nameTextElement.id = "controls-info-name-text";
     nameTextElement.innerText = options.name;
     nameSectionElement.appendChild(nameTextElement);
     // Values section

@@ -332,7 +332,9 @@ body:not(.paused) #unpause-button {
   border-right: 0.1em solid white;
 }
 
-#controls-info-name-text {
+.controls-info span {
+  display: block;
+  padding: 0.5em;
   word-break: break-word;
 }
 
