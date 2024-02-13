@@ -11,8 +11,11 @@ import {
 } from "./classes/Anchor";
 import { CreateEntityOptions, createEntity } from "./functions/createEntity";
 import {
+  CreateInputCollectionOptionsKeyboardButton,
+  createInputCollection,
+} from "./classes/InputCollection";
+import {
   CreateInputPressHandlerOptions,
-  CreateInputPressHandlerOptionsGroupKeyboardButton,
   createInputPressHandler,
 } from "./classes/InputPressHandler";
 import {
@@ -96,9 +99,10 @@ export {
   CreateAnchorOptions,
   createEntity,
   CreateEntityOptions,
+  createInputCollection,
+  CreateInputCollectionOptionsKeyboardButton,
   createInputPressHandler,
   CreateInputPressHandlerOptions,
-  CreateInputPressHandlerOptionsGroupKeyboardButton,
   createInputTickHandler,
   CreateInputTickHandlerOptions,
   CreateInputTickHandlerOptionsGroup,
