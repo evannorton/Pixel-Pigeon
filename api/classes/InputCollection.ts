@@ -1,6 +1,7 @@
 import { Definable } from "./Definable";
 import { KeyboardButton } from "../types/KeyboardButton";
 import { getToken } from "../functions/getToken";
+import { state } from "../state";
 
 export interface CreateInputCollectionOptionsKeyboardButton {
   numlock?: boolean;
@@ -28,6 +29,18 @@ export class InputCollection extends Definable {
   private readonly _mouseButtons: number[];
   public constructor(options: CreateInputCollectionOptions) {
     super(getToken());
+    if (state.values.isInitialized) {
+      throw new Error(
+        `Attempted to create InputCollection "${this._id}" after initialization.`,
+      );
+    }
+    const controlsGridElement: HTMLElement | null =
+      document.getElementById("controls-grid");
+    if (controlsGridElement === null) {
+      throw new Error(
+        `An attempt was made to add InputCollection "${this._id}" to the pause menu with no controls grid element in the DOM.`,
+      );
+    }
     this._gamepadButtons = options.gamepadButtons ?? [];
     this._keyboardButtons = (options.keyboardButtons ?? []).map(
       (
@@ -39,6 +52,23 @@ export class InputCollection extends Definable {
       }),
     );
     this._mouseButtons = options.mouseButtons ?? [];
+    // Info
+    const infoElement: HTMLDivElement = document.createElement("div");
+    infoElement.classList.add("controls-info");
+    // Name section
+    const nameSectionElement: HTMLDivElement = document.createElement("div");
+    infoElement.appendChild(nameSectionElement);
+    const nameTextElement: HTMLSpanElement = document.createElement("span");
+    nameTextElement.id = "controls-info-name-text";
+    nameTextElement.innerText = options.name;
+    nameSectionElement.appendChild(nameTextElement);
+    // Values section
+    const valuesSectionElement: HTMLDivElement = document.createElement("div");
+    infoElement.appendChild(valuesSectionElement);
+    // Buttons section
+    const buttonsSectionElement: HTMLDivElement = document.createElement("div");
+    infoElement.appendChild(buttonsSectionElement);
+    controlsGridElement.appendChild(infoElement);
   }
 
   public get gamepadButtons(): number[] {

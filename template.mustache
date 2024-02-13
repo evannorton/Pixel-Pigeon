@@ -28,19 +28,23 @@
             </div>
           </div>
           <button id="screenshot-button">Screenshot</button>
+          <button id="controls-button">Controls</button>
           <button id="achievements-button">Achievements</button>
+        </div>
+        <div id="pause-controls">
+          <button id="controls-back-button" class="pause-back-button">Back</button>
+          <div id="controls-grid"></div>
         </div>
         <div id="pause-achievements">
           <button id="achievements-back-button" class="pause-back-button">Back</button>
           <div id="achievements-amount">Unlocked: <span id="achievements-amount-unlocked"></span> / <span id="achievements-amount-total"></span> <span id="achievements-amount-percent"></span></div>
-          <div id="achievements-grid">
-          </div>
+          <div id="achievements-grid"></div>
         </div>
       </div>
     </div>
     <div id="pause-buttons">
-      <img id="pause-button" class="pause-toggle" src="./svg/pause.svg" />
-      <img id="unpause-button" class="pause-toggle" src="./svg/unpause.svg" />
+      <img id="pause-button" class="pause-toggle" src="./svg/pause.svg" draggable="false" />
+      <img id="unpause-button" class="pause-toggle" src="./svg/unpause.svg" draggable="false" />
     </div>
     <script src="https://cdn.jsdelivr.net/gh/PsychoGoldfishNG/newgrounds.io-for-javascript-html5@2d7dcda/bin/newgroundsio.min.js"></script>
     <script>

@@ -8,5 +8,6 @@ export const goToPauseMenuSection = (section: string): void => {
   }
   pauseMenuElement.classList.remove("main");
   pauseMenuElement.classList.remove("achievements");
+  pauseMenuElement.classList.remove("controls");
   pauseMenuElement.classList.add(section);
 };

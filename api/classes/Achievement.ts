@@ -30,12 +30,12 @@ export class Achievement extends Definable {
   private readonly _name: string;
   private readonly _newgroundsMedalID: number | null;
   public constructor(options: CreateAchievementOptions) {
+    super(options.id);
     if (state.values.isInitialized) {
       throw new Error(
-        `Attempted to create achievement ${options.id} after initialization.`,
+        `Attempted to create Achievement "${this._id}" after initialization.`,
       );
     }
-    super(options.id);
     const achievementsGridElement: HTMLElement | null =
       document.getElementById("achievements-grid");
     if (achievementsGridElement === null) {
@@ -47,6 +47,7 @@ export class Achievement extends Definable {
     this._imagePath = options.imagePath;
     this._name = options.name;
     this._newgroundsMedalID = options.newgroundsMedalID ?? null;
+    // Info
     this._infoElement = document.createElement("div");
     this._infoElement.classList.add("achievement-info");
     // Icon

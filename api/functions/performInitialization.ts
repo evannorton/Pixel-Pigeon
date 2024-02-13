@@ -5,6 +5,7 @@ import { Config } from "../types/Config";
 import { Dev } from "../types/Dev";
 import { Env } from "../types/Env";
 import { ImageSource } from "../classes/ImageSource";
+import { InputCollection } from "../classes/InputCollection";
 import { KeyboardInput } from "../types/KeyboardInput";
 import { LDTK } from "../types/LDTK";
 import { MouseInput } from "../types/MouseInput";
@@ -72,6 +73,13 @@ export const performInitialization = async (): Promise<void> => {
   if (screenshotButtonElement === null) {
     throw new Error(
       "An attempt was made to init with no screenshot button element in the DOM.",
+    );
+  }
+  const controlsButtonElement: HTMLElement | null =
+    document.getElementById("controls-button");
+  if (controlsButtonElement === null) {
+    throw new Error(
+      "An attempt was made to init with no controls button element in the DOM.",
     );
   }
   const achievementsButtonElement: HTMLElement | null = document.getElementById(
@@ -142,6 +150,9 @@ export const performInitialization = async (): Promise<void> => {
   BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
   if (settings.RENDER_OPTIONS) {
     settings.RENDER_OPTIONS.hello = false;
+  }
+  if (getDefinables(InputCollection).size === 0) {
+    controlsButtonElement.style.display = "none";
   }
   if (getDefinables(Achievement).size === 0) {
     achievementsButtonElement.style.display = "none";
@@ -293,6 +304,9 @@ export const performInitialization = async (): Promise<void> => {
   });
   screenshotButtonElement.addEventListener("click", (): void => {
     takeScreenshot();
+  });
+  controlsButtonElement.addEventListener("click", (): void => {
+    goToPauseMenuSection("controls");
   });
   achievementsButtonElement.addEventListener("click", (): void => {
     goToPauseMenuSection("achievements");
