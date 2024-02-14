@@ -17,6 +17,9 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended"
   ],
+  "files": [
+    "*.ts",
+  ],
   "rules": {
     "@typescript-eslint/adjacent-overload-signatures": [
       "off"
