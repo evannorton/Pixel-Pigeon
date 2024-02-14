@@ -1,4 +1,11 @@
 {
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ]
+    }
+  ],
   "env": {
     "browser": true,
     "es2021": true
@@ -16,9 +23,6 @@
   "extends": [
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended"
-  ],
-  "files": [
-    "*.ts",
   ],
   "rules": {
     "@typescript-eslint/adjacent-overload-signatures": [
