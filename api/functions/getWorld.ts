@@ -77,7 +77,7 @@ export const getWorld = (): World => {
                   ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0],
                 ): Level["layers"][0]["tiles"][0] => ({
                   pixiSprite: new PixiSprite(),
-                  tileId: ldtkGridTile.t,
+                  tileID: ldtkGridTile.t,
                   tilesetX: ldtkGridTile.src[0] / ldtkLayerInstance.__gridSize,
                   tilesetY: ldtkGridTile.src[1] / ldtkLayerInstance.__gridSize,
                   x: ldtkGridTile.px[0],

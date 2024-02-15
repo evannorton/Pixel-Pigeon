@@ -108,7 +108,7 @@ export const render = (): void => {
               x < state.values.config.width &&
               y < state.values.config.height
             ) {
-              const matchedTile: WorldTilesetTile = tileset.tiles[tile.tileId];
+              const matchedTile: WorldTilesetTile = tileset.tiles[tile.tileID];
               tile.pixiSprite.texture = matchedTile.texture;
               tile.pixiSprite.x = x;
               tile.pixiSprite.y = y;
