@@ -84,7 +84,7 @@ export class InputCollection extends Definable {
         (keyboardButton: KeyboardButton): string =>
           `${keyboardButton.value}${
             keyboardButton.numlock ? " (NumLock)" : ""
-          }`,
+          }${keyboardButton.withoutNumlock ? " (no NumLock)" : ""}`,
       )
       .join(", ")}`;
     if (this._keyboardButtons.length === 0) {
