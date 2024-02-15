@@ -109,7 +109,6 @@ export const getWorld = (): World => {
         const id: number = y * ldtkDefTileset.__cWid + x;
         const xSpacing: number = ldtkDefTileset.spacing * x;
         const ySpacing: number = ldtkDefTileset.spacing * y;
-        const padding: number = ldtkDefTileset.padding * 2;
         const matchedCustomDatum: LDTKTileCustomData | null =
           ldtkDefTileset.customData.find(
             (customDatum: LDTKTileCustomData): boolean =>
@@ -127,8 +126,12 @@ export const getWorld = (): World => {
           texture: new Texture(
             getDefinable(ImageSource, imageSourceID).texture.baseTexture,
             new Rectangle(
-              x * ldtkDefTileset.tileGridSize + xSpacing + padding,
-              y * ldtkDefTileset.tileGridSize + ySpacing + padding,
+              x * ldtkDefTileset.tileGridSize +
+                xSpacing +
+                ldtkDefTileset.padding,
+              y * ldtkDefTileset.tileGridSize +
+                ySpacing +
+                ldtkDefTileset.padding,
               ldtkDefTileset.tileGridSize,
               ldtkDefTileset.tileGridSize,
             ),
