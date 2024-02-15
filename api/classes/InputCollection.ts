@@ -24,9 +24,14 @@ export interface CreateInputCollectionOptions {
   name: string;
 }
 export class InputCollection extends Definable {
+  private readonly _buttonsClearElement: HTMLButtonElement;
   private readonly _gamepadButtons: number[];
   private readonly _keyboardButtons: KeyboardButton[];
   private readonly _mouseButtons: number[];
+  private readonly _valuesEmptyElement: HTMLSpanElement;
+  private readonly _valuesGamepadElement: HTMLSpanElement;
+  private readonly _valuesKeyboardElement: HTMLSpanElement;
+  private readonly _valuesMouseElement: HTMLSpanElement;
   public constructor(options: CreateInputCollectionOptions) {
     super(getToken());
     if (state.values.isInitialized) {
@@ -64,39 +69,28 @@ export class InputCollection extends Definable {
     // Values section
     const valuesSectionElement: HTMLDivElement = document.createElement("div");
     infoElement.appendChild(valuesSectionElement);
-    const valuesMouseElement: HTMLSpanElement = document.createElement("span");
-    const valuesGamepadElement: HTMLSpanElement =
-      document.createElement("span");
-    const valuesKeyboardElement: HTMLSpanElement =
-      document.createElement("span");
-    valuesMouseElement.innerText = `Mouse: ${this._mouseButtons.join(", ")}`;
-    if (this._mouseButtons.length === 0) {
-      valuesMouseElement.style.display = "none";
-    }
-    valuesGamepadElement.innerText = `Gamepad: ${this._gamepadButtons.join(
-      ", ",
-    )}`;
-    if (this._gamepadButtons.length === 0) {
-      valuesGamepadElement.style.display = "none";
-    }
-    valuesKeyboardElement.innerText = `Keyboard: ${this._keyboardButtons
-      .map(
-        (keyboardButton: KeyboardButton): string =>
-          `${keyboardButton.value}${
-            keyboardButton.numlock ? " (NumLock)" : ""
-          }${keyboardButton.withoutNumlock ? " (no NumLock)" : ""}`,
-      )
-      .join(", ")}`;
-    if (this._keyboardButtons.length === 0) {
-      valuesKeyboardElement.style.display = "none";
-    }
-    valuesSectionElement.appendChild(valuesMouseElement);
-    valuesSectionElement.appendChild(valuesGamepadElement);
-    valuesSectionElement.appendChild(valuesKeyboardElement);
+    this._valuesEmptyElement = document.createElement("span");
+    this._valuesEmptyElement.classList.add("controls-info-values-empty");
+    this._valuesEmptyElement.innerText = "No inputs set";
+    this._valuesMouseElement = document.createElement("span");
+    this._valuesGamepadElement = document.createElement("span");
+    this._valuesKeyboardElement = document.createElement("span");
+    valuesSectionElement.appendChild(this._valuesEmptyElement);
+    valuesSectionElement.appendChild(this._valuesMouseElement);
+    valuesSectionElement.appendChild(this._valuesGamepadElement);
+    valuesSectionElement.appendChild(this._valuesKeyboardElement);
     // Buttons section
     const buttonsSectionElement: HTMLDivElement = document.createElement("div");
+    this._buttonsClearElement = document.createElement("button");
+    this._buttonsClearElement.innerText = "Clear inputs";
+    this._buttonsClearElement.addEventListener("click", (): void => {
+      this.clear();
+      this.updateValuesElements();
+    });
+    buttonsSectionElement.appendChild(this._buttonsClearElement);
     infoElement.appendChild(buttonsSectionElement);
     controlsGridElement.appendChild(infoElement);
+    this.updateValuesElements();
   }
 
   public get gamepadButtons(): number[] {
@@ -109,6 +103,44 @@ export class InputCollection extends Definable {
 
   public get mouseButtons(): number[] {
     return this._mouseButtons;
+  }
+
+  private clear(): void {
+    this._gamepadButtons.length = 0;
+    this._keyboardButtons.length = 0;
+    this._mouseButtons.length = 0;
+  }
+
+  private updateValuesElements(): void {
+    this._valuesMouseElement.innerText = `Mouse: ${this._mouseButtons.join(
+      ", ",
+    )}`;
+    if (this._mouseButtons.length === 0) {
+      this._valuesMouseElement.style.display = "none";
+    }
+    this._valuesGamepadElement.innerText = `Gamepad: ${this._gamepadButtons.join(
+      ", ",
+    )}`;
+    if (this._gamepadButtons.length === 0) {
+      this._valuesGamepadElement.style.display = "none";
+    }
+    this._valuesKeyboardElement.innerText = `Keyboard: ${this._keyboardButtons
+      .map(
+        (keyboardButton: KeyboardButton): string =>
+          `${keyboardButton.value}${
+            keyboardButton.numlock ? " (NumLock)" : ""
+          }${keyboardButton.withoutNumlock ? " (no NumLock)" : ""}`,
+      )
+      .join(", ")}`;
+    if (this._keyboardButtons.length === 0) {
+      this._valuesKeyboardElement.style.display = "none";
+    }
+    const isEmpty: boolean =
+      this._mouseButtons.length > 0 ||
+      this._gamepadButtons.length > 0 ||
+      this._keyboardButtons.length > 0;
+    this._buttonsClearElement.style.display = isEmpty ? "block" : "none";
+    this._valuesEmptyElement.style.display = !isEmpty ? "block" : "none";
   }
 }
 /**
