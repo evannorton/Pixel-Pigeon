@@ -13,6 +13,8 @@ export interface LDTK {
       readonly pxWid: number;
       readonly relPath: string;
       readonly tileGridSize: number;
+      readonly spacing: number;
+      readonly padding: number;
       readonly uid: number;
     }[];
   };

@@ -76,6 +76,7 @@ export interface Layer {
     readonly pixiSprite: PixiSprite;
     readonly tilesetX: number;
     readonly tilesetY: number;
+    readonly tileId: number;
     readonly x: number;
     readonly y: number;
   }[];
