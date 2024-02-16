@@ -1,6 +1,6 @@
-*.gitattributes text eol=lf
 *.css text eol=lf
 *.eslintrc text eol=lf
+*.gitattributes text eol=lf
 *.gitignore text eol=lf
 *.js text eol=lf
 *.js text eol=lf
