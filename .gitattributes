@@ -1,0 +1,16 @@
+*.css text eol=lf
+*.eslintrc text eol=lf
+*.gitattributes text eol=lf
+*.gitignore text eol=lf
+*.js text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.ldtk text eol=lf
+*.md text eol=lf
+*.md text eol=lf
+*.mustache text eol=lf
+*.svg text eol=lf
+*.ts text eol=lf
+*.ts text eol=lf
+*.txt text eol=lf
+*.yaml text eol=lf

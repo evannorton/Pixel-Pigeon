@@ -9,9 +9,11 @@ export interface LDTK {
       readonly __cWid: number;
       readonly customData: LDTKTileCustomData[];
       readonly identifier: string;
+      readonly padding: number;
       readonly pxHei: number;
       readonly pxWid: number;
       readonly relPath: string;
+      readonly spacing: number;
       readonly tileGridSize: number;
       readonly uid: number;
     }[];

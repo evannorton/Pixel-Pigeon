@@ -77,6 +77,7 @@ export const getWorld = (): World => {
                   ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0],
                 ): Level["layers"][0]["tiles"][0] => ({
                   pixiSprite: new PixiSprite(),
+                  tileID: ldtkGridTile.t,
                   tilesetX: ldtkGridTile.src[0] / ldtkLayerInstance.__gridSize,
                   tilesetY: ldtkGridTile.src[1] / ldtkLayerInstance.__gridSize,
                   x: ldtkGridTile.px[0],
@@ -106,6 +107,8 @@ export const getWorld = (): World => {
     for (let y: number = 0; y < ldtkDefTileset.__cHei; y++) {
       for (let x: number = 0; x < ldtkDefTileset.__cWid; x++) {
         const id: number = y * ldtkDefTileset.__cWid + x;
+        const xSpacing: number = ldtkDefTileset.spacing * x;
+        const ySpacing: number = ldtkDefTileset.spacing * y;
         const matchedCustomDatum: LDTKTileCustomData | null =
           ldtkDefTileset.customData.find(
             (customDatum: LDTKTileCustomData): boolean =>
@@ -123,8 +126,12 @@ export const getWorld = (): World => {
           texture: new Texture(
             getDefinable(ImageSource, imageSourceID).texture.baseTexture,
             new Rectangle(
-              x * ldtkDefTileset.tileGridSize,
-              y * ldtkDefTileset.tileGridSize,
+              x * ldtkDefTileset.tileGridSize +
+                xSpacing +
+                ldtkDefTileset.padding,
+              y * ldtkDefTileset.tileGridSize +
+                ySpacing +
+                ldtkDefTileset.padding,
               ldtkDefTileset.tileGridSize,
               ldtkDefTileset.tileGridSize,
             ),
