@@ -25,9 +25,12 @@ export interface CreateInputCollectionOptions {
 }
 export class InputCollection extends Definable {
   private readonly _buttonsClearElement: HTMLButtonElement;
-  private readonly _gamepadButtons: number[];
-  private readonly _keyboardButtons: KeyboardButton[];
-  private readonly _mouseButtons: number[];
+  private readonly _defaultGamepadButtons: number[];
+  private readonly _defaultKeyboardButtons: KeyboardButton[];
+  private readonly _defaultMouseButtons: number[];
+  private _gamepadButtons: number[];
+  private _keyboardButtons: KeyboardButton[];
+  private _mouseButtons: number[];
   private readonly _valuesEmptyElement: HTMLSpanElement;
   private readonly _valuesGamepadElement: HTMLSpanElement;
   private readonly _valuesKeyboardElement: HTMLSpanElement;
@@ -46,8 +49,12 @@ export class InputCollection extends Definable {
         `An attempt was made to add InputCollection "${this._id}" to the pause menu with no controls grid element in the DOM.`,
       );
     }
-    this._gamepadButtons = options.gamepadButtons ?? [];
-    this._keyboardButtons = (options.keyboardButtons ?? []).map(
+    const gamepadButtons: number[] = options.gamepadButtons ?? [];
+    this._defaultGamepadButtons = [...gamepadButtons];
+    this._gamepadButtons = [...gamepadButtons];
+    const keyboardButtons: KeyboardButton[] = (
+      options.keyboardButtons ?? []
+    ).map(
       (
         keyboardButton: CreateInputCollectionOptionsKeyboardButton,
       ): KeyboardButton => ({
@@ -56,7 +63,11 @@ export class InputCollection extends Definable {
         withoutNumlock: keyboardButton.withoutNumlock ?? false,
       }),
     );
-    this._mouseButtons = options.mouseButtons ?? [];
+    this._defaultKeyboardButtons = [...keyboardButtons];
+    this._keyboardButtons = [...keyboardButtons];
+    const mouseButtons: number[] = options.mouseButtons ?? [];
+    this._defaultMouseButtons = [...mouseButtons];
+    this._mouseButtons = [...mouseButtons];
     // Info
     const infoElement: HTMLDivElement = document.createElement("div");
     infoElement.classList.add("controls-info");
@@ -105,6 +116,13 @@ export class InputCollection extends Definable {
     return this._mouseButtons;
   }
 
+  public resetToDefault(): void {
+    this._gamepadButtons = [...this._defaultGamepadButtons];
+    this._keyboardButtons = [...this._defaultKeyboardButtons];
+    this._mouseButtons = [...this._defaultMouseButtons];
+    this.updateValuesElements();
+  }
+
   private clear(): void {
     this._gamepadButtons.length = 0;
     this._keyboardButtons.length = 0;
@@ -134,6 +152,8 @@ export class InputCollection extends Definable {
       .join(", ")}`;
     if (this._keyboardButtons.length === 0) {
       this._valuesKeyboardElement.style.display = "none";
+    } else {
+      this._valuesKeyboardElement.style.display = "block";
     }
     const isEmpty: boolean =
       this._mouseButtons.length > 0 ||

@@ -97,6 +97,13 @@ export const performInitialization = async (): Promise<void> => {
       "An attempt was made to init with no achievements amount total element in the DOM.",
     );
   }
+  const controlsResetButtonElement: HTMLElement | null =
+    document.getElementById("controls-reset-button");
+  if (controlsResetButtonElement === null) {
+    throw new Error(
+      "An attempt was made to init with no controls reset button element in the DOM.",
+    );
+  }
   const pauseBackButtonElements: HTMLCollectionOf<Element> =
     document.getElementsByClassName("pause-back-button");
   state.setValues({ isInitialized: true });
@@ -316,6 +323,13 @@ export const performInitialization = async (): Promise<void> => {
       goToPauseMenuSection("main");
     });
   }
+  controlsResetButtonElement.addEventListener("click", (): void => {
+    getDefinables(InputCollection).forEach(
+      (inputCollection: InputCollection): void => {
+        inputCollection.resetToDefault();
+      },
+    );
+  });
   screenElement.appendChild(app.view as HTMLCanvasElement);
   sizeScreen();
   app.ticker.add(tick);
