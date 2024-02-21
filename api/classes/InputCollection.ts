@@ -25,6 +25,7 @@ export interface CreateInputCollectionOptions {
 }
 export class InputCollection extends Definable {
   private readonly _buttonsClearElement: HTMLButtonElement;
+  private readonly _buttonsResetElement: HTMLButtonElement;
   private readonly _defaultGamepadButtons: number[];
   private readonly _defaultKeyboardButtons: KeyboardButton[];
   private readonly _defaultMouseButtons: number[];
@@ -92,12 +93,18 @@ export class InputCollection extends Definable {
     valuesSectionElement.appendChild(this._valuesKeyboardElement);
     // Buttons section
     const buttonsSectionElement: HTMLDivElement = document.createElement("div");
+    this._buttonsResetElement = document.createElement("button");
+    this._buttonsResetElement.innerText = "Reset to defaults";
+    this._buttonsResetElement.addEventListener("click", (): void => {
+      this.resetToDefault();
+    });
     this._buttonsClearElement = document.createElement("button");
     this._buttonsClearElement.innerText = "Clear inputs";
     this._buttonsClearElement.addEventListener("click", (): void => {
       this.clear();
       this.updateValuesElements();
     });
+    buttonsSectionElement.appendChild(this._buttonsResetElement);
     buttonsSectionElement.appendChild(this._buttonsClearElement);
     infoElement.appendChild(buttonsSectionElement);
     controlsGridElement.appendChild(infoElement);
@@ -130,17 +137,22 @@ export class InputCollection extends Definable {
   }
 
   private updateValuesElements(): void {
+    console.log(this.mouseButtons);
     this._valuesMouseElement.innerText = `Mouse: ${this._mouseButtons.join(
       ", ",
     )}`;
     if (this._mouseButtons.length === 0) {
       this._valuesMouseElement.style.display = "none";
+    } else {
+      this._valuesMouseElement.style.display = "block";
     }
     this._valuesGamepadElement.innerText = `Gamepad: ${this._gamepadButtons.join(
       ", ",
     )}`;
     if (this._gamepadButtons.length === 0) {
       this._valuesGamepadElement.style.display = "none";
+    } else {
+      this._valuesGamepadElement.style.display = "block";
     }
     this._valuesKeyboardElement.innerText = `Keyboard: ${this._keyboardButtons
       .map(
