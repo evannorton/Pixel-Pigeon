@@ -11,6 +11,7 @@ import { LDTK } from "../types/LDTK";
 import { MouseInput } from "../types/MouseInput";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { cleanStorage } from "./storage/cleanStorage";
+import { fireAlert } from "./fireAlert";
 import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
 import { goToPauseMenuSection } from "./goToPauseMenuSection";
@@ -324,11 +325,23 @@ export const performInitialization = async (): Promise<void> => {
     });
   }
   controlsResetButtonElement.addEventListener("click", (): void => {
-    getDefinables(InputCollection).forEach(
-      (inputCollection: InputCollection): void => {
-        inputCollection.resetToDefault();
+    const bodyElement: HTMLElement = document.createElement("p");
+    bodyElement.innerText = "Are you sure you want to reset all keybinds?";
+    fireAlert({
+      bodyElement,
+      onConfirm: (): void => {
+        getDefinables(InputCollection).forEach(
+          (inputCollection: InputCollection): void => {
+            inputCollection.resetToDefault();
+          },
+        );
       },
-    );
+      showCancelButton: true,
+      showConfirmButton: true,
+      title: "Reset keybinds",
+    }).catch((error: Error): void => {
+      throw error;
+    });
   });
   screenElement.appendChild(app.view as HTMLCanvasElement);
   sizeScreen();

@@ -23,6 +23,7 @@ body {
   image-rendering: pixelated;
   justify-content: center;
   overflow: hidden;
+  position: relative;
 }
 
 #screen {
@@ -361,6 +362,7 @@ body:not(.paused) #unpause-button {
 
 .swal2-container {
   font-family: sans-serif;
+  position: absolute;
 }
 
 .swal2-container .swal2-modal {
