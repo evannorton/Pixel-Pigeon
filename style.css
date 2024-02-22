@@ -228,12 +228,9 @@ body:not(.paused) #unpause-button {
   border-radius: 8px;
   color: white;
   cursor: url("./cursors/pointer.png") 7 2, pointer;
+  margin: 0.25em 0;
   padding: 0.125em .25em;
   word-break: break-word;
-}
-
-#pause-menu button:not(:last-child) {
-  margin-bottom: 0.5em;
 }
 
 #pause-menu button:hover {
@@ -264,6 +261,7 @@ body:not(.paused) #unpause-button {
 #achievements-amount {
   font-size: 0.8em;
   margin-bottom: 0.5em;
+  margin-top: 0.25em;
 }
 
 #achievements-grid {
@@ -325,6 +323,7 @@ body:not(.paused) #unpause-button {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 0.25em;
 }
 
 .controls-info {
