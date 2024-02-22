@@ -27,7 +27,7 @@ export class ImageSource extends Definable {
       .then((texture: Texture): void => {
         this._texture = texture;
       })
-      .catch((error: Error): void => {
+      .catch((error: unknown): void => {
         throw error;
       });
   }

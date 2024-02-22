@@ -237,6 +237,10 @@ body:not(.paused) #unpause-button {
   opacity: 0.75;
 }
 
+#pause-menu button:focus-visible {
+  outline: 0.05em solid white;
+}
+
 #pause-buttons {
   position: absolute;
   pointer-events: none;

@@ -326,7 +326,7 @@ export const performInitialization = async (): Promise<void> => {
   }
   controlsResetButtonElement.addEventListener("click", (): void => {
     const bodyElement: HTMLElement = document.createElement("p");
-    bodyElement.innerText = "Are you sure you want to reset all keybinds?";
+    bodyElement.innerText = "Are you sure you want to reset all inputs?";
     fireAlert({
       bodyElement,
       onConfirm: (): void => {
@@ -338,9 +338,7 @@ export const performInitialization = async (): Promise<void> => {
       },
       showCancelButton: true,
       showConfirmButton: true,
-      title: "Reset keybinds",
-    }).catch((error: Error): void => {
-      throw error;
+      title: "Reset inputs",
     });
   });
   screenElement.appendChild(app.view as HTMLCanvasElement);

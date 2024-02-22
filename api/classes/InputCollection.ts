@@ -1,5 +1,6 @@
 import { Definable } from "./Definable";
 import { KeyboardButton } from "../types/KeyboardButton";
+import { fireAlert } from "../functions/fireAlert";
 import { getToken } from "../functions/getToken";
 import { state } from "../state";
 
@@ -24,6 +25,7 @@ export interface CreateInputCollectionOptions {
   name: string;
 }
 export class InputCollection extends Definable {
+  private readonly _buttonsAddElement: HTMLButtonElement;
   private readonly _buttonsClearElement: HTMLButtonElement;
   private readonly _buttonsResetElement: HTMLButtonElement;
   private readonly _defaultGamepadButtons: number[];
@@ -93,10 +95,16 @@ export class InputCollection extends Definable {
     valuesSectionElement.appendChild(this._valuesKeyboardElement);
     // Buttons section
     const buttonsSectionElement: HTMLDivElement = document.createElement("div");
-    this._buttonsResetElement = document.createElement("button");
-    this._buttonsResetElement.innerText = "Reset to defaults";
-    this._buttonsResetElement.addEventListener("click", (): void => {
-      this.resetToDefault();
+    this._buttonsAddElement = document.createElement("button");
+    this._buttonsAddElement.innerText = "Add input";
+    this._buttonsAddElement.addEventListener("click", (): void => {
+      const bodyElement: HTMLElement | null = document.createElement("div");
+      fireAlert({
+        bodyElement,
+        showCancelButton: true,
+        showConfirmButton: true,
+        title: "Add input",
+      });
     });
     this._buttonsClearElement = document.createElement("button");
     this._buttonsClearElement.innerText = "Clear inputs";
@@ -104,8 +112,14 @@ export class InputCollection extends Definable {
       this.clear();
       this.updateValuesElements();
     });
-    buttonsSectionElement.appendChild(this._buttonsResetElement);
+    this._buttonsResetElement = document.createElement("button");
+    this._buttonsResetElement.innerText = "Reset to defaults";
+    this._buttonsResetElement.addEventListener("click", (): void => {
+      this.resetToDefault();
+    });
+    buttonsSectionElement.appendChild(this._buttonsAddElement);
     buttonsSectionElement.appendChild(this._buttonsClearElement);
+    buttonsSectionElement.appendChild(this._buttonsResetElement);
     infoElement.appendChild(buttonsSectionElement);
     controlsGridElement.appendChild(infoElement);
     this.updateValuesElements();
@@ -137,7 +151,6 @@ export class InputCollection extends Definable {
   }
 
   private updateValuesElements(): void {
-    console.log(this.mouseButtons);
     this._valuesMouseElement.innerText = `Mouse: ${this._mouseButtons.join(
       ", ",
     )}`;

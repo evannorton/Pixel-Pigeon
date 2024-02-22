@@ -9,22 +9,29 @@ interface FireAlertOptions {
   readonly showCancelButton?: boolean;
 }
 
-export const fireAlert = async (options: FireAlertOptions): Promise<void> => {
+export const fireAlert = (options: FireAlertOptions): void => {
   const html: HTMLDivElement = document.createElement("div");
   const titleElement: HTMLHeadingElement = document.createElement("h2");
   titleElement.innerText = options.title;
   html.appendChild(titleElement);
   html.appendChild(options.bodyElement);
-  const res: SweetAlertResult = await Swal.fire({
+  Swal.fire({
     allowEscapeKey: false,
     allowOutsideClick: options.allowOutsideClick ?? false,
     buttonsStyling: false,
     confirmButtonText: "Confirm",
+    focusConfirm: false,
     html,
+    inputAutoFocus: false,
     showCancelButton: options.showCancelButton ?? false,
     showConfirmButton: options.showConfirmButton ?? false,
-  });
-  if (typeof options.onConfirm !== "undefined" && res.isConfirmed) {
-    options.onConfirm(res.isConfirmed);
-  }
+  })
+    .then((res: SweetAlertResult): void => {
+      if (typeof options.onConfirm !== "undefined" && res.isConfirmed) {
+        options.onConfirm(res.isConfirmed);
+      }
+    })
+    .catch((error: unknown): void => {
+      throw error;
+    });
 };

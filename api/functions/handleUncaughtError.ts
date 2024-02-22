@@ -23,8 +23,6 @@ export const handleUncaughtError = (error: unknown): void => {
     fireAlert({
       bodyElement,
       title: "Error",
-    }).catch((caughtError: unknown): void => {
-      throw caughtError;
     });
   }
 };
