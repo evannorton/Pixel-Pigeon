@@ -1,5 +1,9 @@
 import { Definable } from "./Definable";
 import { KeyboardButton } from "../types/KeyboardButton";
+import {
+  addInputBodyElement,
+  addInputBodyTextElement,
+} from "../elements/addInputBodyElement";
 import { fireAlert } from "../functions/fireAlert";
 import { getToken } from "../functions/getToken";
 import { state } from "../state";
@@ -25,6 +29,8 @@ export interface CreateInputCollectionOptions {
   name: string;
 }
 export class InputCollection extends Definable {
+  private _addingKeyboardButton: KeyboardButton | null = null;
+  private _addingMouseButton: number | null = null;
   private readonly _buttonsAddElement: HTMLButtonElement;
   private readonly _buttonsClearElement: HTMLButtonElement;
   private readonly _buttonsResetElement: HTMLButtonElement;
@@ -98,12 +104,43 @@ export class InputCollection extends Definable {
     this._buttonsAddElement = document.createElement("button");
     this._buttonsAddElement.innerText = "Add input";
     this._buttonsAddElement.addEventListener("click", (): void => {
-      const bodyElement: HTMLElement | null = document.createElement("div");
+      addInputBodyTextElement.innerText = "Press any input";
       fireAlert({
-        bodyElement,
+        bodyElement: addInputBodyElement,
+        onConfirm: (): void => {
+          const addingKeyboardButton: KeyboardButton | null =
+            this._addingKeyboardButton;
+          if (addingKeyboardButton !== null) {
+            if (
+              this._keyboardButtons.some(
+                (keyboardButton: KeyboardButton): boolean =>
+                  keyboardButton.value === addingKeyboardButton.value &&
+                  keyboardButton.numlock === addingKeyboardButton.numlock &&
+                  keyboardButton.withoutNumlock ===
+                    addingKeyboardButton.withoutNumlock,
+              ) === false
+            ) {
+              this._keyboardButtons.push(addingKeyboardButton);
+            }
+            this._addingKeyboardButton = null;
+          }
+          if (this._addingMouseButton !== null) {
+            if (
+              this._mouseButtons.includes(this._addingMouseButton) === false
+            ) {
+              this._mouseButtons.push(this._addingMouseButton);
+            }
+            this._addingMouseButton = null;
+          }
+          this.updateValuesElements();
+        },
         showCancelButton: true,
         showConfirmButton: true,
         title: "Add input",
+      });
+      addInputBodyElement.focus();
+      state.setValues({
+        addInputCollectionID: this.id,
       });
     });
     this._buttonsClearElement = document.createElement("button");
@@ -142,6 +179,16 @@ export class InputCollection extends Definable {
     this._keyboardButtons = [...this._defaultKeyboardButtons];
     this._mouseButtons = [...this._defaultMouseButtons];
     this.updateValuesElements();
+  }
+
+  public updateAddingKeyboardButton(keyboardButton: KeyboardButton): void {
+    this._addingMouseButton = null;
+    this._addingKeyboardButton = keyboardButton;
+  }
+
+  public updateAddingMouseButton(mouseButton: number): void {
+    this._addingKeyboardButton = null;
+    this._addingMouseButton = mouseButton;
   }
 
   private clear(): void {

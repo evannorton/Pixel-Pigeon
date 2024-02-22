@@ -15,6 +15,7 @@ import { defaultVolume } from "./constants/defaultVolume";
 interface StateSchema {
   readonly achievementUnlockRenderedAt: number | null;
   readonly app: Application | null;
+  readonly addInputCollectionID: string | null;
   readonly cameraLockedEntityID: string | null;
   readonly config: Config | null;
   readonly currentTime: number;
@@ -54,6 +55,7 @@ const volumeTestHowl: Howl = new Howl({
 
 export const state: State<StateSchema> = new State<StateSchema>({
   achievementUnlockRenderedAt: null,
+  addInputCollectionID: null,
   app: null,
   cameraLockedEntityID: null,
   config: null,

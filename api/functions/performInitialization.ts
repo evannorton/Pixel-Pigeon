@@ -174,12 +174,6 @@ export const performInitialization = async (): Promise<void> => {
       didBlur: true,
     });
   });
-  app.renderer.view.addEventListener?.(
-    "contextmenu",
-    (contextmenuEvent: Event): void => {
-      contextmenuEvent.preventDefault();
-    },
-  );
   screenElement.addEventListener(
     "mousedown",
     (mousedownEvent: MouseEvent): void => {
@@ -220,6 +214,9 @@ export const performInitialization = async (): Promise<void> => {
       });
     },
   );
+  addEventListener("contextmenu", (contextmenuEvent: Event): void => {
+    contextmenuEvent.preventDefault();
+  });
   addEventListener("keydown", (keydownEvent: KeyboardEvent): void => {
     switch (keydownEvent.code) {
       case "ArrowDown":
