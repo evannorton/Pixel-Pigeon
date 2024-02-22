@@ -11,6 +11,7 @@ import {
 } from "./classes/Anchor";
 import { CreateEntityOptions, createEntity } from "./functions/createEntity";
 import {
+  CreateInputCollectionOptions,
   CreateInputCollectionOptionsKeyboardButton,
   createInputCollection,
 } from "./classes/InputCollection";
@@ -100,6 +101,7 @@ export {
   createEntity,
   CreateEntityOptions,
   createInputCollection,
+  CreateInputCollectionOptions,
   CreateInputCollectionOptionsKeyboardButton,
   createInputPressHandler,
   CreateInputPressHandlerOptions,
