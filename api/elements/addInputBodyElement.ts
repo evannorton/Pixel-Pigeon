@@ -12,4 +12,3 @@ addInputBodyElement.style.padding = "1em";
 
 export const addInputBodyTextElement: HTMLSpanElement =
   document.createElement("span");
-addInputBodyElement.appendChild(addInputBodyTextElement);

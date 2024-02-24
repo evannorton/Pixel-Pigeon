@@ -173,6 +173,7 @@ export const performInitialization = async (): Promise<void> => {
   updateAchievementsCount();
   achievementsAmountTotalElement.innerText =
     getDefinables(Achievement).size.toString();
+  addInputBodyElement.appendChild(addInputBodyTextElement);
   screenElement.appendChild(app.view as HTMLCanvasElement);
   app.ticker.add(tick);
   addEventListener("resize", sizeScreen);
