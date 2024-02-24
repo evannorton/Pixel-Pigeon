@@ -6,9 +6,14 @@ import { Dev } from "../types/Dev";
 import { Env } from "../types/Env";
 import { ImageSource } from "../classes/ImageSource";
 import { InputCollection } from "../classes/InputCollection";
+import { KeyboardButton } from "../types/KeyboardButton";
 import { KeyboardInput } from "../types/KeyboardInput";
 import { LDTK } from "../types/LDTK";
 import { MouseInput } from "../types/MouseInput";
+import {
+  addInputBodyElement,
+  addInputBodyTextElement,
+} from "../elements/addInputBodyElement";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { cleanStorage } from "./storage/cleanStorage";
 import { fireAlert } from "./fireAlert";
@@ -168,52 +173,14 @@ export const performInitialization = async (): Promise<void> => {
   updateAchievementsCount();
   achievementsAmountTotalElement.innerText =
     getDefinables(Achievement).size.toString();
+  screenElement.appendChild(app.view as HTMLCanvasElement);
+  app.ticker.add(tick);
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {
     state.setValues({
       didBlur: true,
     });
   });
-  screenElement.addEventListener(
-    "mousedown",
-    (mousedownEvent: MouseEvent): void => {
-      if (assetsAreLoaded() && !state.values.hasInteracted) {
-        state.setValues({ hasInteracted: true });
-        document.body.classList.add("interacted");
-      } else if (
-        state.values.heldMouseInputs.some(
-          (heldMouseInput: MouseInput): boolean =>
-            heldMouseInput.button === mousedownEvent.button,
-        ) === false
-      ) {
-        const mouseInput: MouseInput = {
-          button: mousedownEvent.button,
-        };
-        state.setValues({
-          heldMouseInputs: [...state.values.heldMouseInputs, mouseInput],
-        });
-        if (state.values.hasInteracted) {
-          state.setValues({
-            pressedMouseInputs: [
-              ...state.values.pressedMouseInputs,
-              mouseInput,
-            ],
-          });
-        }
-      }
-    },
-  );
-  screenElement.addEventListener(
-    "mouseup",
-    (mouseupEvent: MouseEvent): void => {
-      state.setValues({
-        heldMouseInputs: state.values.heldMouseInputs.filter(
-          (heldMouseInput: MouseInput): boolean =>
-            heldMouseInput.button !== mouseupEvent.button,
-        ),
-      });
-    },
-  );
   addEventListener("contextmenu", (contextmenuEvent: Event): void => {
     contextmenuEvent.preventDefault();
   });
@@ -265,6 +232,50 @@ export const performInitialization = async (): Promise<void> => {
       ),
     });
   });
+  addEventListener("error", (errorEvent: ErrorEvent): void => {
+    handleUncaughtError(errorEvent.error);
+  });
+  sizeScreen();
+  screenElement.addEventListener(
+    "mousedown",
+    (mousedownEvent: MouseEvent): void => {
+      if (assetsAreLoaded() && !state.values.hasInteracted) {
+        state.setValues({ hasInteracted: true });
+        document.body.classList.add("interacted");
+      } else if (
+        state.values.heldMouseInputs.some(
+          (heldMouseInput: MouseInput): boolean =>
+            heldMouseInput.button === mousedownEvent.button,
+        ) === false
+      ) {
+        const mouseInput: MouseInput = {
+          button: mousedownEvent.button,
+        };
+        state.setValues({
+          heldMouseInputs: [...state.values.heldMouseInputs, mouseInput],
+        });
+        if (state.values.hasInteracted) {
+          state.setValues({
+            pressedMouseInputs: [
+              ...state.values.pressedMouseInputs,
+              mouseInput,
+            ],
+          });
+        }
+      }
+    },
+  );
+  screenElement.addEventListener(
+    "mouseup",
+    (mouseupEvent: MouseEvent): void => {
+      state.setValues({
+        heldMouseInputs: state.values.heldMouseInputs.filter(
+          (heldMouseInput: MouseInput): boolean =>
+            heldMouseInput.button !== mouseupEvent.button,
+        ),
+      });
+    },
+  );
   pauseButtonElement.addEventListener("click", (): void => {
     document.body.classList.add("paused");
     goToPauseMenuSection("main");
@@ -338,10 +349,42 @@ export const performInitialization = async (): Promise<void> => {
       title: "Reset inputs",
     });
   });
-  screenElement.appendChild(app.view as HTMLCanvasElement);
-  sizeScreen();
-  app.ticker.add(tick);
-  addEventListener("error", (errorEvent: ErrorEvent): void => {
-    handleUncaughtError(errorEvent.error);
-  });
+  addInputBodyElement.addEventListener(
+    "keydown",
+    (keyboardEvent: KeyboardEvent): void => {
+      if (state.values.addInputCollectionID === null) {
+        throw new Error(
+          "An attempt was made to add a keyboard input with no add input collection ID.",
+        );
+      }
+      keyboardEvent.preventDefault();
+      addInputBodyTextElement.innerText = `Keyboard: ${keyboardEvent.code}`;
+      const inputCollection: InputCollection | null = getDefinable(
+        InputCollection,
+        state.values.addInputCollectionID,
+      );
+      const keyboardButton: KeyboardButton = {
+        numlock: false,
+        value: keyboardEvent.code,
+        withoutNumlock: false,
+      };
+      inputCollection.updateAddingKeyboardButton(keyboardButton);
+    },
+  );
+  addInputBodyElement.addEventListener(
+    "mousedown",
+    (mouseEvent: MouseEvent): void => {
+      if (state.values.addInputCollectionID === null) {
+        throw new Error(
+          "An attempt was made to add a mouse input with no add input collection ID.",
+        );
+      }
+      addInputBodyTextElement.innerText = `Mouse: ${mouseEvent.button}`;
+      const inputCollection: InputCollection | null = getDefinable(
+        InputCollection,
+        state.values.addInputCollectionID,
+      );
+      inputCollection.updateAddingMouseButton(mouseEvent.button);
+    },
+  );
 };

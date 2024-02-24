@@ -77,7 +77,6 @@ import { goToLevel } from "./functions/goToLevel";
 import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
-import { newgrounds } from "./newgrounds";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
 import { removeEntity } from "./functions/removeEntity";
@@ -166,4 +165,3 @@ export {
   TextStyleAlign,
   unlockAchievement,
 };
-console.log(newgrounds);
