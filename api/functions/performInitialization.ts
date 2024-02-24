@@ -233,6 +233,14 @@ export const performInitialization = async (): Promise<void> => {
       ),
     });
   });
+  addEventListener("mouseup", (mousedownEvent: MouseEvent): void => {
+    switch (mousedownEvent.button) {
+      case 3:
+      case 4:
+        mousedownEvent.preventDefault();
+        break;
+    }
+  });
   addEventListener("error", (errorEvent: ErrorEvent): void => {
     handleUncaughtError(errorEvent.error);
   });
