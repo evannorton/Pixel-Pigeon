@@ -53,7 +53,6 @@ import {
 } from "./functions/getEntityCalculatedPath";
 import { GetEntityIDsOptions, getEntityIDs } from "./functions/getEntityIDs";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
-import { Newgrounds } from "./types/Newgrounds";
 import { OverlapData } from "./types/OverlapData";
 import { PathEntityOptions, pathEntity } from "./functions/pathEntity";
 import { PathingEntityExclusion } from "./types/PathingEntityExclusion";
@@ -78,6 +77,7 @@ import { goToLevel } from "./functions/goToLevel";
 import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
+import { newgrounds } from "./newgrounds";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
 import { removeEntity } from "./functions/removeEntity";
@@ -166,8 +166,4 @@ export {
   TextStyleAlign,
   unlockAchievement,
 };
-declare global {
-  interface Window {
-    newgrounds: Newgrounds | null;
-  }
-}
+console.log(newgrounds);

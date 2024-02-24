@@ -50,7 +50,8 @@
     <script src="https://cdn.jsdelivr.net/gh/PsychoGoldfishNG/newgrounds.io-for-javascript-html5@2d7dcda/bin/newgroundsio.min.js"></script>
     <script>
       try {
-        window.newgrounds = new window.Newgrounds.io.core("{{{newgroundsAppID}}}", "{{{newgroundsEncryptionKey}}}")
+        window.newgrounds = new window.Newgrounds.io.core("{{{newgroundsAppID}}}", "{{{newgroundsEncryptionKey}}}");
+        delete window.Newgrounds;
       }
       catch {
         window.newgrounds = null;
