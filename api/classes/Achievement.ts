@@ -3,6 +3,7 @@ import { StorageAchievement } from "../types/Storage";
 import { getAchievementUnlockRenderStartTime } from "../functions/getAchievementUnlockRenderStartTime";
 import { getDefinable } from "../functions/getDefinable";
 import { getStorageItem } from "../functions/storage/getStorageItem";
+import { newgrounds } from "../newgrounds";
 import { setStorageItem } from "../functions/storage/setStorageItem";
 import { state } from "../state";
 import { updateAchievementsCount } from "../functions/updateAchievementsCount";
@@ -146,8 +147,8 @@ export class Achievement extends Definable {
     );
     this.updateInfoElements();
     if (this._newgroundsMedalID !== null) {
-      if (window.newgrounds !== null && window.newgrounds.session_id !== null) {
-        window.newgrounds.callComponent("Medal.unlock", {
+      if (newgrounds !== null && newgrounds.session_id !== null) {
+        newgrounds.callComponent("Medal.unlock", {
           id: this._newgroundsMedalID,
         });
       }
