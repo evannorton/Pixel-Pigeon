@@ -181,6 +181,7 @@ export const performInitialization = async (): Promise<void> => {
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {
     state.setValues({
+      addingKeyboardHeldValue: null,
       didBlur: true,
     });
   });

@@ -2,6 +2,7 @@ import { GamepadInput } from "../../types/GamepadInput";
 import { InputPressHandler } from "../../classes/InputPressHandler";
 import { InputTickHandler } from "../../classes/InputTickHandler";
 import { getDefinables } from "../getDefinables";
+import { getGamepads } from "../getGamepads";
 import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
 
@@ -18,57 +19,51 @@ export const updateInput = (): void => {
       },
     );
   }
-  if (typeof navigator.getGamepads === "function") {
-    const gamepads: (Gamepad | null)[] = navigator.getGamepads();
-    if (typeof gamepads.forEach === "function") {
-      gamepads.forEach((gamepad: Gamepad | null): void => {
-        if (gamepad) {
-          gamepad.buttons.forEach(
-            (button: GamepadButton, buttonIndex: number): void => {
-              if (
-                !state.values.heldGamepadInputs.some(
-                  (heldGamepadInput: GamepadInput): boolean =>
-                    heldGamepadInput.button === buttonIndex,
-                ) &&
-                Boolean(button.pressed)
-              ) {
-                const gamepadInput: GamepadInput = {
-                  button: buttonIndex,
-                };
-                state.setValues({
-                  heldGamepadInputs: [
-                    ...state.values.heldGamepadInputs,
-                    gamepadInput,
-                  ],
-                });
-                if (state.values.hasInteracted) {
-                  state.setValues({
-                    pressedGamepadInputs: [
-                      ...state.values.pressedGamepadInputs,
-                      gamepadInput,
-                    ],
-                  });
-                }
-              } else if (
-                state.values.heldGamepadInputs.some(
-                  (heldGamepadInput: GamepadInput): boolean =>
-                    heldGamepadInput.button === buttonIndex,
-                ) &&
-                !button.pressed
-              ) {
-                state.setValues({
-                  heldGamepadInputs: state.values.heldGamepadInputs.filter(
-                    (heldGamepadInput: GamepadInput): boolean =>
-                      heldGamepadInput.button !== buttonIndex,
-                  ),
-                });
-              }
-            },
-          );
+  getGamepads().forEach((gamepad: Gamepad): void => {
+    gamepad.buttons.forEach(
+      (gamepadButton: GamepadButton, gamepadButtonIndex: number): void => {
+        if (
+          !state.values.heldGamepadInputs.some(
+            (heldGamepadInput: GamepadInput): boolean =>
+              heldGamepadInput.button === gamepadButtonIndex,
+          ) &&
+          gamepadButton.pressed &&
+          gamepadButton.value === 1
+        ) {
+          const gamepadInput: GamepadInput = {
+            button: gamepadButtonIndex,
+          };
+          state.setValues({
+            heldGamepadInputs: [
+              ...state.values.heldGamepadInputs,
+              gamepadInput,
+            ],
+          });
+          if (state.values.hasInteracted) {
+            state.setValues({
+              pressedGamepadInputs: [
+                ...state.values.pressedGamepadInputs,
+                gamepadInput,
+              ],
+            });
+          }
+        } else if (
+          state.values.heldGamepadInputs.some(
+            (heldGamepadInput: GamepadInput): boolean =>
+              heldGamepadInput.button === gamepadButtonIndex,
+          ) &&
+          (!gamepadButton.pressed || gamepadButton.value < 1)
+        ) {
+          state.setValues({
+            heldGamepadInputs: state.values.heldGamepadInputs.filter(
+              (heldGamepadInput: GamepadInput): boolean =>
+                heldGamepadInput.button !== gamepadButtonIndex,
+            ),
+          });
         }
-      });
-    }
-  }
+      },
+    );
+  });
   const onInputs: ((() => void) | null)[] = [];
   for (const pressedGamepadInput of state.values.pressedGamepadInputs) {
     getDefinables(InputPressHandler).forEach(

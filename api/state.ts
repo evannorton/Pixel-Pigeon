@@ -14,6 +14,7 @@ import { defaultVolume } from "./constants/defaultVolume";
 
 interface StateSchema {
   readonly achievementUnlockRenderedAt: number | null;
+  readonly addingGamepadHeldValues: number[];
   readonly addingKeyboardHeldValue: string | null;
   readonly addingKeyboardValue: string | null;
   readonly addingMouseValue: number | null;
@@ -59,6 +60,7 @@ const volumeTestHowl: Howl = new Howl({
 export const state: State<StateSchema> = new State<StateSchema>({
   achievementUnlockRenderedAt: null,
   addInputCollectionID: null,
+  addingGamepadHeldValues: [],
   addingKeyboardHeldValue: null,
   addingKeyboardValue: null,
   addingMouseValue: null,
