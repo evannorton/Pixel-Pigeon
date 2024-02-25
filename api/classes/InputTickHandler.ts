@@ -1,12 +1,12 @@
 import { Definable } from "./Definable";
 import { KeyboardButton } from "../types/KeyboardButton";
+import { NumLock } from "../types/NumLock";
 import { getToken } from "../functions/getToken";
 import { state } from "../state";
 
 export interface CreateInputTickHandlerOptionsGroupKeyboardButton {
-  numlock?: boolean;
+  numLock?: NumLock;
   value: string;
-  withoutNumlock?: boolean;
 }
 export interface CreateInputTickHandlerOptionsGroup<GroupID> {
   /**
@@ -58,9 +58,8 @@ export class InputTickHandler<GroupID extends string> extends Definable {
           (
             keyboardButton: CreateInputTickHandlerOptionsGroupKeyboardButton,
           ): KeyboardButton => ({
-            numlock: keyboardButton.numlock ?? false,
+            numLock: keyboardButton.numLock ?? NumLock.Default,
             value: keyboardButton.value,
-            withoutNumlock: keyboardButton.withoutNumlock ?? false,
           }),
         ),
         mouseButtons: group.mouseButtons ?? [],
@@ -96,13 +95,14 @@ export class InputTickHandler<GroupID extends string> extends Definable {
         group.keyboardButtons.some(
           (keyboardButton: KeyboardButton): boolean => {
             if (keyboardButton.value === heldKeyboardInput.button) {
-              if (keyboardButton.numlock === true) {
-                return heldKeyboardInput.numlock;
+              switch (keyboardButton.numLock) {
+                case NumLock.Default:
+                  return true;
+                case NumLock.With:
+                  return heldKeyboardInput.numLock;
+                case NumLock.Without:
+                  return heldKeyboardInput.numLock === false;
               }
-              if (keyboardButton.withoutNumlock === true) {
-                return heldKeyboardInput.numlock === false;
-              }
-              return true;
             }
             return false;
           },

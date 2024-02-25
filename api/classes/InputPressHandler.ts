@@ -4,6 +4,7 @@ import { InputCollection } from "./InputCollection";
 import { KeyboardButton } from "../types/KeyboardButton";
 import { KeyboardInput } from "../types/KeyboardInput";
 import { MouseInput } from "../types/MouseInput";
+import { NumLock } from "../types/NumLock";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
@@ -46,13 +47,14 @@ export class InputPressHandler extends Definable {
       this.inputCollection.keyboardButtons.some(
         (key: KeyboardButton): boolean => {
           if (key.value === keyboardInput.button) {
-            if (key.numlock === true) {
-              return keyboardInput.numlock;
+            switch (key.numLock) {
+              case NumLock.Default:
+                return true;
+              case NumLock.With:
+                return keyboardInput.numLock;
+              case NumLock.Without:
+                return keyboardInput.numLock === false;
             }
-            if (key.withoutNumlock === true) {
-              return keyboardInput.numlock === false;
-            }
-            return true;
           }
           return false;
         },

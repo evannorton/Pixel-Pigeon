@@ -1,17 +1,22 @@
 import { Definable } from "./Definable";
 import { KeyboardButton } from "../types/KeyboardButton";
+import { NumLock } from "../types/NumLock";
 import {
+  addInputBodyBoxElement,
+  addInputBodyBoxTextElement,
   addInputBodyElement,
-  addInputBodyTextElement,
+  addInputBodyNumlockWithElement,
+  addInputBodyNumlockWithInputElement,
+  addInputBodyNumlockWithoutElement,
+  addInputBodyNumlockWithoutInputElement,
 } from "../elements/addInputBodyElement";
 import { fireAlert } from "../functions/fireAlert";
 import { getToken } from "../functions/getToken";
 import { state } from "../state";
 
 export interface CreateInputCollectionOptionsKeyboardButton {
-  numlock?: boolean;
+  numLock?: NumLock;
   value: string;
-  withoutNumlock?: boolean;
 }
 export interface CreateInputCollectionOptions {
   /**
@@ -29,8 +34,8 @@ export interface CreateInputCollectionOptions {
   name: string;
 }
 export class InputCollection extends Definable {
-  private _addingKeyboardButton: KeyboardButton | null = null;
-  private _addingMouseButton: number | null = null;
+  private _addingKeyboardValue: string | null = null;
+  private _addingMouseValue: number | null = null;
   private readonly _buttonsAddElement: HTMLButtonElement;
   private readonly _buttonsClearElement: HTMLButtonElement;
   private readonly _buttonsResetElement: HTMLButtonElement;
@@ -67,9 +72,8 @@ export class InputCollection extends Definable {
       (
         keyboardButton: CreateInputCollectionOptionsKeyboardButton,
       ): KeyboardButton => ({
-        numlock: keyboardButton.numlock ?? false,
+        numLock: keyboardButton.numLock ?? NumLock.Default,
         value: keyboardButton.value,
-        withoutNumlock: keyboardButton.withoutNumlock ?? false,
       }),
     );
     this._defaultKeyboardButtons = [...keyboardButtons];
@@ -104,33 +108,42 @@ export class InputCollection extends Definable {
     this._buttonsAddElement = document.createElement("button");
     this._buttonsAddElement.innerText = "Add input";
     this._buttonsAddElement.addEventListener("click", (): void => {
-      addInputBodyTextElement.innerText = "Press any input";
       fireAlert({
         bodyElement: addInputBodyElement,
         onConfirm: (): void => {
+          const numLock: NumLock | null =
+            addInputBodyNumlockWithInputElement.checked &&
+            addInputBodyNumlockWithoutInputElement.checked
+              ? NumLock.Default
+              : addInputBodyNumlockWithInputElement.checked
+                ? NumLock.With
+                : addInputBodyNumlockWithoutInputElement.checked
+                  ? NumLock.Without
+                  : null;
           const addingKeyboardButton: KeyboardButton | null =
-            this._addingKeyboardButton;
+            this._addingKeyboardValue !== null && numLock !== null
+              ? {
+                  numLock,
+                  value: this._addingKeyboardValue,
+                }
+              : null;
           if (addingKeyboardButton !== null) {
             if (
               this._keyboardButtons.some(
                 (keyboardButton: KeyboardButton): boolean =>
                   keyboardButton.value === addingKeyboardButton.value &&
-                  keyboardButton.numlock === addingKeyboardButton.numlock &&
-                  keyboardButton.withoutNumlock ===
-                    addingKeyboardButton.withoutNumlock,
+                  keyboardButton.numLock === addingKeyboardButton.numLock,
               ) === false
             ) {
               this._keyboardButtons.push(addingKeyboardButton);
             }
-            this._addingKeyboardButton = null;
+            this._addingKeyboardValue = null;
           }
-          if (this._addingMouseButton !== null) {
-            if (
-              this._mouseButtons.includes(this._addingMouseButton) === false
-            ) {
-              this._mouseButtons.push(this._addingMouseButton);
+          if (this._addingMouseValue !== null) {
+            if (this._mouseButtons.includes(this._addingMouseValue) === false) {
+              this._mouseButtons.push(this._addingMouseValue);
             }
-            this._addingMouseButton = null;
+            this._addingMouseValue = null;
           }
           this.updateValuesElements();
         },
@@ -138,7 +151,10 @@ export class InputCollection extends Definable {
         showConfirmButton: true,
         title: "Add input",
       });
-      addInputBodyElement.focus();
+      addInputBodyBoxTextElement.innerText = "Press any input";
+      addInputBodyNumlockWithElement.style.display = "none";
+      addInputBodyNumlockWithoutElement.style.display = "none";
+      addInputBodyBoxElement.focus();
       state.setValues({
         addInputCollectionID: this.id,
       });
@@ -181,14 +197,14 @@ export class InputCollection extends Definable {
     this.updateValuesElements();
   }
 
-  public updateAddingKeyboardButton(keyboardButton: KeyboardButton): void {
-    this._addingMouseButton = null;
-    this._addingKeyboardButton = keyboardButton;
+  public updateAddingKeyboardButton(keyboardButton: string): void {
+    this._addingMouseValue = null;
+    this._addingKeyboardValue = keyboardButton;
   }
 
   public updateAddingMouseButton(mouseButton: number): void {
-    this._addingKeyboardButton = null;
-    this._addingMouseButton = mouseButton;
+    this._addingKeyboardValue = null;
+    this._addingMouseValue = mouseButton;
   }
 
   private clear(): void {
@@ -218,8 +234,12 @@ export class InputCollection extends Definable {
       .map(
         (keyboardButton: KeyboardButton): string =>
           `${keyboardButton.value}${
-            keyboardButton.numlock ? " (NumLock)" : ""
-          }${keyboardButton.withoutNumlock ? " (no NumLock)" : ""}`,
+            keyboardButton.numLock === NumLock.With
+              ? " (with NumLock)"
+              : keyboardButton.numLock === NumLock.Without
+                ? " (without NumLock)"
+                : ""
+          }`,
       )
       .join(", ")}`;
     if (this._keyboardButtons.length === 0) {

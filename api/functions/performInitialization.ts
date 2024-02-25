@@ -6,13 +6,16 @@ import { Dev } from "../types/Dev";
 import { Env } from "../types/Env";
 import { ImageSource } from "../classes/ImageSource";
 import { InputCollection } from "../classes/InputCollection";
-import { KeyboardButton } from "../types/KeyboardButton";
 import { KeyboardInput } from "../types/KeyboardInput";
 import { LDTK } from "../types/LDTK";
 import { MouseInput } from "../types/MouseInput";
 import {
-  addInputBodyElement,
-  addInputBodyTextElement,
+  addInputBodyBoxElement,
+  addInputBodyBoxTextElement,
+  addInputBodyNumlockWithElement,
+  addInputBodyNumlockWithInputElement,
+  addInputBodyNumlockWithoutElement,
+  addInputBodyNumlockWithoutInputElement,
 } from "../elements/addInputBodyElement";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { cleanStorage } from "./storage/cleanStorage";
@@ -173,7 +176,6 @@ export const performInitialization = async (): Promise<void> => {
   updateAchievementsCount();
   achievementsAmountTotalElement.innerText =
     getDefinables(Achievement).size.toString();
-  addInputBodyElement.appendChild(addInputBodyTextElement);
   screenElement.appendChild(app.view as HTMLCanvasElement);
   app.ticker.add(tick);
   addEventListener("resize", sizeScreen);
@@ -210,7 +212,7 @@ export const performInitialization = async (): Promise<void> => {
     ) {
       const keyboardInput: KeyboardInput = {
         button: keydownEvent.code,
-        numlock: keydownEvent.getModifierState("NumLock"),
+        numLock: keydownEvent.getModifierState("NumLock"),
       };
       state.setValues({
         heldKeyboardInputs: [...state.values.heldKeyboardInputs, keyboardInput],
@@ -358,29 +360,29 @@ export const performInitialization = async (): Promise<void> => {
       title: "Reset inputs",
     });
   });
-  addInputBodyElement.addEventListener(
+  addInputBodyBoxElement.addEventListener(
     "keydown",
     (keyboardEvent: KeyboardEvent): void => {
+      keyboardEvent.stopImmediatePropagation();
       if (state.values.addInputCollectionID === null) {
         throw new Error(
           "An attempt was made to add a keyboard input with no add input collection ID.",
         );
       }
       keyboardEvent.preventDefault();
-      addInputBodyTextElement.innerText = `Keyboard: ${keyboardEvent.code}`;
+      addInputBodyBoxTextElement.innerText = `Keyboard: ${keyboardEvent.code}`;
       const inputCollection: InputCollection | null = getDefinable(
         InputCollection,
         state.values.addInputCollectionID,
       );
-      const keyboardButton: KeyboardButton = {
-        numlock: false,
-        value: keyboardEvent.code,
-        withoutNumlock: false,
-      };
-      inputCollection.updateAddingKeyboardButton(keyboardButton);
+      inputCollection.updateAddingKeyboardButton(keyboardEvent.code);
+      addInputBodyNumlockWithElement.style.display = "block";
+      addInputBodyNumlockWithoutElement.style.display = "block";
+      addInputBodyNumlockWithInputElement.checked = true;
+      addInputBodyNumlockWithoutInputElement.checked = true;
     },
   );
-  addInputBodyElement.addEventListener(
+  addInputBodyBoxElement.addEventListener(
     "mousedown",
     (mouseEvent: MouseEvent): void => {
       if (state.values.addInputCollectionID === null) {
@@ -388,12 +390,23 @@ export const performInitialization = async (): Promise<void> => {
           "An attempt was made to add a mouse input with no add input collection ID.",
         );
       }
-      addInputBodyTextElement.innerText = `Mouse: ${mouseEvent.button}`;
+      addInputBodyBoxTextElement.innerText = `Mouse: ${mouseEvent.button}`;
       const inputCollection: InputCollection | null = getDefinable(
         InputCollection,
         state.values.addInputCollectionID,
       );
       inputCollection.updateAddingMouseButton(mouseEvent.button);
+      addInputBodyNumlockWithElement.style.display = "none";
+      addInputBodyNumlockWithoutElement.style.display = "none";
+    },
+  );
+  addInputBodyNumlockWithInputElement.addEventListener("change", (): void => {
+    addInputBodyBoxElement.focus();
+  });
+  addInputBodyNumlockWithoutInputElement.addEventListener(
+    "change",
+    (): void => {
+      addInputBodyBoxElement.focus();
     },
   );
 };

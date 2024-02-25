@@ -14,6 +14,7 @@ body {
   align-items: center;
   background-color: black;
   color: white;
+  cursor: url("./cursors/default.png"), default;
   display: flex;
   font-family: sans-serif;
   image-rendering: optimizeSpeed;
@@ -26,8 +27,19 @@ body {
   position: relative;
 }
 
-#screen {
+input {
   cursor: url("./cursors/default.png"), default;
+}
+
+label {
+  cursor: url("./cursors/default.png"), default;
+}
+
+button {
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
+}
+
+#screen {
   outline: none;
 }
 
@@ -133,7 +145,6 @@ body:not(.paused) #unpause-button {
 
 #pause-menu {
   background-color: rgba(0, 0, 0, .75);
-  cursor: url("./cursors/default.png"), default;
   display: flex;
   font-size: 2em;
   outline: none;
@@ -183,7 +194,6 @@ body:not(.paused) #unpause-button {
 }
 
 #pause-main label {
-  cursor: url("./cursors/default.png"), default;
   margin-bottom: 0.25em;
   text-align: center;
   word-break: break-word;
@@ -200,7 +210,6 @@ body:not(.paused) #unpause-button {
 }
 
 #mute-toggle-input {
-  cursor: url("./cursors/default.png"), default;
   height: 0.75em;
   margin-bottom: 0.5em;
   width: 0.75em;
@@ -217,7 +226,6 @@ body:not(.paused) #unpause-button {
 }
 
 .volume-slider input {
-  cursor: url("./cursors/default.png"), default;
   max-width: 100%;
   width: 6em;
 }
@@ -227,7 +235,6 @@ body:not(.paused) #unpause-button {
   border: 0.05em solid white;
   border-radius: 8px;
   color: white;
-  cursor: url("./cursors/pointer.png") 7 2, pointer;
   margin: 0.25em 0;
   padding: 0.125em .25em;
   word-break: break-word;
@@ -364,7 +371,6 @@ body:not(.paused) #unpause-button {
 }
 
 .swal2-container {
-  cursor: url("./cursors/default.png"), default;
   font-family: sans-serif;
   position: absolute;
   user-select: none;
@@ -397,7 +403,6 @@ body:not(.paused) #unpause-button {
   border: 0.125em solid white;
   border-radius: 0;
   color: white;
-  cursor: url("./cursors/pointer.png") 7 2, pointer;
   font-weight: bold;
   padding: 0.75em 1.5em;
 }

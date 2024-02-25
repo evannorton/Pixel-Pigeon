@@ -53,6 +53,7 @@ import {
 } from "./functions/getEntityCalculatedPath";
 import { GetEntityIDsOptions, getEntityIDs } from "./functions/getEntityIDs";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
+import { NumLock } from "./types/NumLock";
 import { OverlapData } from "./types/OverlapData";
 import { PathEntityOptions, pathEntity } from "./functions/pathEntity";
 import { PathingEntityExclusion } from "./types/PathingEntityExclusion";
@@ -139,6 +140,7 @@ export {
   lockCameraToEntity,
   moveEntity,
   MoveEntityOptions,
+  NumLock,
   onRun,
   onTick,
   OverlapData,

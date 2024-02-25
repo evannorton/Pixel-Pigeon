@@ -1,4 +1,4 @@
 export interface KeyboardInput {
   button: string;
-  numlock: boolean;
+  numLock: boolean;
 }

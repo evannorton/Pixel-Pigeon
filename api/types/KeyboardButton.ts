@@ -1,5 +1,6 @@
+import { NumLock } from "./NumLock";
+
 export interface KeyboardButton {
-  numlock: boolean;
+  numLock: NumLock;
   value: string;
-  withoutNumlock: boolean;
 }
