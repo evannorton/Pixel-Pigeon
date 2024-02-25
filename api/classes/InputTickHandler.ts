@@ -1,18 +1,12 @@
 import { Definable } from "./Definable";
+import { InputCollection } from "./InputCollection";
 import { KeyboardButton } from "../types/KeyboardButton";
 import { NumLock } from "../types/NumLock";
+import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
 import { state } from "../state";
 
-export interface CreateInputTickHandlerOptionsGroupKeyboardButton {
-  numLock?: NumLock;
-  value: string;
-}
 export interface CreateInputTickHandlerOptionsGroup<GroupID> {
-  /**
-   * An array of numbers that corresponds to different inputs on a controller
-   */
-  gamepadButtons?: number[];
   /**
    * ID to differentiate inputs from the same overarching GroupID
    * @example
@@ -26,8 +20,7 @@ export interface CreateInputTickHandlerOptionsGroup<GroupID> {
    * ```
    */
   id: GroupID;
-  keyboardButtons?: CreateInputTickHandlerOptionsGroupKeyboardButton[];
-  mouseButtons?: number[];
+  inputCollectionID: string;
 }
 /**
  * Uses an array of InputTickHandlers to allow any number of inputs to be set up under one GroupID
@@ -36,10 +29,8 @@ export interface CreateInputTickHandlerOptions<GroupID extends string> {
   groups: CreateInputTickHandlerOptionsGroup<GroupID>[];
 }
 interface InputTickHandlerGroup<GroupID extends string> {
-  readonly gamepadButtons: number[];
   readonly id: GroupID;
-  readonly keyboardButtons: KeyboardButton[];
-  readonly mouseButtons: number[];
+  readonly inputCollectionID: string;
 }
 
 export class InputTickHandler<GroupID extends string> extends Definable {
@@ -52,17 +43,8 @@ export class InputTickHandler<GroupID extends string> extends Definable {
       (
         group: CreateInputTickHandlerOptionsGroup<GroupID>,
       ): InputTickHandlerGroup<GroupID> => ({
-        gamepadButtons: group.gamepadButtons ?? [],
         id: group.id,
-        keyboardButtons: (group.keyboardButtons ?? []).map(
-          (
-            keyboardButton: CreateInputTickHandlerOptionsGroupKeyboardButton,
-          ): KeyboardButton => ({
-            numLock: keyboardButton.numLock ?? NumLock.Default,
-            value: keyboardButton.value,
-          }),
-        ),
-        mouseButtons: group.mouseButtons ?? [],
+        inputCollectionID: group.inputCollectionID,
       }),
     );
   }
@@ -90,9 +72,13 @@ export class InputTickHandler<GroupID extends string> extends Definable {
   }
 
   private groupHasHeldButton(group: InputTickHandlerGroup<GroupID>): boolean {
+    const inputCollection: InputCollection = getDefinable(
+      InputCollection,
+      group.inputCollectionID,
+    );
     for (const heldKeyboardInput of state.values.heldKeyboardInputs) {
       if (
-        group.keyboardButtons.some(
+        inputCollection.keyboardButtons.some(
           (keyboardButton: KeyboardButton): boolean => {
             if (keyboardButton.value === heldKeyboardInput.button) {
               switch (keyboardButton.numLock) {
@@ -113,7 +99,7 @@ export class InputTickHandler<GroupID extends string> extends Definable {
     }
     for (const heldMouseInput of state.values.heldMouseInputs) {
       if (
-        group.mouseButtons.some((mouseButton: number): boolean => {
+        inputCollection.mouseButtons.some((mouseButton: number): boolean => {
           if (mouseButton === heldMouseInput.button) {
             return true;
           }
@@ -125,12 +111,14 @@ export class InputTickHandler<GroupID extends string> extends Definable {
     }
     for (const heldGameInput of state.values.heldGamepadInputs) {
       if (
-        group.gamepadButtons.some((gamepadButton: number): boolean => {
-          if (gamepadButton === heldGameInput.button) {
-            return true;
-          }
-          return false;
-        })
+        inputCollection.gamepadButtons.some(
+          (gamepadButton: number): boolean => {
+            if (gamepadButton === heldGameInput.button) {
+              return true;
+            }
+            return false;
+          },
+        )
       ) {
         return true;
       }

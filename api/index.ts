@@ -22,7 +22,6 @@ import {
 import {
   CreateInputTickHandlerOptions,
   CreateInputTickHandlerOptionsGroup,
-  CreateInputTickHandlerOptionsGroupKeyboardButton,
   createInputTickHandler,
 } from "./classes/InputTickHandler";
 import { CreateLabelOptions, createLabel, removeLabel } from "./classes/Label";
@@ -108,7 +107,6 @@ export {
   createInputTickHandler,
   CreateInputTickHandlerOptions,
   CreateInputTickHandlerOptionsGroup,
-  CreateInputTickHandlerOptionsGroupKeyboardButton,
   createLabel,
   CreateLabelOptions,
   createQuadrilateral,
