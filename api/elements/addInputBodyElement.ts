@@ -40,7 +40,6 @@ addInputBodyNumlockWithInputElement.type = "checkbox";
 addInputBodyNumlockWithInputElement.style.marginRight = "0.5em";
 addInputBodyNumlockWithInputElement.style.height = "0.85em";
 addInputBodyNumlockWithInputElement.style.width = "0.85em";
-addInputBodyNumlockWithInputElement.style.marginBottom = "0.1em";
 addInputBodyNumlockWithElement.appendChild(addInputBodyNumlockWithInputElement);
 const addInputBodyNumlockWithLabelElement: HTMLLabelElement =
   document.createElement("label");
@@ -64,7 +63,6 @@ addInputBodyNumlockWithoutInputElement.type = "checkbox";
 addInputBodyNumlockWithoutInputElement.style.marginRight = "0.5em";
 addInputBodyNumlockWithoutInputElement.style.height = "0.85em";
 addInputBodyNumlockWithoutInputElement.style.width = "0.85em";
-addInputBodyNumlockWithoutInputElement.style.marginBottom = "0.1em";
 addInputBodyNumlockWithoutElement.appendChild(
   addInputBodyNumlockWithoutInputElement,
 );

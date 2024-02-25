@@ -229,6 +229,7 @@ export const performInitialization = async (): Promise<void> => {
   });
   addEventListener("keyup", (keyupEvent: KeyboardEvent): void => {
     state.setValues({
+      addingKeyboardHeldValue: null,
       heldKeyboardInputs: state.values.heldKeyboardInputs.filter(
         (heldKeyboardInput: KeyboardInput): boolean =>
           heldKeyboardInput.button !== keyupEvent.code,
@@ -365,15 +366,21 @@ export const performInitialization = async (): Promise<void> => {
     (keyboardEvent: KeyboardEvent): void => {
       keyboardEvent.stopImmediatePropagation();
       keyboardEvent.preventDefault();
-      addInputBodyBoxTextElement.innerText = `Keyboard: ${keyboardEvent.code}`;
-      state.setValues({
-        addingKeyboardValue: keyboardEvent.code,
-        addingMouseValue: null,
-      });
-      addInputBodyNumlockWithElement.style.display = "block";
-      addInputBodyNumlockWithoutElement.style.display = "block";
-      addInputBodyNumlockWithInputElement.checked = true;
-      addInputBodyNumlockWithoutInputElement.checked = true;
+      if (
+        state.values.addingKeyboardHeldValue === null ||
+        state.values.addingKeyboardValue !== null
+      ) {
+        addInputBodyBoxTextElement.innerText = `Keyboard: ${keyboardEvent.code}`;
+        state.setValues({
+          addingKeyboardHeldValue: keyboardEvent.code,
+          addingKeyboardValue: keyboardEvent.code,
+          addingMouseValue: null,
+        });
+        addInputBodyNumlockWithElement.style.display = "flex";
+        addInputBodyNumlockWithoutElement.style.display = "flex";
+        addInputBodyNumlockWithInputElement.checked = true;
+        addInputBodyNumlockWithoutInputElement.checked = true;
+      }
     },
   );
   addInputBodyBoxElement.addEventListener(
