@@ -149,6 +149,17 @@ export class InputCollection extends Definable {
               addingMouseValue: null,
             });
           }
+          if (state.values.addingGamepadValue !== null) {
+            if (
+              this._gamepadButtons.includes(state.values.addingGamepadValue) ===
+              false
+            ) {
+              this._gamepadButtons.push(state.values.addingGamepadValue);
+            }
+            state.setValues({
+              addingGamepadValue: null,
+            });
+          }
           this.updateValuesElements();
         },
         showCancelButton: true,

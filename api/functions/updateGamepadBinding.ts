@@ -1,4 +1,9 @@
-import { addInputBodyBoxElement } from "../elements/addInputBodyElement";
+import {
+  addInputBodyBoxElement,
+  addInputBodyBoxTextElement,
+  addInputBodyNumlockWithElement,
+  addInputBodyNumlockWithoutElement,
+} from "../elements/addInputBodyElement";
 import { getGamepads } from "./getGamepads";
 import { state } from "../state";
 
@@ -21,7 +26,14 @@ export const updateGamepadBinding = (): void => {
     const pressedValue: number | null =
       (pressedValues[0] as number | undefined) ?? null;
     if (pressedValue !== null) {
-      console.log(pressedValue);
+      addInputBodyBoxTextElement.innerText = `Gamepad: ${pressedValue}`;
+      state.setValues({
+        addingGamepadValue: pressedValue,
+        addingKeyboardValue: null,
+        addingMouseValue: null,
+      });
+      addInputBodyNumlockWithElement.style.display = "none";
+      addInputBodyNumlockWithoutElement.style.display = "none";
     }
     state.setValues({ addingGamepadHeldValues: heldValues });
   }

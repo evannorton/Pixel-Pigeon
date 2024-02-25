@@ -14,12 +14,13 @@ import { defaultVolume } from "./constants/defaultVolume";
 
 interface StateSchema {
   readonly achievementUnlockRenderedAt: number | null;
+  readonly addInputCollectionID: string | null;
   readonly addingGamepadHeldValues: number[];
+  readonly addingGamepadValue: number | null;
   readonly addingKeyboardHeldValue: string | null;
   readonly addingKeyboardValue: string | null;
   readonly addingMouseValue: number | null;
   readonly app: Application | null;
-  readonly addInputCollectionID: string | null;
   readonly cameraLockedEntityID: string | null;
   readonly config: Config | null;
   readonly currentTime: number;
@@ -61,6 +62,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   achievementUnlockRenderedAt: null,
   addInputCollectionID: null,
   addingGamepadHeldValues: [],
+  addingGamepadValue: null,
   addingKeyboardHeldValue: null,
   addingKeyboardValue: null,
   addingMouseValue: null,

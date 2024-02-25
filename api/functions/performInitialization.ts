@@ -373,6 +373,7 @@ export const performInitialization = async (): Promise<void> => {
       ) {
         addInputBodyBoxTextElement.innerText = `Keyboard: ${keyboardEvent.code}`;
         state.setValues({
+          addingGamepadValue: null,
           addingKeyboardHeldValue: keyboardEvent.code,
           addingKeyboardValue: keyboardEvent.code,
           addingMouseValue: null,
@@ -389,6 +390,7 @@ export const performInitialization = async (): Promise<void> => {
     (mouseEvent: MouseEvent): void => {
       addInputBodyBoxTextElement.innerText = `Mouse: ${mouseEvent.button}`;
       state.setValues({
+        addingGamepadValue: null,
         addingKeyboardValue: null,
         addingMouseValue: mouseEvent.button,
       });
