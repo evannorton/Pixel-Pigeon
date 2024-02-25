@@ -94,7 +94,6 @@ export class InputCollection extends Definable {
     const valuesSectionElement: HTMLDivElement = document.createElement("div");
     infoElement.appendChild(valuesSectionElement);
     this._valuesEmptyElement = document.createElement("span");
-    this._valuesEmptyElement.classList.add("controls-info-values-empty");
     this._valuesEmptyElement.innerText = "No inputs set";
     this._valuesMouseElement = document.createElement("span");
     this._valuesGamepadElement = document.createElement("span");

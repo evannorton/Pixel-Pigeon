@@ -363,11 +363,8 @@ body:not(.paused) #unpause-button {
 }
 
 .controls-info span {
+  margin: 0.25em 0;
   word-break: break-word;
-}
-
-.controls-info span:not(:last-child):not(.controls-info-values-empty) {
-  margin-bottom: 0.5em;
 }
 
 .swal2-container {
