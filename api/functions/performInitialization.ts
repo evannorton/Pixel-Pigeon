@@ -364,18 +364,12 @@ export const performInitialization = async (): Promise<void> => {
     "keydown",
     (keyboardEvent: KeyboardEvent): void => {
       keyboardEvent.stopImmediatePropagation();
-      if (state.values.addInputCollectionID === null) {
-        throw new Error(
-          "An attempt was made to add a keyboard input with no add input collection ID.",
-        );
-      }
       keyboardEvent.preventDefault();
       addInputBodyBoxTextElement.innerText = `Keyboard: ${keyboardEvent.code}`;
-      const inputCollection: InputCollection | null = getDefinable(
-        InputCollection,
-        state.values.addInputCollectionID,
-      );
-      inputCollection.updateAddingKeyboardButton(keyboardEvent.code);
+      state.setValues({
+        addingKeyboardValue: keyboardEvent.code,
+        addingMouseValue: null,
+      });
       addInputBodyNumlockWithElement.style.display = "block";
       addInputBodyNumlockWithoutElement.style.display = "block";
       addInputBodyNumlockWithInputElement.checked = true;
@@ -385,17 +379,11 @@ export const performInitialization = async (): Promise<void> => {
   addInputBodyBoxElement.addEventListener(
     "mousedown",
     (mouseEvent: MouseEvent): void => {
-      if (state.values.addInputCollectionID === null) {
-        throw new Error(
-          "An attempt was made to add a mouse input with no add input collection ID.",
-        );
-      }
       addInputBodyBoxTextElement.innerText = `Mouse: ${mouseEvent.button}`;
-      const inputCollection: InputCollection | null = getDefinable(
-        InputCollection,
-        state.values.addInputCollectionID,
-      );
-      inputCollection.updateAddingMouseButton(mouseEvent.button);
+      state.setValues({
+        addingKeyboardValue: null,
+        addingMouseValue: mouseEvent.button,
+      });
       addInputBodyNumlockWithElement.style.display = "none";
       addInputBodyNumlockWithoutElement.style.display = "none";
     },

@@ -2,6 +2,7 @@ import { gameIsPaused } from "./gameIsPaused";
 import { render } from "./render";
 import { state } from "../state";
 import { update } from "./update/update";
+import { updateGamepadBinding } from "./updateGamepadBinding";
 
 export const tick = (): void => {
   if (state.values.app === null) {
@@ -16,4 +17,5 @@ export const tick = (): void => {
     }
     render();
   }
+  updateGamepadBinding();
 };

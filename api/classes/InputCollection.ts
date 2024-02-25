@@ -34,8 +34,6 @@ export interface CreateInputCollectionOptions {
   name: string;
 }
 export class InputCollection extends Definable {
-  private _addingKeyboardValue: string | null = null;
-  private _addingMouseValue: number | null = null;
   private readonly _buttonsAddElement: HTMLButtonElement;
   private readonly _buttonsClearElement: HTMLButtonElement;
   private readonly _buttonsResetElement: HTMLButtonElement;
@@ -120,10 +118,10 @@ export class InputCollection extends Definable {
                   ? NumLock.Without
                   : null;
           const addingKeyboardButton: KeyboardButton | null =
-            this._addingKeyboardValue !== null && numLock !== null
+            state.values.addingKeyboardValue !== null && numLock !== null
               ? {
                   numLock,
-                  value: this._addingKeyboardValue,
+                  value: state.values.addingKeyboardValue,
                 }
               : null;
           if (addingKeyboardButton !== null) {
@@ -136,13 +134,20 @@ export class InputCollection extends Definable {
             ) {
               this._keyboardButtons.push(addingKeyboardButton);
             }
-            this._addingKeyboardValue = null;
+            state.setValues({
+              addingKeyboardValue: null,
+            });
           }
-          if (this._addingMouseValue !== null) {
-            if (this._mouseButtons.includes(this._addingMouseValue) === false) {
-              this._mouseButtons.push(this._addingMouseValue);
+          if (state.values.addingMouseValue !== null) {
+            if (
+              this._mouseButtons.includes(state.values.addingMouseValue) ===
+              false
+            ) {
+              this._mouseButtons.push(state.values.addingMouseValue);
             }
-            this._addingMouseValue = null;
+            state.setValues({
+              addingMouseValue: null,
+            });
           }
           this.updateValuesElements();
         },
@@ -194,16 +199,6 @@ export class InputCollection extends Definable {
     this._keyboardButtons = [...this._defaultKeyboardButtons];
     this._mouseButtons = [...this._defaultMouseButtons];
     this.updateValuesElements();
-  }
-
-  public updateAddingKeyboardButton(keyboardButton: string): void {
-    this._addingMouseValue = null;
-    this._addingKeyboardValue = keyboardButton;
-  }
-
-  public updateAddingMouseButton(mouseButton: number): void {
-    this._addingKeyboardValue = null;
-    this._addingMouseValue = mouseButton;
   }
 
   private clear(): void {
