@@ -54,6 +54,7 @@ export class Achievement extends Definable {
     // Icon
     this._infoIconElement = document.createElement("img");
     this._infoIconElement.classList.add("achievement-info-icon");
+    this._infoIconElement.draggable = false;
     this._infoElement.appendChild(this._infoIconElement);
     // Text
     this._infoTextElement = document.createElement("div");

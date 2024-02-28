@@ -25,6 +25,7 @@ body {
   justify-content: center;
   overflow: hidden;
   position: relative;
+  user-select: none !important;
 }
 
 input {
@@ -90,7 +91,6 @@ body:not(.paused) #unpause-button {
   pointer-events: none;
   position: absolute;
   top: 0;
-  user-select: none;
 }
 
 .achievement-unlock-notice {
@@ -150,7 +150,6 @@ body:not(.paused) #unpause-button {
   outline: none;
   position: absolute;
   top: 0;
-  user-select: none;
 }
 
 #pause-content {
@@ -370,7 +369,6 @@ body:not(.paused) #unpause-button {
 .swal2-container {
   font-family: sans-serif;
   position: absolute;
-  user-select: none;
 }
 
 .swal2-container .swal2-modal {
