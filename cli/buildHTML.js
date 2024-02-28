@@ -15,6 +15,9 @@ if (existsSync(join(resolve(), "pp-env.json"))) {
   data.newgroundsEncryptionKey = res.newgroundsEncryptionKey;
 }
 
+const config = JSON.parse(readFileSync(join(resolve(), "pp-config.json")).toString());
+
+data.name = config.name;
 
 const html = Mustache.render(readFileSync(join(__dirname, "..", "template.mustache")).toString(), data);
 
