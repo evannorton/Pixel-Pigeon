@@ -83,10 +83,7 @@ glob(`${resolve()}/images/**/*.png`, {}, (error, files) => {
   }
   else {
     files.forEach((filename) => png.check(filename));
-    if (errorList.length === 0) {
-      console.log("Images chunks verification succeeded.");
-    }
-    else {
+    if (errorList.length > 0) {
       console.error("Images chunks verification failed (\"pigeon fixPNG\" can most likely resolve this).");
       for (const error of errorList) {
         console.error(error);
