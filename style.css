@@ -270,7 +270,7 @@ body:not(.paused) #unpause-button {
 }
 
 #achievements-amount {
-  font-size: 0.8em;
+  font-size: 0.825em;
   margin-bottom: 0.5em;
   margin-top: 0.25em;
 }
@@ -287,7 +287,7 @@ body:not(.paused) #unpause-button {
   border: 0.1em solid white;
   border-radius: 8px;
   display: flex;
-  font-size: 0.5em;
+  font-size: 0.625em;
   margin-bottom: 0.25em;
   padding: 0.25em;
   text-align: center;
@@ -299,7 +299,7 @@ body:not(.paused) #unpause-button {
 }
 
 .achievement-info-icon {
-  width: 4em;
+  width: 5em;
 }
 
 .achievement-info:not(.unlocked) .achievement-info-icon {
@@ -342,7 +342,7 @@ body:not(.paused) #unpause-button {
   border: 0.1em solid white;
   border-radius: 8px;
   display: flex;
-  font-size: 0.5em;
+  font-size: 0.625em;
   margin-bottom: 0.25em;
   padding: 0.25em;
   text-align: center;
