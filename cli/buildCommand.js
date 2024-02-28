@@ -15,6 +15,7 @@ const commands = [
     `node ${join(__dirname, "buildHTML")}`,
     `node ${join(__dirname, "buildNormalize")}`,
     `node ${join(__dirname, "buildCSS")}`,
+    `node ${join(__dirname, "buildFavicon")}`,
     `node ${join(__dirname, "buildCursors")}`,
     `node ${join(__dirname, "buildAudio")}`,
     `node ${join(__dirname, "buildImages")}`,
