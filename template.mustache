@@ -18,7 +18,7 @@
     <div id="pause-menu" class="main" tabindex="-1">
       <div id="pause-content">
         <div id="pause-main">
-          <div id="mute-toggle">
+          <div id="mute-toggle" class="checkbox-settings">
             <label for="mute-toggle-input">Mute</label>
             <input id="mute-toggle-input" name="mute-toggle-input" type="checkbox" />
           </div>
@@ -27,6 +27,10 @@
               <label for="main-volume-slider-input">Main volume</label>
               <input id="main-volume-slider-input" name="main-volume-slider-input" type="range" value="100" min="0" max="100" />
             </div>
+          </div>
+          <div id="copy-screenshot-toggle" class="checkbox-settings">
+            <label for="copy-screenshot-toggle-input">Copy screenshots to clipboard</label>
+            <input id="copy-screenshot-toggle-input" name="copy-screenshot-toggle-input" type="checkbox" />
           </div>
           <button id="screenshot-button">Screenshot</button>
           <button id="controls-button">Controls</button>

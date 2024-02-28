@@ -203,13 +203,13 @@ body:not(.paused) #unpause-button {
   display: block;
 }
 
-#mute-toggle {
+.checkbox-settings {
   align-items: center;
   display: flex;
   flex-direction: column;
 }
 
-#mute-toggle-input {
+.checkbox-settings input {
   height: 0.75em;
   margin-bottom: 0.5em;
   width: 0.75em;
