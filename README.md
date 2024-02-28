@@ -74,6 +74,8 @@ Export a .zip folder of your game that can be uploaded to sites like itch.io and
 Run the linter on your game's source code.
 ### `pigeon lint:fix`
 Run the linter on your game's source code and automatically fix some errors.
+### `pigeon fixPNG`
+Remove unneeded chunks from your game's images.
 ### `pigeon id`
 Generate a unique ID for your game. Achievements will not persist across sessions if you don't have an ID. Generating a new ID will cause players to lose their achievement data.
 
