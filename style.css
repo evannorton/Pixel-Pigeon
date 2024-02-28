@@ -17,6 +17,7 @@ body {
   cursor: url("./cursors/default.png"), default;
   display: flex;
   font-family: sans-serif;
+  font-size: 0.75em;
   image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
