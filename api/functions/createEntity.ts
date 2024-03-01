@@ -11,6 +11,7 @@ import { getToken } from "./getToken";
 import { state } from "../state";
 
 export interface CreateEntityOptions {
+  collidesWithMap?: boolean;
   /** The actual height of the hitbox of the entity */
   height: number;
   /** The layerID the entity should be on, has to be created in LDTK */
@@ -66,6 +67,7 @@ export const createEntity = (options: CreateEntityOptions): string => {
   const id: string = getToken();
   layer.entities.set(id, {
     blockingPosition: null,
+    collidesWithMap: options.collidesWithMap ?? false,
     fieldValues: new Map(),
     hasTouchedPathingStartingTile: false,
     height: options.height,

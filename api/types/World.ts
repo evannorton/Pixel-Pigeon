@@ -48,6 +48,7 @@ export interface EntitySprite {
 }
 export interface Entity {
   blockingPosition: EntityPosition | null;
+  readonly collidesWithMap: boolean;
   readonly fieldValues: Map<string, unknown>;
   hasTouchedPathingStartingTile: boolean;
   readonly height: number;

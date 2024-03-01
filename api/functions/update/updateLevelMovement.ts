@@ -104,23 +104,11 @@ export const updateLevelMovement = (): void => {
             y: Math.floor(yEnd + pieceYEnd),
           });
           const canMoveX: boolean =
-            // Entity has no collision layer
-            entity.type === null ||
-            // Entity collided with nothing
-            (xCollisionData.entityCollidables.length === 0 &&
-              !xCollisionData.map);
+            entity.collidesWithMap === false || xCollisionData.map === false;
           const canMoveY: boolean =
-            // Entity has no collision layer
-            entity.type === null ||
-            // Entity collided with nothing
-            (yCollisionData.entityCollidables.length === 0 &&
-              !yCollisionData.map);
+            entity.collidesWithMap === false || yCollisionData.map === false;
           const canMoveBoth: boolean =
-            // Entity has no collision layer
-            entity.type === null ||
-            // Entity collided with nothing
-            (bothCollisionData.entityCollidables.length === 0 &&
-              !bothCollisionData.map);
+            entity.collidesWithMap === false || bothCollisionData.map === false;
           // Diagonal move
           if (
             canMoveX &&
