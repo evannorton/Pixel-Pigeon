@@ -228,7 +228,6 @@ export class Sprite extends Definable {
         if (entity.hasTouchedPathingStartingTile) {
           path.splice(0, 1);
         }
-        console.log("render path");
         path.forEach(({ x, y }: TilePosition, pathIndex: number): void => {
           const color: string =
             pathIndex === 0
