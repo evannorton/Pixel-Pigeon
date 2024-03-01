@@ -99,7 +99,7 @@ switch (process.argv[2]) {
     case "lint:fix":
         require("./lintFix");
         break;
-    case "fixPNG":
+    case "png":
         require("./fixPNG");
         break;
     case "id":
