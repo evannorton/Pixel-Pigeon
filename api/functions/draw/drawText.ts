@@ -29,11 +29,11 @@ export const drawText = (
   const startX: number = x - size;
   sprite.x =
     horizontalAlignment === "right"
-      ? startX - sprite.textWidth
+      ? startX - sprite.width
       : horizontalAlignment === "center"
-        ? startX - Math.floor(sprite.textWidth / 2)
+        ? startX - Math.floor(sprite.width / 2) - 1
         : startX;
-  if (horizontalAlignment === "center" && sprite.textWidth % 2 === 0) {
+  if (horizontalAlignment === "center" && sprite.width % 2 === 0) {
     sprite.x++;
   }
   sprite.y = y - size * 3;

@@ -17,7 +17,7 @@ export const getBitmapText = (
   });
   if (
     bitmapText.textHeight <= size * maxLines * 11 &&
-    bitmapText.textWidth <= maxWidth
+    bitmapText.width <= maxWidth
   ) {
     return bitmapText;
   }
