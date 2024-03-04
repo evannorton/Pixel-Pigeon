@@ -264,6 +264,31 @@ export class Sprite extends Definable {
     }
   }
 
+  public isAttached(): boolean {
+    if (state.values.world === null) {
+      throw new Error(
+        `Sprite "${this._id}" attempted to check if it was attached before world was loaded.`,
+      );
+    }
+    if (this._coordinates !== null) {
+      return true;
+    }
+    for (const level of state.values.world.levels.values()) {
+      for (const layer of level.layers) {
+        for (const entity of layer.entities.values()) {
+          if (
+            entity.sprites.some(
+              (sprite: EntitySprite): boolean => sprite.spriteID === this._id,
+            )
+          ) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   public remove(): void {
     super.remove();
     this._pixiSprite.destroy();

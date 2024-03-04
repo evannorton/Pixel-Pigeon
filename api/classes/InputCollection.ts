@@ -171,7 +171,7 @@ export class InputCollection extends Definable {
       addInputBodyNumlockWithoutElement.style.display = "none";
       addInputBodyBoxElement.focus();
       state.setValues({
-        addInputCollectionID: this.id,
+        addInputCollectionID: this._id,
       });
     });
     this._buttonsClearElement = document.createElement("button");

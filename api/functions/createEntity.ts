@@ -7,6 +7,9 @@ import {
   Level,
 } from "../types/World";
 import { OverlapData } from "../types/OverlapData";
+import { Quadrilateral } from "../classes/Quadrilateral";
+import { Sprite } from "../classes/Sprite";
+import { getDefinable } from "./getDefinable";
 import { getToken } from "./getToken";
 import { state } from "../state";
 
@@ -47,6 +50,29 @@ export const createEntity = (options: CreateEntityOptions): string => {
     throw new Error(
       "An attempt was made to spawn an entity before world was loaded.",
     );
+  }
+  if (typeof options.sprites !== "undefined") {
+    for (const entitySprite of options.sprites) {
+      const sprite: Sprite = getDefinable(Sprite, entitySprite.spriteID);
+      if (sprite.isAttached()) {
+        throw new Error(
+          "Attempted to attach sprite to entity that is already attached to another render condition.",
+        );
+      }
+    }
+  }
+  if (typeof options.quadrilaterals !== "undefined") {
+    for (const entityQuadrilateral of options.quadrilaterals) {
+      const quadrilateral: Quadrilateral = getDefinable(
+        Quadrilateral,
+        entityQuadrilateral.quadrilateralID,
+      );
+      if (quadrilateral.isAttached()) {
+        throw new Error(
+          "Attempted to attach quadrilateral to entity that is already attached to another render condition.",
+        );
+      }
+    }
   }
   const level: Level | null =
     state.values.world.levels.get(options.levelID) ?? null;
