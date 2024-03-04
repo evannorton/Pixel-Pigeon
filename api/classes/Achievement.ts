@@ -34,7 +34,7 @@ export class Achievement extends Definable {
     super(options.id);
     if (state.values.isInitialized) {
       throw new Error(
-        `Attempted to create Achievement "${this._id}" after initialization.`,
+        `An attempt was made to create Achievement "${this._id}" after initialization.`,
       );
     }
     const achievementsGridElement: HTMLElement | null =

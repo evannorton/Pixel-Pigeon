@@ -13,7 +13,7 @@ import { state } from "../state";
 
 export const getWorld = (): World => {
   if (state.values.ldtk === null) {
-    throw new Error("Attempted to get world with no LDTK.");
+    throw new Error("An attempt was made to get world with no LDTK.");
   }
   const ldtk: LDTK = state.values.ldtk;
   const levels: Map<string, Level> = new Map();

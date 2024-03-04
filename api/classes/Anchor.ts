@@ -54,7 +54,7 @@ export class Anchor extends Definable {
     const anchorsElement: HTMLElement | null =
       document.getElementById("anchors");
     if (anchorsElement === null) {
-      throw new Error("Attempted to create Anchor with no anchors element.");
+      throw new Error("An attempt was made to create Anchor with no anchors element.");
     }
     anchorsElement.appendChild(this._anchorElement);
     this._anchorElement.className = "anchor";

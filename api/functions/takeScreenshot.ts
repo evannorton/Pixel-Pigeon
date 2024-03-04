@@ -3,10 +3,10 @@ import { state } from "../state";
 
 export const takeScreenshot = (): void => {
   if (state.values.config === null) {
-    throw new Error("Attempted to take screenshot before config was loaded.");
+    throw new Error("An attempt was made to take screenshot before config was loaded.");
   }
   if (state.values.app === null) {
-    throw new Error("Attempted to take screenshot before app was created.");
+    throw new Error("An attempt was made to take screenshot before app was created.");
   }
   const copyScreenshotToggleInputElement: HTMLElement | null =
     document.getElementById("copy-screenshot-toggle-input");

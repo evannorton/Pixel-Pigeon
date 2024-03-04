@@ -15,7 +15,7 @@ export const syncNewgroundsMedals = (): void => {
     newgrounds.queueComponent("Medal.getList", {}, (result: unknown): void => {
       if (newgrounds === null) {
         throw new Error(
-          "Attempted to handle medal list with no newgrounds object.",
+          "An attempt was made to handle medal list with no newgrounds object.",
         );
       }
       const medals: NewgroundsMedal[] =

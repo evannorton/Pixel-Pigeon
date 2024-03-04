@@ -56,7 +56,7 @@ export const createEntity = (options: CreateEntityOptions): string => {
       const sprite: Sprite = getDefinable(Sprite, entitySprite.spriteID);
       if (sprite.isAttached()) {
         throw new Error(
-          "Attempted to attach sprite to entity that is already attached to another render condition.",
+          "An attempt was made to attach sprite to entity that is already attached to another render condition.",
         );
       }
     }
@@ -69,7 +69,7 @@ export const createEntity = (options: CreateEntityOptions): string => {
       );
       if (quadrilateral.isAttached()) {
         throw new Error(
-          "Attempted to attach quadrilateral to entity that is already attached to another render condition.",
+          "An attempt was made to attach quadrilateral to entity that is already attached to another render condition.",
         );
       }
     }

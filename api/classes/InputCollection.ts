@@ -51,7 +51,7 @@ export class InputCollection extends Definable {
     super(getToken());
     if (state.values.isInitialized) {
       throw new Error(
-        `Attempted to create InputCollection "${this._id}" after initialization.`,
+        `An attempt was made to create InputCollection "${this._id}" after initialization.`,
       );
     }
     const controlsGridElement: HTMLElement | null =
