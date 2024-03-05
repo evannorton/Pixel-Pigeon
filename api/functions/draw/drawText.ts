@@ -1,5 +1,5 @@
 import { BitmapText, TextStyleAlign } from "pixi.js";
-import { TextInfo } from "../../types/TextInfo";
+import { TextInfo, TextInfoTrim } from "../../types/TextInfo";
 import { getBitmapText } from "../getBitmapText";
 import { state } from "../../state";
 
@@ -19,8 +19,39 @@ export const drawText = (
       "An attempt was made to draw a rectangle before app was created.",
     );
   }
+  const areTrimsOverlapped: boolean = text.trims.some(
+    (trimA: TextInfoTrim): boolean =>
+      text.trims.some((trimB: TextInfoTrim): boolean => {
+        if (trimA !== trimB) {
+          const trimAIndices: number[] = [];
+          for (
+            let i: number = trimA.index;
+            i < trimA.index + trimA.length;
+            i++
+          ) {
+            trimAIndices.push(i);
+          }
+          const trimBIndices: number[] = [];
+          for (
+            let i: number = trimB.index;
+            i < trimB.index + trimB.length;
+            i++
+          ) {
+            trimBIndices.push(i);
+          }
+          return trimAIndices.some((index: number): boolean =>
+            trimBIndices.includes(index),
+          );
+        }
+        return false;
+      }),
+  );
+  if (areTrimsOverlapped) {
+    throw new Error("Attempted to draw text with overlapping trims.");
+  }
   const sprite: BitmapText = getBitmapText(
     text.value,
+    text.trims,
     color,
     size,
     maxWidth,
