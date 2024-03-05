@@ -1,4 +1,5 @@
 import { Definable } from "./Definable";
+import { TextInfo, TextInfoTrim } from "../types/TextInfo";
 import { TextStyleAlign } from "pixi.js";
 import { drawText } from "../functions/draw/drawText";
 import { getDefinable } from "../functions/getDefinable";
@@ -6,6 +7,14 @@ import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
+export interface CreateLabelOptionsTextTrim {
+  index: number;
+  length: number;
+}
+export interface CreateLabelOptionsText {
+  trims?: CreateLabelOptionsTextTrim[];
+  value: string;
+}
 export interface CreateLabelOptions {
   color: string | (() => string);
   /**
@@ -27,7 +36,7 @@ export interface CreateLabelOptions {
   };
   maxLines?: number;
   maxWidth?: number;
-  text: string | (() => string);
+  text: CreateLabelOptionsText | (() => CreateLabelOptionsText);
   horizontalAlignment: TextStyleAlign;
 }
 interface LabelCoordinates {
@@ -42,7 +51,7 @@ export class Label extends Definable {
   private readonly _horizontalAlignment: TextStyleAlign;
   private readonly _maxLines: number | null;
   private readonly _maxWidth: number | null;
-  private readonly _text: string | (() => string);
+  private readonly _text: TextInfo | (() => TextInfo);
   public constructor(options: CreateLabelOptions) {
     super(getToken());
     this._color = options.color;
@@ -54,7 +63,27 @@ export class Label extends Definable {
     this._horizontalAlignment = options.horizontalAlignment;
     this._maxLines = options.maxLines ?? null;
     this._maxWidth = options.maxWidth ?? null;
-    this._text = options.text;
+    if (typeof options.text === "function") {
+      const textFunction: () => CreateLabelOptionsText = options.text;
+      this._text = (): TextInfo => {
+        const text: CreateLabelOptionsText = textFunction();
+        return {
+          trims: text.trims ?? [],
+          value: text.value,
+        };
+      };
+    } else {
+      this._text = {
+        trims:
+          options.text.trims?.map(
+            (trim: CreateLabelOptionsTextTrim): TextInfoTrim => ({
+              index: trim.index,
+              length: trim.length,
+            }),
+          ) ?? [],
+        value: options.text.value,
+      };
+    }
   }
 
   public drawAtCoordinates(): void {
@@ -64,7 +93,7 @@ export class Label extends Definable {
       );
     }
     if (this.passesCoordinatesCondition()) {
-      const text: string | null = this.getText();
+      const text: TextInfo | null = this.getTextInfo();
       const color: string | null = this.getColor();
       const x: number | null = this.getCoordinatesX();
       const y: number | null = this.getCoordinatesY();
@@ -132,8 +161,8 @@ export class Label extends Definable {
     return null;
   }
 
-  private getText(): string | null {
-    if (typeof this._text === "string") {
+  private getTextInfo(): TextInfo | null {
+    if (typeof this._text === "object") {
       return this._text;
     }
     try {

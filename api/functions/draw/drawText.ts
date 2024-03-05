@@ -1,9 +1,10 @@
 import { BitmapText, TextStyleAlign } from "pixi.js";
+import { TextInfo } from "../../types/TextInfo";
 import { getBitmapText } from "../getBitmapText";
 import { state } from "../../state";
 
 export const drawText = (
-  text: string,
+  text: TextInfo,
   color: string,
   x: number,
   y: number,
@@ -19,7 +20,7 @@ export const drawText = (
     );
   }
   const sprite: BitmapText = getBitmapText(
-    text,
+    text.value,
     color,
     size,
     maxWidth,

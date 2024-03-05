@@ -24,7 +24,13 @@ import {
   CreateInputTickHandlerOptionsGroup,
   createInputTickHandler,
 } from "./classes/InputTickHandler";
-import { CreateLabelOptions, createLabel, removeLabel } from "./classes/Label";
+import {
+  CreateLabelOptions,
+  CreateLabelOptionsText,
+  CreateLabelOptionsTextTrim,
+  createLabel,
+  removeLabel,
+} from "./classes/Label";
 import {
   CreateQuadrilateralOptions,
   createQuadrilateral,
@@ -111,6 +117,8 @@ export {
   CreateInputTickHandlerOptionsGroup,
   createLabel,
   CreateLabelOptions,
+  CreateLabelOptionsText,
+  CreateLabelOptionsTextTrim,
   createQuadrilateral,
   CreateQuadrilateralOptions,
   createSprite,

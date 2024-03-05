@@ -58,7 +58,10 @@ export const render = (): void => {
     );
   } else if (!state.values.hasInteracted) {
     drawText(
-      "Click to focus",
+      {
+        trims: [],
+        value: "Click to focus",
+      },
       "#ffffff",
       Math.floor(state.values.config.width / 2),
       Math.floor(state.values.config.height / 2) - 3,
