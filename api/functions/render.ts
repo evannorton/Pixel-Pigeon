@@ -63,8 +63,8 @@ export const render = (): void => {
       Math.floor(state.values.config.width / 2),
       Math.floor(state.values.config.height / 2) - 3,
       1,
-      state.values.config.width,
-      1,
+      null,
+      null,
       "center",
       0,
     );

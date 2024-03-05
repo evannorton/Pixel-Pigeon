@@ -8,8 +8,8 @@ export const drawText = (
   x: number,
   y: number,
   size: number,
-  maxWidth: number,
-  maxLines: number,
+  maxWidth: number | null,
+  maxLines: number | null,
   horizontalAlignment: TextStyleAlign,
   zIndex: number,
 ): void => {

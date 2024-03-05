@@ -25,6 +25,8 @@ export interface CreateLabelOptions {
      */
     y: number | (() => number);
   };
+  maxLines?: number;
+  maxWidth?: number;
   text: string | (() => string);
   horizontalAlignment: TextStyleAlign;
 }
@@ -38,6 +40,8 @@ export class Label extends Definable {
   private readonly _color: string | (() => string);
   private readonly _coordinates: LabelCoordinates;
   private readonly _horizontalAlignment: TextStyleAlign;
+  private readonly _maxLines: number | null;
+  private readonly _maxWidth: number | null;
   private readonly _text: string | (() => string);
   public constructor(options: CreateLabelOptions) {
     super(getToken());
@@ -48,6 +52,8 @@ export class Label extends Definable {
       y: options.coordinates.y,
     };
     this._horizontalAlignment = options.horizontalAlignment;
+    this._maxLines = options.maxLines ?? null;
+    this._maxWidth = options.maxWidth ?? null;
     this._text = options.text;
   }
 
@@ -69,8 +75,8 @@ export class Label extends Definable {
           x,
           y,
           1,
-          state.values.config.width,
-          1,
+          this._maxWidth,
+          this._maxLines,
           this._horizontalAlignment,
           100,
         );
