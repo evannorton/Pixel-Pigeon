@@ -17,7 +17,7 @@ export const getBitmapText = (
     tint: Number(`0x${color.substring(1)}`),
   };
   if (maxWidth !== null) {
-    bitmapTextStyle.maxWidth = maxWidth + 2;
+    bitmapTextStyle.maxWidth = maxWidth + 2 * size;
   }
   const bitmapText: BitmapText = new BitmapText(text, bitmapTextStyle);
   const isTooWide: boolean = maxWidth !== null && bitmapText.width > maxWidth;
