@@ -4,7 +4,7 @@ import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
-interface CreateAnchorOptionsCoordinates {
+export interface CreateAnchorOptionsCoordinates {
   /**
    * Callback that decides whether or not coordinates should be used
    */
@@ -18,7 +18,6 @@ interface CreateAnchorOptionsCoordinates {
    */
   y: number;
 }
-
 export interface CreateAnchorOptions {
   /**
    * Coordinates that can be used to precisely define where the Anchor should be on the screen

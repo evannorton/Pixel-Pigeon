@@ -6,11 +6,13 @@ import {
 } from "./classes/Achievement";
 import {
   CreateAnchorOptions,
+  CreateAnchorOptionsCoordinates,
   createAnchor,
   removeAnchor,
 } from "./classes/Anchor";
 import {
   CreateEllipseOptions,
+  CreateEllipseOptionsCoordinates,
   createEllipse,
   removeEllipse,
 } from "./classes/Ellipse";
@@ -31,6 +33,7 @@ import {
 } from "./classes/InputTickHandler";
 import {
   CreateLabelOptions,
+  CreateLabelOptionsCoordinates,
   CreateLabelOptionsText,
   CreateLabelOptionsTextTrim,
   createLabel,
@@ -38,6 +41,7 @@ import {
 } from "./classes/Label";
 import {
   CreateQuadrilateralOptions,
+  CreateQuadrilateralOptionsCoordinates,
   createQuadrilateral,
   removeQuadrilateral,
 } from "./classes/Quadrilateral";
@@ -45,6 +49,7 @@ import {
   CreateSpriteOptions,
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
+  CreateSpriteOptionsCoordinates,
   createSprite,
 } from "./classes/Sprite";
 import {
@@ -113,8 +118,10 @@ export {
   CreateAchievementOptions,
   createAnchor,
   CreateAnchorOptions,
+  CreateAnchorOptionsCoordinates,
   createEllipse,
   CreateEllipseOptions,
+  CreateEllipseOptionsCoordinates,
   createEntity,
   CreateEntityOptions,
   createInputCollection,
@@ -127,14 +134,17 @@ export {
   CreateInputTickHandlerOptionsGroup,
   createLabel,
   CreateLabelOptions,
+  CreateLabelOptionsCoordinates,
   CreateLabelOptionsText,
   CreateLabelOptionsTextTrim,
   createQuadrilateral,
   CreateQuadrilateralOptions,
+  CreateQuadrilateralOptionsCoordinates,
   createSprite,
   CreateSpriteOptions,
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
+  CreateSpriteOptionsCoordinates,
   createVolumeChannel,
   CreateVolumeChannelOptions,
   EntityCollidable,
