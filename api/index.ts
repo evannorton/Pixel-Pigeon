@@ -53,6 +53,7 @@ import {
 } from "./classes/VolumeChannel";
 import {
   EntityCollidable,
+  EntityEllipse,
   EntityPosition,
   EntityQuadrilateral,
   EntitySprite,
@@ -137,6 +138,7 @@ export {
   createVolumeChannel,
   CreateVolumeChannelOptions,
   EntityCollidable,
+  EntityEllipse,
   EntityPosition,
   EntityQuadrilateral,
   EntitySprite,
