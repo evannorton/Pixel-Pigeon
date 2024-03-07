@@ -9,6 +9,11 @@ import {
   createAnchor,
   removeAnchor,
 } from "./classes/Anchor";
+import {
+  CreateEllipseOptions,
+  createEllipse,
+  removeEllipse,
+} from "./classes/Ellipse";
 import { CreateEntityOptions, createEntity } from "./functions/createEntity";
 import {
   CreateInputCollectionOptions,
@@ -70,6 +75,7 @@ import {
 import { Rectangle } from "./types/Rectangle";
 import { State } from "./classes/State";
 import { TextStyleAlign } from "pixi.js";
+import { addEntityEllipse } from "./functions/addEntityEllipse";
 import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
 import { addEntitySprite } from "./functions/addEntitySprite";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
@@ -98,6 +104,7 @@ import { stopEntity } from "./functions/stopEntity";
 import { takeScreenshot } from "./functions/takeScreenshot";
 
 export {
+  addEntityEllipse,
   addEntityQuadrilateral,
   addEntitySprite,
   CollisionData,
@@ -105,6 +112,8 @@ export {
   CreateAchievementOptions,
   createAnchor,
   CreateAnchorOptions,
+  createEllipse,
+  CreateEllipseOptions,
   createEntity,
   CreateEntityOptions,
   createInputCollection,
@@ -161,6 +170,7 @@ export {
   PlayAudioSourceOptions,
   Rectangle,
   removeAnchor,
+  removeEllipse,
   removeEntity,
   removeEntitySprite,
   removeLabel,

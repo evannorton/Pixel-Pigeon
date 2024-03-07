@@ -21,6 +21,7 @@ export const drawQuadrilateral = (
   rectangle.drawRect(x, y, width, height);
   rectangle.alpha = opacity;
   rectangle.zIndex = zIndex;
+  rectangle.endFill();
   state.values.app.stage.addChild(rectangle);
   state.setValues({
     renderChildrenToDestroy: [

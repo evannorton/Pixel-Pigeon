@@ -3,17 +3,17 @@ import {
   getCameraCoordinates,
 } from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
-import { Entity, EntityQuadrilateral } from "../types/World";
+import { Entity, EntityEllipse } from "../types/World";
 import { Graphics } from "pixi.js";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
-export interface CreateQuadrilateralOptions {
+export interface CreateEllipseOptions {
   color: string;
   /**
-   * Coordinates that can be used to precisely define where the Quadrilateral should be on the screen
+   * Coordinates that can be used to precisely define where the Ellipse should be on the screen
    */
   coordinates?: {
     /**
@@ -21,11 +21,11 @@ export interface CreateQuadrilateralOptions {
      */
     condition?: () => boolean;
     /**
-     * The X value on the screen where the Quadrilateral is displayed
+     * The X value on the screen where the Ellipse is displayed
      */
     x: number | (() => number);
     /**
-     * The Y value on the screen where the Quadrilateral is displayed
+     * The Y value on the screen where the Ellipse is displayed
      */
     y: number | (() => number);
   };
@@ -33,20 +33,21 @@ export interface CreateQuadrilateralOptions {
   opacity?: number | (() => number);
   width: number | (() => number);
 }
-interface QuadrilateralCoordinates {
+interface EllipseCoordinates {
   readonly condition: (() => boolean) | null;
   readonly x: number | (() => number);
   readonly y: number | (() => number);
 }
 
-export class Quadrilateral extends Definable {
+export class Ellipse extends Definable {
   private readonly _color: string;
-  private readonly _coordinates: QuadrilateralCoordinates | null;
+  private readonly _coordinates: EllipseCoordinates | null;
   private readonly _height: number | (() => number);
   private readonly _opacity: number | (() => number);
   private readonly _pixiGraphics: Graphics = new Graphics();
+
   private readonly _width: number | (() => number);
-  public constructor(options: CreateQuadrilateralOptions) {
+  public constructor(options: CreateEllipseOptions) {
     super(getToken());
     this._color = options.color;
     this._coordinates = options.coordinates
@@ -68,7 +69,7 @@ export class Quadrilateral extends Definable {
   public drawAtCoordinates(): void {
     if (state.values.config === null) {
       throw new Error(
-        `Quadrilateral "${this._id}" attempted to draw at coordinates before config was loaded.`,
+        `Ellipse "${this._id}" attempted to draw at coordinates before config was loaded.`,
       );
     }
     if (this._coordinates !== null && this.passesCoordinatesCondition()) {
@@ -82,18 +83,18 @@ export class Quadrilateral extends Definable {
 
   public drawAtEntity(
     entity: Entity,
-    entityQuadrilateral: EntityQuadrilateral,
+    entityEllipse: EntityEllipse,
     layerIndex: number,
   ): void {
     const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     const x: number =
       Math.floor(entity.position.x) +
-      (entityQuadrilateral.x ?? 0) -
+      (entityEllipse.x ?? 0) -
       cameraCoordinates.x;
     const y: number =
       Math.floor(entity.position.y) +
-      (entityQuadrilateral.y ?? 0) -
+      (entityEllipse.y ?? 0) -
       cameraCoordinates.y;
     this.drawAtPosition(x, y, zIndex);
   }
@@ -101,7 +102,7 @@ export class Quadrilateral extends Definable {
   public isAttached(): boolean {
     if (state.values.world === null) {
       throw new Error(
-        `Quadrilateral "${this._id}" attempted to check if it was attached before world was loaded.`,
+        `Ellipse "${this._id}" attempted to check if it was attached before world was loaded.`,
       );
     }
     if (this._coordinates !== null) {
@@ -111,9 +112,9 @@ export class Quadrilateral extends Definable {
       for (const layer of level.layers) {
         for (const entity of layer.entities.values()) {
           if (
-            entity.quadrilaterals.some(
-              (quadrilateral: EntityQuadrilateral): boolean =>
-                quadrilateral.quadrilateralID === this._id,
+            entity.ellipses.some(
+              (ellipse: EntityEllipse): boolean =>
+                ellipse.ellipseID === this._id,
             )
           ) {
             return true;
@@ -132,7 +133,7 @@ export class Quadrilateral extends Definable {
   private drawAtPosition(x: number, y: number, zIndex: number): void {
     if (state.values.app === null) {
       throw new Error(
-        `Quadrilateral "${this._id}" attempted to draw before app was created.`,
+        `Ellipse "${this._id}" attempted to draw before app was created.`,
       );
     }
     const opacity: number | null = this.getOpacity();
@@ -141,7 +142,62 @@ export class Quadrilateral extends Definable {
     if (opacity !== null && width !== null && height !== null) {
       this._pixiGraphics.beginFill(Number(`0x${this._color.substring(1)}`));
       this._pixiGraphics.lineStyle(0, Number(`0x${this._color.substring(1)}`));
-      this._pixiGraphics.drawRect(x, y, width, height);
+      const pixels: Map<
+        number,
+        {
+          endX: number;
+          startX: number;
+        }
+      > = new Map();
+      const xRadius: number = width / 2;
+      const yRadius: number = height / 2;
+      for (let i: number = -xRadius + 1; i < xRadius; i++) {
+        for (let j: number = -yRadius + 1; j < yRadius; j++) {
+          if (Math.pow(i / xRadius, 2) + Math.pow(j / yRadius, 2) <= 1) {
+            const pixelX: number = Math.floor(x + xRadius + i);
+            const pixelY: number = Math.floor(y + yRadius + j);
+            const bounds:
+              | {
+                  startX: number;
+                  endX: number;
+                }
+              | undefined = pixels.get(pixelY);
+            const fixedBounds: {
+              endX: number;
+              startX: number;
+            } =
+              typeof bounds !== "undefined"
+                ? bounds
+                : {
+                    endX: pixelX,
+                    startX: pixelX,
+                  };
+            if (pixelX < fixedBounds.startX) {
+              fixedBounds.startX = pixelX;
+            }
+            if (pixelX > fixedBounds.endX) {
+              fixedBounds.endX = pixelX;
+            }
+            pixels.set(pixelY, fixedBounds);
+          }
+        }
+      }
+      pixels.forEach(
+        (
+          bounds: {
+            endX: number;
+            startX: number;
+          },
+          key: number,
+        ): void => {
+          this._pixiGraphics.drawRect(
+            bounds.startX,
+            key,
+            bounds.endX - bounds.startX,
+            1,
+          );
+        },
+      );
       this._pixiGraphics.alpha = opacity;
       this._pixiGraphics.zIndex = zIndex;
       this._pixiGraphics.endFill();
@@ -157,7 +213,7 @@ export class Quadrilateral extends Definable {
       try {
         return this._coordinates.x();
       } catch (error: unknown) {
-        handleCaughtError(error, `Quadrilateral "${this._id}" coordinates x`);
+        handleCaughtError(error, `Ellipse "${this._id}" coordinates x`);
       }
     }
     return null;
@@ -171,7 +227,7 @@ export class Quadrilateral extends Definable {
       try {
         return this._coordinates.y();
       } catch (error: unknown) {
-        handleCaughtError(error, `Quadrilateral "${this._id}" coordinates y`);
+        handleCaughtError(error, `Ellipse "${this._id}" coordinates y`);
       }
     }
     return null;
@@ -184,7 +240,7 @@ export class Quadrilateral extends Definable {
     try {
       return this._height();
     } catch (error: unknown) {
-      handleCaughtError(error, `Quadrilateral "${this._id}" height`);
+      handleCaughtError(error, `Ellipse "${this._id}" height`);
       return null;
     }
   }
@@ -196,7 +252,7 @@ export class Quadrilateral extends Definable {
     try {
       return this._opacity();
     } catch (error: unknown) {
-      handleCaughtError(error, `Quadrilateral "${this._id}" opacity`);
+      handleCaughtError(error, `Ellipse "${this._id}" opacity`);
       return null;
     }
   }
@@ -208,7 +264,7 @@ export class Quadrilateral extends Definable {
     try {
       return this._width();
     } catch (error: unknown) {
-      handleCaughtError(error, `Quadrilateral "${this._id}" width`);
+      handleCaughtError(error, `Ellipse "${this._id}" width`);
       return null;
     }
   }
@@ -216,7 +272,7 @@ export class Quadrilateral extends Definable {
   private passesCoordinatesCondition(): boolean {
     if (this._coordinates === null) {
       throw new Error(
-        `Quadrilateral "${this._id}" attempted to check coordinates condition with no coordinates.`,
+        `Ellipse "${this._id}" attempted to check coordinates condition with no coordinates.`,
       );
     }
     if (this._coordinates.condition === null) {
@@ -225,20 +281,16 @@ export class Quadrilateral extends Definable {
     try {
       return this._coordinates.condition();
     } catch (error: unknown) {
-      handleCaughtError(
-        error,
-        `Quadrilateral "${this._id}" coordinates condition`,
-      );
+      handleCaughtError(error, `Ellipse "${this._id}" coordinates condition`);
     }
     return false;
   }
 }
-export const createQuadrilateral = (
-  options: CreateQuadrilateralOptions,
-): string => new Quadrilateral(options).id;
+export const createEllipse = (options: CreateEllipseOptions): string =>
+  new Ellipse(options).id;
 /**
- * @param quadrilateralID - String QuadrilateralID of the quadrilateral to remove
+ * @param ellipseID - String EllipseID of the ellipse to remove
  */
-export const removeQuadrilateral = (quadrilateralID: string): void => {
-  getDefinable<Quadrilateral>(Quadrilateral, quadrilateralID).remove();
+export const removeEllipse = (ellipseID: string): void => {
+  getDefinable<Ellipse>(Ellipse, ellipseID).remove();
 };

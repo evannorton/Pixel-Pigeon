@@ -1,5 +1,7 @@
 import { CollisionData } from "../types/CollisionData";
+import { Ellipse } from "../classes/Ellipse";
 import {
+  EntityEllipse,
   EntityPosition,
   EntityQuadrilateral,
   EntitySprite,
@@ -15,6 +17,7 @@ import { state } from "../state";
 
 export interface CreateEntityOptions {
   collidesWithMap?: boolean;
+  ellipses?: EntityEllipse[];
   /** The actual height of the hitbox of the entity */
   height: number;
   /** The layerID the entity should be on, has to be created in LDTK */
@@ -74,6 +77,16 @@ export const createEntity = (options: CreateEntityOptions): string => {
       }
     }
   }
+  if (typeof options.ellipses !== "undefined") {
+    for (const entityEllipse of options.ellipses) {
+      const ellipse: Ellipse = getDefinable(Ellipse, entityEllipse.ellipseID);
+      if (ellipse.isAttached()) {
+        throw new Error(
+          "An attempt was made to attach ellipse to entity that is already attached to another render condition.",
+        );
+      }
+    }
+  }
   const level: Level | null =
     state.values.world.levels.get(options.levelID) ?? null;
   if (level === null) {
@@ -94,6 +107,7 @@ export const createEntity = (options: CreateEntityOptions): string => {
   layer.entities.set(id, {
     blockingPosition: null,
     collidesWithMap: options.collidesWithMap ?? false,
+    ellipses: options.ellipses ?? [],
     fieldValues: new Map(),
     hasTouchedPathingStartingTile: false,
     height: options.height,

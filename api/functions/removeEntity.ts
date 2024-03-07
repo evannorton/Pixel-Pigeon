@@ -1,3 +1,4 @@
+import { removeEllipse } from "../classes/Ellipse";
 import { removeQuadrilateral } from "../classes/Quadrilateral";
 import { removeSprite } from "../classes/Sprite";
 import { state } from "../state";
@@ -21,6 +22,9 @@ export const removeEntity = (entityID: string): void => {
           }
           for (const entityQuadrilateral of layerEntity.quadrilaterals) {
             removeQuadrilateral(entityQuadrilateral.quadrilateralID);
+          }
+          for (const entityEllipse of layerEntity.ellipses) {
+            removeEllipse(entityEllipse.ellipseID);
           }
           layer.entities.delete(layerEntityID);
         }

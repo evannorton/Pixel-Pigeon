@@ -2,6 +2,7 @@ import {
   CameraCoordinates,
   getCameraCoordinates,
 } from "./getCameraCoordinates";
+import { Ellipse } from "../classes/Ellipse";
 import { Label } from "../classes/Label";
 import { Layer, Level, Tileset, World, WorldTilesetTile } from "../types/World";
 import { Quadrilateral } from "../classes/Quadrilateral";
@@ -23,6 +24,9 @@ export const render = (): void => {
   }
   getDefinables(Quadrilateral).forEach((quadrilateral: Quadrilateral): void => {
     quadrilateral.clear();
+  });
+  getDefinables(Ellipse).forEach((ellipse: Ellipse): void => {
+    ellipse.clear();
   });
   state.values.app.stage.removeChildren();
   for (const child of state.values.renderChildrenToDestroy) {
@@ -135,6 +139,13 @@ export const render = (): void => {
             );
             quadrilateral.drawAtEntity(entity, entityQuadrilateral, layerIndex);
           }
+          for (const entityEllipse of entity.ellipses) {
+            const ellipse: Ellipse = getDefinable(
+              Ellipse,
+              entityEllipse.ellipseID,
+            );
+            ellipse.drawAtEntity(entity, entityEllipse, layerIndex);
+          }
         }
       });
     }
@@ -143,6 +154,9 @@ export const render = (): void => {
         quadrilateral.drawAtCoordinates();
       },
     );
+    getDefinables(Ellipse).forEach((ellipse: Ellipse): void => {
+      ellipse.drawAtCoordinates();
+    });
     getDefinables(Sprite).forEach((sprite: Sprite): void => {
       sprite.drawAtCoordinates();
     });

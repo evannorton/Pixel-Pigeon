@@ -45,6 +45,7 @@ export const getWorld = (): World => {
               entities.set(ldtkEntityInstance.iid, {
                 blockingPosition: null,
                 collidesWithMap: false,
+                ellipses: [],
                 fieldValues,
                 hasTouchedPathingStartingTile: false,
                 height: ldtkEntityInstance.height,
