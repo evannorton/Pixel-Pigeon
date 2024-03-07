@@ -50,6 +50,7 @@ import {
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
   CreateSpriteOptionsCoordinates,
+  CreateSpriteOptionsRecolor,
   createSprite,
 } from "./classes/Sprite";
 import {
@@ -145,6 +146,7 @@ export {
   CreateSpriteOptionsAnimation,
   CreateSpriteOptionsAnimationFrame,
   CreateSpriteOptionsCoordinates,
+  CreateSpriteOptionsRecolor,
   createVolumeChannel,
   CreateVolumeChannelOptions,
   EntityCollidable,
