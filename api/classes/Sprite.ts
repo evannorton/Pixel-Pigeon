@@ -5,6 +5,7 @@ import {
 import { Definable } from "./Definable";
 import { Entity, EntitySprite } from "../types/World";
 import { ImageSource } from "./ImageSource";
+import { MultiColorReplaceFilter } from "@pixi/filter-multi-color-replace";
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
 import { TilePosition } from "../types/TilePosition";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
@@ -13,6 +14,10 @@ import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
+export interface CreateSpriteOptionsRecolor {
+  fromColor: string;
+  toColor: string;
+}
 /**
  * Defines a specific frame in a sprite's Animation
  * To do this you must have a sprite sheet, and define the bounds for each different animation frame
@@ -95,6 +100,13 @@ export interface CreateSpriteOptions {
    * ```
    */
   imagePath: string;
+  recolors?:
+    | CreateSpriteOptionsRecolor[]
+    | (() => CreateSpriteOptionsRecolor[]);
+}
+interface SpriteRecolor {
+  readonly fromColor: string;
+  readonly toColor: string;
 }
 interface SpriteAnimationPlay {
   readonly id: string;
@@ -124,6 +136,7 @@ export class Sprite extends Definable {
   private readonly _coordinates: SpriteCoordinates | null;
   private readonly _imageSourceID: string;
   private readonly _pixiSprite: PixiSprite = new PixiSprite();
+  private readonly _recolors: SpriteRecolor[] | (() => SpriteRecolor[]);
 
   public constructor(options: CreateSpriteOptions) {
     super(getToken());
@@ -166,6 +179,16 @@ export class Sprite extends Definable {
           y: options.coordinates.y,
         }
       : null;
+    this._recolors = Array.isArray(options.recolors)
+      ? options.recolors.map(
+          (recolor: CreateSpriteOptionsRecolor): SpriteRecolor => ({
+            fromColor: recolor.fromColor,
+            toColor: recolor.toColor,
+          }),
+        )
+      : typeof options.recolors === "function"
+        ? options.recolors
+        : [];
   }
 
   private get imageSource(): ImageSource {
@@ -383,6 +406,19 @@ export class Sprite extends Definable {
     this._pixiSprite.width = currentAnimationFrame.width;
     this._pixiSprite.height = currentAnimationFrame.height;
     this._pixiSprite.zIndex = zIndex;
+    this._pixiSprite.filters = [];
+    const recolors: SpriteRecolor[] = this.getRecolors();
+    if (recolors.length > 0) {
+      this._pixiSprite.filters.push(
+        new MultiColorReplaceFilter(
+          recolors.map((recolor: SpriteRecolor): [number, number] => [
+            Number(`0x${recolor.fromColor.substring(1)}`),
+            Number(`0x${recolor.toColor.substring(1)}`),
+          ]),
+          0.005,
+        ),
+      );
+    }
     state.values.app.stage.addChild(this._pixiSprite);
   }
 
@@ -441,6 +477,18 @@ export class Sprite extends Definable {
       }
     }
     return null;
+  }
+
+  private getRecolors(): SpriteRecolor[] {
+    if (Array.isArray(this._recolors)) {
+      return this._recolors;
+    }
+    try {
+      return this._recolors();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Sprite "${this._id}" recolors`);
+    }
+    return [];
   }
 }
 /**
