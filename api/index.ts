@@ -80,6 +80,7 @@ import {
   stopAudioSource,
 } from "./classes/AudioSource";
 import { Rectangle } from "./types/Rectangle";
+import { Scriptable } from "./types/Scriptable";
 import { State } from "./classes/State";
 import { TextStyleAlign } from "pixi.js";
 import { addEntityEllipse } from "./functions/addEntityEllipse";
@@ -189,6 +190,7 @@ export {
   removeEntitySprite,
   removeLabel,
   removeQuadrilateral,
+  Scriptable,
   setEntityBlockingPosition,
   setEntityLevel,
   setEntityPosition,
