@@ -130,11 +130,11 @@ export const updateLevelMovement = (): void => {
           }
           // On collision
           if (
-            bothCollisionData.map ||
+            (entity.collidesWithMap && bothCollisionData.map) ||
             bothCollisionData.entityCollidables.length > 0 ||
-            xCollisionData.map ||
+            (entity.collidesWithMap && xCollisionData.map) ||
             xCollisionData.entityCollidables.length > 0 ||
-            yCollisionData.map ||
+            (entity.collidesWithMap && yCollisionData.map) ||
             yCollisionData.entityCollidables.length > 0
           ) {
             if (entity.onCollision !== null) {

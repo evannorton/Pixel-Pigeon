@@ -33,7 +33,10 @@ export const setEntityPosition = (
             x: Math.floor(entity.position.x),
             y: Math.floor(entity.position.y),
           });
-          if (collisionData.entityCollidables.length > 0 || collisionData.map) {
+          if (
+            collisionData.entityCollidables.length > 0 ||
+            (entity.collidesWithMap && collisionData.map)
+          ) {
             if (entity.onCollision !== null) {
               try {
                 entity.onCollision(collisionData);
