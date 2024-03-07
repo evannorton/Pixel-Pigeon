@@ -7,6 +7,7 @@ import { Entity, EntitySprite } from "../types/World";
 import { ImageSource } from "./ImageSource";
 import { MultiColorReplaceFilter } from "@pixi/filter-multi-color-replace";
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
+import { Scriptable } from "../types/Scriptable";
 import { TilePosition } from "../types/TilePosition";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
 import { getDefinable } from "../functions/getDefinable";
@@ -60,11 +61,11 @@ export interface CreateSpriteOptionsCoordinates {
   /**
    * The X value on the screen where the Sprite is displayed
    */
-  x: number | (() => number);
+  x: Scriptable<number>;
   /**
    * The Y value on the screen where the Sprite is displayed
    */
-  y: number | (() => number);
+  y: Scriptable<number>;
 }
 /**
  * A combination of {@link CreateSpriteOptionsAnimationFrame | SpriteAnimationFrames} and an string AnimationID to form a completed animation
@@ -83,7 +84,7 @@ export interface CreateSpriteOptionsAnimation {
  * Information used to decide when an animation should be played for a {@link createSprite | Sprite}
  */
 export interface CreateSpriteOptions {
-  animationID: string | (() => string);
+  animationID: Scriptable<string>;
   /**
    * Array of Animations that are able to be indentified by their AnimationID to play the animation
    */
@@ -99,10 +100,9 @@ export interface CreateSpriteOptions {
    * imagePath: "player", // The actual path to the file is {PROJECTFILE}/images/player.png
    * ```
    */
+  grayscale?: Scriptable<boolean | string[]>;
   imagePath: string;
-  recolors?:
-    | CreateSpriteOptionsRecolor[]
-    | (() => CreateSpriteOptionsRecolor[]);
+  recolors?: Scriptable<CreateSpriteOptionsRecolor[]>;
 }
 interface SpriteRecolor {
   readonly fromColor: string;
@@ -114,8 +114,8 @@ interface SpriteAnimationPlay {
 }
 interface SpriteCoordinates {
   readonly condition: (() => boolean) | null;
-  readonly x: number | (() => number);
-  readonly y: number | (() => number);
+  readonly x: Scriptable<number>;
+  readonly y: Scriptable<number>;
 }
 interface SpriteAnimationFrame {
   readonly duration: number | null;
@@ -131,12 +131,12 @@ interface SpriteAnimation {
 export class Sprite extends Definable {
   private _animationPlay: SpriteAnimationPlay | null = null;
 
-  private readonly _animationID: string | (() => string);
+  private readonly _animationID: Scriptable<string>;
   private readonly _animations: SpriteAnimation[];
   private readonly _coordinates: SpriteCoordinates | null;
   private readonly _imageSourceID: string;
   private readonly _pixiSprite: PixiSprite = new PixiSprite();
-  private readonly _recolors: SpriteRecolor[] | (() => SpriteRecolor[]);
+  private readonly _recolors: Scriptable<SpriteRecolor[]>;
 
   public constructor(options: CreateSpriteOptions) {
     super(getToken());

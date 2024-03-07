@@ -1,4 +1,5 @@
 import { Definable } from "./Definable";
+import { Scriptable } from "../types/Scriptable";
 import { TextInfo, TextInfoTrim } from "../types/TextInfo";
 import { TextStyleAlign } from "pixi.js";
 import { drawText } from "../functions/draw/drawText";
@@ -23,14 +24,14 @@ export interface CreateLabelOptionsCoordinates {
   /**
    * The X value on the screen where the Label is displayed
    */
-  x: number | (() => number);
+  x: Scriptable<number>;
   /**
    * The Y value on the screen where the Label is displayed
    */
-  y: number | (() => number);
+  y: Scriptable<number>;
 }
 export interface CreateLabelOptions {
-  color: string | (() => string);
+  color: Scriptable<string>;
   /**
    * Coordinates that can be used to precisely define where the Label should be on the screen
    */
@@ -39,22 +40,22 @@ export interface CreateLabelOptions {
   maxLines?: number;
   maxWidth?: number;
   size?: number;
-  text: CreateLabelOptionsText | (() => CreateLabelOptionsText);
+  text: Scriptable<CreateLabelOptionsText>;
 }
 interface LabelCoordinates {
   readonly condition: (() => boolean) | null;
-  readonly x: number | (() => number);
-  readonly y: number | (() => number);
+  readonly x: Scriptable<number>;
+  readonly y: Scriptable<number>;
 }
 
 export class Label extends Definable {
-  private readonly _color: string | (() => string);
+  private readonly _color: Scriptable<string>;
   private readonly _coordinates: LabelCoordinates;
   private readonly _horizontalAlignment: TextStyleAlign;
   private readonly _maxLines: number | null;
   private readonly _maxWidth: number | null;
   private readonly _size: number;
-  private readonly _text: TextInfo | (() => TextInfo);
+  private readonly _text: Scriptable<TextInfo>;
   public constructor(options: CreateLabelOptions) {
     super(getToken());
     this._color = options.color;

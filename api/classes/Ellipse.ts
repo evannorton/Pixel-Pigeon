@@ -5,6 +5,7 @@ import {
 import { Definable } from "./Definable";
 import { Entity, EntityEllipse } from "../types/World";
 import { Graphics } from "pixi.js";
+import { Scriptable } from "../types/Scriptable";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
@@ -18,11 +19,11 @@ export interface CreateEllipseOptionsCoordinates {
   /**
    * The X value on the screen where the Ellipse is displayed
    */
-  x: number | (() => number);
+  x: Scriptable<number>;
   /**
    * The Y value on the screen where the Ellipse is displayed
    */
-  y: number | (() => number);
+  y: Scriptable<number>;
 }
 export interface CreateEllipseOptions {
   color: string;
@@ -30,24 +31,24 @@ export interface CreateEllipseOptions {
    * Coordinates that can be used to precisely define where the Ellipse should be on the screen
    */
   coordinates?: CreateEllipseOptionsCoordinates;
-  height: number | (() => number);
-  opacity?: number | (() => number);
-  width: number | (() => number);
+  height: Scriptable<number>;
+  opacity?: Scriptable<number>;
+  width: Scriptable<number>;
 }
 interface EllipseCoordinates {
   readonly condition: (() => boolean) | null;
-  readonly x: number | (() => number);
-  readonly y: number | (() => number);
+  readonly x: Scriptable<number>;
+  readonly y: Scriptable<number>;
 }
 
 export class Ellipse extends Definable {
   private readonly _color: string;
   private readonly _coordinates: EllipseCoordinates | null;
-  private readonly _height: number | (() => number);
-  private readonly _opacity: number | (() => number);
+  private readonly _height: Scriptable<number>;
+  private readonly _opacity: Scriptable<number>;
   private readonly _pixiGraphics: Graphics = new Graphics();
 
-  private readonly _width: number | (() => number);
+  private readonly _width: Scriptable<number>;
   public constructor(options: CreateEllipseOptions) {
     super(getToken());
     this._color = options.color;
