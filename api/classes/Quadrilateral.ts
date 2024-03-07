@@ -10,25 +10,26 @@ import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
+export interface CreateQuadrilateralOptionsCoordinates {
+  /**
+   * Callback that decides whether or not coordinates should be used
+   */
+  condition?: () => boolean;
+  /**
+   * The X value on the screen where the Quadrilateral is displayed
+   */
+  x: number | (() => number);
+  /**
+   * The Y value on the screen where the Quadrilateral is displayed
+   */
+  y: number | (() => number);
+}
 export interface CreateQuadrilateralOptions {
   color: string;
   /**
    * Coordinates that can be used to precisely define where the Quadrilateral should be on the screen
    */
-  coordinates?: {
-    /**
-     * Callback that decides whether or not coordinates should be used
-     */
-    condition?: () => boolean;
-    /**
-     * The X value on the screen where the Quadrilateral is displayed
-     */
-    x: number | (() => number);
-    /**
-     * The Y value on the screen where the Quadrilateral is displayed
-     */
-    y: number | (() => number);
-  };
+  coordinates?: CreateQuadrilateralOptionsCoordinates;
   height: number | (() => number);
   opacity?: number | (() => number);
   width: number | (() => number);

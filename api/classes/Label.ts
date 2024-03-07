@@ -15,25 +15,26 @@ export interface CreateLabelOptionsText {
   trims?: CreateLabelOptionsTextTrim[];
   value: string;
 }
+export interface CreateLabelOptionsCoordinates {
+  /**
+   * Callback that decides whether or not coordinates should be used
+   */
+  condition?: () => boolean;
+  /**
+   * The X value on the screen where the Label is displayed
+   */
+  x: number | (() => number);
+  /**
+   * The Y value on the screen where the Label is displayed
+   */
+  y: number | (() => number);
+}
 export interface CreateLabelOptions {
   color: string | (() => string);
   /**
    * Coordinates that can be used to precisely define where the Label should be on the screen
    */
-  coordinates: {
-    /**
-     * Callback that decides whether or not coordinates should be used
-     */
-    condition?: () => boolean;
-    /**
-     * The X value on the screen where the Label is displayed
-     */
-    x: number | (() => number);
-    /**
-     * The Y value on the screen where the Label is displayed
-     */
-    y: number | (() => number);
-  };
+  coordinates: CreateLabelOptionsCoordinates;
   horizontalAlignment: TextStyleAlign;
   maxLines?: number;
   maxWidth?: number;

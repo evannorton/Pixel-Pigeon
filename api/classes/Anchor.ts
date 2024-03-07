@@ -4,24 +4,26 @@ import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
+interface CreateAnchorOptionsCoordinates {
+  /**
+   * Callback that decides whether or not coordinates should be used
+   */
+  condition?: () => boolean;
+  /**
+   * The X value on the screen where the Anchor is positioned
+   */
+  x: number;
+  /**
+   * The Y value on the screen where the Anchor is positioned
+   */
+  y: number;
+}
+
 export interface CreateAnchorOptions {
   /**
    * Coordinates that can be used to precisely define where the Anchor should be on the screen
    */
-  coordinates: {
-    /**
-     * Callback that decides whether or not coordinates should be used
-     */
-    condition?: () => boolean;
-    /**
-     * The X value on the screen where the Anchor is positioned
-     */
-    x: number;
-    /**
-     * The Y value on the screen where the Anchor is positioned
-     */
-    y: number;
-  };
+  coordinates: CreateAnchorOptionsCoordinates;
   height: number;
   width: number;
   url: string;

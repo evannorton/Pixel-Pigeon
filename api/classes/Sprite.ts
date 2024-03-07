@@ -47,6 +47,20 @@ export interface CreateSpriteOptionsAnimationFrame {
    */
   width: number;
 }
+export interface CreateSpriteOptionsCoordinates {
+  /**
+   * Callback that decides whether or not coordinates should be used
+   */
+  condition?: () => boolean;
+  /**
+   * The X value on the screen where the Sprite is displayed
+   */
+  x: number | (() => number);
+  /**
+   * The Y value on the screen where the Sprite is displayed
+   */
+  y: number | (() => number);
+}
 /**
  * A combination of {@link CreateSpriteOptionsAnimationFrame | SpriteAnimationFrames} and an string AnimationID to form a completed animation
  */
@@ -70,6 +84,10 @@ export interface CreateSpriteOptions {
    */
   animations: CreateSpriteOptionsAnimation[];
   /**
+   * Optional coordinates that can be used to precisely define where the Sprite should be on the screen
+   */
+  coordinates?: CreateSpriteOptionsCoordinates;
+  /**
    * String path to the sprite sheet, automatically starts in images folder**
    * @example
    * ```ts
@@ -77,23 +95,6 @@ export interface CreateSpriteOptions {
    * ```
    */
   imagePath: string;
-  /**
-   * Optional coordinates that can be used to precisely define where the Sprite should be on the screen
-   */
-  coordinates?: {
-    /**
-     * Callback that decides whether or not coordinates should be used
-     */
-    condition?: () => boolean;
-    /**
-     * The X value on the screen where the Sprite is displayed
-     */
-    x: number | (() => number);
-    /**
-     * The Y value on the screen where the Sprite is displayed
-     */
-    y: number | (() => number);
-  };
 }
 interface SpriteAnimationPlay {
   readonly id: string;

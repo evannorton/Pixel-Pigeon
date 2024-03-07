@@ -10,25 +10,26 @@ import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
+export interface CreateEllipseOptionsCoordinates {
+  /**
+   * Callback that decides whether or not coordinates should be used
+   */
+  condition?: () => boolean;
+  /**
+   * The X value on the screen where the Ellipse is displayed
+   */
+  x: number | (() => number);
+  /**
+   * The Y value on the screen where the Ellipse is displayed
+   */
+  y: number | (() => number);
+}
 export interface CreateEllipseOptions {
   color: string;
   /**
    * Coordinates that can be used to precisely define where the Ellipse should be on the screen
    */
-  coordinates?: {
-    /**
-     * Callback that decides whether or not coordinates should be used
-     */
-    condition?: () => boolean;
-    /**
-     * The X value on the screen where the Ellipse is displayed
-     */
-    x: number | (() => number);
-    /**
-     * The Y value on the screen where the Ellipse is displayed
-     */
-    y: number | (() => number);
-  };
+  coordinates?: CreateEllipseOptionsCoordinates;
   height: number | (() => number);
   opacity?: number | (() => number);
   width: number | (() => number);
