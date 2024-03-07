@@ -88,6 +88,7 @@ import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
 import { addEntitySprite } from "./functions/addEntitySprite";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
+import { getDeltaTime } from "./functions/getDeltaTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
 import { getEntityLevelID } from "./functions/getEntityLevelID";
 import { getEntityPosition } from "./functions/getEntityPosition";
@@ -157,6 +158,7 @@ export {
   EntitySprite,
   getActiveLevelID,
   getCurrentTime,
+  getDeltaTime,
   getEntityCalculatedPath,
   GetEntityCalculatedPathOptions,
   getEntityFieldValue,
