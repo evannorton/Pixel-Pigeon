@@ -4,6 +4,7 @@ import {
 } from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
 import { Entity, EntitySprite } from "../types/World";
+import { GrayscaleFilter } from "@pixi/filter-grayscale";
 import { ImageSource } from "./ImageSource";
 import { MultiColorReplaceFilter } from "@pixi/filter-multi-color-replace";
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
@@ -100,7 +101,7 @@ export interface CreateSpriteOptions {
    * imagePath: "player", // The actual path to the file is {PROJECTFILE}/images/player.png
    * ```
    */
-  grayscale?: Scriptable<boolean | string[]>;
+  isGrayscale?: Scriptable<boolean>;
   imagePath: string;
   recolors?: Scriptable<CreateSpriteOptionsRecolor[]>;
 }
@@ -134,6 +135,7 @@ export class Sprite extends Definable {
   private readonly _animationID: Scriptable<string>;
   private readonly _animations: SpriteAnimation[];
   private readonly _coordinates: SpriteCoordinates | null;
+  private readonly _isGrayscale: Scriptable<boolean> = false;
   private readonly _imageSourceID: string;
   private readonly _pixiSprite: PixiSprite = new PixiSprite();
   private readonly _recolors: Scriptable<SpriteRecolor[]>;
@@ -179,6 +181,7 @@ export class Sprite extends Definable {
           y: options.coordinates.y,
         }
       : null;
+    this._isGrayscale = options.isGrayscale ?? false;
     this._recolors = Array.isArray(options.recolors)
       ? options.recolors.map(
           (recolor: CreateSpriteOptionsRecolor): SpriteRecolor => ({
@@ -419,6 +422,12 @@ export class Sprite extends Definable {
         ),
       );
     }
+    const grayscale: boolean | string[] = this.getGrayscale();
+    if (Array.isArray(grayscale)) {
+      console.log("yo");
+    } else if (grayscale) {
+      this._pixiSprite.filters.push(new GrayscaleFilter());
+    }
     state.values.app.stage.addChild(this._pixiSprite);
   }
 
@@ -477,6 +486,20 @@ export class Sprite extends Definable {
       }
     }
     return null;
+  }
+
+  private getGrayscale(): boolean {
+    if (typeof this._isGrayscale !== "undefined") {
+      if (typeof this._isGrayscale === "boolean") {
+        return this._isGrayscale;
+      }
+      try {
+        return this._isGrayscale();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Sprite "${this._id}" grayscale`);
+      }
+    }
+    return false;
   }
 
   private getRecolors(): SpriteRecolor[] {
