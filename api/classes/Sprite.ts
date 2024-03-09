@@ -8,10 +8,12 @@ import { GrayscaleFilter } from "@pixi/filter-grayscale";
 import { ImageSource } from "./ImageSource";
 import { MultiColorReplaceFilter } from "@pixi/filter-multi-color-replace";
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
+import { RGB } from "../types/RGB";
 import { Scriptable } from "../types/Scriptable";
 import { TilePosition } from "../types/TilePosition";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
 import { getDefinable } from "../functions/getDefinable";
+import { getRGBFromHex } from "../functions/getRGBFromHex";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
@@ -103,6 +105,7 @@ export interface CreateSpriteOptions {
    */
   isGrayscale?: Scriptable<boolean>;
   imagePath: string;
+  palette?: Scriptable<string[]>;
   recolors?: Scriptable<CreateSpriteOptionsRecolor[]>;
 }
 interface SpriteRecolor {
@@ -137,6 +140,7 @@ export class Sprite extends Definable {
   private readonly _coordinates: SpriteCoordinates | null;
   private readonly _isGrayscale: Scriptable<boolean> = false;
   private readonly _imageSourceID: string;
+  private readonly _palette: Scriptable<string[]> = [];
   private readonly _pixiSprite: PixiSprite = new PixiSprite();
   private readonly _recolors: Scriptable<SpriteRecolor[]>;
 
@@ -182,6 +186,11 @@ export class Sprite extends Definable {
         }
       : null;
     this._isGrayscale = options.isGrayscale ?? false;
+    this._palette = Array.isArray(options.palette)
+      ? [...options.palette]
+      : typeof options.palette === "function"
+        ? options.palette
+        : [];
     this._recolors = Array.isArray(options.recolors)
       ? options.recolors.map(
           (recolor: CreateSpriteOptionsRecolor): SpriteRecolor => ({
@@ -410,22 +419,45 @@ export class Sprite extends Definable {
     this._pixiSprite.height = currentAnimationFrame.height;
     this._pixiSprite.zIndex = zIndex;
     this._pixiSprite.filters = [];
+    const palette: string[] = this.getPallete();
+    const filterColors: [number, number][] = [];
+    if (palette.length > 0) {
+      for (const color of this.imageSource.colors) {
+        const rgb: RGB = getRGBFromHex(color);
+        const average: number = (rgb.b + rgb.g + rgb.r) / 3;
+        const closestColor: string = [...palette].sort(
+          (colorA: string, colorB: string): number => {
+            const rgbA: RGB = getRGBFromHex(colorA);
+            const rgbB: RGB = getRGBFromHex(colorB);
+            const averageA: number = (rgbA.b + rgbA.g + rgbA.r) / 3;
+            const averageB: number = (rgbB.b + rgbB.g + rgbB.r) / 3;
+            const diffA: number = Math.abs(averageA - average);
+            const diffB: number = Math.abs(averageB - average);
+            return diffA - diffB;
+          },
+        )[0];
+        filterColors.push([
+          Number(`0x${color.substring(1)}`),
+          Number(`0x${closestColor.substring(1)}`),
+        ]);
+      }
+    }
     const recolors: SpriteRecolor[] = this.getRecolors();
     if (recolors.length > 0) {
-      this._pixiSprite.filters.push(
-        new MultiColorReplaceFilter(
-          recolors.map((recolor: SpriteRecolor): [number, number] => [
-            Number(`0x${recolor.fromColor.substring(1)}`),
-            Number(`0x${recolor.toColor.substring(1)}`),
-          ]),
-          0.005,
-        ),
+      filterColors.push(
+        ...recolors.map((recolor: SpriteRecolor): [number, number] => [
+          Number(`0x${recolor.fromColor.substring(1)}`),
+          Number(`0x${recolor.toColor.substring(1)}`),
+        ]),
       );
     }
-    const grayscale: boolean | string[] = this.getGrayscale();
-    if (Array.isArray(grayscale)) {
-      console.log("yo");
-    } else if (grayscale) {
+    if (filterColors.length > 0) {
+      this._pixiSprite.filters.push(
+        new MultiColorReplaceFilter(filterColors, 0.005),
+      );
+    }
+    const grayscale: boolean = this.getGrayscale();
+    if (grayscale) {
       this._pixiSprite.filters.push(new GrayscaleFilter());
     }
     state.values.app.stage.addChild(this._pixiSprite);
@@ -500,6 +532,18 @@ export class Sprite extends Definable {
       }
     }
     return false;
+  }
+
+  private getPallete(): string[] {
+    if (Array.isArray(this._palette)) {
+      return this._palette;
+    }
+    try {
+      return this._palette();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Sprite "${this._id}" recolors`);
+    }
+    return [];
   }
 
   private getRecolors(): SpriteRecolor[] {

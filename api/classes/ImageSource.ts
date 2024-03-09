@@ -24,6 +24,10 @@ export class ImageSource extends Definable {
     this._imagePath = options.imagePath;
   }
 
+  public get colors(): string[] {
+    return this._colors;
+  }
+
   public get texture(): Texture {
     if (this._texture !== null) {
       return this._texture;
@@ -61,11 +65,8 @@ export class ImageSource extends Definable {
     );
     const sprite: Sprite = new Sprite(new Texture(texture, rectangle));
     state.values.app.renderer.render(sprite, { renderTexture });
-    const pixels: Uint8Array = (
-      state.values.app.renderer.plugins.extract as {
-        pixels: (renderTexture: RenderTexture) => Uint8Array;
-      }
-    ).pixels(renderTexture);
+    const pixels: Uint8Array | Uint8ClampedArray =
+      state.values.app.renderer.extract.pixels(renderTexture);
     for (let i: number = 0; i < pixels.length; i += 4) {
       const r: number = pixels[i];
       const g: number = pixels[i + 1];
