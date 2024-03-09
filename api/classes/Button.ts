@@ -85,6 +85,7 @@ export class Button extends Definable {
       this._element.style.display = "none";
     }
     if (this._clicked) {
+      this._clicked = false;
       try {
         this._onClick();
       } catch (error: unknown) {
