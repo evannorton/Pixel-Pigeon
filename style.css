@@ -175,6 +175,10 @@ body:not(.paused) #unpause-button {
   max-width: 100%;
 }
 
+#scale-screenshot {
+  margin-bottom: 0.5em;
+}
+
 #volume-sliders:not(:last-child) {
   margin-bottom: 0.5em;
 }
@@ -194,6 +198,7 @@ body:not(.paused) #unpause-button {
 }
 
 #pause-main label {
+  display: block;
   margin-bottom: 0.25em;
   text-align: center;
   word-break: break-word;
@@ -213,6 +218,15 @@ body:not(.paused) #unpause-button {
   height: 0.75em;
   margin-bottom: 0.5em;
   width: 0.75em;
+}
+
+#scale-screenshot-input {
+  background-color: transparent;
+  color: white;
+  border: 0.05em solid white;
+  width: 2em;
+  text-align: center;
+  margin-left: 0.125em;
 }
 
 .volume-slider {

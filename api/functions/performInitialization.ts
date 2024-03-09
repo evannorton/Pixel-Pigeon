@@ -189,19 +189,25 @@ export const performInitialization = async (): Promise<void> => {
     contextmenuEvent.preventDefault();
   });
   addEventListener("keydown", (keydownEvent: KeyboardEvent): void => {
+    const shouldPreventDirection: boolean =
+      document.activeElement instanceof HTMLElement === false;
     switch (keydownEvent.code) {
       case "ArrowDown":
       case "ArrowLeft":
       case "ArrowRight":
       case "ArrowUp":
-        keydownEvent.preventDefault();
+        if (shouldPreventDirection) {
+          keydownEvent.preventDefault();
+        }
         break;
       case "Numpad2":
       case "Numpad4":
       case "Numpad6":
       case "Numpad8":
-        if (keydownEvent.getModifierState("NumLock")) {
-          keydownEvent.preventDefault();
+        if (shouldPreventDirection) {
+          if (keydownEvent.getModifierState("NumLock")) {
+            keydownEvent.preventDefault();
+          }
         }
         break;
     }
