@@ -5,11 +5,11 @@ import {
   unlockAchievement,
 } from "./classes/Achievement";
 import {
-  CreateAnchorOptions,
-  CreateAnchorOptionsCoordinates,
-  createAnchor,
-  removeAnchor,
-} from "./classes/Anchor";
+  CreateButtonOptions,
+  CreateButtonOptionsCoordinates,
+  createButton,
+  removeButton,
+} from "./classes/Button";
 import {
   CreateEllipseOptions,
   CreateEllipseOptionsCoordinates,
@@ -102,6 +102,7 @@ import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
+import { openURL } from "./functions/openURL";
 import { removeEntity } from "./functions/removeEntity";
 import { removeEntitySprite } from "./functions/removeEntitySprite";
 import { setEntityBlockingPosition } from "./functions/setEntityBlockingPosition";
@@ -119,9 +120,9 @@ export {
   CollisionData,
   createAchievement,
   CreateAchievementOptions,
-  createAnchor,
-  CreateAnchorOptions,
-  CreateAnchorOptionsCoordinates,
+  createButton,
+  CreateButtonOptions,
+  CreateButtonOptionsCoordinates,
   createEllipse,
   CreateEllipseOptions,
   CreateEllipseOptionsCoordinates,
@@ -179,6 +180,7 @@ export {
   NumLock,
   onRun,
   onTick,
+  openURL,
   OverlapData,
   pathEntity,
   PathEntityOptions,
@@ -186,7 +188,7 @@ export {
   playAudioSource,
   PlayAudioSourceOptions,
   Rectangle,
-  removeAnchor,
+  removeButton,
   removeEllipse,
   removeEntity,
   removeEntitySprite,

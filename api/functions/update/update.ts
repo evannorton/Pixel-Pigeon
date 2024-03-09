@@ -1,4 +1,4 @@
-import { Anchor } from "../../classes/Anchor";
+import { Button } from "../../classes/Button";
 import { Sprite } from "../../classes/Sprite";
 import { getDefinables } from "../getDefinables";
 import { handleCaughtError } from "../handleCaughtError";
@@ -7,6 +7,9 @@ import { updateInput } from "./updateInput";
 import { updateLevel } from "./updateLevel";
 
 export const update = (): void => {
+  getDefinables(Button).forEach((button: Button): void => {
+    button.update();
+  });
   updateInput();
   if (!state.values.hasExecutedOnRunCallbacks) {
     for (const onRunCallback of state.values.onRunCallbacks) {
@@ -31,9 +34,6 @@ export const update = (): void => {
   getDefinables(Sprite).forEach((sprite: Sprite): void => {
     sprite.playAnimation();
     sprite.drawAtCoordinates();
-  });
-  getDefinables(Anchor).forEach((anchor: Anchor): void => {
-    anchor.update();
   });
   if (
     state.values.pauseMenuCondition !== null &&

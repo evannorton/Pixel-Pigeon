@@ -16,10 +16,10 @@ export const sizeScreen = (): void => {
       "An attempt was made to size screen with no screen element in the DOM.",
     );
   }
-  const anchorsElement: HTMLElement | null = document.getElementById("anchors");
-  if (anchorsElement === null) {
+  const buttonsElement: HTMLElement | null = document.getElementById("buttons");
+  if (buttonsElement === null) {
     throw new Error(
-      "An attempt was made to size screen with no anchors element in the DOM.",
+      "An attempt was made to size screen with no buttons element in the DOM.",
     );
   }
   screenElement.style.width = `${screenWidth}px`;
@@ -51,8 +51,8 @@ export const sizeScreen = (): void => {
   }
   pauseButtonsElement.style.width = `${screenWidth}px`;
   pauseButtonsElement.style.height = `${screenHeight}px`;
-  anchorsElement.style.width = `${screenWidth}px`;
-  anchorsElement.style.height = `${screenHeight}px`;
+  buttonsElement.style.width = `${screenWidth}px`;
+  buttonsElement.style.height = `${screenHeight}px`;
   const lowerDimension: number = Math.min(
     state.values.config.width,
     state.values.config.height,

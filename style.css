@@ -76,13 +76,13 @@ body:not(.paused) #unpause-button {
   display: none;
 }
 
-#anchors {
+#buttons {
   pointer-events: none;
   position: absolute;
   top: 0;
 }
 
-.anchor {
+.button {
   cursor: url("./cursors/pointer.png") 7 2, pointer;
   pointer-events: all;
   position: absolute;
