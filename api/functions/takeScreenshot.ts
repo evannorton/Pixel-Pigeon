@@ -1,4 +1,4 @@
-import { ICanvas, Rectangle } from "pixi.js";
+import { ICanvas, ICanvasRenderingContext2D, Rectangle } from "pixi.js";
 import { state } from "../state";
 
 export const takeScreenshot = (): void => {
@@ -14,7 +14,22 @@ export const takeScreenshot = (): void => {
   }
   const copyScreenshotToggleInputElement: HTMLElement | null =
     document.getElementById("copy-screenshot-toggle-input");
-  if (copyScreenshotToggleInputElement instanceof HTMLInputElement) {
+  if (copyScreenshotToggleInputElement === null) {
+    throw new Error(
+      "An attempt was made to take screenshot with no copy schreenshot toggle input element.",
+    );
+  }
+  const scaleScreenshotInputElement: HTMLElement | null =
+    document.getElementById("scale-screenshot-input");
+  if (scaleScreenshotInputElement === null) {
+    throw new Error(
+      "An attempt was made to take screenshot with no scale screenshot input element.",
+    );
+  }
+  if (
+    copyScreenshotToggleInputElement instanceof HTMLInputElement &&
+    scaleScreenshotInputElement instanceof HTMLInputElement
+  ) {
     if (typeof navigator.clipboard === "undefined") {
       // TODO error toast
     } else {
@@ -33,6 +48,23 @@ export const takeScreenshot = (): void => {
       ) {
         // TODO error toast
       } else {
+        const scale: number = Number(scaleScreenshotInputElement.value);
+        const context: ICanvasRenderingContext2D | null =
+          canvas.getContext("2d");
+        if (context !== null) {
+          const imageData: ImageData = context.getImageData(
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+          );
+          canvas.width *= scale;
+          canvas.height *= scale;
+          context.putImageData(imageData, 0, 0);
+          context.scale(scale, scale);
+          context.imageSmoothingEnabled = false;
+          context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+        }
         if (copyScreenshotToggleInputElement.checked === false) {
           const anchor: HTMLAnchorElement = document.createElement("a");
           anchor.download = `${state.values.config.name} screenshot.png`;

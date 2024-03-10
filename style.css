@@ -229,6 +229,10 @@ body:not(.paused) #unpause-button {
   margin-left: 0.125em;
 }
 
+#scale-screenshot-input:focus-visible {
+  outline: 1px solid white;
+}
+
 .volume-slider {
   align-items: center;
   display: flex;
