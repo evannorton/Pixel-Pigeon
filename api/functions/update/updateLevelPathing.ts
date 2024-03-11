@@ -29,7 +29,7 @@ export const updateLevelPathing = (): void => {
         const startY: number = Math.floor(entity.position.y / layer.tileSize);
         const endX: number = Math.floor(entity.pathing.x / layer.tileSize);
         const endY: number = Math.floor(entity.pathing.y / layer.tileSize);
-        const matrix: number[][] = getEntityPathingMatrix(entity, [], []);
+        const matrix: number[][] = getEntityPathingMatrix(entity, []);
         const easystar: EasyStar = new EasyStar();
         easystar.setAcceptableTiles([0]);
         easystar.setGrid(matrix);
@@ -42,8 +42,8 @@ export const updateLevelPathing = (): void => {
           endX,
           endY,
           (path: TilePosition[] | null): void => {
+            entity.path = path;
             if (path !== null) {
-              entity.path = path;
               const nextTilePosition: TilePosition =
                 path.length > 1
                   ? path[1]

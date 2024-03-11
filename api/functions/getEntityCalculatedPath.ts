@@ -7,7 +7,6 @@ import { getEntityPathingMatrix } from "./getEntityPathingMatrix";
 import { state } from "../state";
 
 export interface GetEntityCalculatedPathOptions {
-  types?: string[];
   exclusions?: PathingEntityExclusion[];
   x: number;
   y: number;
@@ -32,7 +31,6 @@ export const getEntityCalculatedPath = (
           const endY: number = Math.floor(options.y / layer.tileSize);
           const matrix: number[][] = getEntityPathingMatrix(
             entity,
-            options.types ?? [],
             (options.exclusions ?? []).map(
               (exclusion: PathingEntityExclusion): PathingTileExclusion => ({
                 tilePosition: {

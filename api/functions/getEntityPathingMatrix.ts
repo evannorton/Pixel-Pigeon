@@ -4,7 +4,6 @@ import { state } from "../state";
 
 export const getEntityPathingMatrix = (
   entity: Entity,
-  entityTypes: string[],
   exclusions: PathingTileExclusion[],
 ): number[][] => {
   if (state.values.world === null) {
@@ -54,37 +53,63 @@ export const getEntityPathingMatrix = (
       }
     }
     for (const layerEntity of layer.entities.values()) {
-      if (layerEntity.type !== null && entityTypes.includes(layerEntity.type)) {
-        const blockingX: number | null =
-          layerEntity.blockingPosition !== null
-            ? Math.floor(layerEntity.blockingPosition.x / layer.tileSize)
-            : null;
-        const blockingY: number | null =
-          layerEntity.blockingPosition !== null
-            ? Math.floor(layerEntity.blockingPosition.y / layer.tileSize)
-            : null;
-        const x: number =
-          blockingX !== null
-            ? blockingX
-            : Math.floor(layerEntity.position.x / layer.tileSize);
-        const y: number =
-          blockingY !== null
-            ? blockingY
-            : Math.floor(layerEntity.position.y / layer.tileSize);
-        if (typeof matrix[y] === "undefined") {
-          matrix[y] = [];
+      if (
+        layerEntity.type !== null &&
+        entity.collidableEntityTypes.includes(layerEntity.type)
+      ) {
+        const unroundedX: number =
+          layerEntity.blockingPosition?.x ?? layerEntity.position.x;
+        const unroundedY: number =
+          layerEntity.blockingPosition?.y ?? layerEntity.position.y;
+        const positions: [number, number][] = [
+          // Top left
+          [
+            Math.floor(unroundedX / layer.tileSize),
+            Math.floor(unroundedY / layer.tileSize),
+          ],
+          // Top right
+          [
+            Math.floor((unroundedX + entity.width - 1) / layer.tileSize),
+            Math.floor(unroundedY / layer.tileSize),
+          ],
+          // Bottom left
+          [
+            Math.floor(unroundedX / layer.tileSize),
+            Math.floor((unroundedY + entity.height - 1) / layer.tileSize),
+          ],
+          // Bottom right
+          [
+            Math.floor((unroundedX + entity.width - 1) / layer.tileSize),
+            Math.floor((unroundedY + entity.height - 1) / layer.tileSize),
+          ],
+        ];
+        const filteredPositions: [number, number][] = [];
+        for (const [x, y] of positions) {
+          if (
+            !filteredPositions.some(
+              ([filteredX, filteredY]: [number, number]): boolean =>
+                filteredX === x && filteredY === y,
+            )
+          ) {
+            filteredPositions.push([x, y]);
+          }
         }
-        if (
-          exclusions.some(
-            (exclusion: PathingTileExclusion): boolean =>
-              exclusion.type === layerEntity.type &&
-              exclusion.tilePosition.x === x &&
-              exclusion.tilePosition.y === y,
-          )
-        ) {
-          matrix[y][x] = 0;
-        } else {
-          matrix[y][x] = 1;
+        for (const [x, y] of filteredPositions) {
+          if (typeof matrix[y] === "undefined") {
+            matrix[y] = [];
+          }
+          if (
+            exclusions.some(
+              (exclusion: PathingTileExclusion): boolean =>
+                exclusion.type === layerEntity.type &&
+                exclusion.tilePosition.x === x &&
+                exclusion.tilePosition.y === y,
+            )
+          ) {
+            matrix[y][x] = 0;
+          } else {
+            matrix[y][x] = 1;
+          }
         }
       }
     }
