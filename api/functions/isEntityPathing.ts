@@ -10,7 +10,7 @@ export const isEntityPathing = (entityID: string): boolean => {
     for (const layer of level.layers) {
       for (const [layerEntityID, entity] of layer.entities) {
         if (layerEntityID === entityID) {
-          return entity.path !== null;
+          return entity.path !== null && entity.path.length > 0;
         }
       }
     }
