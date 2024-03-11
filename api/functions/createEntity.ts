@@ -16,6 +16,7 @@ import { getToken } from "./getToken";
 import { state } from "../state";
 
 export interface CreateEntityOptions {
+  collidableEntityTypes?: string[];
   collidesWithMap?: boolean;
   ellipses?: EntityEllipse[];
   /** The actual height of the hitbox of the entity */
@@ -106,6 +107,10 @@ export const createEntity = (options: CreateEntityOptions): string => {
   const id: string = getToken();
   layer.entities.set(id, {
     blockingPosition: null,
+    collidableEntityTypes:
+      typeof options.collidableEntityTypes !== "undefined"
+        ? [...options.collidableEntityTypes]
+        : [],
     collidesWithMap: options.collidesWithMap ?? false,
     ellipses: options.ellipses ?? [],
     fieldValues: new Map(),

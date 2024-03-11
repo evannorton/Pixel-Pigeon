@@ -54,6 +54,7 @@ export interface EntitySprite {
 export interface Entity {
   blockingPosition: EntityPosition | null;
   readonly collidesWithMap: boolean;
+  readonly collidableEntityTypes: string[];
   ellipses: EntityEllipse[];
   readonly fieldValues: Map<string, unknown>;
   hasTouchedPathingStartingTile: boolean;

@@ -29,7 +29,11 @@ export const updateLevelMovement = (): void => {
   }
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
-      if (entity.pathing === null && entity.movementVelocity !== null) {
+      if (
+        entity.pathing === null &&
+        entity.movementVelocity !== null &&
+        (entity.movementVelocity.x !== 0 || entity.movementVelocity.y !== 0)
+      ) {
         const unnormalizedEntityX: number =
           entity.position.x +
           entity.movementVelocity.x * (state.values.app.ticker.deltaMS / 1000);
@@ -84,31 +88,46 @@ export const updateLevelMovement = (): void => {
               pieceYEnd -= largerAddition;
             }
           }
-          const xCollisionData: CollisionData = getRectangleCollisionData({
-            height: entity.height,
-            width: entity.width,
-            x: Math.floor(xEnd + pieceXEnd),
-            y: Math.floor(yEnd),
-          });
-          const yCollisionData: CollisionData | null =
-            getRectangleCollisionData({
+          const xCollisionData: CollisionData = getRectangleCollisionData(
+            {
               height: entity.height,
               width: entity.width,
-              x: Math.floor(xEnd),
+              x: Math.floor(xEnd + pieceXEnd),
+              y: Math.floor(yEnd),
+            },
+            entity.collidableEntityTypes,
+          );
+          const yCollisionData: CollisionData | null =
+            getRectangleCollisionData(
+              {
+                height: entity.height,
+                width: entity.width,
+                x: Math.floor(xEnd),
+                y: Math.floor(yEnd + pieceYEnd),
+              },
+              entity.collidableEntityTypes,
+            );
+          const bothCollisionData: CollisionData = getRectangleCollisionData(
+            {
+              height: entity.height,
+              width: entity.width,
+              x: Math.floor(xEnd + pieceXEnd),
               y: Math.floor(yEnd + pieceYEnd),
-            });
-          const bothCollisionData: CollisionData = getRectangleCollisionData({
-            height: entity.height,
-            width: entity.width,
-            x: Math.floor(xEnd + pieceXEnd),
-            y: Math.floor(yEnd + pieceYEnd),
-          });
+            },
+            entity.collidableEntityTypes,
+          );
           const canMoveX: boolean =
-            entity.collidesWithMap === false || xCollisionData.map === false;
+            (entity.collidesWithMap === false ||
+              xCollisionData.map === false) &&
+            xCollisionData.entityCollidables.length === 0;
           const canMoveY: boolean =
-            entity.collidesWithMap === false || yCollisionData.map === false;
+            (entity.collidesWithMap === false ||
+              yCollisionData.map === false) &&
+            yCollisionData.entityCollidables.length === 0;
           const canMoveBoth: boolean =
-            entity.collidesWithMap === false || bothCollisionData.map === false;
+            (entity.collidesWithMap === false ||
+              bothCollisionData.map === false) &&
+            bothCollisionData.entityCollidables.length === 0;
           // Diagonal move
           if (
             canMoveX &&
