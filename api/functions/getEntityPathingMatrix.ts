@@ -54,6 +54,7 @@ export const getEntityPathingMatrix = (
     }
     for (const layerEntity of layer.entities.values()) {
       if (
+        layerEntity.id !== entity.id &&
         layerEntity.type !== null &&
         entity.collidableEntityTypes.includes(layerEntity.type)
       ) {
