@@ -9,9 +9,13 @@ import { Rectangle } from "../types/Rectangle";
 import { rectanglesOverlap } from "./rectanglesOverlap";
 import { state } from "../state";
 
+export interface GetRectangleCollisionDataOptions {
+  entityTypes?: string[];
+  excludedEntityIDs?: string[];
+  rectangle: Rectangle;
+}
 export const getRectangleCollisionData = (
-  rectangle: Rectangle,
-  types: string[] = [],
+  options: GetRectangleCollisionDataOptions,
 ): CollisionData => {
   if (state.values.world === null) {
     throw new Error(
@@ -33,10 +37,10 @@ export const getRectangleCollisionData = (
   let map: boolean = false;
   const entityCollidables: EntityCollidable[] = [];
   if (
-    rectangle.x < 0 ||
-    rectangle.y < 0 ||
-    rectangle.x + rectangle.width > level.width ||
-    rectangle.y + rectangle.height > level.height
+    options.rectangle.x < 0 ||
+    options.rectangle.y < 0 ||
+    options.rectangle.x + options.rectangle.width > level.width ||
+    options.rectangle.y + options.rectangle.height > level.height
   ) {
     map = true;
   }
@@ -55,7 +59,7 @@ export const getRectangleCollisionData = (
           ];
         if (matchedTile.isCollidable) {
           if (
-            rectanglesOverlap(rectangle, {
+            rectanglesOverlap(options.rectangle, {
               height: tileset.tileSize,
               width: tileset.tileSize,
               x: layerTile.x,
@@ -68,23 +72,26 @@ export const getRectangleCollisionData = (
       }
     }
     for (const [, entity] of layer.entities) {
-      const matchedLayer: string | undefined = types.find(
-        (type: string): boolean => type === entity.type,
-      );
-      if (
-        typeof matchedLayer !== "undefined" &&
-        entity.type !== null &&
-        rectanglesOverlap(rectangle, {
-          height: entity.height,
-          width: entity.width,
-          x: Math.floor((entity.blockingPosition ?? entity.position).x),
-          y: Math.floor((entity.blockingPosition ?? entity.position).y),
-        })
-      ) {
-        entityCollidables.push({
-          entityID: entity.id,
-          type: matchedLayer,
-        });
+      if ((options.excludedEntityIDs ?? []).includes(entity.id) === false) {
+        const matchedLayer: string | null =
+          options.entityTypes?.find(
+            (type: string): boolean => type === entity.type,
+          ) ?? null;
+        if (
+          matchedLayer !== null &&
+          entity.type !== null &&
+          rectanglesOverlap(options.rectangle, {
+            height: entity.height,
+            width: entity.width,
+            x: Math.floor((entity.blockingPosition ?? entity.position).x),
+            y: Math.floor((entity.blockingPosition ?? entity.position).y),
+          })
+        ) {
+          entityCollidables.push({
+            entityID: entity.id,
+            type: matchedLayer,
+          });
+        }
       }
     }
   }

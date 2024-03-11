@@ -28,10 +28,12 @@ export const setEntityPosition = (
           };
           entity.pathing = null;
           const collisionData: CollisionData = getRectangleCollisionData({
-            height: entity.height,
-            width: entity.width,
-            x: Math.floor(entity.position.x),
-            y: Math.floor(entity.position.y),
+            rectangle: {
+              height: entity.height,
+              width: entity.width,
+              x: Math.floor(entity.position.x),
+              y: Math.floor(entity.position.y),
+            },
           });
           if (
             collisionData.entityCollidables.length > 0 ||

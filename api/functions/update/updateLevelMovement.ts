@@ -88,34 +88,37 @@ export const updateLevelMovement = (): void => {
               pieceYEnd -= largerAddition;
             }
           }
-          const xCollisionData: CollisionData = getRectangleCollisionData(
-            {
+          const xCollisionData: CollisionData = getRectangleCollisionData({
+            entityTypes: entity.collidableEntityTypes,
+            excludedEntityIDs: [entity.id],
+            rectangle: {
               height: entity.height,
               width: entity.width,
               x: Math.floor(xEnd + pieceXEnd),
               y: Math.floor(yEnd),
             },
-            entity.collidableEntityTypes,
-          );
+          });
           const yCollisionData: CollisionData | null =
-            getRectangleCollisionData(
-              {
+            getRectangleCollisionData({
+              entityTypes: entity.collidableEntityTypes,
+              excludedEntityIDs: [entity.id],
+              rectangle: {
                 height: entity.height,
                 width: entity.width,
                 x: Math.floor(xEnd),
                 y: Math.floor(yEnd + pieceYEnd),
               },
-              entity.collidableEntityTypes,
-            );
-          const bothCollisionData: CollisionData = getRectangleCollisionData(
-            {
+            });
+          const bothCollisionData: CollisionData = getRectangleCollisionData({
+            entityTypes: entity.collidableEntityTypes,
+            excludedEntityIDs: [entity.id],
+            rectangle: {
               height: entity.height,
               width: entity.width,
               x: Math.floor(xEnd + pieceXEnd),
               y: Math.floor(yEnd + pieceYEnd),
             },
-            entity.collidableEntityTypes,
-          );
+          });
           const canMoveX: boolean =
             (entity.collidesWithMap === false ||
               xCollisionData.map === false) &&
