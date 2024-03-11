@@ -19,6 +19,7 @@ export const pathEntity = (
       for (const [layerEntityID, entity] of layer.entities) {
         if (layerEntityID === entityID) {
           entity.movementVelocity = null;
+          entity.path = null;
           entity.pathing = {
             velocity: options.velocity,
             x: options.x,
