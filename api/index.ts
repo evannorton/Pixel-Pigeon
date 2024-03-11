@@ -99,6 +99,7 @@ import { getRectangleCollisionData } from "./functions/getRectangleCollisionData
 import { goToLevel } from "./functions/goToLevel";
 import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
+import { isRectangleInLevel } from "./functions/isRectangleInLevel";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
@@ -174,6 +175,7 @@ export {
   goToLevel,
   initialize,
   isEntityPathing,
+  isRectangleInLevel,
   lockCameraToEntity,
   moveEntity,
   MoveEntityOptions,
