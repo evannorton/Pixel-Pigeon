@@ -1,10 +1,17 @@
+import { Application } from "pixi.js";
 import { js as EasyStar } from "easystarjs";
 import { Level } from "../../types/World";
+import { Pathing } from "../../types/Pathing";
 import { TilePosition } from "../../types/TilePosition";
 import { getEntityPathingMatrix } from "../getEntityPathingMatrix";
 import { state } from "../../state";
 
 export const updateLevelPathing = (): void => {
+  if (state.values.app === null) {
+    throw new Error(
+      "An attempt was made to update level pathing before app was created.",
+    );
+  }
   if (state.values.world === null) {
     throw new Error(
       "An attempt was made to update level pathing before world was loaded.",
@@ -22,13 +29,15 @@ export const updateLevelPathing = (): void => {
       "An attempt was made to update level pathing with a nonexistant active level.",
     );
   }
+  const app: Application = state.values.app;
   for (const layer of level.layers) {
     for (const [, entity] of layer.entities) {
-      if (entity.pathing !== null) {
+      const pathing: Pathing | null = entity.pathing;
+      if (pathing !== null) {
         const startX: number = Math.floor(entity.position.x / layer.tileSize);
         const startY: number = Math.floor(entity.position.y / layer.tileSize);
-        const endX: number = Math.floor(entity.pathing.x / layer.tileSize);
-        const endY: number = Math.floor(entity.pathing.y / layer.tileSize);
+        const endX: number = Math.floor(pathing.x / layer.tileSize);
+        const endY: number = Math.floor(pathing.y / layer.tileSize);
         const matrix: number[][] = getEntityPathingMatrix(entity, []);
         const easystar: EasyStar = new EasyStar();
         easystar.setAcceptableTiles([0]);
@@ -70,7 +79,8 @@ export const updateLevelPathing = (): void => {
               const nextTileY: number = entity.hasTouchedPathingStartingTile
                 ? nextTilePosition.y * layer.tileSize
                 : startY * layer.tileSize;
-              const step: number = 0.1;
+              const step: number =
+                pathing.velocity * (app.ticker.deltaMS / 1000);
               if (nextTileX > entity.position.x) {
                 entity.position.x = Math.min(
                   entity.position.x + step,
