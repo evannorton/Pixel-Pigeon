@@ -33,6 +33,11 @@ input {
   cursor: url("./cursors/default.png"), default;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  cursor: url("./cursors/default.png"), default;
+}
+
 label {
   cursor: url("./cursors/default.png"), default;
 }
