@@ -1,9 +1,10 @@
-import { Level, Tileset, WorldTilesetTile } from "../types/World";
+import { Entity, Level, Tileset, WorldTilesetTile } from "../types/World";
 import { PathingTileExclusion } from "../types/PathingTileExclusion";
 import { state } from "../state";
 
-export const getPathingMatrix = (
-  types: string[],
+export const getEntityPathingMatrix = (
+  entity: Entity,
+  entityTypes: string[],
   exclusions: PathingTileExclusion[],
 ): number[][] => {
   if (state.values.world === null) {
@@ -47,36 +48,36 @@ export const getPathingMatrix = (
         if (typeof matrix[y][x] === "undefined") {
           matrix[y][x] = 0;
         }
-        if (matchedTile.isCollidable) {
+        if (entity.collidesWithMap && matchedTile.isCollidable) {
           matrix[y][x] = 1;
         }
       }
     }
-    for (const entity of layer.entities.values()) {
-      if (entity.type !== null && types.includes(entity.type)) {
+    for (const layerEntity of layer.entities.values()) {
+      if (layerEntity.type !== null && entityTypes.includes(layerEntity.type)) {
         const blockingX: number | null =
-          entity.blockingPosition !== null
-            ? Math.floor(entity.blockingPosition.x / layer.tileSize)
+          layerEntity.blockingPosition !== null
+            ? Math.floor(layerEntity.blockingPosition.x / layer.tileSize)
             : null;
         const blockingY: number | null =
-          entity.blockingPosition !== null
-            ? Math.floor(entity.blockingPosition.y / layer.tileSize)
+          layerEntity.blockingPosition !== null
+            ? Math.floor(layerEntity.blockingPosition.y / layer.tileSize)
             : null;
         const x: number =
           blockingX !== null
             ? blockingX
-            : Math.floor(entity.position.x / layer.tileSize);
+            : Math.floor(layerEntity.position.x / layer.tileSize);
         const y: number =
           blockingY !== null
             ? blockingY
-            : Math.floor(entity.position.y / layer.tileSize);
+            : Math.floor(layerEntity.position.y / layer.tileSize);
         if (typeof matrix[y] === "undefined") {
           matrix[y] = [];
         }
         if (
           exclusions.some(
             (exclusion: PathingTileExclusion): boolean =>
-              exclusion.type === entity.type &&
+              exclusion.type === layerEntity.type &&
               exclusion.tilePosition.x === x &&
               exclusion.tilePosition.y === y,
           )

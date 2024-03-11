@@ -1,7 +1,7 @@
 import { js as EasyStar } from "easystarjs";
 import { Level } from "../../types/World";
 import { TilePosition } from "../../types/TilePosition";
-import { getPathingMatrix } from "../getPathingMatrix";
+import { getEntityPathingMatrix } from "../getEntityPathingMatrix";
 import { state } from "../../state";
 
 export const updateLevelPathing = (): void => {
@@ -29,7 +29,7 @@ export const updateLevelPathing = (): void => {
         const startY: number = Math.floor(entity.position.y / layer.tileSize);
         const endX: number = Math.floor(entity.pathing.x / layer.tileSize);
         const endY: number = Math.floor(entity.pathing.y / layer.tileSize);
-        const matrix: number[][] = getPathingMatrix([], []);
+        const matrix: number[][] = getEntityPathingMatrix(entity, [], []);
         const easystar: EasyStar = new EasyStar();
         easystar.setAcceptableTiles([0]);
         easystar.setGrid(matrix);

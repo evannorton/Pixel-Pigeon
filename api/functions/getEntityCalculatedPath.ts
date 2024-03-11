@@ -3,7 +3,7 @@ import { EntityPosition } from "../types/World";
 import { PathingEntityExclusion } from "../types/PathingEntityExclusion";
 import { PathingTileExclusion } from "../types/PathingTileExclusion";
 import { TilePosition } from "../types/TilePosition";
-import { getPathingMatrix } from "./getPathingMatrix";
+import { getEntityPathingMatrix } from "./getEntityPathingMatrix";
 import { state } from "../state";
 
 export interface GetEntityCalculatedPathOptions {
@@ -30,7 +30,8 @@ export const getEntityCalculatedPath = (
           const startY: number = Math.floor(entity.position.y / layer.tileSize);
           const endX: number = Math.floor(options.x / layer.tileSize);
           const endY: number = Math.floor(options.y / layer.tileSize);
-          const matrix: number[][] = getPathingMatrix(
+          const matrix: number[][] = getEntityPathingMatrix(
+            entity,
             options.types ?? [],
             (options.exclusions ?? []).map(
               (exclusion: PathingEntityExclusion): PathingTileExclusion => ({
