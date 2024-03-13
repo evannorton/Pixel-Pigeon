@@ -2,6 +2,7 @@ import { removeEllipse } from "../classes/Ellipse";
 import { removeQuadrilateral } from "../classes/Quadrilateral";
 import { removeSprite } from "../classes/Sprite";
 import { state } from "../state";
+import { unlockCameraFromEntity } from "./unlockCameraFromEntity";
 
 /**
  * Removes the given entity from the world
@@ -30,5 +31,8 @@ export const removeEntity = (entityID: string): void => {
         }
       }
     }
+  }
+  if (entityID === state.values.cameraLockedEntityID) {
+    unlockCameraFromEntity();
   }
 };

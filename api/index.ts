@@ -113,6 +113,7 @@ import { setEntityZIndex } from "./functions/setEntityZIndex";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
 import { takeScreenshot } from "./functions/takeScreenshot";
+import { unlockCameraFromEntity } from "./functions/unlockCameraFromEntity";
 
 export {
   addEntityEllipse,
@@ -208,4 +209,5 @@ export {
   takeScreenshot,
   TextStyleAlign,
   unlockAchievement,
+  unlockCameraFromEntity,
 };
