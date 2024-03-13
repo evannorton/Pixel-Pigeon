@@ -86,6 +86,7 @@ import { TextStyleAlign } from "pixi.js";
 import { addEntityEllipse } from "./functions/addEntityEllipse";
 import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
 import { addEntitySprite } from "./functions/addEntitySprite";
+import { exitLevel } from "./functions/exitLevel";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getDeltaTime } from "./functions/getDeltaTime";
@@ -159,6 +160,7 @@ export {
   EntityPosition,
   EntityQuadrilateral,
   EntitySprite,
+  exitLevel,
   getActiveLevelID,
   getCurrentTime,
   getDeltaTime,
