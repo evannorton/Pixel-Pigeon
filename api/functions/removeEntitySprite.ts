@@ -1,4 +1,5 @@
 import { EntitySprite } from "../types/World";
+import { removeSprite } from "../classes/Sprite";
 import { state } from "../state";
 
 export const removeEntitySprite = (
@@ -17,6 +18,7 @@ export const removeEntitySprite = (
           entity.sprites = entity.sprites.filter(
             (sprite: EntitySprite): boolean => sprite.spriteID !== spriteID,
           );
+          removeSprite(spriteID);
         }
       }
     }
