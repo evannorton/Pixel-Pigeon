@@ -52,6 +52,7 @@ import {
   CreateSpriteOptionsCoordinates,
   CreateSpriteOptionsRecolor,
   createSprite,
+  removeSprite,
 } from "./classes/Sprite";
 import {
   CreateVolumeChannelOptions,
@@ -199,6 +200,7 @@ export {
   removeEntitySprite,
   removeLabel,
   removeQuadrilateral,
+  removeSprite,
   Scriptable,
   setEntityBlockingPosition,
   setEntityLevel,
