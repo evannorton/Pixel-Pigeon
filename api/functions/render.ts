@@ -33,15 +33,6 @@ export const render = (): void => {
     child.destroy();
   }
   state.setValues({ renderChildrenToDestroy: [] });
-  drawQuadrilateral(
-    "#000000",
-    1,
-    0,
-    0,
-    state.values.config.width,
-    state.values.config.height,
-    0,
-  );
   if (!assetsAreLoaded()) {
     const current: number = state.values.loadedAssets;
     const total: number = getTotalAssets();
