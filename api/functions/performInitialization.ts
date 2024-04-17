@@ -205,7 +205,7 @@ export const performInitialization = async (): Promise<void> => {
       case "Numpad6":
       case "Numpad8":
         if (shouldPreventDirection) {
-          if (keydownEvent.getModifierState("NumLock")) {
+          if (keydownEvent.getModifierState("NumLock") === false) {
             keydownEvent.preventDefault();
           }
         }
