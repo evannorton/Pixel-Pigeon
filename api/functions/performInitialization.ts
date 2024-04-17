@@ -142,6 +142,9 @@ export const performInitialization = async (): Promise<void> => {
       imagePath,
     });
   }
+  if (config.requireClickToFocus === false) {
+    state.setValues({ hasInteracted: true });
+  }
   const app: Application = new Application({
     backgroundAlpha: 0,
     height: config.height,

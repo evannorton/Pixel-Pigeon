@@ -32,8 +32,9 @@ You may use the [Template Game](https://github.com/evannorton/Pixel-Pigeon-Templ
 3. Create a `pp-config.json` file at the root of your game's codebase.
 ```json
 {
-  "name": "My Cool Game",
   "height": 360,
+  "name": "My Cool Game",
+  "requireClickToFocus": true,
   "width": 640
 }
 ```
