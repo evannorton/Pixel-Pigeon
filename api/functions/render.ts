@@ -41,6 +41,15 @@ export const render = (): void => {
     const x: number = Math.floor((state.values.config.width - width) / 2);
     const height: number = 32;
     const y: number = Math.floor((state.values.config.height - height) / 2);
+    drawQuadrilateral(
+      "#000000",
+      1,
+      0,
+      0,
+      state.values.config.width,
+      state.values.config.height,
+      0,
+    );
     drawQuadrilateral("#343434", 1, x, y, width, height, 0);
     drawQuadrilateral(
       "#7b7b7b",

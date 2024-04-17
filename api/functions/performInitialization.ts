@@ -143,6 +143,7 @@ export const performInitialization = async (): Promise<void> => {
     });
   }
   const app: Application = new Application({
+    backgroundAlpha: 0,
     height: config.height,
     width: config.width,
   });
