@@ -12,7 +12,6 @@
 
 body {
   align-items: center;
-  background-color: black;
   color: white;
   cursor: url("./cursors/default.png"), default;
   display: flex;

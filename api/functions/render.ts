@@ -61,6 +61,15 @@ export const render = (): void => {
       0,
     );
   } else if (!state.values.hasInteracted) {
+    drawQuadrilateral(
+      "#000000",
+      1,
+      0,
+      0,
+      state.values.config.width,
+      state.values.config.height,
+      0,
+    );
     drawText(
       {
         trims: [],
