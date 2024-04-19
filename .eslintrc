@@ -85,19 +85,6 @@
       "error",
       "never"
     ],
-    "@typescript-eslint/member-delimiter-style": [
-      "error",
-      {
-        "multiline": {
-          "delimiter": "semi",
-          "requireLast": true
-        },
-        "singleline": {
-          "delimiter": "semi",
-          "requireLast": true
-        }
-      }
-    ],
     "@typescript-eslint/member-ordering": [
       "error",
       {
@@ -202,7 +189,10 @@
       }
     ],
     "@typescript-eslint/no-unnecessary-condition": [
-      "error"
+      "error",
+      {
+        "allowConstantLoopConditions": true
+      }
     ],
     "@typescript-eslint/no-unnecessary-qualifier": [
       "error"
@@ -273,13 +263,6 @@
     ],
     "@typescript-eslint/restrict-plus-operands": [
       "error"
-    ],
-    "@typescript-eslint/semi": [
-      "error",
-      "always",
-      {
-        "omitLastInOneLineBlock": false
-      }
     ],
     "@typescript-eslint/strict-boolean-expressions": [
       "error"
@@ -511,11 +494,8 @@
     "no-constant-condition": [
       "error",
       {
-        "checkLoops": true
+        "checkLoops": false
       }
-    ],
-    "no-continue": [
-      "error"
     ],
     "no-debugger": [
       "error"
@@ -787,9 +767,6 @@
       }
     ],
     "no-undef-init": [
-      "error"
-    ],
-    "no-undefined": [
       "error"
     ],
     "no-unexpected-multiline": [
