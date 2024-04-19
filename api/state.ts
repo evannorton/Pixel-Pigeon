@@ -7,6 +7,7 @@ import { Howl } from "howler";
 import { KeyboardInput } from "./types/KeyboardInput";
 import { LDTK } from "./types/LDTK";
 import { MouseInput } from "./types/MouseInput";
+import { Socket } from "socket.io-client";
 import { State } from "./classes/State";
 import { World } from "./types/World";
 import { attemptGetWorld } from "./functions/attemptGetWorld";
@@ -46,6 +47,7 @@ interface StateSchema {
   readonly pressedKeyboardInputs: KeyboardInput[];
   readonly pressedMouseInputs: MouseInput[];
   readonly renderChildrenToDestroy: (BitmapText | Graphics)[];
+  readonly socket: Socket | null;
   readonly type: string | null;
   readonly volumeTestHowl: Howl;
   readonly world: World | null;
@@ -92,6 +94,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   pressedKeyboardInputs: [],
   pressedMouseInputs: [],
   renderChildrenToDestroy: [],
+  socket: null,
   type: null,
   volumeTestHowl,
   world: null,

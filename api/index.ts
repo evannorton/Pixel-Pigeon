@@ -87,6 +87,7 @@ import { TextStyleAlign } from "pixi.js";
 import { addEntityEllipse } from "./functions/addEntityEllipse";
 import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
 import { addEntitySprite } from "./functions/addEntitySprite";
+import { connectToSocketioServer } from "./functions/socketio/connectToSocketioServer";
 import { exitLevel } from "./functions/exitLevel";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
@@ -105,6 +106,7 @@ import { isRectangleInLevel } from "./functions/isRectangleInLevel";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
+import { onWindowMessage } from "./functions/onWindowMessage";
 import { openURL } from "./functions/openURL";
 import { removeEntity } from "./functions/removeEntity";
 import { removeEntitySprite } from "./functions/removeEntitySprite";
@@ -122,6 +124,7 @@ export {
   addEntityQuadrilateral,
   addEntitySprite,
   CollisionData,
+  connectToSocketioServer,
   createAchievement,
   CreateAchievementOptions,
   createButton,
@@ -186,6 +189,7 @@ export {
   NumLock,
   onRun,
   onTick,
+  onWindowMessage,
   openURL,
   OverlapData,
   pathEntity,
