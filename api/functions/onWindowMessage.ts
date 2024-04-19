@@ -1,5 +1,5 @@
 export const onWindowMessage = (callback: (message: unknown) => void): void => {
-  window.addEventListener("message", (message: unknown): void => {
-    callback(message);
+  window.addEventListener("message", (messageEvent: MessageEvent): void => {
+    callback(messageEvent.data);
   });
 };
