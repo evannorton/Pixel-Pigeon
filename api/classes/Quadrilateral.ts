@@ -239,7 +239,7 @@ export const createQuadrilateral = (
   options: CreateQuadrilateralOptions,
 ): string => new Quadrilateral(options).id;
 /**
- * @param quadrilateralID - String QuadrilateralID of the quadrilateral to remove
+ * @param quadrilateralID - String QuadrilateralID of the Quadrilateral to remove
  */
 export const removeQuadrilateral = (quadrilateralID: string): void => {
   getDefinable<Quadrilateral>(Quadrilateral, quadrilateralID).remove();

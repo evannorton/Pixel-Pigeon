@@ -109,7 +109,7 @@ export class Button extends Definable {
 export const createButton = (options: CreateButtonOptions): string =>
   new Button(options).id;
 /**
- * @param labelID - String ButtonID of the sprite to remove
+ * @param labelID - String ButtonID of the Button to remove
  */
 export const removeButton = (labelID: string): void => {
   getDefinable<Button>(Button, labelID).remove();

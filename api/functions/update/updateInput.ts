@@ -1,6 +1,7 @@
 import { GamepadInput } from "../../types/GamepadInput";
 import { InputPressHandler } from "../../classes/InputPressHandler";
 import { InputTickHandler } from "../../classes/InputTickHandler";
+import { assetsAreLoaded } from "../assetsAreLoaded";
 import { getDefinables } from "../getDefinables";
 import { getGamepads } from "../getGamepads";
 import { handleCaughtError } from "../handleCaughtError";
@@ -39,7 +40,7 @@ export const updateInput = (): void => {
               gamepadInput,
             ],
           });
-          if (state.values.hasInteracted) {
+          if (state.values.hasInteracted && assetsAreLoaded()) {
             state.setValues({
               pressedGamepadInputs: [
                 ...state.values.pressedGamepadInputs,

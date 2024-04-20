@@ -88,6 +88,7 @@ import { addEntityEllipse } from "./functions/addEntityEllipse";
 import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
 import { addEntitySprite } from "./functions/addEntitySprite";
 import { connectToSocketioServer } from "./functions/socketio/connectToSocketioServer";
+import { createNineSlice, removeNineSlice } from "./classes/NineSlice";
 import { exitLevel } from "./functions/exitLevel";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
@@ -149,6 +150,7 @@ export {
   CreateLabelOptionsCoordinates,
   CreateLabelOptionsText,
   CreateLabelOptionsTextTrim,
+  createNineSlice,
   createQuadrilateral,
   CreateQuadrilateralOptions,
   CreateQuadrilateralOptionsCoordinates,
@@ -205,6 +207,7 @@ export {
   removeEntity,
   removeEntitySprite,
   removeLabel,
+  removeNineSlice,
   removeQuadrilateral,
   removeSprite,
   Scriptable,

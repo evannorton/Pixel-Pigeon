@@ -181,7 +181,7 @@ export class Label extends Definable {
 export const createLabel = (options: CreateLabelOptions): string =>
   new Label(options).id;
 /**
- * @param labelID - String LabelID of the sprite to remove
+ * @param labelID - String LabelID of the Label to remove
  */
 export const removeLabel = (labelID: string): void => {
   getDefinable<Label>(Label, labelID).remove();

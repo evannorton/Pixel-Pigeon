@@ -5,6 +5,7 @@ import {
 import { Ellipse } from "../classes/Ellipse";
 import { Label } from "../classes/Label";
 import { Layer, Level, Tileset, World, WorldTilesetTile } from "../types/World";
+import { NineSlice } from "../classes/NineSlice";
 import { Quadrilateral } from "../classes/Quadrilateral";
 import { Sprite } from "../classes/Sprite";
 import { assetsAreLoaded } from "./assetsAreLoaded";
@@ -158,6 +159,9 @@ export const render = (): void => {
         }
       });
     }
+    getDefinables(NineSlice).forEach((nineSlice: NineSlice): void => {
+      nineSlice.drawAtCoordinates();
+    });
     getDefinables(Quadrilateral).forEach(
       (quadrilateral: Quadrilateral): void => {
         quadrilateral.drawAtCoordinates();

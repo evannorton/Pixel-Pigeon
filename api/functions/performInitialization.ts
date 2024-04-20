@@ -233,7 +233,7 @@ export const performInitialization = async (): Promise<void> => {
       state.setValues({
         heldKeyboardInputs: [...state.values.heldKeyboardInputs, keyboardInput],
       });
-      if (state.values.hasInteracted) {
+      if (state.values.hasInteracted && assetsAreLoaded()) {
         state.setValues({
           pressedKeyboardInputs: [
             ...state.values.pressedKeyboardInputs,
@@ -282,7 +282,7 @@ export const performInitialization = async (): Promise<void> => {
         state.setValues({
           heldMouseInputs: [...state.values.heldMouseInputs, mouseInput],
         });
-        if (state.values.hasInteracted) {
+        if (state.values.hasInteracted && assetsAreLoaded()) {
           state.setValues({
             pressedMouseInputs: [
               ...state.values.pressedMouseInputs,

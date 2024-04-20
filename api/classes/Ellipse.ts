@@ -291,7 +291,7 @@ export class Ellipse extends Definable {
 export const createEllipse = (options: CreateEllipseOptions): string =>
   new Ellipse(options).id;
 /**
- * @param ellipseID - String EllipseID of the ellipse to remove
+ * @param ellipseID - String EllipseID of the Ellipse to remove
  */
 export const removeEllipse = (ellipseID: string): void => {
   getDefinable<Ellipse>(Ellipse, ellipseID).remove();

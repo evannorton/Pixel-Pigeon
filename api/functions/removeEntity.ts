@@ -6,7 +6,7 @@ import { unlockCameraFromEntity } from "./unlockCameraFromEntity";
 
 /**
  * Removes the given entity from the world
- * @param entityID - String entityID of the entity to remove
+ * @param entityID - String entityID of the Entity to remove
  */
 export const removeEntity = (entityID: string): void => {
   if (state.values.world === null) {

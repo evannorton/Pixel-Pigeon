@@ -568,7 +568,7 @@ export class Sprite extends Definable {
 export const createSprite = (options: CreateSpriteOptions): string =>
   new Sprite(options).id;
 /**
- * @param spriteID - String spriteID of the sprite to remove
+ * @param spriteID - String spriteID of the Sprite to remove
  */
 export const removeSprite = (spriteID: string): void => {
   getDefinable<Sprite>(Sprite, spriteID).remove();

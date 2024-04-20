@@ -1,3 +1,4 @@
+import { assetsAreLoaded } from "./assetsAreLoaded";
 import { gameIsPaused } from "./gameIsPaused";
 import { render } from "./render";
 import { state } from "../state";
@@ -12,7 +13,7 @@ export const tick = (): void => {
     state.setValues({
       currentTime: state.values.currentTime + state.values.app.ticker.deltaMS,
     });
-    if (state.values.hasInteracted) {
+    if (state.values.hasInteracted && assetsAreLoaded()) {
       update();
     }
     render();
