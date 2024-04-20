@@ -5,4 +5,7 @@ require('dotenv').config({
 const { writeFileSync } = require("fs");
 const { join, resolve } = require("path");
 
+console.log("yo");
+console.log(gameEnv);
+
 writeFileSync(join(resolve(), "out", "game-env.json"), JSON.stringify(gameEnv));
