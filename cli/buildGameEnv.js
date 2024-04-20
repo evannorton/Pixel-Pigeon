@@ -1,4 +1,4 @@
-const gameEnv = {};
+let gameEnv = {};
 
 require('dotenv').config({
   processEnv: gameEnv
