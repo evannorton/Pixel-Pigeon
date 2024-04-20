@@ -1,4 +1,5 @@
 const gameEnv = {};
+console.log(process.env);
 require('dotenv').config({
   processEnv: gameEnv
 });
