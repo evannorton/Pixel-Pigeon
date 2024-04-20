@@ -1,5 +1,9 @@
 import { CollisionData } from "./types/CollisionData";
 import {
+  ConnectToSocketioServerOptions,
+  connectToSocketioServer,
+} from "./functions/socketio/connectToSocketioServer";
+import {
   CreateAchievementOptions,
   createAchievement,
   unlockAchievement,
@@ -40,6 +44,12 @@ import {
   removeLabel,
 } from "./classes/Label";
 import {
+  CreateNineSliceOptions,
+  CreateNineSliceOptionsCoordinates,
+  createNineSlice,
+  removeNineSlice,
+} from "./classes/NineSlice";
+import {
   CreateQuadrilateralOptions,
   CreateQuadrilateralOptionsCoordinates,
   createQuadrilateral,
@@ -59,6 +69,10 @@ import {
   createVolumeChannel,
 } from "./classes/VolumeChannel";
 import {
+  EmitToSocketIOServerOptions,
+  emitToSocketioServer,
+} from "./functions/socketio/emitToSocketioServer";
+import {
   EntityCollidable,
   EntityEllipse,
   EntityPosition,
@@ -70,6 +84,14 @@ import {
   getEntityCalculatedPath,
 } from "./functions/getEntityCalculatedPath";
 import { GetEntityIDsOptions, getEntityIDs } from "./functions/getEntityIDs";
+import {
+  GetRectangleCollisionDataOptions,
+  getRectangleCollisionData,
+} from "./functions/getRectangleCollisionData";
+import {
+  IsRectangleInLevelOptions,
+  isRectangleInLevel,
+} from "./functions/isRectangleInLevel";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
 import { NumLock } from "./types/NumLock";
 import { OverlapData } from "./types/OverlapData";
@@ -87,8 +109,6 @@ import { TextStyleAlign } from "pixi.js";
 import { addEntityEllipse } from "./functions/addEntityEllipse";
 import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
 import { addEntitySprite } from "./functions/addEntitySprite";
-import { connectToSocketioServer } from "./functions/socketio/connectToSocketioServer";
-import { createNineSlice, removeNineSlice } from "./classes/NineSlice";
 import { exitLevel } from "./functions/exitLevel";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
@@ -100,11 +120,9 @@ import { getEnvironmentVariable } from "./functions/getEnvironmentVariable";
 import { getGameHeight } from "./functions/getGameHeight";
 import { getGameWidth } from "./functions/getGameWidth";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
-import { getRectangleCollisionData } from "./functions/getRectangleCollisionData";
 import { goToLevel } from "./functions/goToLevel";
 import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
-import { isRectangleInLevel } from "./functions/isRectangleInLevel";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
@@ -127,6 +145,7 @@ export {
   addEntitySprite,
   CollisionData,
   connectToSocketioServer,
+  ConnectToSocketioServerOptions,
   createAchievement,
   CreateAchievementOptions,
   createButton,
@@ -151,6 +170,8 @@ export {
   CreateLabelOptionsText,
   CreateLabelOptionsTextTrim,
   createNineSlice,
+  CreateNineSliceOptions,
+  CreateNineSliceOptionsCoordinates,
   createQuadrilateral,
   CreateQuadrilateralOptions,
   CreateQuadrilateralOptionsCoordinates,
@@ -162,6 +183,8 @@ export {
   CreateSpriteOptionsRecolor,
   createVolumeChannel,
   CreateVolumeChannelOptions,
+  emitToSocketioServer,
+  EmitToSocketIOServerOptions,
   EntityCollidable,
   EntityEllipse,
   EntityPosition,
@@ -183,10 +206,12 @@ export {
   getGameWidth,
   getInputTickHandlerGroupID,
   getRectangleCollisionData,
+  GetRectangleCollisionDataOptions,
   goToLevel,
   initialize,
   isEntityPathing,
   isRectangleInLevel,
+  IsRectangleInLevelOptions,
   lockCameraToEntity,
   moveEntity,
   MoveEntityOptions,
