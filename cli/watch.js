@@ -11,10 +11,11 @@ writeFileSync(join(__dirname, "watchExecCompleted.json"), JSON.stringify(false))
 const watcher = nodemon({
   delay: 1,
   exec: `node ${join(__dirname, "handleWatch")} || exit 1`,
-  ext: "css,fnt,gif,js,json,mp3,mustache,png,ts,ttf,json,ldtk",
+  ext: "env,css,fnt,gif,js,json,mp3,mustache,png,ts,ttf,json,ldtk",
   stdout: true,
   stderr: true,
   watch: [
+    "./.env",
     "./src/",
     "./audio/",
     "./images/",
@@ -65,6 +66,9 @@ watcher.addListener("restart", (files) => {
 
   const buildRelatedFilePieces = filesPieces.find((filePieces) => {
     const joinedFilePieces = filePieces.join("/");
+    if (joinedFilePieces === ".env") {
+      return true;
+    }
     if (filePieces[0] === "node_modules") {
       return true;
     }

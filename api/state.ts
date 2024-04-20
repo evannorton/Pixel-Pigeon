@@ -28,6 +28,7 @@ interface StateSchema {
   readonly dev: Dev | null;
   readonly didBlur: boolean;
   readonly env: Env | null;
+  readonly gameEnv: Record<string, unknown> | null;
   readonly gameID: string | null;
   readonly hasErrored: boolean;
   readonly hasExecutedOnRunCallbacks: boolean;
@@ -75,6 +76,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   dev: null,
   didBlur: false,
   env: null,
+  gameEnv: null,
   gameID: null,
   hasErrored: false,
   hasExecutedOnRunCallbacks: false,

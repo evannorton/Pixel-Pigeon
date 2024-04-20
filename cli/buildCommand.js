@@ -27,6 +27,7 @@ const commands = [
     `node ${join(__dirname, "buildDev")}`,
     `node ${join(__dirname, "buildID")}`,
     `node ${join(__dirname, "buildEnv")}`,
+    `node ${join(__dirname, "buildGameEnv")}`,
     `node ${join(__dirname, "buildLDTK")}`,
     `node ${join(__dirname, "buildType")}`
 ];

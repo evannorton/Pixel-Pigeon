@@ -120,6 +120,10 @@ export const performInitialization = async (): Promise<void> => {
   const type: string = (await typeRes.json()) as string;
   const envRes: Response = await fetch("./pp-env.json");
   const env: Env | null = envRes.ok ? ((await envRes.json()) as Env) : null;
+  const gameEnvRes: Response = await fetch("./game-env.json");
+  const gameEnv: Record<string, unknown> | null = gameEnvRes.ok
+    ? ((await gameEnvRes.json()) as Record<string, unknown>)
+    : null;
   const devRes: Response = await fetch("./pp-dev.json");
   const dev: Dev | null = devRes.ok ? ((await devRes.json()) as Dev) : null;
   const configRes: Response = await fetch("./pp-config.json");
@@ -155,6 +159,7 @@ export const performInitialization = async (): Promise<void> => {
     config,
     dev,
     env,
+    gameEnv,
     gameID,
     ldtk,
     type,

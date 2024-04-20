@@ -95,6 +95,7 @@ import { getDeltaTime } from "./functions/getDeltaTime";
 import { getEntityFieldValue } from "./functions/getEntityFieldValue";
 import { getEntityLevelID } from "./functions/getEntityLevelID";
 import { getEntityPosition } from "./functions/getEntityPosition";
+import { getEnvironmentVariable } from "./functions/getEnvironmentVariable";
 import { getGameHeight } from "./functions/getGameHeight";
 import { getGameWidth } from "./functions/getGameWidth";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
@@ -175,6 +176,7 @@ export {
   GetEntityIDsOptions,
   getEntityLevelID,
   getEntityPosition,
+  getEnvironmentVariable,
   getGameHeight,
   getGameWidth,
   getInputTickHandlerGroupID,
