@@ -104,7 +104,7 @@ export interface CreateSpriteOptions {
    * ```
    */
   isGrayscale?: Scriptable<boolean>;
-  imagePath: string;
+  imagePath: Scriptable<string>;
   palette?: Scriptable<string[]>;
   recolors?: Scriptable<CreateSpriteOptionsRecolor[]>;
 }
@@ -139,7 +139,7 @@ export class Sprite extends Definable {
   private readonly _animations: SpriteAnimation[];
   private readonly _coordinates: SpriteCoordinates | null;
   private readonly _isGrayscale: Scriptable<boolean> = false;
-  private readonly _imageSourceID: string;
+  private readonly _imageSourceID: Scriptable<string>;
   private readonly _palette: Scriptable<string[]> = [];
   private readonly _pixiSprite: PixiSprite = new PixiSprite();
   private readonly _recolors: Scriptable<SpriteRecolor[]>;
@@ -147,37 +147,46 @@ export class Sprite extends Definable {
   public constructor(options: CreateSpriteOptions) {
     super(getToken());
     const animationIDs: string[] = [];
+    this._imageSourceID = options.imagePath;
     for (const animation of options.animations) {
       if (animationIDs.includes(animation.id)) {
         throw new Error(
-          `Sprite "${options.imagePath}" contains multiple animations with ID "${animation.id}".`,
+          `Sprite "${
+            this.getImageSourceID() ?? "null"
+          }" contains multiple animations with ID "${animation.id}".`,
         );
       }
       animationIDs.push(animation.id);
     }
-    this._imageSourceID = options.imagePath;
     this._animationID = options.animationID;
-    this._animations = options.animations.map(
-      (animation: CreateSpriteOptionsAnimation): SpriteAnimation => ({
-        frames: animation.frames.map(
-          (frame: CreateSpriteOptionsAnimationFrame): SpriteAnimationFrame => ({
-            duration: frame.duration ?? null,
-            height: frame.height,
-            texture: new Texture(
-              this.imageSource.texture.baseTexture,
-              new Rectangle(
-                frame.sourceX,
-                frame.sourceY,
-                frame.sourceWidth,
-                frame.sourceHeight,
+    const imageSource: ImageSource | null = this.imageSource;
+    if (imageSource !== null) {
+      this._animations = options.animations.map(
+        (animation: CreateSpriteOptionsAnimation): SpriteAnimation => ({
+          frames: animation.frames.map(
+            (
+              frame: CreateSpriteOptionsAnimationFrame,
+            ): SpriteAnimationFrame => ({
+              duration: frame.duration ?? null,
+              height: frame.height,
+              texture: new Texture(
+                imageSource.texture.baseTexture,
+                new Rectangle(
+                  frame.sourceX,
+                  frame.sourceY,
+                  frame.sourceWidth,
+                  frame.sourceHeight,
+                ),
               ),
-            ),
-            width: frame.width,
-          }),
-        ),
-        id: animation.id,
-      }),
-    );
+              width: frame.width,
+            }),
+          ),
+          id: animation.id,
+        }),
+      );
+    } else {
+      this._animations = [];
+    }
     this._coordinates = options.coordinates
       ? {
           condition: options.coordinates.condition ?? null,
@@ -203,8 +212,12 @@ export class Sprite extends Definable {
         : [];
   }
 
-  private get imageSource(): ImageSource {
-    return getDefinable(ImageSource, this._imageSourceID);
+  private get imageSource(): ImageSource | null {
+    const imageSourceID: string | null = this.getImageSourceID();
+    if (imageSourceID !== null) {
+      return getDefinable(ImageSource, imageSourceID);
+    }
+    return null;
   }
 
   public playAnimation(): void {
@@ -338,129 +351,142 @@ export class Sprite extends Definable {
   private drawAtPosition(x: number, y: number, zIndex: number): void {
     if (state.values.app === null) {
       throw new Error(
-        `Sprite "${this._id}" of ImageSource "${this.imageSource.id}" attempted to draw before app was created.`,
+        `Sprite "${this._id}" of ImageSource "${
+          this.imageSource?.id ?? "null"
+        }" attempted to draw before app was created.`,
       );
     }
     if (this._animationPlay === null) {
       throw new Error(
-        `Sprite "${this._id}" of ImageSource "${this.imageSource.id}" attempted to draw with no animation.`,
+        `Sprite "${this._id}" of ImageSource "${
+          this.imageSource?.id ?? "null"
+        }" attempted to draw with no animation.`,
       );
     }
-    const animation: SpriteAnimationPlay = this._animationPlay;
-    const currentAnimation: SpriteAnimation | null =
-      this._animations.find(
-        (spriteAnimation: SpriteAnimation): boolean =>
-          spriteAnimation.id === animation.id,
-      ) ?? null;
-    if (currentAnimation === null) {
-      throw new Error(
-        `Sprite "${this._id}" does not contain an animation with ID "${this._animationPlay.id}".`,
+    const imageSource: ImageSource | null = this.imageSource;
+    if (imageSource !== null) {
+      for (const animation of this._animations) {
+        for (const frame of animation.frames) {
+          frame.texture.baseTexture = imageSource.texture.baseTexture;
+        }
+      }
+      const animation: SpriteAnimationPlay = this._animationPlay;
+      const currentAnimation: SpriteAnimation | null =
+        this._animations.find(
+          (spriteAnimation: SpriteAnimation): boolean =>
+            spriteAnimation.id === animation.id,
+        ) ?? null;
+      if (currentAnimation === null) {
+        throw new Error(
+          `Sprite "${this._id}" does not contain an animation with ID "${this._animationPlay.id}".`,
+        );
+      }
+      const animationContainsEndlessFrame: boolean =
+        currentAnimation.frames.some(
+          (frame: SpriteAnimationFrame): boolean => frame.duration === null,
+        );
+      const animationDuration: number = currentAnimation.frames.reduce(
+        (accumulator: number, frame: SpriteAnimationFrame): number =>
+          accumulator + (frame.duration ?? 0),
+        0,
       );
-    }
-    const animationContainsEndlessFrame: boolean = currentAnimation.frames.some(
-      (frame: SpriteAnimationFrame): boolean => frame.duration === null,
-    );
-    const animationDuration: number = currentAnimation.frames.reduce(
-      (accumulator: number, frame: SpriteAnimationFrame): number =>
-        accumulator + (frame.duration ?? 0),
-      0,
-    );
-    const timeSinceAnimationStarted: number =
-      state.values.currentTime - this._animationPlay.startedAt;
-    const animationTime: number = animationContainsEndlessFrame
-      ? timeSinceAnimationStarted
-      : timeSinceAnimationStarted % animationDuration;
-    const currentAnimationFrame: SpriteAnimationFrame | null =
-      currentAnimation.frames.find(
-        (frame: SpriteAnimationFrame, frameIndex: number): boolean => {
-          const duration: number | null = frame.duration ?? null;
-          if (duration === null) {
-            return true;
-          }
-          const loopedDuration: number =
-            frameIndex > 0
-              ? currentAnimation.frames
-                  .slice(0, frameIndex - 1)
+      const timeSinceAnimationStarted: number =
+        state.values.currentTime - this._animationPlay.startedAt;
+      const animationTime: number = animationContainsEndlessFrame
+        ? timeSinceAnimationStarted
+        : timeSinceAnimationStarted % animationDuration;
+      const currentAnimationFrame: SpriteAnimationFrame | null =
+        currentAnimation.frames.find(
+          (frame: SpriteAnimationFrame, frameIndex: number): boolean => {
+            const duration: number | null = frame.duration ?? null;
+            if (duration === null) {
+              return true;
+            }
+            const loopedDuration: number =
+              frameIndex > 0
+                ? currentAnimation.frames
+                    .slice(0, frameIndex - 1)
+                    .reduce(
+                      (
+                        accumulator: number,
+                        loopedFrame: SpriteAnimationFrame,
+                      ): number => accumulator + (loopedFrame.duration ?? 0),
+                      0,
+                    ) + duration
+                : 0;
+            if (animationTime >= loopedDuration) {
+              const nextLoopedDuration: number =
+                currentAnimation.frames
+                  .slice(0, frameIndex)
                   .reduce(
                     (
                       accumulator: number,
                       loopedFrame: SpriteAnimationFrame,
                     ): number => accumulator + (loopedFrame.duration ?? 0),
                     0,
-                  ) + duration
-              : 0;
-          if (animationTime >= loopedDuration) {
-            const nextLoopedDuration: number =
-              currentAnimation.frames
-                .slice(0, frameIndex)
-                .reduce(
-                  (
-                    accumulator: number,
-                    loopedFrame: SpriteAnimationFrame,
-                  ): number => accumulator + (loopedFrame.duration ?? 0),
-                  0,
-                ) + duration;
-            if (animationTime < nextLoopedDuration) {
-              return true;
+                  ) + duration;
+              if (animationTime < nextLoopedDuration) {
+                return true;
+              }
             }
-          }
-          return false;
-        },
-      ) ?? null;
-    if (currentAnimationFrame === null) {
-      throw new Error(
-        `Sprite "${this._id}" could not get the current frame for animation "${this._animationPlay.id}".`,
-      );
-    }
-    this._pixiSprite.texture = currentAnimationFrame.texture;
-    this._pixiSprite.x = x;
-    this._pixiSprite.y = y;
-    this._pixiSprite.width = currentAnimationFrame.width;
-    this._pixiSprite.height = currentAnimationFrame.height;
-    this._pixiSprite.zIndex = zIndex;
-    this._pixiSprite.filters = [];
-    const palette: string[] = this.getPallete();
-    const filterColors: [number, number][] = [];
-    if (palette.length > 0) {
-      for (const color of this.imageSource.colors) {
-        const rgb: RGB = getRGBFromHex(color);
-        const average: number = (rgb.b + rgb.g + rgb.r) / 3;
-        const closestColor: string = [...palette].sort(
-          (colorA: string, colorB: string): number => {
-            const rgbA: RGB = getRGBFromHex(colorA);
-            const rgbB: RGB = getRGBFromHex(colorB);
-            const averageA: number = (rgbA.b + rgbA.g + rgbA.r) / 3;
-            const averageB: number = (rgbB.b + rgbB.g + rgbB.r) / 3;
-            const diffA: number = Math.abs(averageA - average);
-            const diffB: number = Math.abs(averageB - average);
-            return diffA - diffB;
+            return false;
           },
-        )[0];
-        filterColors.push([
-          Number(`0x${color.substring(1)}`),
-          Number(`0x${closestColor.substring(1)}`),
-        ]);
+        ) ?? null;
+      if (currentAnimationFrame === null) {
+        throw new Error(
+          `Sprite "${this._id}" could not get the current frame for animation "${this._animationPlay.id}".`,
+        );
       }
+      this._pixiSprite.texture = currentAnimationFrame.texture;
+      this._pixiSprite.x = x;
+      this._pixiSprite.y = y;
+      this._pixiSprite.width = currentAnimationFrame.width;
+      this._pixiSprite.height = currentAnimationFrame.height;
+      this._pixiSprite.zIndex = zIndex;
+      this._pixiSprite.filters = [];
+      const palette: string[] = this.getPallete();
+      const filterColors: [number, number][] = [];
+      if (palette.length > 0) {
+        for (const color of imageSource.colors) {
+          const rgb: RGB = getRGBFromHex(color);
+          const average: number = (rgb.b + rgb.g + rgb.r) / 3;
+          const closestColor: string = [...palette].sort(
+            (colorA: string, colorB: string): number => {
+              const rgbA: RGB = getRGBFromHex(colorA);
+              const rgbB: RGB = getRGBFromHex(colorB);
+              const averageA: number = (rgbA.b + rgbA.g + rgbA.r) / 3;
+              const averageB: number = (rgbB.b + rgbB.g + rgbB.r) / 3;
+              const diffA: number = Math.abs(averageA - average);
+              const diffB: number = Math.abs(averageB - average);
+              return diffA - diffB;
+            },
+          )[0];
+          filterColors.push([
+            Number(`0x${color.substring(1)}`),
+            Number(`0x${closestColor.substring(1)}`),
+          ]);
+        }
+      }
+      const recolors: SpriteRecolor[] = this.getRecolors();
+      if (recolors.length > 0) {
+        filterColors.push(
+          ...recolors.map((recolor: SpriteRecolor): [number, number] => [
+            Number(`0x${recolor.fromColor.substring(1)}`),
+            Number(`0x${recolor.toColor.substring(1)}`),
+          ]),
+        );
+      }
+      if (filterColors.length > 0) {
+        this._pixiSprite.filters.push(
+          new MultiColorReplaceFilter(filterColors, 0.005),
+        );
+      }
+      const grayscale: boolean = this.getGrayscale();
+      if (grayscale) {
+        this._pixiSprite.filters.push(new GrayscaleFilter());
+      }
+      state.values.app.stage.addChild(this._pixiSprite);
     }
-    const recolors: SpriteRecolor[] = this.getRecolors();
-    if (recolors.length > 0) {
-      filterColors.push(
-        ...recolors.map((recolor: SpriteRecolor): [number, number] => [
-          Number(`0x${recolor.fromColor.substring(1)}`),
-          Number(`0x${recolor.toColor.substring(1)}`),
-        ]),
-      );
-    }
-    if (filterColors.length > 0) {
-      this._pixiSprite.filters.push(
-        new MultiColorReplaceFilter(filterColors, 0.005),
-      );
-    }
-    const grayscale: boolean = this.getGrayscale();
-    if (grayscale) {
-      this._pixiSprite.filters.push(new GrayscaleFilter());
-    }
-    state.values.app.stage.addChild(this._pixiSprite);
   }
 
   private passesCoordinatesCondition(): boolean {
@@ -532,6 +558,18 @@ export class Sprite extends Definable {
       }
     }
     return false;
+  }
+
+  private getImageSourceID(): string | null {
+    if (typeof this._imageSourceID === "string") {
+      return this._imageSourceID;
+    }
+    try {
+      return this._imageSourceID();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Sprite "${this._id}" imageSourceID`);
+    }
+    return null;
   }
 
   private getPallete(): string[] {
