@@ -92,6 +92,10 @@ import {
   IsRectangleInLevelOptions,
   isRectangleInLevel,
 } from "./functions/isRectangleInLevel";
+import {
+  MakeHTTPRequestOptions,
+  makeHTTPRequest,
+} from "./functions/makeHTTPRequest";
 import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
 import { NumLock } from "./types/NumLock";
 import { OverlapData } from "./types/OverlapData";
@@ -213,6 +217,8 @@ export {
   isRectangleInLevel,
   IsRectangleInLevelOptions,
   lockCameraToEntity,
+  makeHTTPRequest,
+  MakeHTTPRequestOptions,
   moveEntity,
   MoveEntityOptions,
   NumLock,
