@@ -124,7 +124,11 @@ interface SpriteCoordinates {
 interface SpriteAnimationFrame {
   readonly duration: number | null;
   readonly height: number;
-  readonly texture: Texture;
+  readonly sourceHeight: number;
+  readonly sourceWidth: number;
+  readonly sourceX: number;
+  readonly sourceY: number;
+  texture: Texture | null;
   readonly width: number;
 }
 interface SpriteAnimation {
@@ -159,34 +163,23 @@ export class Sprite extends Definable {
       animationIDs.push(animation.id);
     }
     this._animationID = options.animationID;
-    const imageSource: ImageSource | null = this.imageSource;
-    if (imageSource !== null) {
-      this._animations = options.animations.map(
-        (animation: CreateSpriteOptionsAnimation): SpriteAnimation => ({
-          frames: animation.frames.map(
-            (
-              frame: CreateSpriteOptionsAnimationFrame,
-            ): SpriteAnimationFrame => ({
-              duration: frame.duration ?? null,
-              height: frame.height,
-              texture: new Texture(
-                imageSource.texture.baseTexture,
-                new Rectangle(
-                  frame.sourceX,
-                  frame.sourceY,
-                  frame.sourceWidth,
-                  frame.sourceHeight,
-                ),
-              ),
-              width: frame.width,
-            }),
-          ),
-          id: animation.id,
-        }),
-      );
-    } else {
-      this._animations = [];
-    }
+    this._animations = options.animations.map(
+      (animation: CreateSpriteOptionsAnimation): SpriteAnimation => ({
+        frames: animation.frames.map(
+          (frame: CreateSpriteOptionsAnimationFrame): SpriteAnimationFrame => ({
+            duration: frame.duration ?? null,
+            height: frame.height,
+            sourceHeight: frame.sourceHeight,
+            sourceWidth: frame.sourceWidth,
+            sourceX: frame.sourceX,
+            sourceY: frame.sourceY,
+            texture: null,
+            width: frame.width,
+          }),
+        ),
+        id: animation.id,
+      }),
+    );
     this._coordinates = options.coordinates
       ? {
           condition: options.coordinates.condition ?? null,
@@ -343,7 +336,7 @@ export class Sprite extends Definable {
     this._pixiSprite.destroy();
     for (const animation of this._animations) {
       for (const frame of animation.frames) {
-        frame.texture.destroy();
+        frame.texture?.destroy();
       }
     }
   }
@@ -367,7 +360,19 @@ export class Sprite extends Definable {
     if (imageSource !== null) {
       for (const animation of this._animations) {
         for (const frame of animation.frames) {
-          frame.texture.baseTexture = imageSource.texture.baseTexture;
+          if (frame.texture === null) {
+            frame.texture = new Texture(
+              imageSource.texture.baseTexture,
+              new Rectangle(
+                frame.sourceX,
+                frame.sourceY,
+                frame.sourceWidth,
+                frame.sourceHeight,
+              ),
+            );
+          } else {
+            frame.texture.baseTexture = imageSource.texture.baseTexture;
+          }
         }
       }
       const animation: SpriteAnimationPlay = this._animationPlay;
@@ -437,7 +442,9 @@ export class Sprite extends Definable {
           `Sprite "${this._id}" could not get the current frame for animation "${this._animationPlay.id}".`,
         );
       }
-      this._pixiSprite.texture = currentAnimationFrame.texture;
+      if (currentAnimationFrame.texture !== null) {
+        this._pixiSprite.texture = currentAnimationFrame.texture;
+      }
       this._pixiSprite.x = x;
       this._pixiSprite.y = y;
       this._pixiSprite.width = currentAnimationFrame.width;
