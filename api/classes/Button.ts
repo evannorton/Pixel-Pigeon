@@ -24,7 +24,9 @@ export interface CreateButtonOptions {
    */
   coordinates: CreateButtonOptionsCoordinates;
   height: number;
-  onClick: () => void;
+  onClick?: () => void;
+  onMouseDown?: () => void;
+  onRelease?: () => void;
   width: number;
 }
 interface ButtonCoordinates {
@@ -35,10 +37,14 @@ interface ButtonCoordinates {
 
 export class Button extends Definable {
   private readonly _coordinates: ButtonCoordinates;
-  private _clicked: boolean = false;
+  private _didClickOccur: boolean = false;
+  private _didMouseDownOccur: boolean = false;
+  private _didReleaseOccur: boolean = false;
   private readonly _element: HTMLDivElement = document.createElement("div");
   private readonly _height: number;
-  private readonly _onClick: () => void;
+  private readonly _onClick?: () => void;
+  private readonly _onMouseDown?: () => void;
+  private readonly _onRelease?: () => void;
   private readonly _width: number;
 
   public constructor(options: CreateButtonOptions) {
@@ -50,6 +56,8 @@ export class Button extends Definable {
     };
     this._height = options.height;
     this._onClick = options.onClick;
+    this._onMouseDown = options.onMouseDown;
+    this._onRelease = options.onRelease;
     this._width = options.width;
     const buttonsElement: HTMLElement | null =
       document.getElementById("buttons");
@@ -61,7 +69,15 @@ export class Button extends Definable {
     buttonsElement.appendChild(this._element);
     this._element.className = "button";
     this._element.addEventListener("click", (): void => {
-      this._clicked = true;
+      this._didClickOccur = true;
+    });
+    this._element.addEventListener("mousedown", (): void => {
+      this._didMouseDownOccur = true;
+      const onMouseUp = (): void => {
+        this._didReleaseOccur = true;
+        removeEventListener("mouseup", onMouseUp);
+      };
+      addEventListener("mouseup", onMouseUp);
     });
   }
 
@@ -84,12 +100,28 @@ export class Button extends Definable {
     } else {
       this._element.style.display = "none";
     }
-    if (this._clicked) {
-      this._clicked = false;
+    if (this._didClickOccur) {
+      this._didClickOccur = false;
       try {
-        this._onClick();
+        this._onClick?.();
       } catch (error: unknown) {
         handleCaughtError(error, `Button "${this._id}" onClick`);
+      }
+    }
+    if (this._didMouseDownOccur) {
+      this._didMouseDownOccur = false;
+      try {
+        this._onMouseDown?.();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Button "${this._id}" onMouseDown`);
+      }
+    }
+    if (this._didReleaseOccur) {
+      this._didReleaseOccur = false;
+      try {
+        this._onRelease?.();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Button "${this._id}" onRelease`);
       }
     }
   }
