@@ -8,7 +8,7 @@ export const emitToSocketioServer = (
   options: EmitToSocketIOServerOptions,
 ): void => {
   if (state.values.socket === null) {
-    throw new Error("Attempted to emit to socket.io server without no socket.");
+    throw new Error("Attempted to emit to socket.io server with no socket.");
   }
   state.values.socket.emit(options.event, options.data);
 };
