@@ -1,9 +1,11 @@
 const { exec } = require("child_process");
 const killPort = require("kill-port");
-const { readFileSync } = require("fs");
-const { join } = require("path");
+const { readFileSync, existsSync } = require("fs");
+const { join, resolve } = require("path");
 
-killPort(3000)
+const port = existsSync(join(resolve(), "pp-dev.json")) ? JSON.parse(readFileSync(join(resolve(), "pp-dev.json"))) : 3000;
+
+killPort(port)
   .catch(() => { })
   .finally(() => {
     const commands = JSON.parse(

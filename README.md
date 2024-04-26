@@ -41,6 +41,7 @@ You may use the [Template Game](https://github.com/evannorton/Pixel-Pigeon-Templ
 4. Create a `pp-dev.json` file at the root of your game's codebase.
 ```json
 {
+  "port": 3000,
   "renderPathing": false
 }
 ```
@@ -63,7 +64,7 @@ game.zip
 10. Create a `src` folder at the root of your game's codebase.
 11. Create an `index.ts` file inside of the `src` folder.
 12. Run `npm install`.
-13. Run `npm run dev` to start a dev server with hot reloading on port 3000.
+13. Run `npm run dev` to start a dev server with hot reloading.
 14. Explore the documentation: https://pp.evanmmo.com/
 
 ## Command line interface

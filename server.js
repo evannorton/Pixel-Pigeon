@@ -1,11 +1,12 @@
 const express = require("express");
-const { readFileSync } = require("fs");
+const { readFileSync, existsSync } = require("fs");
 const http = require("http");
 const { join, resolve } = require("path");
 const socketio = require("socket.io");
 
 console.log("Running game server.");
 
+const port = existsSync(join(resolve(), "pp-dev.json")) ? JSON.parse(readFileSync(join(resolve(), "pp-dev.json"))) : 3000;
 const runID = JSON.parse(readFileSync(join(__dirname, "run-id.json")));
 
 import("nanoid").then(({ nanoid }) => {
@@ -24,7 +25,7 @@ import("nanoid").then(({ nanoid }) => {
 
   const server = new http.Server(app);
 
-  server.listen(3000);
+  server.listen(port);
 
   const io = new socketio.Server(server, {
     serveClient: false,

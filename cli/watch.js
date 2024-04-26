@@ -3,6 +3,8 @@ const nodemon = require("nodemon");
 const { readFileSync, writeFileSync, existsSync } = require("fs");
 const { join, resolve, sep } = require("path");
 
+const port = existsSync(join(resolve(), "pp-dev.json")) ? JSON.parse(readFileSync(join(resolve(), "pp-dev.json"))) : 3000;
+
 const build = require("./buildCommand");
 
 writeFileSync(join(__dirname, "watchExec.json"), JSON.stringify([build]));
@@ -93,7 +95,7 @@ watcher.addListener("restart", (files) => {
   if (typeof buildRelatedFilePieces !== "undefined") {
     console.log(`Exiting dev script because of a change to ${buildRelatedFilePieces.join("/")}.`);
     watcher.emit("quit");
-    killPort(3000).then(() => {
+    killPort(port).then(() => {
       process.exit();
     });
   }
@@ -134,7 +136,7 @@ watcher.addListener("restart", (files) => {
 });
 
 watcher.addListener("quit", () => {
-  killPort(3000).then(() => {
+  killPort(port).then(() => {
     process.exit();
   });
 });
