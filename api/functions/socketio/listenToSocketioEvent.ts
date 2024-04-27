@@ -1,7 +1,7 @@
 import { state } from "../../state";
 
 export interface ListenToSocketioEventOptions {
-  eventName: string;
+  event: string;
   onMessage: (message: unknown) => void;
 }
 export const listenToSocketioEvent = (
@@ -10,7 +10,7 @@ export const listenToSocketioEvent = (
   if (state.values.socket === null) {
     throw new Error("Attempted to listen to socket.io event with no socket.");
   }
-  state.values.socket.on(options.eventName, (message: unknown): void => {
+  state.values.socket.on(options.event, (message: unknown): void => {
     options.onMessage(message);
   });
 };
