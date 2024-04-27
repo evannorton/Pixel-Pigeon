@@ -93,6 +93,10 @@ import {
   isRectangleInLevel,
 } from "./functions/isRectangleInLevel";
 import {
+  ListenToSocketioEventOptions,
+  listenToSocketioEvent,
+} from "./functions/socketio/listenToSocketioEvent";
+import {
   MakeHTTPRequestOptions,
   makeHTTPRequest,
 } from "./functions/makeHTTPRequest";
@@ -216,6 +220,7 @@ export {
   isEntityPathing,
   isRectangleInLevel,
   IsRectangleInLevelOptions,
+  ListenToSocketioEventOptions,
   lockCameraToEntity,
   makeHTTPRequest,
   MakeHTTPRequestOptions,
@@ -254,4 +259,5 @@ export {
   TextStyleAlign,
   unlockAchievement,
   unlockCameraFromEntity,
+  listenToSocketioEvent,
 };
