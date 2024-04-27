@@ -1,6 +1,6 @@
 import { Definable } from "./Definable";
 import { Scriptable } from "../types/Scriptable";
-import { TextInfo, TextInfoTrim } from "../types/TextInfo";
+import { TextInfo } from "../types/TextInfo";
 import { TextStyleAlign } from "pixi.js";
 import { drawText } from "../functions/draw/drawText";
 import { getDefinable } from "../functions/getDefinable";
@@ -55,7 +55,7 @@ export class Label extends Definable {
   private readonly _maxLines: number | null;
   private readonly _maxWidth: number | null;
   private readonly _size: number;
-  private readonly _text: Scriptable<TextInfo>;
+  private readonly _text: Scriptable<CreateLabelOptionsText>;
   public constructor(options: CreateLabelOptions) {
     super(getToken());
     this._color = options.color;
@@ -68,27 +68,7 @@ export class Label extends Definable {
     this._maxLines = options.maxLines ?? null;
     this._maxWidth = options.maxWidth ?? null;
     this._size = options.size ?? 1;
-    if (typeof options.text === "function") {
-      const textFunction: () => CreateLabelOptionsText = options.text;
-      this._text = (): TextInfo => {
-        const text: CreateLabelOptionsText = textFunction();
-        return {
-          trims: text.trims ?? [],
-          value: text.value,
-        };
-      };
-    } else {
-      this._text = {
-        trims:
-          options.text.trims?.map(
-            (trim: CreateLabelOptionsTextTrim): TextInfoTrim => ({
-              index: trim.index,
-              length: trim.length,
-            }),
-          ) ?? [],
-        value: options.text.value,
-      };
-    }
+    this._text = options.text;
   }
 
   public drawAtCoordinates(): void {
@@ -168,10 +148,17 @@ export class Label extends Definable {
 
   private getTextInfo(): TextInfo | null {
     if (typeof this._text === "object") {
-      return this._text;
+      return {
+        trims: this._text.trims ?? [],
+        value: this._text.value,
+      };
     }
     try {
-      return this._text();
+      const text: CreateLabelOptionsText = this._text();
+      return {
+        trims: text.trims ?? [],
+        value: text.value,
+      };
     } catch (error: unknown) {
       handleCaughtError(error, `Label "${this._id}" text`);
     }
