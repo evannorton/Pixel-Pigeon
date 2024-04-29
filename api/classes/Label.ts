@@ -1,8 +1,9 @@
+import { BitmapText, TextStyleAlign } from "pixi.js";
 import { Definable } from "./Definable";
 import { Scriptable } from "../types/Scriptable";
 import { TextInfo } from "../types/TextInfo";
-import { TextStyleAlign } from "pixi.js";
-import { drawText } from "../functions/draw/drawText";
+import { arraysHaveSameValues } from "../functions/arraysHaveSameValues";
+import { getBitmapText } from "../functions/getBitmapText";
 import { getDefinable } from "../functions/getDefinable";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
@@ -54,8 +55,10 @@ export class Label extends Definable {
   private readonly _horizontalAlignment: TextStyleAlign;
   private readonly _maxLines: number | null;
   private readonly _maxWidth: number | null;
+  private _pixiBitmapText: BitmapText | null = null;
   private readonly _size: number;
   private readonly _text: Scriptable<CreateLabelOptionsText>;
+  private _textInfo: TextInfo | null = null;
   public constructor(options: CreateLabelOptions) {
     super(getToken());
     this._color = options.color;
@@ -72,28 +75,59 @@ export class Label extends Definable {
   }
 
   public drawAtCoordinates(): void {
+    if (state.values.app === null) {
+      throw new Error(
+        `Label "${this._id}" attempted to draw before app was created.`,
+      );
+    }
     if (state.values.config === null) {
       throw new Error(
         `Label "${this._id}" attempted to draw at coordinates before config was loaded.`,
       );
     }
     if (this.passesCoordinatesCondition()) {
-      const text: TextInfo | null = this.getTextInfo();
+      const textInfo: TextInfo | null = this.getTextInfo();
       const color: string | null = this.getColor();
       const x: number | null = this.getCoordinatesX();
       const y: number | null = this.getCoordinatesY();
-      if (text !== null && color !== null && x !== null && y !== null) {
-        drawText(
-          text,
-          color,
-          x,
-          y,
-          this._size,
-          this._maxWidth,
-          this._maxLines,
-          this._horizontalAlignment,
-          100,
-        );
+      if (textInfo !== null && color !== null && x !== null && y !== null) {
+        const shouldRefreshBitmap: boolean =
+          this._textInfo === null ||
+          textInfo.value !== this._textInfo.value ||
+          arraysHaveSameValues(textInfo.trims, this._textInfo.trims) === false;
+        this._textInfo = textInfo;
+        if (this._pixiBitmapText && shouldRefreshBitmap) {
+          this._pixiBitmapText.destroy();
+        }
+        this._pixiBitmapText = shouldRefreshBitmap
+          ? getBitmapText(
+              textInfo.value,
+              textInfo.trims,
+              color,
+              this._size,
+              this._maxWidth,
+              this._maxLines,
+              this._horizontalAlignment,
+            )
+          : this._pixiBitmapText;
+        if (this._pixiBitmapText !== null) {
+          const startX: number = x - this._size;
+          this._pixiBitmapText.x =
+            this._horizontalAlignment === "right"
+              ? startX - this._pixiBitmapText.width
+              : this._horizontalAlignment === "center"
+                ? startX - Math.floor(this._pixiBitmapText.width / 2) - 1
+                : startX;
+          if (
+            this._horizontalAlignment === "center" &&
+            this._pixiBitmapText.width % 2 === 0
+          ) {
+            this._pixiBitmapText.x++;
+          }
+          this._pixiBitmapText.y = y - this._size * 3;
+          this._pixiBitmapText.zIndex = 100;
+          state.values.app.stage.addChild(this._pixiBitmapText);
+        }
       }
     }
   }

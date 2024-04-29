@@ -4,7 +4,7 @@ import { getBitmapText } from "../getBitmapText";
 import { state } from "../../state";
 
 export const drawText = (
-  text: TextInfo,
+  textInfo: TextInfo,
   color: string,
   x: number,
   y: number,
@@ -19,9 +19,9 @@ export const drawText = (
       "An attempt was made to draw a rectangle before app was created.",
     );
   }
-  const areTrimsOverlapped: boolean = text.trims.some(
+  const areTrimsOverlapped: boolean = textInfo.trims.some(
     (trimA: TextInfoTrim): boolean =>
-      text.trims.some((trimB: TextInfoTrim): boolean => {
+      textInfo.trims.some((trimB: TextInfoTrim): boolean => {
         if (trimA !== trimB) {
           const trimAIndices: number[] = [];
           for (
@@ -50,8 +50,8 @@ export const drawText = (
     throw new Error("Attempted to draw text with overlapping trims.");
   }
   const sprite: BitmapText = getBitmapText(
-    text.value,
-    text.trims,
+    textInfo.value,
+    textInfo.trims,
     color,
     size,
     maxWidth,
