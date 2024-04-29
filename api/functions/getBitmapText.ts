@@ -61,6 +61,7 @@ export const getBitmapText = (
   if (trimToApply !== null) {
     const trimCharacterIndex: number =
       trimToApply.index + trimToApply.length - 1;
+    bitmapText.destroy();
     return getBitmapText(
       `${text.substring(0, trimCharacterIndex)}${text.substring(
         trimCharacterIndex + 1,
