@@ -416,10 +416,6 @@
     "global-require": [
       "error"
     ],
-    "init-declarations": [
-      "error",
-      "always"
-    ],
     "key-spacing": [
       "error",
       {
