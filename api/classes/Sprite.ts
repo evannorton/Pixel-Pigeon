@@ -214,17 +214,19 @@ export class Sprite extends Definable {
   }
 
   public playAnimation(): void {
-    const animationID: string | null = this.getAnimationID();
-    if (animationID === null) {
-      this._animationPlay = null;
-    } else if (
-      this._animationPlay === null ||
-      animationID !== this._animationPlay.id
-    ) {
-      this._animationPlay = {
-        id: animationID,
-        startedAt: state.values.currentTime,
-      };
+    if (this._coordinates === null || this.passesCoordinatesCondition()) {
+      const animationID: string | null = this.getAnimationID();
+      if (animationID === null) {
+        this._animationPlay = null;
+      } else if (
+        this._animationPlay === null ||
+        animationID !== this._animationPlay.id
+      ) {
+        this._animationPlay = {
+          id: animationID,
+          startedAt: state.values.currentTime,
+        };
+      }
     }
   }
 
