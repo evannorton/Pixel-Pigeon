@@ -71,14 +71,21 @@ export class Button extends Definable {
     this._element.addEventListener("click", (): void => {
       this._didClickOccur = true;
     });
-    this._element.addEventListener("mousedown", (): void => {
-      this._didMouseDownOccur = true;
-      const onMouseUp = (): void => {
-        this._didReleaseOccur = true;
-        removeEventListener("mouseup", onMouseUp);
-      };
-      addEventListener("mouseup", onMouseUp);
-    });
+    this._element.addEventListener(
+      "mousedown",
+      (mousedownEvent: MouseEvent): void => {
+        if (mousedownEvent.button === 0) {
+          this._didMouseDownOccur = true;
+          const onMouseUp = (mouseupEvent: MouseEvent): void => {
+            if (mouseupEvent.button === 0) {
+              this._didReleaseOccur = true;
+              removeEventListener("mouseup", onMouseUp);
+            }
+          };
+          addEventListener("mouseup", onMouseUp);
+        }
+      },
+    );
   }
 
   public update(): void {
