@@ -11,7 +11,7 @@ interface AudioSourceOptions {
   readonly audioPath: string;
 }
 interface Play {
-  loopPoint: number | null;
+  loopPoint?: number;
   volumeChannelID: string;
 }
 
@@ -59,7 +59,7 @@ export class AudioSource extends Definable {
   public play(playAudioOptions: PlayAudioSourceOptions): void {
     this._howl.play();
     this._play = {
-      loopPoint: playAudioOptions.loopPoint ?? null,
+      loopPoint: playAudioOptions.loopPoint,
       volumeChannelID: playAudioOptions.volumeChannelID,
     };
     this.updateVolume();
@@ -96,7 +96,7 @@ export class AudioSource extends Definable {
         `OnHowlEnd was triggered for AudioSource "${this._id}" with no play options.`,
       );
     }
-    if (this._play.loopPoint !== null) {
+    if (typeof this._play.loopPoint !== "undefined") {
       this.stop();
       this._howl.seek(this._play.loopPoint / 1000);
       this._howl.play();

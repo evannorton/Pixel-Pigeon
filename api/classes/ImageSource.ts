@@ -17,7 +17,7 @@ interface ImageSourceOptions {
 export class ImageSource extends Definable {
   private readonly _colors: string[] = [];
   private readonly _imagePath: string;
-  private _texture: Texture | null = null;
+  private _texture?: Texture;
 
   public constructor(options: ImageSourceOptions) {
     super(options.imagePath);
@@ -29,7 +29,7 @@ export class ImageSource extends Definable {
   }
 
   public get texture(): Texture {
-    if (this._texture !== null) {
+    if (typeof this._texture !== "undefined") {
       return this._texture;
     }
     throw new Error(this.getAccessorErrorMessage("texture"));

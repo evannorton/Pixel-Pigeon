@@ -30,7 +30,7 @@ export interface CreateButtonOptions {
   width: number;
 }
 interface ButtonCoordinates {
-  readonly condition: (() => boolean) | null;
+  readonly condition?: () => boolean;
   readonly x: number;
   readonly y: number;
 }
@@ -50,7 +50,7 @@ export class Button extends Definable {
   public constructor(options: CreateButtonOptions) {
     super(getToken());
     this._coordinates = {
-      condition: options.coordinates.condition ?? null,
+      condition: options.coordinates.condition,
       x: options.coordinates.x,
       y: options.coordinates.y,
     };
@@ -134,7 +134,7 @@ export class Button extends Definable {
   }
 
   private passesCoordinatesCondition(): boolean {
-    if (this._coordinates.condition === null) {
+    if (typeof this._coordinates.condition === "undefined") {
       return true;
     }
     try {

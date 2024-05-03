@@ -20,13 +20,13 @@ export interface CreateInputPressHandlerOptions {
   onInput: () => void;
 }
 export class InputPressHandler extends Definable {
-  private readonly _condition: (() => boolean) | null;
+  private readonly _condition?: () => boolean;
   private readonly _inputCollectionID: string;
   private readonly _onInput: () => void;
 
   public constructor(options: CreateInputPressHandlerOptions) {
     super(getToken());
-    this._condition = options.condition ?? null;
+    this._condition = options.condition;
     this._inputCollectionID = options.inputCollectionID;
     this._onInput = options.onInput;
   }
@@ -80,7 +80,7 @@ export class InputPressHandler extends Definable {
   }
 
   private passesCondition(): boolean {
-    if (this._condition === null) {
+    if (typeof this._condition === "undefined") {
       return true;
     }
     try {

@@ -29,7 +29,7 @@ export class Achievement extends Definable {
   private readonly _infoTextElement: HTMLDivElement;
   private readonly _isSecret: boolean = false;
   private readonly _name: string;
-  private readonly _newgroundsMedalID: number | null;
+  private readonly _newgroundsMedalID?: number;
   public constructor(options: CreateAchievementOptions) {
     super(options.id);
     if (state.values.isInitialized) {
@@ -47,7 +47,7 @@ export class Achievement extends Definable {
     this._description = options.description;
     this._imagePath = options.imagePath;
     this._name = options.name;
-    this._newgroundsMedalID = options.newgroundsMedalID ?? null;
+    this._newgroundsMedalID = options.newgroundsMedalID;
     // Info
     this._infoElement = document.createElement("div");
     this._infoElement.classList.add("achievement-info");
@@ -71,8 +71,8 @@ export class Achievement extends Definable {
     achievementsGridElement.appendChild(this._infoElement);
   }
 
-  public get newgroundsMedalID(): number | null {
-    return this._newgroundsMedalID ?? null;
+  public get newgroundsMedalID(): number | undefined {
+    return this._newgroundsMedalID;
   }
 
   public unlock(): void {
@@ -147,7 +147,7 @@ export class Achievement extends Definable {
       ),
     );
     this.updateInfoElements();
-    if (this._newgroundsMedalID !== null) {
+    if (typeof this._newgroundsMedalID !== "undefined") {
       if (newgrounds !== null && newgrounds.session_id !== null) {
         newgrounds.callComponent("Medal.unlock", {
           id: this._newgroundsMedalID,

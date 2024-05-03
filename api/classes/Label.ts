@@ -44,7 +44,7 @@ export interface CreateLabelOptions {
   text: Scriptable<CreateLabelOptionsText>;
 }
 interface LabelCoordinates {
-  readonly condition: (() => boolean) | null;
+  readonly condition?: () => boolean;
   readonly x: Scriptable<number>;
   readonly y: Scriptable<number>;
 }
@@ -53,8 +53,8 @@ export class Label extends Definable {
   private readonly _color: Scriptable<string>;
   private readonly _coordinates: LabelCoordinates;
   private readonly _horizontalAlignment: TextStyleAlign;
-  private readonly _maxLines: number | null;
-  private readonly _maxWidth: number | null;
+  private readonly _maxLines?: number;
+  private readonly _maxWidth?: number;
   private _pixiBitmapText: BitmapText | null = null;
   private readonly _size: number;
   private readonly _text: Scriptable<CreateLabelOptionsText>;
@@ -63,13 +63,13 @@ export class Label extends Definable {
     super(getToken());
     this._color = options.color;
     this._coordinates = {
-      condition: options.coordinates.condition ?? null,
+      condition: options.coordinates.condition,
       x: options.coordinates.x,
       y: options.coordinates.y,
     };
     this._horizontalAlignment = options.horizontalAlignment;
-    this._maxLines = options.maxLines ?? null;
-    this._maxWidth = options.maxWidth ?? null;
+    this._maxLines = options.maxLines;
+    this._maxWidth = options.maxWidth;
     this._size = options.size ?? 1;
     this._text = options.text;
   }
@@ -105,8 +105,8 @@ export class Label extends Definable {
               textInfo.trims,
               color,
               this._size,
-              this._maxWidth,
-              this._maxLines,
+              this._maxWidth ?? null,
+              this._maxLines ?? null,
               this._horizontalAlignment,
             )
           : this._pixiBitmapText;
@@ -133,7 +133,7 @@ export class Label extends Definable {
   }
 
   private passesCoordinatesCondition(): boolean {
-    if (this._coordinates.condition === null) {
+    if (typeof this._coordinates.condition === "undefined") {
       return true;
     }
     try {

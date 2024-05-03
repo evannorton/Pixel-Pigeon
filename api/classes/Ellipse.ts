@@ -36,14 +36,14 @@ export interface CreateEllipseOptions {
   width: Scriptable<number>;
 }
 interface EllipseCoordinates {
-  readonly condition: (() => boolean) | null;
+  readonly condition?: () => boolean;
   readonly x: Scriptable<number>;
   readonly y: Scriptable<number>;
 }
 
 export class Ellipse extends Definable {
   private readonly _color: string;
-  private readonly _coordinates: EllipseCoordinates | null;
+  private readonly _coordinates?: EllipseCoordinates;
   private readonly _height: Scriptable<number>;
   private readonly _opacity: Scriptable<number>;
   private readonly _pixiGraphics: Graphics = new Graphics();
@@ -52,13 +52,13 @@ export class Ellipse extends Definable {
   public constructor(options: CreateEllipseOptions) {
     super(getToken());
     this._color = options.color;
-    this._coordinates = options.coordinates
-      ? {
-          condition: options.coordinates.condition ?? null,
-          x: options.coordinates.x,
-          y: options.coordinates.y,
-        }
-      : null;
+    if (typeof options.coordinates !== "undefined") {
+      this._coordinates = {
+        condition: options.coordinates.condition,
+        x: options.coordinates.x,
+        y: options.coordinates.y,
+      };
+    }
     this._height = options.height;
     this._opacity = options.opacity ?? 1;
     this._width = options.width;
@@ -74,7 +74,10 @@ export class Ellipse extends Definable {
         `Ellipse "${this._id}" attempted to draw at coordinates before config was loaded.`,
       );
     }
-    if (this._coordinates !== null && this.passesCoordinatesCondition()) {
+    if (
+      typeof this._coordinates !== "undefined" &&
+      this.passesCoordinatesCondition()
+    ) {
       const x: number | null = this.getCoordinatesX();
       const y: number | null = this.getCoordinatesY();
       if (x !== null && y !== null) {
@@ -107,7 +110,7 @@ export class Ellipse extends Definable {
         `Ellipse "${this._id}" attempted to check if it was attached before world was loaded.`,
       );
     }
-    if (this._coordinates !== null) {
+    if (typeof this._coordinates !== "undefined") {
       return true;
     }
     for (const level of state.values.world.levels.values()) {
@@ -208,7 +211,7 @@ export class Ellipse extends Definable {
   }
 
   private getCoordinatesX(): number | null {
-    if (this._coordinates !== null) {
+    if (typeof this._coordinates !== "undefined") {
       if (typeof this._coordinates.x === "number") {
         return this._coordinates.x;
       }
@@ -222,7 +225,7 @@ export class Ellipse extends Definable {
   }
 
   private getCoordinatesY(): number | null {
-    if (this._coordinates !== null) {
+    if (typeof this._coordinates !== "undefined") {
       if (typeof this._coordinates.y === "number") {
         return this._coordinates.y;
       }
@@ -272,12 +275,12 @@ export class Ellipse extends Definable {
   }
 
   private passesCoordinatesCondition(): boolean {
-    if (this._coordinates === null) {
+    if (typeof this._coordinates === "undefined") {
       throw new Error(
         `Ellipse "${this._id}" attempted to check coordinates condition with no coordinates.`,
       );
     }
-    if (this._coordinates.condition === null) {
+    if (typeof this._coordinates.condition === "undefined") {
       return true;
     }
     try {

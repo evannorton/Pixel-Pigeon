@@ -45,13 +45,13 @@ export interface CreateNineSliceOptions {
   width: number;
 }
 interface NineSliceCoordinates {
-  readonly condition: (() => boolean) | null;
+  readonly condition?: () => boolean;
   readonly x: Scriptable<number>;
   readonly y: Scriptable<number>;
 }
 
 export class NineSlice extends Definable {
-  private readonly _coordinates: NineSliceCoordinates | null;
+  private readonly _coordinates?: NineSliceCoordinates;
   private readonly _height: number;
   private readonly _imageSourceID: string;
   private readonly _pixiNineSlicePlane: NineSlicePlane;
@@ -68,7 +68,7 @@ export class NineSlice extends Definable {
       options.bottomHeight,
     );
     this._coordinates = {
-      condition: options.coordinates.condition ?? null,
+      condition: options.coordinates.condition,
       x: options.coordinates.x,
       y: options.coordinates.y,
     };
@@ -81,7 +81,10 @@ export class NineSlice extends Definable {
   }
 
   public drawAtCoordinates(): void {
-    if (this._coordinates !== null && this.passesCoordinatesCondition()) {
+    if (
+      typeof this._coordinates !== "undefined" &&
+      this.passesCoordinatesCondition()
+    ) {
       const x: number | null = this.getCoordinatesX();
       const y: number | null = this.getCoordinatesY();
       if (x !== null && y !== null) {
@@ -111,12 +114,12 @@ export class NineSlice extends Definable {
   }
 
   private passesCoordinatesCondition(): boolean {
-    if (this._coordinates === null) {
+    if (typeof this._coordinates === "undefined") {
       throw new Error(
         `NineSlice "${this._id}" attempted to check coordinates condition with no coordinates.`,
       );
     }
-    if (this._coordinates.condition === null) {
+    if (typeof this._coordinates.condition === "undefined") {
       return true;
     }
     try {
@@ -128,7 +131,7 @@ export class NineSlice extends Definable {
   }
 
   private getCoordinatesX(): number | null {
-    if (this._coordinates !== null) {
+    if (typeof this._coordinates !== "undefined") {
       if (typeof this._coordinates.x === "number") {
         return this._coordinates.x;
       }
@@ -142,7 +145,7 @@ export class NineSlice extends Definable {
   }
 
   private getCoordinatesY(): number | null {
-    if (this._coordinates !== null) {
+    if (typeof this._coordinates !== "undefined") {
       if (typeof this._coordinates.y === "number") {
         return this._coordinates.y;
       }
