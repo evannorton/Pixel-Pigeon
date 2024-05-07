@@ -136,6 +136,7 @@ import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
 import { onWindowMessage } from "./functions/onWindowMessage";
 import { openURL } from "./functions/openURL";
+import { postWindowMessage } from "./functions/postWindowMessage";
 import { removeEntity } from "./functions/removeEntity";
 import { removeEntitySprite } from "./functions/removeEntitySprite";
 import { setEntityBlockingPosition } from "./functions/setEntityBlockingPosition";
@@ -237,6 +238,7 @@ export {
   PathingEntityExclusion,
   playAudioSource,
   PlayAudioSourceOptions,
+  postWindowMessage,
   Rectangle,
   removeButton,
   removeEllipse,
