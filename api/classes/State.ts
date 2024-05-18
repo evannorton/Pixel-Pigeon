@@ -47,9 +47,15 @@ export class State<StateSchema> {
    * ```
    */
   public setValues(values: Partial<StateSchema>): void {
+    const newValues: Partial<StateSchema> = {};
+    for (const key in values) {
+      if (typeof values[key] !== "undefined") {
+        newValues[key] = values[key];
+      }
+    }
     this._values = {
       ...this._values,
-      ...values,
+      ...newValues,
     };
   }
 }

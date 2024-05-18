@@ -1,4 +1,6 @@
-const { copyFileSync } = require("fs");
+const { copyFileSync, existsSync } = require("fs");
 const { join, resolve } = require("path");
 
-copyFileSync(join(resolve(), "project.ldtk"), join(resolve(), "out", "project.ldtk"));
+if (existsSync(join(resolve(), "project.ldtk"))) {
+  copyFileSync(join(resolve(), "project.ldtk"), join(resolve(), "out", "project.ldtk"));
+}

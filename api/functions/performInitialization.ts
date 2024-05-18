@@ -129,7 +129,9 @@ export const performInitialization = async (): Promise<void> => {
   const configRes: Response = await fetch("./pp-config.json");
   const config: Config = (await configRes.json()) as Config;
   const ldtkRes: Response = await fetch("./project.ldtk");
-  const ldtk: LDTK = (await ldtkRes.json()) as LDTK;
+  const ldtk: LDTK | undefined = ldtkRes.ok
+    ? ((await ldtkRes.json()) as LDTK)
+    : undefined;
   const gameIDRes: Response = await fetch("./pp-id.json");
   const gameID: string | null = (await gameIDRes.json()) as string | null;
   const audioResponse: Response = await fetch("./audio.json");
