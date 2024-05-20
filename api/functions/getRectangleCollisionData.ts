@@ -45,29 +45,27 @@ export const getRectangleCollisionData = (
     map = true;
   }
   for (const layer of level.layers) {
-    if (layer.tilesetID !== null) {
+    for (const layerTile of layer.tiles) {
       const tileset: Tileset | null =
-        state.values.world.tilesets.get(layer.tilesetID) ?? null;
+        state.values.world.tilesets.get(layerTile.tilesetID) ?? null;
       if (tileset === null) {
         throw Error("An attempt was made to render a nonexistent tileset.");
       }
-      for (const layerTile of layer.tiles) {
-        const matchedTile: WorldTilesetTile =
-          tileset.tiles[
-            layerTile.tilesetX +
-              layerTile.tilesetY * (tileset.width / tileset.tileSize)
-          ];
-        if (matchedTile.isCollidable) {
-          if (
-            rectanglesOverlap(options.rectangle, {
-              height: tileset.tileSize,
-              width: tileset.tileSize,
-              x: layerTile.x,
-              y: layerTile.y,
-            })
-          ) {
-            map = true;
-          }
+      const matchedTile: WorldTilesetTile =
+        tileset.tiles[
+          layerTile.tilesetX +
+            layerTile.tilesetY * (tileset.width / tileset.tileSize)
+        ];
+      if (matchedTile.isCollidable) {
+        if (
+          rectanglesOverlap(options.rectangle, {
+            height: tileset.tileSize,
+            width: tileset.tileSize,
+            x: layerTile.x,
+            y: layerTile.y,
+          })
+        ) {
+          map = true;
         }
       }
     }

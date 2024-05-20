@@ -69,6 +69,15 @@ export const getWorld = (): World => {
                   zIndex: 0,
                 });
               }
+              const tilesetID: string | null =
+                matchedLDTKDefLayer !== null &&
+                matchedLDTKDefLayer.tilesetDefUid !== null
+                  ? ldtk.defs.tilesets.find(
+                      (ldtkDefTileset: LDTK["defs"]["tilesets"][0]): boolean =>
+                        ldtkDefTileset.uid ===
+                        matchedLDTKDefLayer.tilesetDefUid,
+                    )?.identifier ?? null
+                  : null;
               return {
                 entities,
                 id: ldtkLayerInstance.__identifier,
@@ -78,7 +87,7 @@ export const getWorld = (): World => {
                     ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0],
                   ): Level["layers"][0]["tiles"][0] => ({
                     pixiSprite: new PixiSprite(),
-                    tileID: ldtkGridTile.t,
+                    tilesetID: tilesetID as string,
                     tilesetX:
                       ldtkGridTile.src[0] / ldtkLayerInstance.__gridSize,
                     tilesetY:
@@ -87,17 +96,6 @@ export const getWorld = (): World => {
                     y: ldtkGridTile.px[1],
                   }),
                 ),
-                tilesetID:
-                  matchedLDTKDefLayer !== null &&
-                  matchedLDTKDefLayer.tilesetDefUid !== null
-                    ? ldtk.defs.tilesets.find(
-                        (
-                          ldtkDefTileset: LDTK["defs"]["tilesets"][0],
-                        ): boolean =>
-                          ldtkDefTileset.uid ===
-                          matchedLDTKDefLayer.tilesetDefUid,
-                      )?.identifier ?? null
-                    : null,
               };
             },
           ),

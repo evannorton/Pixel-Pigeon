@@ -44,6 +44,11 @@ import {
   removeLabel,
 } from "./classes/Label";
 import {
+  CreateLevelOptions,
+  CreateLevelOptionsLayer,
+  createLevel,
+} from "./functions/createLevel";
+import {
   CreateNineSliceOptions,
   CreateNineSliceOptionsCoordinates,
   createNineSlice,
@@ -64,6 +69,11 @@ import {
   createSprite,
   removeSprite,
 } from "./classes/Sprite";
+import {
+  CreateTilesetOptions,
+  CreateTilesetOptionsTile,
+  createTileset,
+} from "./functions/createTileset";
 import {
   CreateVolumeChannelOptions,
   createVolumeChannel,
@@ -178,6 +188,9 @@ export {
   CreateLabelOptionsCoordinates,
   CreateLabelOptionsText,
   CreateLabelOptionsTextTrim,
+  createLevel,
+  CreateLevelOptions,
+  CreateLevelOptionsLayer,
   createNineSlice,
   CreateNineSliceOptions,
   CreateNineSliceOptionsCoordinates,
@@ -190,6 +203,9 @@ export {
   CreateSpriteOptionsAnimationFrame,
   CreateSpriteOptionsCoordinates,
   CreateSpriteOptionsRecolor,
+  createTileset,
+  CreateTilesetOptions,
+  CreateTilesetOptionsTile,
   createVolumeChannel,
   CreateVolumeChannelOptions,
   emitToSocketioServer,
@@ -221,6 +237,7 @@ export {
   isEntityPathing,
   isRectangleInLevel,
   IsRectangleInLevelOptions,
+  listenToSocketioEvent,
   ListenToSocketioEventOptions,
   lockCameraToEntity,
   makeHTTPRequest,
@@ -261,5 +278,4 @@ export {
   TextStyleAlign,
   unlockAchievement,
   unlockCameraFromEntity,
-  listenToSocketioEvent,
 };

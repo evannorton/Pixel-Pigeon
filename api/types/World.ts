@@ -82,13 +82,12 @@ export interface Layer {
   readonly tileSize: number;
   readonly tiles: {
     readonly pixiSprite: PixiSprite;
+    readonly tilesetID: string;
     readonly tilesetX: number;
     readonly tilesetY: number;
-    readonly tileID: number;
     readonly x: number;
     readonly y: number;
   }[];
-  readonly tilesetID: string | null;
 }
 export interface Level {
   readonly height: number;

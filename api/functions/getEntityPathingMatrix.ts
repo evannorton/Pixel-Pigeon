@@ -25,31 +25,29 @@ export const getEntityPathingMatrix = (
   }
   const matrix: number[][] = [];
   for (const layer of level.layers) {
-    if (layer.tilesetID !== null) {
+    for (const layerTile of layer.tiles) {
       const tileset: Tileset | null =
-        state.values.world.tilesets.get(layer.tilesetID) ?? null;
+        state.values.world.tilesets.get(layerTile.tilesetID) ?? null;
       if (tileset === null) {
-        throw Error(
-          "An attempt was made to get pathing matrix for a nonexistent tileset.",
+        throw new Error(
+          `Tileset with id "${layerTile.tilesetID}" not found in world.`,
         );
       }
-      for (const layerTile of layer.tiles) {
-        const matchedTile: WorldTilesetTile =
-          tileset.tiles[
-            layerTile.tilesetX +
-              layerTile.tilesetY * (tileset.width / tileset.tileSize)
-          ];
-        const x: number = Math.floor(layerTile.x / layer.tileSize);
-        const y: number = Math.floor(layerTile.y / layer.tileSize);
-        if (typeof matrix[y] === "undefined") {
-          matrix[y] = [];
-        }
-        if (typeof matrix[y][x] === "undefined") {
-          matrix[y][x] = 0;
-        }
-        if (entity.collidesWithMap && matchedTile.isCollidable) {
-          matrix[y][x] = 1;
-        }
+      const matchedTile: WorldTilesetTile =
+        tileset.tiles[
+          layerTile.tilesetX +
+            layerTile.tilesetY * (tileset.width / tileset.tileSize)
+        ];
+      const x: number = Math.floor(layerTile.x / layer.tileSize);
+      const y: number = Math.floor(layerTile.y / layer.tileSize);
+      if (typeof matrix[y] === "undefined") {
+        matrix[y] = [];
+      }
+      if (typeof matrix[y][x] === "undefined") {
+        matrix[y][x] = 0;
+      }
+      if (entity.collidesWithMap && matchedTile.isCollidable) {
+        matrix[y][x] = 1;
       }
     }
     for (const layerEntity of layer.entities.values()) {

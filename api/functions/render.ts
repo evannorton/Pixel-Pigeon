@@ -108,33 +108,35 @@ export const render = (): void => {
             "An attempt was made to render before app was created.",
           );
         }
-        if (layer.tilesetID !== null) {
+        for (const tile of layer.tiles) {
           const tileset: Tileset | null =
-            world.tilesets.get(layer.tilesetID) ?? null;
+            world.tilesets.get(tile.tilesetID) ?? null;
           if (tileset === null) {
             throw Error("An attempt was made to render a nonexistent tileset.");
           }
-          for (const tile of layer.tiles) {
-            const x: number = tile.x - cameraCoordinates.x;
-            const y: number = tile.y - cameraCoordinates.y;
-            const width: number = tileset.tileSize;
-            const height: number = tileset.tileSize;
-            if (
-              x + width > 0 &&
-              y + height > 0 &&
-              x < state.values.config.width &&
-              y < state.values.config.height
-            ) {
-              const matchedTile: WorldTilesetTile = tileset.tiles[tile.tileID];
-              tile.pixiSprite.texture = matchedTile.texture;
-              tile.pixiSprite.x = x;
-              tile.pixiSprite.y = y;
-              tile.pixiSprite.width = width;
-              tile.pixiSprite.height = height;
-              tile.pixiSprite.alpha = 1;
-              tile.pixiSprite.zIndex = layerIndex + 1 / (1 / Math.exp(0));
-              state.values.app.stage.addChild(tile.pixiSprite);
-            }
+          const x: number = tile.x - cameraCoordinates.x;
+          const y: number = tile.y - cameraCoordinates.y;
+          const width: number = tileset.tileSize;
+          const height: number = tileset.tileSize;
+          if (
+            x + width > 0 &&
+            y + height > 0 &&
+            x < state.values.config.width &&
+            y < state.values.config.height
+          ) {
+            const matchedTile: WorldTilesetTile =
+              tileset.tiles[
+                tile.tilesetX +
+                  tile.tilesetY * (tileset.width / tileset.tileSize)
+              ];
+            tile.pixiSprite.texture = matchedTile.texture;
+            tile.pixiSprite.x = x;
+            tile.pixiSprite.y = y;
+            tile.pixiSprite.width = width;
+            tile.pixiSprite.height = height;
+            tile.pixiSprite.alpha = 1;
+            tile.pixiSprite.zIndex = layerIndex + 1 / (1 / Math.exp(0));
+            state.values.app.stage.addChild(tile.pixiSprite);
           }
         }
         for (const [, entity] of layer.entities) {
