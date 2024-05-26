@@ -82,6 +82,7 @@ Remove unneeded chunks from your game's images.
 Generate a unique ID for your game. Achievements will not persist across sessions if you don't have an ID. Generating a new ID will cause players to lose their achievement data.
 
 ## Example games
+- [RetroMMO](https://github.com/evannorton/RetroMMO-Screen) by [@evannorton](https://github.com/evannorton)
 - [Dungeon Deli](https://github.com/evannorton/Dungeon-Deli) by [@evannorton](https://github.com/evannorton)
 
 ## ESLint VS Code extension
