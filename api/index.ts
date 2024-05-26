@@ -46,6 +46,7 @@ import {
 import {
   CreateLevelOptions,
   CreateLevelOptionsLayer,
+  CreateLevelOptionsLayerTile,
   createLevel,
 } from "./functions/createLevel";
 import {
@@ -191,6 +192,7 @@ export {
   createLevel,
   CreateLevelOptions,
   CreateLevelOptionsLayer,
+  CreateLevelOptionsLayerTile,
   createNineSlice,
   CreateNineSliceOptions,
   CreateNineSliceOptionsCoordinates,
