@@ -1,10 +1,19 @@
 import { ImageSource } from "../classes/ImageSource";
 import { Rectangle, Texture } from "pixi.js";
-import { WorldTilesetTile } from "../types/World";
+import {
+  WorldTilesetTile,
+  WorldTilesetTileAnimationFrame,
+} from "../types/World";
 import { getDefinable } from "./getDefinable";
 import { state } from "../state";
 
+export interface CreateTilesetOptionsTileAnimation {
+  duration: number;
+  tilesetX: number;
+  tilesetY: number;
+}
 export interface CreateTilesetOptionsTile {
+  animations?: CreateTilesetOptionsTileAnimation[];
   isCollidable: boolean;
   tilesetX: number;
   tilesetY: number;
@@ -51,6 +60,26 @@ export const createTileset = (options: CreateTilesetOptions): void => {
       )
       .map(
         (tile: CreateTilesetOptionsTile): WorldTilesetTile => ({
+          animationFrames:
+            tile.animations?.map(
+              (
+                animation: CreateTilesetOptionsTileAnimation,
+              ): WorldTilesetTileAnimationFrame => ({
+                duration: animation.duration,
+                texture: new Texture(
+                  getDefinable(
+                    ImageSource,
+                    options.imagePath,
+                  ).texture.baseTexture,
+                  new Rectangle(
+                    animation.tilesetX * options.tileSize + xSpacing + padding,
+                    animation.tilesetY * options.tileSize + ySpacing + padding,
+                    options.tileSize,
+                    options.tileSize,
+                  ),
+                ),
+              }),
+            ) ?? [],
           isCollidable: tile.isCollidable,
           texture: new Texture(
             getDefinable(ImageSource, options.imagePath).texture.baseTexture,

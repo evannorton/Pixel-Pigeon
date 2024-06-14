@@ -125,6 +125,7 @@ export const getWorld = (): World => {
             ? properties.ppCollision ?? false
             : false;
           tiles.push({
+            animationFrames: [],
             isCollidable,
             texture: new Texture(
               getDefinable(ImageSource, imageSourceID).texture.baseTexture,

@@ -4,7 +4,14 @@ import {
 } from "./getCameraCoordinates";
 import { Ellipse } from "../classes/Ellipse";
 import { Label } from "../classes/Label";
-import { Layer, Level, Tileset, World, WorldTilesetTile } from "../types/World";
+import {
+  Layer,
+  Level,
+  Tileset,
+  World,
+  WorldTilesetTile,
+  WorldTilesetTileAnimationFrame,
+} from "../types/World";
 import { NineSlice } from "../classes/NineSlice";
 import { Quadrilateral } from "../classes/Quadrilateral";
 import { Sprite } from "../classes/Sprite";
@@ -129,7 +136,31 @@ export const render = (): void => {
                 tile.tilesetX +
                   tile.tilesetY * (tileset.width / tileset.tileSize)
               ];
-            tile.pixiSprite.texture = matchedTile.texture;
+            if (matchedTile.animationFrames.length > 0) {
+              const totalDuration: number = matchedTile.animationFrames.reduce(
+                (
+                  accumulator: number,
+                  animation: WorldTilesetTileAnimationFrame,
+                ): number => accumulator + animation.duration,
+                0,
+              );
+              const remainder: number =
+                state.values.currentTime % totalDuration;
+              let currentDuration: number = 0;
+              const animationFrame: WorldTilesetTileAnimationFrame | undefined =
+                matchedTile.animationFrames.find(
+                  (animation: WorldTilesetTileAnimationFrame): boolean => {
+                    currentDuration += animation.duration;
+                    return currentDuration > remainder;
+                  },
+                );
+              if (typeof animationFrame === "undefined") {
+                throw new Error("An animation frame was not found.");
+              }
+              tile.pixiSprite.texture = animationFrame.texture;
+            } else {
+              tile.pixiSprite.texture = matchedTile.texture;
+            }
             tile.pixiSprite.x = x;
             tile.pixiSprite.y = y;
             tile.pixiSprite.width = width;

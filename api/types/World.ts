@@ -102,7 +102,12 @@ export interface Tileset {
   readonly tiles: WorldTilesetTile[];
   readonly width: number;
 }
+export interface WorldTilesetTileAnimationFrame {
+  readonly duration: number;
+  readonly texture: Texture;
+}
 export interface WorldTilesetTile {
+  readonly animationFrames: WorldTilesetTileAnimationFrame[];
   readonly isCollidable: boolean;
   readonly texture: Texture;
 }
