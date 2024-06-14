@@ -7,13 +7,13 @@ import {
 import { getDefinable } from "./getDefinable";
 import { state } from "../state";
 
-export interface CreateTilesetOptionsTileAnimation {
+export interface CreateTilesetOptionsTileAnimationFrame {
   duration: number;
   tilesetX: number;
   tilesetY: number;
 }
 export interface CreateTilesetOptionsTile {
-  animations?: CreateTilesetOptionsTileAnimation[];
+  animationFrames?: CreateTilesetOptionsTileAnimationFrame[];
   isCollidable: boolean;
   tilesetX: number;
   tilesetY: number;
@@ -61,9 +61,9 @@ export const createTileset = (options: CreateTilesetOptions): void => {
       .map(
         (tile: CreateTilesetOptionsTile): WorldTilesetTile => ({
           animationFrames:
-            tile.animations?.map(
+            tile.animationFrames?.map(
               (
-                animation: CreateTilesetOptionsTileAnimation,
+                animation: CreateTilesetOptionsTileAnimationFrame,
               ): WorldTilesetTileAnimationFrame => ({
                 duration: animation.duration,
                 texture: new Texture(

@@ -73,6 +73,7 @@ import {
 import {
   CreateTilesetOptions,
   CreateTilesetOptionsTile,
+  CreateTilesetOptionsTileAnimationFrame,
   createTileset,
 } from "./functions/createTileset";
 import {
@@ -208,6 +209,7 @@ export {
   createTileset,
   CreateTilesetOptions,
   CreateTilesetOptionsTile,
+  CreateTilesetOptionsTileAnimationFrame,
   createVolumeChannel,
   CreateVolumeChannelOptions,
   emitToSocketioServer,
