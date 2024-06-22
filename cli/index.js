@@ -82,8 +82,6 @@ if (existsSync(join("pp-id.json"))) {
     }
 }
 
-require("./createGameTSConfig");
-
 writeFileSync(join(__dirname, "type.json"), JSON.stringify(process.argv[2]));
 
 switch (process.argv[2]) {

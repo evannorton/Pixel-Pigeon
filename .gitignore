@@ -10,7 +10,6 @@ cli/watchModifiedFiles.json
 game-lib
 hot-reload-lib
 node_modules
-game-tsconfig.json
 run-id.json
 out
 docs

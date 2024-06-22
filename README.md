@@ -62,10 +62,19 @@ game.zip
 8. Create an `audio` folder at the root of your game's codebase.
 9. Create an `images` folder at the root of your game's codebase.
 10. Create a `src` folder at the root of your game's codebase.
-11. Create an `index.ts` file inside of the `src` folder.
-12. Run `npm install`.
-13. Run `npm run dev` to start a dev server with hot reloading.
-14. Explore the documentation: https://pp.evanmmo.com/
+11. Create `src/tsconfig.json`.
+```
+{
+  "extends": "../node_modules/pixel-pigeon/api/tsconfig.json",
+  "include": [
+    "./**/*.ts"
+  ]
+}
+```
+12. Create an `index.ts` file inside of the `src` folder.
+13. Run `npm install`.
+14. Run `npm run dev` to start a dev server with hot reloading.
+15. Explore the documentation: https://pp.evanmmo.com/
 
 ## Command line interface
 ### `pigeon dev`
@@ -90,7 +99,7 @@ Create an `.eslintrc` with the following contents to use this extension.
 ```json
 {
   "parserOptions": {
-    "project": "./node_modules/pixel-pigeon/game-tsconfig.json"
+    "project": "./src/tsconfig.json"
   },
   "extends": [
     "./node_modules/pixel-pigeon/.eslintrc"
