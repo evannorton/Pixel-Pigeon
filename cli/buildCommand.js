@@ -9,7 +9,7 @@ const commands = [
     `node ${join(__dirname, "clearOutput")}`,
     `node ${join(__dirname, "verifyImagesChunks")}`,
     `node ${join(__dirname, "createLib")}`,
-    `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(resolve(), "tsconfig.json")} --outDir ${join(__dirname, "..", "game-lib")}`,
+    `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(resolve(), "src", "tsconfig.json")} --outDir ${join(__dirname, "..", "game-lib")}`,
     `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(__dirname, "..", "hot-reload", "tsconfig.json")} --outDir ${join(__dirname, "..", "hot-reload-lib")}`,
     `${join(nodeModulesPath, ".bin", "esbuild")} ${join(__dirname, "..", "hot-reload-lib", "index.js")} --bundle --sourcemap --outfile=${join(resolve(), "out", "library-script.js")}`,
     `node ${join(__dirname, "buildGameBundle")}`,
