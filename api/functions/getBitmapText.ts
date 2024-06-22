@@ -56,9 +56,8 @@ export const getBitmapText = (
       return diff;
     },
   );
-  const trimToApply: TextInfoTrim | null =
-    sortedTrims.length > 0 ? sortedTrims[0] : null;
-  if (trimToApply !== null) {
+  const trimToApply: TextInfoTrim | undefined = sortedTrims[0];
+  if (typeof trimToApply !== "undefined") {
     const trimCharacterIndex: number =
       trimToApply.index + trimToApply.length - 1;
     bitmapText.destroy();

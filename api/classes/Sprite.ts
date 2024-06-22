@@ -470,7 +470,7 @@ export class Sprite extends Definable {
         for (const color of imageSource.colors) {
           const rgb: RGB = getRGBFromHex(color);
           const average: number = (rgb.b + rgb.g + rgb.r) / 3;
-          const closestColor: string = [...palette].sort(
+          const closestColor: string | undefined = [...palette].sort(
             (colorA: string, colorB: string): number => {
               const rgbA: RGB = getRGBFromHex(colorA);
               const rgbB: RGB = getRGBFromHex(colorB);
@@ -481,6 +481,9 @@ export class Sprite extends Definable {
               return diffA - diffB;
             },
           )[0];
+          if (typeof closestColor === "undefined") {
+            throw new Error("Out of bounds colors index");
+          }
           filterColors.push([
             Number(`0x${color.substring(1)}`),
             Number(`0x${closestColor.substring(1)}`),

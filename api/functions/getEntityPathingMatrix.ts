@@ -33,21 +33,24 @@ export const getEntityPathingMatrix = (
           `Tileset with id "${layerTile.tilesetID}" not found in world.`,
         );
       }
-      const matchedTile: WorldTilesetTile =
+      const matchedTile: WorldTilesetTile | undefined =
         tileset.tiles[
           layerTile.tilesetX +
             layerTile.tilesetY * (tileset.width / tileset.tileSize)
         ];
+      if (typeof matchedTile === "undefined") {
+        throw new Error("Out of bounds tiles index");
+      }
       const x: number = Math.floor(layerTile.x / layer.tileSize);
       const y: number = Math.floor(layerTile.y / layer.tileSize);
       if (typeof matrix[y] === "undefined") {
         matrix[y] = [];
       }
-      if (typeof matrix[y][x] === "undefined") {
-        matrix[y][x] = 0;
+      if (typeof (matrix[y] as number[])[x] === "undefined") {
+        (matrix[y] as number[])[x] = 0;
       }
       if (entity.collidesWithMap && matchedTile.isCollidable) {
-        matrix[y][x] = 1;
+        (matrix[y] as number[])[x] = 1;
       }
     }
     for (const layerEntity of layer.entities.values()) {
@@ -105,9 +108,9 @@ export const getEntityPathingMatrix = (
                 exclusion.tilePosition.y === y,
             )
           ) {
-            matrix[y][x] = 0;
+            (matrix[y] as number[])[x] = 0;
           } else {
-            matrix[y][x] = 1;
+            (matrix[y] as number[])[x] = 1;
           }
         }
       }

@@ -53,7 +53,7 @@ export const updateLevelPathing = (): void => {
           (path: TilePosition[] | null): void => {
             entity.path = path;
             if (path !== null) {
-              const nextTilePosition: TilePosition =
+              const nextTilePosition: TilePosition | undefined =
                 path.length > 1
                   ? path[1]
                   : path.length === 1
@@ -62,6 +62,9 @@ export const updateLevelPathing = (): void => {
                         x: startX,
                         y: startY,
                       };
+              if (typeof nextTilePosition === "undefined") {
+                throw new Error("Out of bounds path index");
+              }
               if (
                 entity.lastPathedTilePosition === null ||
                 entity.lastPathedTilePosition.x !== nextTilePosition.x ||

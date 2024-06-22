@@ -68,9 +68,18 @@ export class ImageSource extends Definable {
     const pixels: Uint8Array | Uint8ClampedArray =
       state.values.app.renderer.extract.pixels(renderTexture);
     for (let i: number = 0; i < pixels.length; i += 4) {
-      const r: number = pixels[i];
-      const g: number = pixels[i + 1];
-      const b: number = pixels[i + 2];
+      const r: number | undefined = pixels[i];
+      const g: number | undefined = pixels[i + 1];
+      const b: number | undefined = pixels[i + 2];
+      if (typeof r === "undefined") {
+        throw new Error("Out of bounds pixels index");
+      }
+      if (typeof g === "undefined") {
+        throw new Error("Out of bounds pixels index");
+      }
+      if (typeof b === "undefined") {
+        throw new Error("Out of bounds pixels index");
+      }
       const color: string = getHexFromRGB({
         b,
         g,

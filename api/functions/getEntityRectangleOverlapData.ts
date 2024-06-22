@@ -49,11 +49,14 @@ export const getEntityRectangleOverlapData = (
           `Tileset with id "${layerTile.tilesetID}" not found in world.`,
         );
       }
-      const matchedTile: WorldTilesetTile =
+      const matchedTile: WorldTilesetTile | undefined =
         tileset.tiles[
           layerTile.tilesetX +
             layerTile.tilesetY * (tileset.width / tileset.tileSize)
         ];
+      if (typeof matchedTile === "undefined") {
+        throw new Error("Out of bounds tiles index");
+      }
       if (matchedTile.isCollidable) {
         if (
           rectanglesOverlap(rectangle, {

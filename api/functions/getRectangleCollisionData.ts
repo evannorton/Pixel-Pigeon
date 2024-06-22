@@ -51,11 +51,14 @@ export const getRectangleCollisionData = (
       if (tileset === null) {
         throw Error("An attempt was made to render a nonexistent tileset.");
       }
-      const matchedTile: WorldTilesetTile =
+      const matchedTile: WorldTilesetTile | undefined =
         tileset.tiles[
           layerTile.tilesetX +
             layerTile.tilesetY * (tileset.width / tileset.tileSize)
         ];
+      if (typeof matchedTile === "undefined") {
+        throw Error("Out of bounds tiles index");
+      }
       if (matchedTile.isCollidable) {
         if (
           rectanglesOverlap(options.rectangle, {

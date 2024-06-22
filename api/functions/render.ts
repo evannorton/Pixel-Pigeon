@@ -131,11 +131,14 @@ export const render = (): void => {
             x < state.values.config.width &&
             y < state.values.config.height
           ) {
-            const matchedTile: WorldTilesetTile =
+            const matchedTile: WorldTilesetTile | undefined =
               tileset.tiles[
                 tile.tilesetX +
                   tile.tilesetY * (tileset.width / tileset.tileSize)
               ];
+            if (typeof matchedTile === "undefined") {
+              throw new Error("Out of bounds tiles index");
+            }
             if (matchedTile.animationFrames.length > 0) {
               const totalDuration: number = matchedTile.animationFrames.reduce(
                 (
