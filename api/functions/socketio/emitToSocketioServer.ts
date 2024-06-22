@@ -1,11 +1,11 @@
 import { state } from "../../state";
 
-export interface EmitToSocketIOServerOptions {
-  data?: unknown;
+export interface EmitToSocketIOServerOptions<Request extends object> {
+  data: Request;
   event: string;
 }
-export const emitToSocketioServer = (
-  options: EmitToSocketIOServerOptions,
+export const emitToSocketioServer = <Request extends object>(
+  options: EmitToSocketIOServerOptions<Request>,
 ): void => {
   if (state.values.socket === null) {
     throw new Error("Attempted to emit to socket.io server with no socket.");
