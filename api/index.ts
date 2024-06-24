@@ -78,7 +78,9 @@ import {
 } from "./functions/createTileset";
 import {
   CreateVolumeChannelOptions,
+  SetVolumeChannelVolumeOptions,
   createVolumeChannel,
+  setVolumeChannelVolume,
 } from "./classes/VolumeChannel";
 import {
   EmitToSocketIOServerOptions,
@@ -124,6 +126,7 @@ import {
 } from "./classes/AudioSource";
 import { Rectangle } from "./types/Rectangle";
 import { Scriptable } from "./types/Scriptable";
+import { SetMainVolumeOptions, setMainVolume } from "./functions/setMainVolume";
 import { State } from "./classes/State";
 import { TextStyleAlign } from "pixi.js";
 import { addEntityEllipse } from "./functions/addEntityEllipse";
@@ -144,6 +147,7 @@ import { goToLevel } from "./functions/goToLevel";
 import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
+import { muteVolume } from "./functions/muteVolume";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
 import { onWindowMessage } from "./functions/onWindowMessage";
@@ -159,6 +163,7 @@ import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { stopEntity } from "./functions/stopEntity";
 import { takeScreenshot } from "./functions/takeScreenshot";
 import { unlockCameraFromEntity } from "./functions/unlockCameraFromEntity";
+import { unmuteVolume } from "./functions/unmuteVolume";
 
 export {
   addEntityEllipse,
@@ -282,4 +287,10 @@ export {
   TextStyleAlign,
   unlockAchievement,
   unlockCameraFromEntity,
+  unmuteVolume,
+  muteVolume,
+  setMainVolume,
+  SetMainVolumeOptions,
+  setVolumeChannelVolume,
+  SetVolumeChannelVolumeOptions,
 };

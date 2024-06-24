@@ -1,5 +1,6 @@
 import { AudioSource } from "./AudioSource";
 import { Definable } from "./Definable";
+import { getDefinable } from "../functions/getDefinable";
 import { getDefinables } from "../functions/getDefinables";
 import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
 import { getToken } from "../functions/getToken";
@@ -7,6 +8,10 @@ import { state } from "../state";
 
 export interface CreateVolumeChannelOptions {
   name: string;
+}
+export interface SetVolumeChannelVolumeOptions {
+  id: string;
+  volume: number;
 }
 export class VolumeChannel extends Definable {
   private readonly _volumeInputElement: HTMLInputElement =
@@ -59,7 +64,24 @@ export class VolumeChannel extends Definable {
   public get volumeSliderElement(): HTMLInputElement {
     return this._volumeInputElement;
   }
+
+  public setVolume(options: SetVolumeChannelVolumeOptions): void {
+    if (options.volume < 0 || options.volume > 1) {
+      throw new Error(
+        `Volume must be between 0 and 1, but was ${options.volume}.`,
+      );
+    }
+    this._volumeInputElement.value = String(options.volume * 100);
+    for (const [, audioSource] of getDefinables(AudioSource)) {
+      audioSource.updateVolume();
+    }
+  }
 }
 export const createVolumeChannel = (
   options: CreateVolumeChannelOptions,
 ): string => new VolumeChannel(options).id;
+export const setVolumeChannelVolume = (
+  options: SetVolumeChannelVolumeOptions,
+): void => {
+  getDefinable(VolumeChannel, options.id).setVolume(options);
+};
