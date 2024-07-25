@@ -9,6 +9,8 @@ console.log("Running game server.");
 const port = existsSync(join(resolve(), "pp-dev.json")) ? JSON.parse(readFileSync(join(resolve(), "pp-dev.json"))) : 3000;
 const runID = JSON.parse(readFileSync(join(__dirname, "run-id.json")));
 
+console.log("Local: http://localhost:" + port + "/");
+
 import("nanoid").then(({ nanoid }) => {
   const app = express();
 
