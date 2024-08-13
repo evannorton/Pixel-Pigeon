@@ -25,20 +25,22 @@ export const handleUncaughtError = (error: unknown): void => {
       copyButtonElement.style.backgroundColor = "#343434";
       copyButtonElement.style.display = "block";
       copyButtonElement.style.position = "absolute";
+      copyButtonElement.style.padding = "0";
       copyButtonElement.style.right = "0";
       copyButtonElement.style.top = "0";
       copyButtonElement.style.margin = "1em";
       copyButtonElement.style.borderRadius = "1em";
+      copyButtonElement.style.width = "3em";
+      copyButtonElement.style.height = "3em";
+      copyButtonElement.style.display = "flex";
+      copyButtonElement.style.justifyContent = "center";
+      copyButtonElement.style.alignItems = "center";
       copyButtonElement.title = "Copy the Stack Trace";
       copyButtonElement.onclick = (): void => {
         navigator.clipboard
           .writeText(stack)
-          .then((): void => {
-            console.log("Text copied successfully!");
-          })
-          .catch((err: unknown): void => {
-            // Renamed 'error' to 'err' and added a type annotation
-            console.error("Failed to copy text: ", err);
+          .catch((error: unknown): void => {
+            console.error("Failed to copy error to clipboard ", error);
           });
       };
       copyButtonIconElement.src = "../../svg/copy.svg";
