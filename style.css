@@ -445,5 +445,5 @@ body:not(.paused) #unpause-button {
 }
 
 #copy-error-button:active {
-  transform: translatey(2px);
+  transform: translatey(.1em);
 }
