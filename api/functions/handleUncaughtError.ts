@@ -43,7 +43,7 @@ export const handleUncaughtError = (error: unknown): void => {
             console.error("Failed to copy error to clipboard ", error);
           });
       };
-      copyButtonIconElement.src = "../../svg/copy.svg";
+      copyButtonIconElement.src = "./svg/copy.svg";
       copyButtonIconElement.style.width = "2em";
       stackElement.style.backgroundColor = "#343434";
       stackElement.style.border = "1px solid white";
