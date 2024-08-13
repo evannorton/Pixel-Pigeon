@@ -435,11 +435,11 @@ body:not(.paused) #unpause-button {
   margin-left: 1em;
 }
 
-#copy-button:hover {
+#copy-error-button:hover {
   border-color: #3F88E6;
 } 
 
-#copy-button:active {
+#copy-error-button:active {
   border-color: yellow;
   transform: translatey(2px);
 }

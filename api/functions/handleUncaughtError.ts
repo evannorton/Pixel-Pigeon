@@ -21,7 +21,7 @@ export const handleUncaughtError = (error: unknown): void => {
         document.createElement("img");
       errorMessageContainer.style.display = "block";
       errorMessageContainer.style.position = "relative";
-      copyButtonElement.id = "copy-button";
+      copyButtonElement.id = "copy-error-button";
       copyButtonElement.style.backgroundColor = "#343434";
       copyButtonElement.style.display = "block";
       copyButtonElement.style.position = "absolute";
