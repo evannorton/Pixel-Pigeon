@@ -434,3 +434,16 @@ body:not(.paused) #unpause-button {
 .swal2-cancel {
   margin-left: 1em;
 }
+
+#copy-error-button:hover {
+  border-width: 0.2em;
+}
+
+#copy-error-button:focus-visible {
+  border-width: 0.2em;
+  outline: none;
+}
+
+#copy-error-button:active {
+  transform: translatey(0.1em);
+}
