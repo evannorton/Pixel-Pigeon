@@ -22,7 +22,7 @@ export const handleUncaughtError = (error: unknown): void => {
       errorMessageContainer.style.display = "block";
       errorMessageContainer.style.position = "relative";
       copyButtonElement.id = "copy-error-button";
-      copyButtonElement.style.backgroundColor = "#343434";
+      copyButtonElement.style.backgroundColor = "#151515";
       copyButtonElement.style.display = "block";
       copyButtonElement.style.position = "absolute";
       copyButtonElement.style.padding = "0";
