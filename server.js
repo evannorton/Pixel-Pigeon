@@ -7,7 +7,6 @@ const socketio = require("socket.io");
 const port = existsSync(join(resolve(), "pp-dev.json")) ? JSON.parse(readFileSync(join(resolve(), "pp-dev.json"))).port : 3000;
 const runID = JSON.parse(readFileSync(join(__dirname, "run-id.json")));
 
-
 import("nanoid").then(({ nanoid }) => {
   const app = express();
 
