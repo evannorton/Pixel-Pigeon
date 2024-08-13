@@ -37,9 +37,11 @@ export const handleUncaughtError = (error: unknown): void => {
       copyButtonElement.style.alignItems = "center";
       copyButtonElement.title = "Copy the Stack Trace";
       copyButtonElement.onclick = (): void => {
-        navigator.clipboard.writeText(stack).catch((clipboardError: unknown): void => {
-          console.error("Failed to copy error to clipboard", clipboardError);
-        });
+        navigator.clipboard
+          .writeText(stack)
+          .catch((clipboardError: unknown): void => {
+            console.error("Failed to copy error to clipboard", clipboardError);
+          });
       };
       copyButtonIconElement.src = "./svg/copy.svg";
       copyButtonIconElement.style.width = "2em";
