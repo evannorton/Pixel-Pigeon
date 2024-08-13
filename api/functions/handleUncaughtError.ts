@@ -10,7 +10,8 @@ export const handleUncaughtError = (error: unknown): void => {
       error instanceof Error ? error : new Error("An unknown error occurred.");
     messageElement.innerText = eventError.message;
     bodyElement.appendChild(messageElement);
-    if (typeof eventError.stack !== "undefined") {
+    const stack: string | undefined = eventError.stack;
+    if (typeof stack !== "undefined") {
       const errorMessageContainer: HTMLSpanElement =
         document.createElement("span");
       const stackElement: HTMLPreElement = document.createElement("pre");
@@ -31,7 +32,7 @@ export const handleUncaughtError = (error: unknown): void => {
       copyButtonElement.title = "Copy the Stack Trace";
       copyButtonElement.onclick = (): void => {
         navigator.clipboard
-          .writeText(eventError.stack ?? "")
+          .writeText(stack)
           .then((): void => {
             console.log("Text copied successfully!");
           })
@@ -47,7 +48,7 @@ export const handleUncaughtError = (error: unknown): void => {
       stackElement.style.overflowX = "auto";
       stackElement.style.padding = "0.5em";
       stackElement.style.textAlign = "left";
-      stackElement.innerText = eventError.stack;
+      stackElement.innerText = stack;
       errorMessageContainer.appendChild(stackElement);
       copyButtonElement.appendChild(copyButtonIconElement);
       errorMessageContainer.appendChild(copyButtonElement);
