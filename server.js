@@ -7,7 +7,6 @@ const socketio = require("socket.io");
 const port = existsSync(join(resolve(), "pp-dev.json")) ? JSON.parse(readFileSync(join(resolve(), "pp-dev.json"))).port : 3000;
 const runID = JSON.parse(readFileSync(join(__dirname, "run-id.json")));
 
-console.log(`Running game server at http://localhost:${port}`);
 
 import("nanoid").then(({ nanoid }) => {
   const app = express();
@@ -25,7 +24,9 @@ import("nanoid").then(({ nanoid }) => {
 
   const server = new http.Server(app);
 
-  server.listen(port);
+  server.listen(port, () => {
+    console.log(`Running game server at http://localhost:${port}`);
+  });
 
   const io = new socketio.Server(server, {
     serveClient: false,
