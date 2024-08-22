@@ -80,7 +80,11 @@ export class Quadrilateral extends Definable {
       const x: number | null = this.getCoordinatesX();
       const y: number | null = this.getCoordinatesY();
       if (x !== null && y !== null) {
-        this.drawAtPosition(x, y, 100);
+        this.drawAtPosition(
+          x,
+          y,
+          100 + this._createOrder / Definable._createOrderCounter,
+        );
       }
     }
   }

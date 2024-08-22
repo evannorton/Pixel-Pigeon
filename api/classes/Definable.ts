@@ -2,6 +2,8 @@ import { definables } from "../definables";
 import { validIDCharacters } from "../constants/validIDCharacters";
 
 export abstract class Definable {
+  protected static _createOrderCounter: number = 0;
+  protected _createOrder: number;
   protected readonly _id: string;
 
   public constructor(id: string) {
@@ -32,6 +34,8 @@ export abstract class Definable {
       }
       list.set(this._id, this);
     }
+    this._createOrder = Definable._createOrderCounter;
+    Definable._createOrderCounter++;
   }
 
   public get id(): string {

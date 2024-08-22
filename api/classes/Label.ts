@@ -125,7 +125,8 @@ export class Label extends Definable {
             this._pixiBitmapText.x++;
           }
           this._pixiBitmapText.y = y - this._size * 3;
-          this._pixiBitmapText.zIndex = 100;
+          this._pixiBitmapText.zIndex =
+            100 + this._createOrder / Definable._createOrderCounter;
           state.values.app.stage.addChild(this._pixiBitmapText);
         }
       }
