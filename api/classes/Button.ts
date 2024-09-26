@@ -112,7 +112,7 @@ export class Button extends Definable {
       try {
         this._onClick?.();
       } catch (error: unknown) {
-        handleCaughtError(error, `Button "${this._id}" onClick`);
+        handleCaughtError(error, `Button "${this._id}" onClick`, true);
       }
     }
     if (this._didMouseDownOccur) {
@@ -120,7 +120,7 @@ export class Button extends Definable {
       try {
         this._onMouseDown?.();
       } catch (error: unknown) {
-        handleCaughtError(error, `Button "${this._id}" onMouseDown`);
+        handleCaughtError(error, `Button "${this._id}" onMouseDown`, true);
       }
     }
     if (this._didReleaseOccur) {
@@ -128,7 +128,7 @@ export class Button extends Definable {
       try {
         this._onRelease?.();
       } catch (error: unknown) {
-        handleCaughtError(error, `Button "${this._id}" onRelease`);
+        handleCaughtError(error, `Button "${this._id}" onRelease`, true);
       }
     }
   }
@@ -140,7 +140,11 @@ export class Button extends Definable {
     try {
       return this._coordinates.condition();
     } catch (error: unknown) {
-      handleCaughtError(error, `Button "${this._id}" coordinates condition`);
+      handleCaughtError(
+        error,
+        `Button "${this._id}" coordinates condition`,
+        true,
+      );
     }
     return false;
   }

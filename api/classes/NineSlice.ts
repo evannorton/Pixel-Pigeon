@@ -129,7 +129,11 @@ export class NineSlice extends Definable {
     try {
       return this._coordinates.condition();
     } catch (error: unknown) {
-      handleCaughtError(error, `NineSlice "${this._id}" coordinates condition`);
+      handleCaughtError(
+        error,
+        `NineSlice "${this._id}" coordinates condition`,
+        true,
+      );
     }
     return false;
   }
@@ -142,7 +146,7 @@ export class NineSlice extends Definable {
       try {
         return this._coordinates.x();
       } catch (error: unknown) {
-        handleCaughtError(error, `NineSlice "${this._id}" coordinates x`);
+        handleCaughtError(error, `NineSlice "${this._id}" coordinates x`, true);
       }
     }
     return null;
@@ -156,7 +160,7 @@ export class NineSlice extends Definable {
       try {
         return this._coordinates.y();
       } catch (error: unknown) {
-        handleCaughtError(error, `NineSlice "${this._id}" coordinates y`);
+        handleCaughtError(error, `NineSlice "${this._id}" coordinates y`, true);
       }
     }
     return null;

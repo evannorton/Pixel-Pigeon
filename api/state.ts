@@ -40,6 +40,7 @@ interface StateSchema {
   readonly ldtk: LDTK | null;
   readonly levelID: string | null;
   readonly loadedAssets: number;
+  readonly onErrorCallbacks: (() => void)[];
   readonly onRunCallbacks: (() => void)[];
   readonly onTickCallbacks: (() => void)[];
   readonly pauseMenuCondition: (() => boolean) | null;
@@ -88,6 +89,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   ldtk: null,
   levelID: null,
   loadedAssets: 0,
+  onErrorCallbacks: [],
   onRunCallbacks: [],
   onTickCallbacks: [],
   pauseMenuCondition: null,

@@ -92,7 +92,7 @@ export const updateInput = (): void => {
       try {
         onInput();
       } catch (error: unknown) {
-        handleCaughtError(error, "onInput");
+        handleCaughtError(error, "onInput", true);
       }
     }
   }

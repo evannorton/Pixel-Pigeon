@@ -43,7 +43,11 @@ export const setEntityPosition = (
               try {
                 entity.onCollision(collisionData);
               } catch (error: unknown) {
-                handleCaughtError(error, `Entity "${entityID}" onCollision`);
+                handleCaughtError(
+                  error,
+                  `Entity "${entityID}" onCollision`,
+                  true,
+                );
               }
             }
           }

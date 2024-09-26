@@ -38,7 +38,7 @@ export const updateLevelOverlap = (): void => {
           try {
             entity.onOverlap(collisionData);
           } catch (error: unknown) {
-            handleCaughtError(error, `Entity "${entity.id}" onOverlap`);
+            handleCaughtError(error, `Entity "${entity.id}" onOverlap`, true);
           }
         }
       }

@@ -86,7 +86,11 @@ export class InputPressHandler extends Definable {
     try {
       return this._condition();
     } catch (error: unknown) {
-      handleCaughtError(error, `InputPressHandler "${this._id}" condition`);
+      handleCaughtError(
+        error,
+        `InputPressHandler "${this._id}" condition`,
+        true,
+      );
     }
     return false;
   }

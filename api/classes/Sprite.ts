@@ -528,7 +528,11 @@ export class Sprite extends Definable {
     try {
       return this._coordinates.condition();
     } catch (error: unknown) {
-      handleCaughtError(error, `Sprite "${this._id}" coordinates condition`);
+      handleCaughtError(
+        error,
+        `Sprite "${this._id}" coordinates condition`,
+        true,
+      );
     }
     return false;
   }
@@ -540,7 +544,7 @@ export class Sprite extends Definable {
     try {
       return this._animationID();
     } catch (error: unknown) {
-      handleCaughtError(error, `Sprite "${this._id}" animationID`);
+      handleCaughtError(error, `Sprite "${this._id}" animationID`, true);
     }
     return null;
   }
@@ -553,7 +557,11 @@ export class Sprite extends Definable {
       try {
         return this._animationStartedAt();
       } catch (error: unknown) {
-        handleCaughtError(error, `Sprite "${this._id}" getAnimationStartedAt`);
+        handleCaughtError(
+          error,
+          `Sprite "${this._id}" getAnimationStartedAt`,
+          true,
+        );
         return null;
       }
     }
@@ -568,7 +576,7 @@ export class Sprite extends Definable {
       try {
         return this._coordinates.x();
       } catch (error: unknown) {
-        handleCaughtError(error, `Sprite "${this._id}" coordinates x`);
+        handleCaughtError(error, `Sprite "${this._id}" coordinates x`, true);
       }
     }
     return null;
@@ -582,7 +590,7 @@ export class Sprite extends Definable {
       try {
         return this._coordinates.y();
       } catch (error: unknown) {
-        handleCaughtError(error, `Sprite "${this._id}" coordinates y`);
+        handleCaughtError(error, `Sprite "${this._id}" coordinates y`, true);
       }
     }
     return null;
@@ -596,7 +604,7 @@ export class Sprite extends Definable {
       try {
         return this._isGrayscale();
       } catch (error: unknown) {
-        handleCaughtError(error, `Sprite "${this._id}" grayscale`);
+        handleCaughtError(error, `Sprite "${this._id}" grayscale`, true);
       }
     }
     return false;
@@ -609,7 +617,7 @@ export class Sprite extends Definable {
     try {
       return this._imageSourceID();
     } catch (error: unknown) {
-      handleCaughtError(error, `Sprite "${this._id}" imageSourceID`);
+      handleCaughtError(error, `Sprite "${this._id}" imageSourceID`, true);
     }
     return null;
   }
@@ -621,7 +629,7 @@ export class Sprite extends Definable {
     try {
       return this._palette();
     } catch (error: unknown) {
-      handleCaughtError(error, `Sprite "${this._id}" recolors`);
+      handleCaughtError(error, `Sprite "${this._id}" recolors`, true);
     }
     return [];
   }
@@ -633,7 +641,7 @@ export class Sprite extends Definable {
     try {
       return this._recolors();
     } catch (error: unknown) {
-      handleCaughtError(error, `Sprite "${this._id}" recolors`);
+      handleCaughtError(error, `Sprite "${this._id}" recolors`, true);
     }
     return [];
   }

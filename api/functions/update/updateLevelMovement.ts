@@ -163,7 +163,11 @@ export const updateLevelMovement = (): void => {
               try {
                 entity.onCollision(bothCollisionData);
               } catch (error: unknown) {
-                handleCaughtError(error, `Entity "${entity.id}" onCollision`);
+                handleCaughtError(
+                  error,
+                  `Entity "${entity.id}" onCollision`,
+                  true,
+                );
               }
             }
           }

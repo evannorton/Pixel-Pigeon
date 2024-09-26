@@ -6,7 +6,7 @@ export const passesPauseMenuCondition = (): boolean => {
     try {
       return state.values.pauseMenuCondition();
     } catch (error: unknown) {
-      handleCaughtError(error, "pause menu condition");
+      handleCaughtError(error, "pause menu condition", true);
     }
   }
   return false;

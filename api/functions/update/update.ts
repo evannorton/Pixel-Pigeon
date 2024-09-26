@@ -16,7 +16,7 @@ export const update = (): void => {
       try {
         onRunCallback();
       } catch (error: unknown) {
-        handleCaughtError(error, "onRun");
+        handleCaughtError(error, "onRun", true);
       }
     }
     state.setValues({ hasExecutedOnRunCallbacks: true });
@@ -28,7 +28,7 @@ export const update = (): void => {
     try {
       onTickCallback();
     } catch (error: unknown) {
-      handleCaughtError(error, "onTick");
+      handleCaughtError(error, "onTick", true);
     }
   }
   getDefinables(Sprite).forEach((sprite: Sprite): void => {

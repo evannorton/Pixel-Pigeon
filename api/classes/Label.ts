@@ -140,7 +140,11 @@ export class Label extends Definable {
     try {
       return this._coordinates.condition();
     } catch (error: unknown) {
-      handleCaughtError(error, `Label "${this._id}" coordinates condition`);
+      handleCaughtError(
+        error,
+        `Label "${this._id}" coordinates condition`,
+        true,
+      );
     }
     return false;
   }
@@ -152,7 +156,7 @@ export class Label extends Definable {
     try {
       return this._color();
     } catch (error: unknown) {
-      handleCaughtError(error, `Label "${this._id}" color`);
+      handleCaughtError(error, `Label "${this._id}" color`, true);
     }
     return null;
   }
@@ -164,7 +168,7 @@ export class Label extends Definable {
     try {
       return this._coordinates.x();
     } catch (error: unknown) {
-      handleCaughtError(error, `Label "${this._id}" coordinates x`);
+      handleCaughtError(error, `Label "${this._id}" coordinates x`, true);
     }
     return null;
   }
@@ -176,7 +180,7 @@ export class Label extends Definable {
     try {
       return this._coordinates.y();
     } catch (error: unknown) {
-      handleCaughtError(error, `Label "${this._id}" coordinates y`);
+      handleCaughtError(error, `Label "${this._id}" coordinates y`, true);
     }
     return null;
   }
@@ -195,7 +199,7 @@ export class Label extends Definable {
         value: text.value,
       };
     } catch (error: unknown) {
-      handleCaughtError(error, `Label "${this._id}" text`);
+      handleCaughtError(error, `Label "${this._id}" text`, true);
     }
     return null;
   }

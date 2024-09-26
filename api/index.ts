@@ -148,6 +148,7 @@ import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { muteVolume } from "./functions/muteVolume";
+import { onError } from "./functions/onError";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
 import { onWindowMessage } from "./functions/onWindowMessage";
@@ -254,6 +255,7 @@ export {
   moveEntity,
   MoveEntityOptions,
   NumLock,
+  onError,
   onRun,
   onTick,
   onWindowMessage,

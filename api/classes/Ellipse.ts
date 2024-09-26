@@ -222,7 +222,7 @@ export class Ellipse extends Definable {
       try {
         return this._coordinates.x();
       } catch (error: unknown) {
-        handleCaughtError(error, `Ellipse "${this._id}" coordinates x`);
+        handleCaughtError(error, `Ellipse "${this._id}" coordinates x`, true);
       }
     }
     return null;
@@ -236,7 +236,7 @@ export class Ellipse extends Definable {
       try {
         return this._coordinates.y();
       } catch (error: unknown) {
-        handleCaughtError(error, `Ellipse "${this._id}" coordinates y`);
+        handleCaughtError(error, `Ellipse "${this._id}" coordinates y`, true);
       }
     }
     return null;
@@ -249,7 +249,7 @@ export class Ellipse extends Definable {
     try {
       return this._height();
     } catch (error: unknown) {
-      handleCaughtError(error, `Ellipse "${this._id}" height`);
+      handleCaughtError(error, `Ellipse "${this._id}" height`, true);
       return null;
     }
   }
@@ -261,7 +261,7 @@ export class Ellipse extends Definable {
     try {
       return this._opacity();
     } catch (error: unknown) {
-      handleCaughtError(error, `Ellipse "${this._id}" opacity`);
+      handleCaughtError(error, `Ellipse "${this._id}" opacity`, true);
       return null;
     }
   }
@@ -273,7 +273,7 @@ export class Ellipse extends Definable {
     try {
       return this._width();
     } catch (error: unknown) {
-      handleCaughtError(error, `Ellipse "${this._id}" width`);
+      handleCaughtError(error, `Ellipse "${this._id}" width`, true);
       return null;
     }
   }
@@ -290,7 +290,11 @@ export class Ellipse extends Definable {
     try {
       return this._coordinates.condition();
     } catch (error: unknown) {
-      handleCaughtError(error, `Ellipse "${this._id}" coordinates condition`);
+      handleCaughtError(
+        error,
+        `Ellipse "${this._id}" coordinates condition`,
+        true,
+      );
     }
     return false;
   }

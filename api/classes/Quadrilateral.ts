@@ -166,7 +166,11 @@ export class Quadrilateral extends Definable {
       try {
         return this._coordinates.x();
       } catch (error: unknown) {
-        handleCaughtError(error, `Quadrilateral "${this._id}" coordinates x`);
+        handleCaughtError(
+          error,
+          `Quadrilateral "${this._id}" coordinates x`,
+          true,
+        );
       }
     }
     return null;
@@ -180,7 +184,11 @@ export class Quadrilateral extends Definable {
       try {
         return this._coordinates.y();
       } catch (error: unknown) {
-        handleCaughtError(error, `Quadrilateral "${this._id}" coordinates y`);
+        handleCaughtError(
+          error,
+          `Quadrilateral "${this._id}" coordinates y`,
+          true,
+        );
       }
     }
     return null;
@@ -193,7 +201,7 @@ export class Quadrilateral extends Definable {
     try {
       return this._height();
     } catch (error: unknown) {
-      handleCaughtError(error, `Quadrilateral "${this._id}" height`);
+      handleCaughtError(error, `Quadrilateral "${this._id}" height`, true);
       return null;
     }
   }
@@ -205,7 +213,7 @@ export class Quadrilateral extends Definable {
     try {
       return this._opacity();
     } catch (error: unknown) {
-      handleCaughtError(error, `Quadrilateral "${this._id}" opacity`);
+      handleCaughtError(error, `Quadrilateral "${this._id}" opacity`, true);
       return null;
     }
   }
@@ -217,7 +225,7 @@ export class Quadrilateral extends Definable {
     try {
       return this._width();
     } catch (error: unknown) {
-      handleCaughtError(error, `Quadrilateral "${this._id}" width`);
+      handleCaughtError(error, `Quadrilateral "${this._id}" width`, true);
       return null;
     }
   }
@@ -237,6 +245,7 @@ export class Quadrilateral extends Definable {
       handleCaughtError(
         error,
         `Quadrilateral "${this._id}" coordinates condition`,
+        true,
       );
     }
     return false;
