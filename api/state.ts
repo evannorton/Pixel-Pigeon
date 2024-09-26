@@ -40,7 +40,7 @@ interface StateSchema {
   readonly ldtk: LDTK | null;
   readonly levelID: string | null;
   readonly loadedAssets: number;
-  readonly onErrorCallbacks: (() => void)[];
+  readonly onErrorCallbacks: ((error: unknown) => void)[];
   readonly onRunCallbacks: (() => void)[];
   readonly onTickCallbacks: (() => void)[];
   readonly pauseMenuCondition: (() => boolean) | null;

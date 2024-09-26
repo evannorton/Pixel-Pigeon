@@ -13,7 +13,7 @@ export const handleCaughtError = (
   if (shouldUseCallbacks) {
     for (const onErrorCallback of state.values.onErrorCallbacks) {
       try {
-        onErrorCallback();
+        onErrorCallback(error);
       } catch (onErrorCallbackError: unknown) {
         handleCaughtError(onErrorCallbackError, "on error callback", false);
       }
