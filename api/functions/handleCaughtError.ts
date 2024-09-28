@@ -1,3 +1,4 @@
+import { getDefaultedError } from "./getDefaultedError";
 import { state } from "../state";
 
 export const handleCaughtError = (
@@ -10,22 +11,21 @@ export const handleCaughtError = (
       "An attempt was made to catch a tick error before type was loaded.",
     );
   }
-  if (error instanceof Error) {
-    if (shouldUseCallbacks) {
-      for (const onErrorCallback of state.values.onErrorCallbacks) {
-        try {
-          onErrorCallback(error);
-        } catch (onErrorCallbackError: unknown) {
-          handleCaughtError(onErrorCallbackError, "on error callback", false);
-        }
+  const defaultedError: Error = getDefaultedError(error);
+  if (shouldUseCallbacks) {
+    for (const onErrorCallback of state.values.onErrorCallbacks) {
+      try {
+        onErrorCallback(defaultedError);
+      } catch (onErrorCallbackError: unknown) {
+        handleCaughtError(onErrorCallbackError, "on error callback", false);
       }
     }
-    switch (state.values.type) {
-      case "dev":
-        throw error;
-      case "zip":
-        console.error(`Error thrown in ${descriptor}.`, "\n", error);
-        break;
-    }
+  }
+  switch (state.values.type) {
+    case "dev":
+      throw defaultedError;
+    case "zip":
+      console.error(`Error thrown in ${descriptor}.`, "\n", defaultedError);
+      break;
   }
 };

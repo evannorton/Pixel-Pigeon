@@ -1,4 +1,5 @@
 import { fireAlert } from "./fireAlert";
+import { getDefaultedError } from "./getDefaultedError";
 import { state } from "../state";
 
 export const handleUncaughtError = (error: unknown): void => {
@@ -6,11 +7,10 @@ export const handleUncaughtError = (error: unknown): void => {
     state.setValues({ hasErrored: true });
     const bodyElement: HTMLElement = document.createElement("div");
     const messageElement: HTMLParagraphElement = document.createElement("p");
-    const eventError: Error =
-      error instanceof Error ? error : new Error("An unknown error occurred.");
-    messageElement.innerText = eventError.message;
+    const defaultedError: Error = getDefaultedError(error);
+    messageElement.innerText = defaultedError.message;
     bodyElement.appendChild(messageElement);
-    const stack: string | undefined = eventError.stack;
+    const stack: string | undefined = defaultedError.stack;
     if (typeof stack !== "undefined") {
       const errorMessageContainer: HTMLSpanElement =
         document.createElement("span");
