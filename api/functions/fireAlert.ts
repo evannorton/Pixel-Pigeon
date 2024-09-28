@@ -1,3 +1,4 @@
+import { handleUncaughtError } from "./handleUncaughtError";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
 interface FireAlertOptions {
@@ -32,6 +33,6 @@ export const fireAlert = (options: FireAlertOptions): void => {
       }
     })
     .catch((error: unknown): void => {
-      throw error;
+      handleUncaughtError(error);
     });
 };

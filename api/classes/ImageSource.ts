@@ -7,6 +7,7 @@ import {
 } from "pixi.js";
 import { Definable } from "./Definable";
 import { getHexFromRGB } from "../functions/getHexFromRGB";
+import { handleUncaughtError } from "../functions/handleUncaughtError";
 import { loadPixiAsset } from "../functions/loadPixiAsset";
 import { state } from "../state";
 
@@ -42,7 +43,7 @@ export class ImageSource extends Definable {
         this.loadColors();
       })
       .catch((error: unknown): void => {
-        throw error;
+        handleUncaughtError(error);
       });
   }
 

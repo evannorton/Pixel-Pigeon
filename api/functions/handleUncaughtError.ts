@@ -40,6 +40,7 @@ export const handleUncaughtError = (error: unknown): void => {
         navigator.clipboard
           .writeText(stack)
           .catch((clipboardError: unknown): void => {
+            // TODO: Add toast
             console.error("Failed to copy error to clipboard", clipboardError);
           });
       };

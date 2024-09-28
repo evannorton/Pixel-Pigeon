@@ -1,3 +1,4 @@
+import { handleUncaughtError } from "./handleUncaughtError";
 import { performInitialization } from "./performInitialization";
 
 /**
@@ -6,6 +7,6 @@ import { performInitialization } from "./performInitialization";
  */
 export const initialize = (): void => {
   performInitialization().catch((error: unknown): void => {
-    throw error;
+    handleUncaughtError(error);
   });
 };

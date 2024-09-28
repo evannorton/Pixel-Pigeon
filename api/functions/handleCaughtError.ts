@@ -8,7 +8,7 @@ export const handleCaughtError = (
 ): void => {
   if (state.values.type === null) {
     throw new Error(
-      "An attempt was made to catch a tick error before type was loaded.",
+      "An attempt was made to catch an error before type was loaded.",
     );
   }
   const defaultedError: Error = getDefaultedError(error);
