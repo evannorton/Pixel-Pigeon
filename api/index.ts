@@ -144,6 +144,7 @@ import { getGameHeight } from "./functions/getGameHeight";
 import { getGameWidth } from "./functions/getGameWidth";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
 import { goToLevel } from "./functions/goToLevel";
+import { handleError } from "./functions/handleError";
 import { initialize } from "./functions/initialize";
 import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
@@ -243,6 +244,7 @@ export {
   getRectangleCollisionData,
   GetRectangleCollisionDataOptions,
   goToLevel,
+  handleError,
   initialize,
   isEntityPathing,
   isRectangleInLevel,
