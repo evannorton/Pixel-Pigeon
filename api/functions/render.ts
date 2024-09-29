@@ -1,3 +1,4 @@
+import { Button } from "../classes/Button";
 import {
   CameraCoordinates,
   getCameraCoordinates,
@@ -215,4 +216,22 @@ export const render = (): void => {
   }
   state.values.app.stage.sortChildren();
   state.values.app.render();
+  let isHovered: boolean = false;
+  for (const button of getDefinables(Button).values()) {
+    if (button.isHovered()) {
+      isHovered = true;
+      break;
+    }
+  }
+  if (
+    isHovered &&
+    document.body.classList.contains("button-hovered") === false
+  ) {
+    document.body.classList.add("button-hovered");
+  } else if (
+    isHovered === false &&
+    document.body.classList.contains("button-hovered")
+  ) {
+    document.body.classList.remove("button-hovered");
+  }
 };

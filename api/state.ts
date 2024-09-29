@@ -6,6 +6,7 @@ import { GamepadInput } from "./types/GamepadInput";
 import { Howl } from "howler";
 import { KeyboardInput } from "./types/KeyboardInput";
 import { LDTK } from "./types/LDTK";
+import { MouseCoords } from "./types/MouseCoords";
 import { MouseInput } from "./types/MouseInput";
 import { Socket } from "socket.io-client";
 import { State } from "./classes/State";
@@ -40,6 +41,7 @@ interface StateSchema {
   readonly ldtk: LDTK | null;
   readonly levelID: string | null;
   readonly loadedAssets: number;
+  readonly mouseCoords: MouseCoords | null;
   readonly onErrorCallbacks: ((error: Error) => void)[];
   readonly onRunCallbacks: (() => void)[];
   readonly onTickCallbacks: (() => void)[];
@@ -89,6 +91,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   ldtk: null,
   levelID: null,
   loadedAssets: 0,
+  mouseCoords: null,
   onErrorCallbacks: [],
   onRunCallbacks: [],
   onTickCallbacks: [],

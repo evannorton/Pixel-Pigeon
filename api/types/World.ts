@@ -13,6 +13,10 @@ import { TilePosition } from "./TilePosition";
  * For example if you set up {@link SpawnEntityOptions.onOverlap | onOverlap} on a player entity,
  * any overlapData you recieve will be the data of entities the player has collided with, but will not include player collision data.
  */
+export interface EntityButton {
+  buttonID: string;
+  onClick?: () => void;
+}
 export interface EntityCollidable {
   /**
    * String entityID of the collided entity
@@ -53,6 +57,7 @@ export interface EntitySprite {
 }
 export interface Entity {
   blockingPosition: EntityPosition | null;
+  buttons: EntityButton[];
   readonly collidesWithMap: boolean;
   readonly collidableEntityTypes: string[];
   ellipses: EntityEllipse[];

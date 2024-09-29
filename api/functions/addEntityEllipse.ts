@@ -1,4 +1,6 @@
+import { Ellipse } from "../classes/Ellipse";
 import { EntityEllipse } from "../types/World";
+import { getDefinable } from "./getDefinable";
 import { state } from "../state";
 
 export const addEntityEllipse = (
@@ -15,6 +17,11 @@ export const addEntityEllipse = (
       for (const [layerEntityID, entity] of layer.entities) {
         if (layerEntityID === entityID) {
           entity.ellipses.push(entityEllipse);
+          const ellipse: Ellipse = getDefinable(
+            Ellipse,
+            entityEllipse.ellipseID,
+          );
+          ellipse.entityID = entity.id;
         }
       }
     }

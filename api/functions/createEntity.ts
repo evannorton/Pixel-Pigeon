@@ -1,6 +1,8 @@
+import { Button } from "../classes/Button";
 import { CollisionData } from "../types/CollisionData";
 import { Ellipse } from "../classes/Ellipse";
 import {
+  EntityButton,
   EntityEllipse,
   EntityPosition,
   EntityQuadrilateral,
@@ -16,6 +18,7 @@ import { getToken } from "./getToken";
 import { state } from "../state";
 
 export interface CreateEntityOptions {
+  buttons?: EntityButton[];
   collidableEntityTypes?: string[];
   collidesWithMap?: boolean;
   ellipses?: EntityEllipse[];
@@ -55,6 +58,21 @@ export const createEntity = (options: CreateEntityOptions): string => {
       "An attempt was made to spawn an entity before world was loaded.",
     );
   }
+  const entityID: string = getToken();
+  if (typeof options.buttons !== "undefined") {
+    for (const entityButton of options.buttons) {
+      const button: Button = getDefinable(Button, entityButton.buttonID);
+      if (button.isAttached()) {
+        throw new Error(
+          "An attempt was made to attach button to entity that is already attached to another render condition.",
+        );
+      }
+      button.entity = {
+        entityButton,
+        entityID,
+      };
+    }
+  }
   if (typeof options.sprites !== "undefined") {
     for (const entitySprite of options.sprites) {
       const sprite: Sprite = getDefinable(Sprite, entitySprite.spriteID);
@@ -63,6 +81,7 @@ export const createEntity = (options: CreateEntityOptions): string => {
           "An attempt was made to attach sprite to entity that is already attached to another render condition.",
         );
       }
+      sprite.entityID = entityID;
     }
   }
   if (typeof options.quadrilaterals !== "undefined") {
@@ -76,6 +95,7 @@ export const createEntity = (options: CreateEntityOptions): string => {
           "An attempt was made to attach quadrilateral to entity that is already attached to another render condition.",
         );
       }
+      quadrilateral.entityID = entityID;
     }
   }
   if (typeof options.ellipses !== "undefined") {
@@ -86,6 +106,7 @@ export const createEntity = (options: CreateEntityOptions): string => {
           "An attempt was made to attach ellipse to entity that is already attached to another render condition.",
         );
       }
+      ellipse.entityID = entityID;
     }
   }
   const level: Level | null =
@@ -104,9 +125,9 @@ export const createEntity = (options: CreateEntityOptions): string => {
       "An attempt was made to spawn an entity with a nonexistant layer.",
     );
   }
-  const id: string = getToken();
-  layer.entities.set(id, {
+  layer.entities.set(entityID, {
     blockingPosition: null,
+    buttons: options.buttons ?? [],
     collidableEntityTypes:
       typeof options.collidableEntityTypes !== "undefined"
         ? [...options.collidableEntityTypes]
@@ -116,7 +137,7 @@ export const createEntity = (options: CreateEntityOptions): string => {
     fieldValues: new Map(),
     hasTouchedPathingStartingTile: false,
     height: options.height,
-    id,
+    id: entityID,
     lastPathedTilePosition: null,
     movementVelocity: null,
     onCollision: options.onCollision ?? null,
@@ -133,5 +154,5 @@ export const createEntity = (options: CreateEntityOptions): string => {
     width: options.width,
     zIndex: options.zIndex ?? 0,
   });
-  return id;
+  return entityID;
 };

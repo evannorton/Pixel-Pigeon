@@ -1,4 +1,6 @@
 import { EntitySprite } from "../types/World";
+import { Sprite } from "../classes/Sprite";
+import { getDefinable } from "./getDefinable";
 import { state } from "../state";
 
 export const addEntitySprite = (
@@ -15,6 +17,8 @@ export const addEntitySprite = (
       for (const [layerEntityID, entity] of layer.entities) {
         if (layerEntityID === entityID) {
           entity.sprites.push(entitySprite);
+          const sprite: Sprite = getDefinable(Sprite, entitySprite.spriteID);
+          sprite.entityID = entity.id;
         }
       }
     }

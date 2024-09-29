@@ -1,5 +1,11 @@
+import {
+  CameraCoordinates,
+  getCameraCoordinates,
+} from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
+import { EntityButton, EntityPosition } from "../types/World";
 import { getDefinable } from "../functions/getDefinable";
+import { getEntityPosition } from "../functions/getEntityPosition";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
@@ -22,7 +28,7 @@ export interface CreateButtonOptions {
   /**
    * Coordinates that can be used to precisely define where the Button should be on the screen
    */
-  coordinates: CreateButtonOptionsCoordinates;
+  coordinates?: CreateButtonOptionsCoordinates;
   height: number;
   onClick?: () => void;
   onMouseDown?: () => void;
@@ -34,14 +40,19 @@ interface ButtonCoordinates {
   readonly x: number;
   readonly y: number;
 }
+interface ButtonEntity {
+  entityID: string;
+  entityButton: EntityButton;
+}
 
 export class Button extends Definable {
-  private readonly _coordinates: ButtonCoordinates;
+  private readonly _coordinates?: ButtonCoordinates;
   private _didClickOccur: boolean = false;
-  private _didMouseDownOccur: boolean = false;
+  private _didMousedownOccur: boolean = false;
   private _didReleaseOccur: boolean = false;
-  private readonly _element: HTMLDivElement = document.createElement("div");
+  private _entity: ButtonEntity | null = null;
   private readonly _height: number;
+  private _isHeld: boolean = false;
   private readonly _onClick?: () => void;
   private readonly _onMouseDown?: () => void;
   private readonly _onRelease?: () => void;
@@ -49,74 +60,106 @@ export class Button extends Definable {
 
   public constructor(options: CreateButtonOptions) {
     super(getToken());
-    this._coordinates = {
-      condition: options.coordinates.condition,
-      x: options.coordinates.x,
-      y: options.coordinates.y,
-    };
+    if (typeof options.coordinates !== "undefined") {
+      this._coordinates = {
+        condition: options.coordinates.condition,
+        x: options.coordinates.x,
+        y: options.coordinates.y,
+      };
+    }
     this._height = options.height;
     this._onClick = options.onClick;
     this._onMouseDown = options.onMouseDown;
     this._onRelease = options.onRelease;
     this._width = options.width;
-    const buttonsElement: HTMLElement | null =
-      document.getElementById("buttons");
-    if (buttonsElement === null) {
-      throw new Error(
-        "An attempt was made to create Button with no buttons element.",
-      );
+  }
+
+  public get entity(): ButtonEntity {
+    if (this._entity !== null) {
+      return this._entity;
     }
-    buttonsElement.appendChild(this._element);
-    this._element.className = "button";
-    this._element.addEventListener("click", (): void => {
-      this._didClickOccur = true;
-    });
-    this._element.addEventListener(
-      "mousedown",
-      (mousedownEvent: MouseEvent): void => {
-        if (mousedownEvent.button === 0) {
-          this._didMouseDownOccur = true;
-          const onMouseUp = (mouseupEvent: MouseEvent): void => {
-            if (mouseupEvent.button === 0) {
-              this._didReleaseOccur = true;
-              removeEventListener("mouseup", onMouseUp);
-            }
-          };
-          addEventListener("mouseup", onMouseUp);
+    throw new Error(this.getAccessorErrorMessage("entity"));
+  }
+
+  public set entity(entity: ButtonEntity | null) {
+    this._entity = entity;
+  }
+
+  public handleMousedownEvent(): void {
+    if (this.isHovered()) {
+      this._isHeld = true;
+      this._didMousedownOccur = true;
+    }
+  }
+
+  public handleMouseupEvent(): void {
+    if (this._isHeld) {
+      if (this.isHovered()) {
+        this._didClickOccur = true;
+      }
+      this._didReleaseOccur = true;
+      this._isHeld = false;
+    }
+  }
+
+  public isAttached(): boolean {
+    if (typeof this._coordinates !== "undefined") {
+      return true;
+    }
+    if (this._entity !== null) {
+      return true;
+    }
+    return false;
+  }
+
+  public isHovered(): boolean {
+    if (state.values.mouseCoords !== null) {
+      let x: number | undefined;
+      let y: number | undefined;
+      if (typeof this._coordinates !== "undefined") {
+        if (this.passesCoordinatesCondition() === false) {
+          return false;
         }
-      },
-    );
+        x = this._coordinates.x;
+        y = this._coordinates.y;
+      }
+      if (this._entity !== null) {
+        const entityPosition: EntityPosition = getEntityPosition(
+          this._entity.entityID,
+        );
+        const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
+        x = Math.floor(entityPosition.x) - cameraCoordinates.x;
+        y = Math.floor(entityPosition.y) - cameraCoordinates.y;
+      }
+      if (typeof x === "undefined" || typeof y === "undefined") {
+        throw new Error(
+          `Button "${this._id}" attempted to check hover with no coordinates.`,
+        );
+      }
+      if (
+        state.values.mouseCoords.x >= x &&
+        state.values.mouseCoords.x < x + this._width &&
+        state.values.mouseCoords.y >= y &&
+        state.values.mouseCoords.y < y + this._height
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public update(): void {
-    if (state.values.config === null) {
-      throw new Error(
-        `Button "${this._id}" attempted to update before config was loaded.`,
-      );
-    }
-    if (this.passesCoordinatesCondition()) {
-      this._element.style.display = "block";
-      const xPercent: number = this._coordinates.x / state.values.config.width;
-      const yPercent: number = this._coordinates.y / state.values.config.height;
-      const widthPercent: number = this._width / state.values.config.width;
-      const heightPercent: number = this._height / state.values.config.height;
-      this._element.style.left = `${xPercent * 100}%`;
-      this._element.style.top = `${yPercent * 100}%`;
-      this._element.style.width = `${widthPercent * 100}%`;
-      this._element.style.height = `${heightPercent * 100}%`;
-    } else {
-      this._element.style.display = "none";
-    }
     if (this._didClickOccur) {
       this._didClickOccur = false;
       try {
         this._onClick?.();
+        this._entity?.entityButton.onClick?.();
       } catch (error: unknown) {
         handleCaughtError(error, `Button "${this._id}" onClick`, true);
       }
     }
-    if (this._didMouseDownOccur) {
-      this._didMouseDownOccur = false;
+    if (this._didMousedownOccur) {
+      this._didMousedownOccur = false;
       try {
         this._onMouseDown?.();
       } catch (error: unknown) {
@@ -134,6 +177,11 @@ export class Button extends Definable {
   }
 
   private passesCoordinatesCondition(): boolean {
+    if (typeof this._coordinates === "undefined") {
+      throw new Error(
+        `Button "${this._id}" attempted to check coordinates condition with no coordinates.`,
+      );
+    }
     if (typeof this._coordinates.condition === "undefined") {
       return true;
     }

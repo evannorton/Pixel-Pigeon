@@ -44,6 +44,7 @@ interface EllipseCoordinates {
 export class Ellipse extends Definable {
   private readonly _color: string;
   private readonly _coordinates?: EllipseCoordinates;
+  private _entityID: string | null = null;
   private readonly _height: Scriptable<number>;
   private readonly _opacity: Scriptable<number>;
   private readonly _pixiGraphics: Graphics = new Graphics();
@@ -62,6 +63,17 @@ export class Ellipse extends Definable {
     this._height = options.height;
     this._opacity = options.opacity ?? 1;
     this._width = options.width;
+  }
+
+  public get entityID(): string {
+    if (this._entityID !== null) {
+      return this._entityID;
+    }
+    throw new Error(this.getAccessorErrorMessage("entityID"));
+  }
+
+  public set entityID(entityID: string | null) {
+    this._entityID = entityID;
   }
 
   public clear(): void {
@@ -109,27 +121,11 @@ export class Ellipse extends Definable {
   }
 
   public isAttached(): boolean {
-    if (state.values.world === null) {
-      throw new Error(
-        `Ellipse "${this._id}" attempted to check if it was attached before world was loaded.`,
-      );
-    }
     if (typeof this._coordinates !== "undefined") {
       return true;
     }
-    for (const level of state.values.world.levels.values()) {
-      for (const layer of level.layers) {
-        for (const entity of layer.entities.values()) {
-          if (
-            entity.ellipses.some(
-              (ellipse: EntityEllipse): boolean =>
-                ellipse.ellipseID === this._id,
-            )
-          ) {
-            return true;
-          }
-        }
-      }
+    if (this._entityID !== null) {
+      return true;
     }
     return false;
   }

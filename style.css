@@ -28,6 +28,10 @@ body {
   user-select: none !important;
 }
 
+body.button-hovered {
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
+}
+
 input {
   cursor: url("./cursors/default.png"), default;
 }
@@ -78,18 +82,6 @@ body.paused #pause-button {
 
 body:not(.paused) #unpause-button {
   display: none;
-}
-
-#buttons {
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-}
-
-.button {
-  cursor: url("./cursors/pointer.png") 7 2, pointer;
-  pointer-events: all;
-  position: absolute;
 }
 
 #achievement-unlock-notices {

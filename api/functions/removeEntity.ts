@@ -1,3 +1,4 @@
+import { removeButton } from "../classes/Button";
 import { removeEllipse } from "../classes/Ellipse";
 import { removeQuadrilateral } from "../classes/Quadrilateral";
 import { removeSprite } from "../classes/Sprite";
@@ -26,6 +27,9 @@ export const removeEntity = (entityID: string): void => {
           }
           for (const entityEllipse of layerEntity.ellipses) {
             removeEllipse(entityEllipse.ellipseID);
+          }
+          for (const entityButton of layerEntity.buttons) {
+            removeButton(entityButton.buttonID);
           }
           layer.entities.delete(layerEntityID);
         }

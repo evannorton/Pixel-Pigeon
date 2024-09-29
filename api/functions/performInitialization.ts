@@ -1,6 +1,7 @@
 import { Achievement } from "../classes/Achievement";
 import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
 import { AudioSource } from "../classes/AudioSource";
+import { Button } from "../classes/Button";
 import { Config } from "../types/Config";
 import { Dev } from "../types/Dev";
 import { Env } from "../types/Env";
@@ -22,6 +23,7 @@ import { cleanStorage } from "./storage/cleanStorage";
 import { fireAlert } from "./fireAlert";
 import { getDefinable } from "./getDefinable";
 import { getDefinables } from "./getDefinables";
+import { getStretchScale } from "./getStretchScale";
 import { goToPauseMenuSection } from "./goToPauseMenuSection";
 import { handleUncaughtError } from "./handleUncaughtError";
 import { loadAssets } from "./loadAssets";
@@ -254,11 +256,11 @@ export const performInitialization = async (): Promise<void> => {
       ),
     });
   });
-  addEventListener("mouseup", (mousedownEvent: MouseEvent): void => {
-    switch (mousedownEvent.button) {
+  addEventListener("mouseup", (mouseupEvent: MouseEvent): void => {
+    switch (mouseupEvent.button) {
       case 3:
       case 4:
-        mousedownEvent.preventDefault();
+        mouseupEvent.preventDefault();
         break;
     }
   });
@@ -293,6 +295,21 @@ export const performInitialization = async (): Promise<void> => {
           });
         }
       }
+      if (mousedownEvent.target instanceof HTMLCanvasElement) {
+        state.setValues({
+          mouseCoords: {
+            x:
+              (mousedownEvent.offsetX / mousedownEvent.target.offsetWidth) *
+              config.width,
+            y:
+              (mousedownEvent.offsetY / mousedownEvent.target.offsetHeight) *
+              config.height,
+          },
+        });
+      }
+      for (const button of getDefinables(Button).values()) {
+        button.handleMousedownEvent();
+      }
     },
   );
   screenElement.addEventListener(
@@ -304,8 +321,93 @@ export const performInitialization = async (): Promise<void> => {
             heldMouseInput.button !== mouseupEvent.button,
         ),
       });
+      if (mouseupEvent.target instanceof HTMLCanvasElement) {
+        state.setValues({
+          mouseCoords: {
+            x:
+              (mouseupEvent.offsetX / mouseupEvent.target.offsetWidth) *
+              config.width,
+            y:
+              (mouseupEvent.offsetY / mouseupEvent.target.offsetHeight) *
+              config.height,
+          },
+        });
+      }
+      for (const button of getDefinables(Button).values()) {
+        button.handleMouseupEvent();
+      }
     },
   );
+  screenElement.addEventListener("mouseleave", (): void => {
+    state.setValues({
+      mouseCoords: null,
+    });
+  });
+  screenElement.addEventListener(
+    "mousemove",
+    (mousemoveEvent: MouseEvent): void => {
+      if (mousemoveEvent.target instanceof HTMLCanvasElement) {
+        state.setValues({
+          mouseCoords: {
+            x:
+              (mousemoveEvent.offsetX / mousemoveEvent.target.offsetWidth) *
+              config.width,
+            y:
+              (mousemoveEvent.offsetY / mousemoveEvent.target.offsetHeight) *
+              config.height,
+          },
+        });
+      }
+    },
+  );
+  screenElement.addEventListener("selectstart", (e: Event): void => {
+    e.preventDefault();
+  });
+  screenElement.addEventListener("touchcancel", (): void => {
+    state.setValues({
+      mouseCoords: null,
+    });
+  });
+  screenElement.addEventListener("touchend", (e: TouchEvent): void => {
+    e.preventDefault();
+    state.setValues({
+      mouseCoords: null,
+    });
+  });
+  screenElement.addEventListener("touchmove", (e: TouchEvent): void => {
+    e.preventDefault();
+    if (e.target instanceof HTMLCanvasElement) {
+      const scale: number = getStretchScale();
+      const rect: DOMRect = e.target.getBoundingClientRect();
+      const targetTouch: Touch | undefined = e.targetTouches[0];
+      if (typeof targetTouch === "undefined") {
+        throw new Error("Target touch is undefined.");
+      }
+      state.setValues({
+        mouseCoords: {
+          x: (targetTouch.clientX - rect.x) / scale,
+          y: (targetTouch.clientY - rect.y) / scale,
+        },
+      });
+    }
+  });
+  screenElement.addEventListener("touchstart", (e: TouchEvent): void => {
+    e.preventDefault();
+    if (e.target instanceof HTMLCanvasElement) {
+      const scale: number = getStretchScale();
+      const rect: DOMRect = e.target.getBoundingClientRect();
+      const targetTouch: Touch | undefined = e.targetTouches[0];
+      if (typeof targetTouch === "undefined") {
+        throw new Error("Target touch is undefined.");
+      }
+      state.setValues({
+        mouseCoords: {
+          x: (targetTouch.clientX - rect.x) / scale,
+          y: (targetTouch.clientY - rect.y) / scale,
+        },
+      });
+    }
+  });
   pauseButtonElement.addEventListener("click", (): void => {
     document.body.classList.add("paused");
     goToPauseMenuSection("main");

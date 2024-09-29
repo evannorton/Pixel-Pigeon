@@ -144,6 +144,7 @@ export class Sprite extends Definable {
   private readonly _animationStartedAt?: Scriptable<number>;
   private readonly _animations: SpriteAnimation[];
   private readonly _coordinates?: SpriteCoordinates;
+  private _entityID: string | null = null;
   private readonly _isGrayscale: Scriptable<boolean> = false;
   private readonly _imageSourceID: Scriptable<string>;
   private readonly _palette: Scriptable<string[]> = [];
@@ -207,12 +208,23 @@ export class Sprite extends Definable {
         : [];
   }
 
+  public get entityID(): string {
+    if (this._entityID !== null) {
+      return this._entityID;
+    }
+    throw new Error(this.getAccessorErrorMessage("entityID"));
+  }
+
   private get imageSource(): ImageSource | null {
     const imageSourceID: string | null = this.getImageSourceID();
     if (imageSourceID !== null) {
       return getDefinable(ImageSource, imageSourceID);
     }
     return null;
+  }
+
+  public set entityID(entityID: string | null) {
+    this._entityID = entityID;
   }
 
   public playAnimation(): void {
@@ -323,26 +335,11 @@ export class Sprite extends Definable {
   }
 
   public isAttached(): boolean {
-    if (state.values.world === null) {
-      throw new Error(
-        `Sprite "${this._id}" attempted to check if it was attached before world was loaded.`,
-      );
-    }
     if (typeof this._coordinates !== "undefined") {
       return true;
     }
-    for (const level of state.values.world.levels.values()) {
-      for (const layer of level.layers) {
-        for (const entity of layer.entities.values()) {
-          if (
-            entity.sprites.some(
-              (sprite: EntitySprite): boolean => sprite.spriteID === this._id,
-            )
-          ) {
-            return true;
-          }
-        }
-      }
+    if (this._entityID !== null) {
+      return true;
     }
     return false;
   }

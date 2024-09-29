@@ -1,4 +1,6 @@
 import { EntityQuadrilateral } from "../types/World";
+import { Quadrilateral } from "../classes/Quadrilateral";
+import { getDefinable } from "./getDefinable";
 import { state } from "../state";
 
 export const addEntityQuadrilateral = (
@@ -15,6 +17,11 @@ export const addEntityQuadrilateral = (
       for (const [layerEntityID, entity] of layer.entities) {
         if (layerEntityID === entityID) {
           entity.quadrilaterals.push(entityQuadrilateral);
+          const quadrilateral: Quadrilateral = getDefinable(
+            Quadrilateral,
+            entityQuadrilateral.quadrilateralID,
+          );
+          quadrilateral.entityID = entity.id;
         }
       }
     }
