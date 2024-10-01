@@ -87,6 +87,7 @@ import {
   emitToSocketioServer,
 } from "./functions/socketio/emitToSocketioServer";
 import {
+  EntityButton,
   EntityCollidable,
   EntityEllipse,
   EntityPosition,
@@ -221,6 +222,7 @@ export {
   CreateVolumeChannelOptions,
   emitToSocketioServer,
   EmitToSocketIOServerOptions,
+  EntityButton,
   EntityCollidable,
   EntityEllipse,
   EntityPosition,
