@@ -322,7 +322,6 @@ export const performInitialization = async (): Promise<void> => {
   screenElement.addEventListener(
     "mouseup",
     (mouseupEvent: MouseEvent): void => {
-      console.log("mouseup");
       state.setValues({
         heldMouseInputs: state.values.heldMouseInputs.filter(
           (heldMouseInput: MouseInput): boolean =>
@@ -347,7 +346,6 @@ export const performInitialization = async (): Promise<void> => {
     },
   );
   screenElement.addEventListener("mouseleave", (): void => {
-    console.log("mouseleave");
     for (const button of getDefinables(Button).values()) {
       button.handleUnheld();
     }
@@ -376,7 +374,6 @@ export const performInitialization = async (): Promise<void> => {
     e.preventDefault();
   });
   screenElement.addEventListener("touchcancel", (): void => {
-    console.log("touch cancel");
     for (const button of getDefinables(Button).values()) {
       button.handleUnheld();
     }
@@ -385,7 +382,6 @@ export const performInitialization = async (): Promise<void> => {
     });
   });
   screenElement.addEventListener("touchend", (e: TouchEvent): void => {
-    console.log("touch end");
     e.preventDefault();
     for (const button of getDefinables(Button).values()) {
       button.handleUnheld();
@@ -427,7 +423,6 @@ export const performInitialization = async (): Promise<void> => {
         },
       });
     }
-    console.log("touch start");
     for (const button of getDefinables(Button).values()) {
       button.handleHeld();
     }
