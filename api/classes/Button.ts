@@ -85,14 +85,14 @@ export class Button extends Definable {
     this._entity = entity;
   }
 
-  public handleMousedownEvent(): void {
+  public handleHeld(): void {
     if (this.isHovered()) {
       this._isHeld = true;
       this._didMousedownOccur = true;
     }
   }
 
-  public handleMouseupEvent(): void {
+  public handleUnheld(): void {
     if (this._isHeld) {
       if (this.isHovered()) {
         this._didClickOccur = true;

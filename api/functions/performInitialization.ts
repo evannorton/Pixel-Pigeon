@@ -1,5 +1,11 @@
 import { Achievement } from "../classes/Achievement";
-import { Application, BaseTexture, SCALE_MODES, settings } from "pixi.js";
+import {
+  Application,
+  BaseTexture,
+  BitmapFont,
+  SCALE_MODES,
+  settings,
+} from "pixi.js";
 import { AudioSource } from "../classes/AudioSource";
 import { Button } from "../classes/Button";
 import { Config } from "../types/Config";
@@ -153,7 +159,7 @@ export const performInitialization = async (): Promise<void> => {
   if (config.requireClickToFocus === false) {
     state.setValues({ hasInteracted: true });
   }
-  const app: Application = new Application({
+  const app: Application<HTMLCanvasElement> = new Application({
     backgroundAlpha: 0,
     height: config.height,
     width: config.width,
@@ -177,6 +183,7 @@ export const performInitialization = async (): Promise<void> => {
   loadAssets();
   settings.ROUND_PIXELS = true;
   BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
+  BitmapFont.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
   if (settings.RENDER_OPTIONS) {
     settings.RENDER_OPTIONS.hello = false;
   }
@@ -189,7 +196,7 @@ export const performInitialization = async (): Promise<void> => {
   updateAchievementsCount();
   achievementsAmountTotalElement.innerText =
     getDefinables(Achievement).size.toString();
-  screenElement.appendChild(app.view as HTMLCanvasElement);
+  screenElement.appendChild(app.renderer.view);
   app.ticker.add(tick);
   addEventListener("resize", sizeScreen);
   addEventListener("blur", (): void => {
@@ -308,13 +315,14 @@ export const performInitialization = async (): Promise<void> => {
         });
       }
       for (const button of getDefinables(Button).values()) {
-        button.handleMousedownEvent();
+        button.handleHeld();
       }
     },
   );
   screenElement.addEventListener(
     "mouseup",
     (mouseupEvent: MouseEvent): void => {
+      console.log("mouseup");
       state.setValues({
         heldMouseInputs: state.values.heldMouseInputs.filter(
           (heldMouseInput: MouseInput): boolean =>
@@ -334,11 +342,15 @@ export const performInitialization = async (): Promise<void> => {
         });
       }
       for (const button of getDefinables(Button).values()) {
-        button.handleMouseupEvent();
+        button.handleUnheld();
       }
     },
   );
   screenElement.addEventListener("mouseleave", (): void => {
+    console.log("mouseleave");
+    for (const button of getDefinables(Button).values()) {
+      button.handleUnheld();
+    }
     state.setValues({
       mouseCoords: null,
     });
@@ -364,12 +376,20 @@ export const performInitialization = async (): Promise<void> => {
     e.preventDefault();
   });
   screenElement.addEventListener("touchcancel", (): void => {
+    console.log("touch cancel");
+    for (const button of getDefinables(Button).values()) {
+      button.handleUnheld();
+    }
     state.setValues({
       mouseCoords: null,
     });
   });
   screenElement.addEventListener("touchend", (e: TouchEvent): void => {
+    console.log("touch end");
     e.preventDefault();
+    for (const button of getDefinables(Button).values()) {
+      button.handleUnheld();
+    }
     state.setValues({
       mouseCoords: null,
     });
@@ -377,18 +397,18 @@ export const performInitialization = async (): Promise<void> => {
   screenElement.addEventListener("touchmove", (e: TouchEvent): void => {
     e.preventDefault();
     if (e.target instanceof HTMLCanvasElement) {
-      const scale: number = getStretchScale();
-      const rect: DOMRect = e.target.getBoundingClientRect();
+      // const scale: number = getStretchScale();
+      // const rect: DOMRect = e.target.getBoundingClientRect();
       const targetTouch: Touch | undefined = e.targetTouches[0];
       if (typeof targetTouch === "undefined") {
         throw new Error("Target touch is undefined.");
       }
-      state.setValues({
-        mouseCoords: {
-          x: (targetTouch.clientX - rect.x) / scale,
-          y: (targetTouch.clientY - rect.y) / scale,
-        },
-      });
+      // state.setValues({
+      //   mouseCoords: {
+      //     x: (targetTouch.clientX - rect.x) / scale,
+      //     y: (targetTouch.clientY - rect.y) / scale,
+      //   },
+      // });
     }
   });
   screenElement.addEventListener("touchstart", (e: TouchEvent): void => {
@@ -406,6 +426,10 @@ export const performInitialization = async (): Promise<void> => {
           y: (targetTouch.clientY - rect.y) / scale,
         },
       });
+    }
+    console.log("touch start");
+    for (const button of getDefinables(Button).values()) {
+      button.handleHeld();
     }
   });
   pauseButtonElement.addEventListener("click", (): void => {

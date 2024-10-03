@@ -22,7 +22,7 @@ interface StateSchema {
   readonly addingKeyboardHeldValue: string | null;
   readonly addingKeyboardValue: string | null;
   readonly addingMouseValue: number | null;
-  readonly app: Application | null;
+  readonly app: Application<HTMLCanvasElement> | null;
   readonly cameraLockedEntityID: string | null;
   readonly config: Config | null;
   readonly currentTime: number;
