@@ -71,6 +71,7 @@ export class Entity extends Definable {
   private _hasTouchedPathingStartingTile: boolean = false;
   private readonly _height: number;
   private _lastPathedTilePosition: EntityPosition | null = null;
+  private readonly _levelID: string;
   private _movementVelocity: {
     readonly x: number;
     readonly y: number;
@@ -87,30 +88,8 @@ export class Entity extends Definable {
   private readonly _width: number;
   private _zIndex: number;
   public constructor(options: CreateEntityOptions) {
-    if (state.values.world === null) {
-      throw new Error(
-        "An attempt was made to create an entity before world was loaded.",
-      );
-    }
     const id: string = getToken();
     super(id);
-    const level: Level | null =
-      state.values.world.levels.get(options.levelID) ?? null;
-    if (level === null) {
-      throw new Error(
-        "An attempt was made to create an entity with a nonexistant active level.",
-      );
-    }
-    const layer: Layer | null =
-      level.layers.find(
-        (levelLayer: Layer): boolean => levelLayer.id === options.layerID,
-      ) ?? null;
-    if (layer === null) {
-      throw new Error(
-        "An attempt was made to create an entity with a nonexistant layer.",
-      );
-    }
-    layer.entityIDs.push(id);
     if (typeof options.buttons !== "undefined") {
       for (const entityButton of options.buttons) {
         const button: Button = getDefinable(Button, entityButton.buttonID);
@@ -177,6 +156,7 @@ export class Entity extends Definable {
     this._height = options.height;
     this._onCollision = options.onCollision ?? null;
     this._onOverlap = options.onOverlap ?? null;
+    this._levelID = options.levelID;
     this._position = {
       x: options.position.x,
       y: options.position.y,
@@ -199,8 +179,8 @@ export class Entity extends Definable {
     throw new Error(this.getAccessorErrorMessage("blockingPosition"));
   }
 
-  public get ellipses(): EntityEllipse[] {
-    return [...this._ellipses];
+  public get ellipses(): readonly EntityEllipse[] {
+    return this._ellipses;
   }
 
   public get hasTouchedPathingStartingTile(): boolean {
@@ -211,7 +191,7 @@ export class Entity extends Definable {
     return this._height;
   }
 
-  public get pathTilePositions(): TilePosition[] {
+  public get pathTilePositions(): readonly TilePosition[] {
     if (this._pathTilePositions !== null) {
       return this._pathTilePositions;
     }
@@ -222,12 +202,12 @@ export class Entity extends Definable {
     return this._position;
   }
 
-  public get quadrilaterals(): EntityQuadrilateral[] {
-    return [...this._quadrilaterals];
+  public get quadrilaterals(): readonly EntityQuadrilateral[] {
+    return this._quadrilaterals;
   }
 
-  public get sprites(): EntitySprite[] {
-    return [...this._sprites];
+  public get sprites(): readonly EntitySprite[] {
+    return this._sprites;
   }
 
   public get type(): string {
@@ -268,14 +248,14 @@ export class Entity extends Definable {
 
   public getCalculatedPath(
     options: GetEntityCalculatedPathOptions,
-  ): EntityPosition[] {
+  ): readonly EntityPosition[] {
     let path: EntityPosition[] = [];
     const layer: Layer = this.getLayer();
     const startX: number = Math.floor(this._position.x / layer.tileSize);
     const startY: number = Math.floor(this._position.y / layer.tileSize);
     const endX: number = Math.floor(options.x / layer.tileSize);
     const endY: number = Math.floor(options.y / layer.tileSize);
-    const matrix: number[][] = this.getPathingMatrix(
+    const matrix: readonly number[][] = this.getPathingMatrix(
       (options.exclusions ?? []).map(
         (exclusion: PathingEntityExclusion): PathingTileExclusion => ({
           tilePosition: {
@@ -288,7 +268,7 @@ export class Entity extends Definable {
     );
     const easystar: EasyStar = new EasyStar();
     easystar.setAcceptableTiles([0]);
-    easystar.setGrid(matrix);
+    easystar.setGrid(matrix as number[][]);
     easystar.enableDiagonals();
     easystar.disableCornerCutting();
     easystar.enableSync();
@@ -314,6 +294,10 @@ export class Entity extends Definable {
 
   public getFieldValue(fieldID: string): unknown {
     return this._fieldValues.get(fieldID) ?? null;
+  }
+
+  public getLevelID(): string {
+    return this._levelID;
   }
 
   public hasBlockingPosition(): boolean {
@@ -649,10 +633,10 @@ export class Entity extends Definable {
       const startY: number = Math.floor(this._position.y / layer.tileSize);
       const endX: number = Math.floor(pathing.x / layer.tileSize);
       const endY: number = Math.floor(pathing.y / layer.tileSize);
-      const matrix: number[][] = this.getPathingMatrix([]);
+      const matrix: readonly number[][] = this.getPathingMatrix([]);
       const easystar: EasyStar = new EasyStar();
       easystar.setAcceptableTiles([0]);
-      easystar.setGrid(matrix);
+      easystar.setGrid(matrix as number[][]);
       easystar.enableDiagonals();
       easystar.disableCornerCutting();
       easystar.enableSync();
@@ -733,101 +717,120 @@ export class Entity extends Definable {
     throw new Error("Could not find layer of entity");
   }
 
-  private getPathingMatrix(exclusions: PathingTileExclusion[]): number[][] {
+  private getLevel(): Level {
+    if (state.values.world === null) {
+      throw new Error(
+        `An attempt was made to get level of entity "${this._id}" before world was loaded.`,
+      );
+    }
+    const level: Level | undefined = state.values.world.levels.get(
+      this._levelID,
+    );
+    if (typeof level === "undefined") {
+      throw new Error(`Level with id "${this._levelID}" not found in world.`);
+    }
+    return level;
+  }
+
+  private getPathingMatrix(
+    exclusions: PathingTileExclusion[],
+  ): readonly number[][] {
     if (state.values.world === null) {
       throw new Error(
         "An attempt was made to get pathing matrix before world was loaded.",
       );
     }
     const matrix: number[][] = [];
-    const layer: Layer = this.getLayer();
-    for (const layerTile of layer.tiles) {
-      const tileset: Tileset | null =
-        state.values.world.tilesets.get(layerTile.tilesetID) ?? null;
-      if (tileset === null) {
-        throw new Error(
-          `Tileset with id "${layerTile.tilesetID}" not found in world.`,
-        );
-      }
-      const matchedTile: WorldTilesetTile | undefined =
-        tileset.tiles[
-          layerTile.tilesetX +
-            layerTile.tilesetY * (tileset.width / tileset.tileSize)
-        ];
-      if (typeof matchedTile === "undefined") {
-        throw new Error("Out of bounds tiles index");
-      }
-      const x: number = Math.floor(layerTile.x / layer.tileSize);
-      const y: number = Math.floor(layerTile.y / layer.tileSize);
-      if (typeof matrix[y] === "undefined") {
-        matrix[y] = [];
-      }
-      if (typeof (matrix[y] as number[])[x] === "undefined") {
-        (matrix[y] as number[])[x] = 0;
-      }
-      if (this._collidesWithMap && matchedTile.isCollidable) {
-        (matrix[y] as number[])[x] = 1;
-      }
-    }
-    for (const layerEntityID of layer.entityIDs.values()) {
-      const layerEntity: Entity = getDefinable(Entity, layerEntityID);
-      if (
-        layerEntityID !== this._id &&
-        layerEntity.hasType() &&
-        this._collidableEntityTypes.includes(layerEntity.type)
-      ) {
-        const unroundedX: number =
-          layerEntity._blockingPosition?.x ?? layerEntity.position.x;
-        const unroundedY: number =
-          layerEntity._blockingPosition?.y ?? layerEntity.position.y;
-        const positions: [number, number][] = [
-          // Top left
-          [
-            Math.floor(unroundedX / layer.tileSize),
-            Math.floor(unroundedY / layer.tileSize),
-          ],
-          // Top right
-          [
-            Math.floor((unroundedX + this._width - 1) / layer.tileSize),
-            Math.floor(unroundedY / layer.tileSize),
-          ],
-          // Bottom left
-          [
-            Math.floor(unroundedX / layer.tileSize),
-            Math.floor((unroundedY + this._height - 1) / layer.tileSize),
-          ],
-          // Bottom right
-          [
-            Math.floor((unroundedX + this._width - 1) / layer.tileSize),
-            Math.floor((unroundedY + this._height - 1) / layer.tileSize),
-          ],
-        ];
-        const filteredPositions: [number, number][] = [];
-        for (const [x, y] of positions) {
-          if (
-            !filteredPositions.some(
-              ([filteredX, filteredY]: [number, number]): boolean =>
-                filteredX === x && filteredY === y,
-            )
-          ) {
-            filteredPositions.push([x, y]);
-          }
+    const level: Level = this.getLevel();
+    for (const layer of level.layers.values()) {
+      for (const layerTile of layer.tiles) {
+        const tileset: Tileset | null =
+          state.values.world.tilesets.get(layerTile.tilesetID) ?? null;
+        if (tileset === null) {
+          throw new Error(
+            `Tileset with id "${layerTile.tilesetID}" not found in world.`,
+          );
         }
-        for (const [x, y] of filteredPositions) {
-          if (typeof matrix[y] === "undefined") {
-            matrix[y] = [];
+        const matchedTile: WorldTilesetTile | undefined =
+          tileset.tiles[
+            layerTile.tilesetX +
+              layerTile.tilesetY * (tileset.width / tileset.tileSize)
+          ];
+        if (typeof matchedTile === "undefined") {
+          throw new Error("Out of bounds tiles index");
+        }
+        const x: number = Math.floor(layerTile.x / layer.tileSize);
+        const y: number = Math.floor(layerTile.y / layer.tileSize);
+        if (typeof matrix[y] === "undefined") {
+          matrix[y] = [];
+        }
+        if (typeof (matrix[y] as number[])[x] === "undefined") {
+          (matrix[y] as number[])[x] = 0;
+        }
+        if (this._collidesWithMap && matchedTile.isCollidable) {
+          (matrix[y] as number[])[x] = 1;
+        }
+      }
+      for (const layerEntityID of layer.entityIDs.values()) {
+        const layerEntity: Entity = getDefinable(Entity, layerEntityID);
+        if (
+          layerEntityID !== this._id &&
+          layerEntity.hasType() &&
+          this._collidableEntityTypes.includes(layerEntity.type)
+        ) {
+          const unroundedX: number =
+            layerEntity._blockingPosition?.x ?? layerEntity.position.x;
+          const unroundedY: number =
+            layerEntity._blockingPosition?.y ?? layerEntity.position.y;
+          const positions: [number, number][] = [
+            // Top left
+            [
+              Math.floor(unroundedX / layer.tileSize),
+              Math.floor(unroundedY / layer.tileSize),
+            ],
+            // Top right
+            [
+              Math.floor((unroundedX + this._width - 1) / layer.tileSize),
+              Math.floor(unroundedY / layer.tileSize),
+            ],
+            // Bottom left
+            [
+              Math.floor(unroundedX / layer.tileSize),
+              Math.floor((unroundedY + this._height - 1) / layer.tileSize),
+            ],
+            // Bottom right
+            [
+              Math.floor((unroundedX + this._width - 1) / layer.tileSize),
+              Math.floor((unroundedY + this._height - 1) / layer.tileSize),
+            ],
+          ];
+          const filteredPositions: [number, number][] = [];
+          for (const [x, y] of positions) {
+            if (
+              !filteredPositions.some(
+                ([filteredX, filteredY]: [number, number]): boolean =>
+                  filteredX === x && filteredY === y,
+              )
+            ) {
+              filteredPositions.push([x, y]);
+            }
           }
-          if (
-            exclusions.some(
-              (exclusion: PathingTileExclusion): boolean =>
-                exclusion.type === layerEntity._type &&
-                exclusion.tilePosition.x === x &&
-                exclusion.tilePosition.y === y,
-            )
-          ) {
-            (matrix[y] as number[])[x] = 0;
-          } else {
-            (matrix[y] as number[])[x] = 1;
+          for (const [x, y] of filteredPositions) {
+            if (typeof matrix[y] === "undefined") {
+              matrix[y] = [];
+            }
+            if (
+              exclusions.some(
+                (exclusion: PathingTileExclusion): boolean =>
+                  exclusion.type === layerEntity._type &&
+                  exclusion.tilePosition.x === x &&
+                  exclusion.tilePosition.y === y,
+              )
+            ) {
+              (matrix[y] as number[])[x] = 0;
+            } else {
+              (matrix[y] as number[])[x] = 1;
+            }
           }
         }
       }
@@ -835,8 +838,32 @@ export class Entity extends Definable {
     return matrix;
   }
 }
-export const createEntity = (options: CreateEntityOptions): string =>
-  new Entity(options).id;
+export const createEntity = (options: CreateEntityOptions): string => {
+  if (state.values.world === null) {
+    throw new Error(
+      "An attempt was made to create an entity before world was loaded.",
+    );
+  }
+  const level: Level | null =
+    state.values.world.levels.get(options.levelID) ?? null;
+  if (level === null) {
+    throw new Error(
+      "An attempt was made to create an entity with a nonexistant active level.",
+    );
+  }
+  const layer: Layer | null =
+    level.layers.find(
+      (levelLayer: Layer): boolean => levelLayer.id === options.layerID,
+    ) ?? null;
+  if (layer === null) {
+    throw new Error(
+      "An attempt was made to create an entity with a nonexistant layer.",
+    );
+  }
+  const id: string = new Entity(options).id;
+  layer.entityIDs.push(id);
+  return id;
+};
 /**
  * The amount an entity is moving when supplied to {@link moveEntity}
  */
@@ -945,9 +972,11 @@ export interface GetEntityCalculatedPathOptions {
 export const getEntityCalculatedPath = (
   entityID: string,
   options: GetEntityCalculatedPathOptions,
-): EntityPosition[] =>
+): readonly EntityPosition[] =>
   getDefinable<Entity>(Entity, entityID).getCalculatedPath(options);
 export const getEntityFieldValue = (
   entityID: string,
   fieldID: string,
 ): unknown => getDefinable<Entity>(Entity, entityID).getFieldValue(fieldID);
+export const getEntityLevelID = (entityID: string): string =>
+  getDefinable<Entity>(Entity, entityID).getLevelID();

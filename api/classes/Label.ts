@@ -58,7 +58,8 @@ export class Label extends Definable {
   private _pixiBitmapText: BitmapText | null = null;
   private readonly _size: number;
   private readonly _text: Scriptable<CreateLabelOptionsText>;
-  private _textInfo: TextInfo | null = null;
+  private _lastColor: string | null = null;
+  private _lastTextInfo: TextInfo | null = null;
   public constructor(options: CreateLabelOptions) {
     super(getToken());
     this._color = options.color;
@@ -92,10 +93,13 @@ export class Label extends Definable {
       const y: number | null = this.getCoordinatesY();
       if (textInfo !== null && color !== null && x !== null && y !== null) {
         const shouldRefreshBitmap: boolean =
-          this._textInfo === null ||
-          textInfo.value !== this._textInfo.value ||
-          arraysHaveSameValues(textInfo.trims, this._textInfo.trims) === false;
-        this._textInfo = textInfo;
+          this._lastColor !== color ||
+          this._lastTextInfo === null ||
+          textInfo.value !== this._lastTextInfo.value ||
+          arraysHaveSameValues(textInfo.trims, this._lastTextInfo.trims) ===
+            false;
+        this._lastColor = color;
+        this._lastTextInfo = textInfo;
         if (this._pixiBitmapText && shouldRefreshBitmap) {
           this._pixiBitmapText.destroy();
         }

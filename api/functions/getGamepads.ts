@@ -1,4 +1,4 @@
-export const getGamepads = (): Gamepad[] => {
+export const getGamepads = (): readonly Gamepad[] => {
   const gamepads: Gamepad[] = [];
   if (typeof navigator.getGamepads === "function") {
     const navigatorGamepads: (Gamepad | null)[] = navigator.getGamepads();

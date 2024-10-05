@@ -25,7 +25,7 @@ export class ImageSource extends Definable {
     this._imagePath = options.imagePath;
   }
 
-  public get colors(): string[] {
+  public get colors(): readonly string[] {
     return this._colors;
   }
 

@@ -32,8 +32,8 @@ export class State<StateSchema> {
    * console.log(state.values.favoriteNumber); // 3
    * ```
    */
-  public get values(): StateSchema {
-    return { ...this._values };
+  public get values(): Readonly<StateSchema> {
+    return this._values;
   }
 
   /**

@@ -193,15 +193,15 @@ export class InputCollection extends Definable {
     this.updateValuesElements();
   }
 
-  public get gamepadButtons(): number[] {
+  public get gamepadButtons(): readonly number[] {
     return this._gamepadButtons;
   }
 
-  public get keyboardButtons(): KeyboardButton[] {
+  public get keyboardButtons(): readonly KeyboardButton[] {
     return this._keyboardButtons;
   }
 
-  public get mouseButtons(): number[] {
+  public get mouseButtons(): readonly number[] {
     return this._mouseButtons;
   }
 

@@ -468,7 +468,7 @@ export class Sprite extends Definable {
       this._pixiSprite.height = currentAnimationFrame.height;
       this._pixiSprite.zIndex = zIndex;
       this._pixiSprite.filters = [];
-      const palette: string[] = this.getPallete();
+      const palette: readonly string[] = this.getPallete();
       const filterColors: [number, number][] = [];
       if (palette.length > 0) {
         for (const color of imageSource.colors) {
@@ -494,7 +494,7 @@ export class Sprite extends Definable {
           ]);
         }
       }
-      const recolors: SpriteRecolor[] = this.getRecolors();
+      const recolors: readonly SpriteRecolor[] = this.getRecolors();
       if (recolors.length > 0) {
         filterColors.push(
           ...recolors.map((recolor: SpriteRecolor): [number, number] => [
@@ -622,7 +622,7 @@ export class Sprite extends Definable {
     return null;
   }
 
-  private getPallete(): string[] {
+  private getPallete(): readonly string[] {
     if (Array.isArray(this._palette)) {
       return this._palette;
     }
@@ -634,7 +634,7 @@ export class Sprite extends Definable {
     return [];
   }
 
-  private getRecolors(): SpriteRecolor[] {
+  private getRecolors(): readonly SpriteRecolor[] {
     if (Array.isArray(this._recolors)) {
       return this._recolors;
     }

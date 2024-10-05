@@ -7,7 +7,9 @@ export interface GetEntityIDsOptions {
   levelIDs?: string[];
   types?: string[];
 }
-export const getEntityIDs = (options: GetEntityIDsOptions): string[] => {
+export const getEntityIDs = (
+  options: GetEntityIDsOptions,
+): readonly string[] => {
   if (state.values.world === null) {
     throw new Error(
       `An attempt was made to get entity IDs before world was loaded.`,

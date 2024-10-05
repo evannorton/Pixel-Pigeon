@@ -79,7 +79,7 @@ export const getRectangleCollisionData = (
       if ((options.excludedEntityIDs ?? []).includes(entity.id) === false) {
         const matchedLayer: string | null =
           options.entityTypes?.find(
-            (type: string): boolean => type === entity.type,
+            (type: string): boolean => entity.hasType() && type === entity.type,
           ) ?? null;
         if (
           matchedLayer !== null &&

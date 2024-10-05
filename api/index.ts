@@ -31,6 +31,7 @@ import {
   createEntity,
   getEntityCalculatedPath,
   getEntityFieldValue,
+  getEntityLevelID,
   getEntityPosition,
   isEntityPathing,
   moveEntity,
@@ -150,7 +151,6 @@ import { exitLevel } from "./functions/exitLevel";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getDeltaTime } from "./functions/getDeltaTime";
-import { getEntityLevelID } from "./functions/getEntityLevelID";
 import { getEnvironmentVariable } from "./functions/getEnvironmentVariable";
 import { getGameHeight } from "./functions/getGameHeight";
 import { getGameWidth } from "./functions/getGameWidth";
