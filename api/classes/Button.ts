@@ -3,9 +3,9 @@ import {
   getCameraCoordinates,
 } from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
+import { Entity } from "./Entity";
 import { EntityButton, EntityPosition } from "../types/World";
 import { getDefinable } from "../functions/getDefinable";
-import { getEntityPosition } from "../functions/getEntityPosition";
 import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
@@ -124,9 +124,10 @@ export class Button extends Definable {
         y = this._coordinates.y;
       }
       if (this._entity !== null) {
-        const entityPosition: EntityPosition = getEntityPosition(
+        const entityPosition: EntityPosition = getDefinable(
+          Entity,
           this._entity.entityID,
-        );
+        ).position;
         const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
         x = Math.floor(entityPosition.x) - cameraCoordinates.x;
         y = Math.floor(entityPosition.y) - cameraCoordinates.y;

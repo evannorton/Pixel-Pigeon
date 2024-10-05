@@ -1,8 +1,4 @@
-import { CollisionData } from "./CollisionData";
-import { OverlapData } from "./OverlapData";
-import { Pathing } from "./Pathing";
 import { Sprite as PixiSprite, Texture } from "pixi.js";
-import { TilePosition } from "./TilePosition";
 
 /**
  * Stores information about Entity collisions.
@@ -55,34 +51,8 @@ export interface EntitySprite {
   x?: number;
   y?: number;
 }
-export interface Entity {
-  blockingPosition: EntityPosition | null;
-  buttons: EntityButton[];
-  readonly collidesWithMap: boolean;
-  readonly collidableEntityTypes: string[];
-  ellipses: EntityEllipse[];
-  readonly fieldValues: Map<string, unknown>;
-  hasTouchedPathingStartingTile: boolean;
-  readonly height: number;
-  readonly id: string;
-  lastPathedTilePosition: EntityPosition | null;
-  movementVelocity: {
-    readonly x: number;
-    readonly y: number;
-  } | null;
-  readonly onCollision: ((data: CollisionData) => void) | null;
-  readonly onOverlap: ((data: OverlapData) => void) | null;
-  path: TilePosition[] | null;
-  pathing: Pathing | null;
-  position: EntityPosition;
-  quadrilaterals: EntityQuadrilateral[];
-  sprites: EntitySprite[];
-  readonly type: string | null;
-  readonly width: number;
-  zIndex: number;
-}
 export interface Layer {
-  readonly entities: Map<string, Entity>;
+  readonly entityIDs: string[];
   readonly id: string;
   readonly tileSize: number;
   readonly tiles: {

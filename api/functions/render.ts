@@ -4,6 +4,7 @@ import {
   getCameraCoordinates,
 } from "./getCameraCoordinates";
 import { Ellipse } from "../classes/Ellipse";
+import { Entity } from "../classes/Entity";
 import { Label } from "../classes/Label";
 import {
   Layer,
@@ -174,24 +175,29 @@ export const render = (): void => {
             state.values.app.stage.addChild(tile.pixiSprite);
           }
         }
-        for (const [, entity] of layer.entities) {
+        for (const entityID of layer.entityIDs) {
+          const entity: Entity = getDefinable(Entity, entityID);
           for (const entitySprite of entity.sprites) {
             const sprite: Sprite = getDefinable(Sprite, entitySprite.spriteID);
-            sprite.drawAtEntity(entity, entitySprite, layerIndex);
+            sprite.drawAtEntity(entityID, entitySprite, layerIndex);
           }
           for (const entityQuadrilateral of entity.quadrilaterals) {
             const quadrilateral: Quadrilateral = getDefinable(
               Quadrilateral,
               entityQuadrilateral.quadrilateralID,
             );
-            quadrilateral.drawAtEntity(entity, entityQuadrilateral, layerIndex);
+            quadrilateral.drawAtEntity(
+              entityID,
+              entityQuadrilateral,
+              layerIndex,
+            );
           }
           for (const entityEllipse of entity.ellipses) {
             const ellipse: Ellipse = getDefinable(
               Ellipse,
               entityEllipse.ellipseID,
             );
-            ellipse.drawAtEntity(entity, entityEllipse, layerIndex);
+            ellipse.drawAtEntity(entityID, entityEllipse, layerIndex);
           }
         }
       });

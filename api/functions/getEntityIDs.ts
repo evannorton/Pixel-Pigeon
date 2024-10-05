@@ -1,3 +1,5 @@
+import { Entity } from "../classes/Entity";
+import { getDefinable } from "./getDefinable";
 import { state } from "../state";
 
 export interface GetEntityIDsOptions {
@@ -22,10 +24,11 @@ export const getEntityIDs = (options: GetEntityIDsOptions): string[] => {
           typeof options.layerIDs === "undefined" ||
           options.layerIDs.includes(layer.id)
         ) {
-          for (const entity of layer.entities.values()) {
+          for (const entityID of layer.entityIDs.values()) {
+            const entity: Entity = getDefinable(Entity, entityID);
             if (
               typeof options.types === "undefined" ||
-              (entity.type !== null && options.types.includes(entity.type))
+              (entity.hasType() && options.types.includes(entity.type))
             ) {
               entityIDs.push(entity.id);
             }

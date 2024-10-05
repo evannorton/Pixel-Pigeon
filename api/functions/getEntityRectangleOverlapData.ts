@@ -1,3 +1,4 @@
+import { Entity } from "../classes/Entity";
 import {
   EntityCollidable,
   Level,
@@ -6,6 +7,7 @@ import {
 } from "../types/World";
 import { OverlapData } from "../types/OverlapData";
 import { Rectangle } from "../types/Rectangle";
+import { getDefinable } from "./getDefinable";
 import { rectanglesOverlap } from "./rectanglesOverlap";
 import { state } from "../state";
 
@@ -70,10 +72,11 @@ export const getEntityRectangleOverlapData = (
         }
       }
     }
-    for (const [, entity] of layer.entities) {
+    for (const layerEntityID of layer.entityIDs) {
+      const entity: Entity = getDefinable(Entity, layerEntityID);
       if (
         entity.id !== entityID &&
-        entity.type !== null &&
+        entity.hasType() &&
         rectanglesOverlap(rectangle, {
           height: entity.height,
           width: entity.width,

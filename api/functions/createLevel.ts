@@ -32,7 +32,7 @@ export const createLevel = (options: CreateLevelOptions): void => {
     id: options.id,
     layers: options.layers.map(
       (layer: CreateLevelOptionsLayer): Layer => ({
-        entities: new Map(),
+        entityIDs: [],
         id: layer.id,
         tileSize: options.tileSize,
         tiles: layer.tiles.map(

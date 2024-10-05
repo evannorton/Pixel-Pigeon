@@ -3,7 +3,8 @@ import {
   getCameraCoordinates,
 } from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
-import { Entity, EntitySprite } from "../types/World";
+import { Entity } from "./Entity";
+import { EntitySprite } from "../types/World";
 import { GrayscaleFilter } from "@pixi/filter-grayscale";
 import { ImageSource } from "./ImageSource";
 import { MultiColorReplaceFilter } from "@pixi/filter-multi-color-replace";
@@ -267,7 +268,7 @@ export class Sprite extends Definable {
   }
 
   public drawAtEntity(
-    entity: Entity,
+    entityID: string,
     entitySprite: EntitySprite,
     layerIndex: number,
   ): void {
@@ -276,6 +277,7 @@ export class Sprite extends Definable {
         "An attempt was made to draw an entity before type was loaded.",
       );
     }
+    const entity: Entity = getDefinable(Entity, entityID);
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
     this.drawAtPosition(
@@ -292,8 +294,9 @@ export class Sprite extends Definable {
       state.values.dev !== null &&
       state.values.dev.renderPathing
     ) {
-      const path: TilePosition[] | null =
-        entity.path !== null ? [...entity.path] : null;
+      const path: TilePosition[] | null = entity.hasPath()
+        ? [...entity.pathTilePositions]
+        : null;
       if (path !== null) {
         if (entity.hasTouchedPathingStartingTile) {
           path.splice(0, 1);

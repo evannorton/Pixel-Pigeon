@@ -1,12 +1,7 @@
-import {
-  Entity,
-  Level,
-  Tileset,
-  World,
-  WorldTilesetTile,
-} from "../types/World";
+import { Entity } from "../classes/Entity";
 import { ImageSource } from "../classes/ImageSource";
 import { LDTK, LDTKTileCustomData, LDTKTileData } from "../types/LDTK";
+import { Level, Tileset, World, WorldTilesetTile } from "../types/World";
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
 import { getDefinable } from "./getDefinable";
 import { state } from "../state";
@@ -31,7 +26,7 @@ export const getWorld = (): World => {
                   (ldtkDefLayer: LDTK["defs"]["layers"][0]): boolean =>
                     ldtkDefLayer.uid === ldtkLayerInstance.layerDefUid,
                 ) ?? null;
-              const entities: Map<string, Entity> = new Map();
+              const entityIDs: string[] = [];
               for (const ldtkEntityInstance of ldtkLayerInstance.entityInstances) {
                 const fieldValues: Map<string, unknown> = new Map();
                 for (const fieldInstance of ldtkEntityInstance.fieldInstances) {
@@ -40,35 +35,20 @@ export const getWorld = (): World => {
                     fieldInstance.__value,
                   );
                 }
-                entities.set(ldtkEntityInstance.iid, {
-                  blockingPosition: null,
-                  buttons: [],
-                  collidableEntityTypes: [],
-                  collidesWithMap: false,
-                  ellipses: [],
-                  fieldValues,
-                  hasTouchedPathingStartingTile: false,
-                  height: ldtkEntityInstance.height,
-                  id: ldtkEntityInstance.iid,
-                  lastPathedTilePosition: null,
-                  movementVelocity: {
-                    x: 0,
-                    y: 0,
-                  },
-                  onCollision: null,
-                  onOverlap: null,
-                  path: null,
-                  pathing: null,
-                  position: {
-                    x: ldtkEntityInstance.px[0],
-                    y: ldtkEntityInstance.px[1],
-                  },
-                  quadrilaterals: [],
-                  sprites: [],
-                  type: ldtkEntityInstance.__identifier,
-                  width: ldtkEntityInstance.width,
-                  zIndex: 0,
-                });
+                entityIDs.push(
+                  new Entity({
+                    fieldValues,
+                    height: ldtkEntityInstance.height,
+                    layerID: ldtkLayerInstance.__identifier,
+                    levelID: ldtkLevel.identifier,
+                    position: {
+                      x: ldtkEntityInstance.px[0],
+                      y: ldtkEntityInstance.px[1],
+                    },
+                    type: ldtkEntityInstance.__identifier,
+                    width: ldtkEntityInstance.width,
+                  }).id,
+                );
               }
               const tilesetID: string | null =
                 matchedLDTKDefLayer !== null &&
@@ -80,7 +60,7 @@ export const getWorld = (): World => {
                     )?.identifier ?? null
                   : null;
               return {
-                entities,
+                entityIDs,
                 id: ldtkLayerInstance.__identifier,
                 tileSize: ldtkLayerInstance.__gridSize,
                 tiles: ldtkLayerInstance.gridTiles.map(

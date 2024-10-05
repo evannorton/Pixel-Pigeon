@@ -3,7 +3,8 @@ import {
   getCameraCoordinates,
 } from "../functions/getCameraCoordinates";
 import { Definable } from "./Definable";
-import { Entity, EntityQuadrilateral } from "../types/World";
+import { Entity } from "./Entity";
+import { EntityQuadrilateral } from "../types/World";
 import { Graphics } from "pixi.js";
 import { Scriptable } from "../types/Scriptable";
 import { getDefinable } from "../functions/getDefinable";
@@ -102,10 +103,11 @@ export class Quadrilateral extends Definable {
   }
 
   public drawAtEntity(
-    entity: Entity,
+    entityID: string,
     entityQuadrilateral: EntityQuadrilateral,
     layerIndex: number,
   ): void {
+    const entity: Entity = getDefinable(Entity, entityID);
     const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     const x: number =

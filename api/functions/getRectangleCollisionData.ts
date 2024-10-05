@@ -1,4 +1,5 @@
 import { CollisionData } from "../types/CollisionData";
+import { Entity } from "../classes/Entity";
 import {
   EntityCollidable,
   Level,
@@ -6,6 +7,7 @@ import {
   WorldTilesetTile,
 } from "../types/World";
 import { Rectangle } from "../types/Rectangle";
+import { getDefinable } from "./getDefinable";
 import { rectanglesOverlap } from "./rectanglesOverlap";
 import { state } from "../state";
 
@@ -72,7 +74,8 @@ export const getRectangleCollisionData = (
         }
       }
     }
-    for (const [, entity] of layer.entities) {
+    for (const entityID of layer.entityIDs) {
+      const entity: Entity = getDefinable(Entity, entityID);
       if ((options.excludedEntityIDs ?? []).includes(entity.id) === false) {
         const matchedLayer: string | null =
           options.entityTypes?.find(
@@ -80,12 +83,22 @@ export const getRectangleCollisionData = (
           ) ?? null;
         if (
           matchedLayer !== null &&
-          entity.type !== null &&
+          entity.hasType() &&
           rectanglesOverlap(options.rectangle, {
             height: entity.height,
             width: entity.width,
-            x: Math.floor((entity.blockingPosition ?? entity.position).x),
-            y: Math.floor((entity.blockingPosition ?? entity.position).y),
+            x: Math.floor(
+              (entity.hasBlockingPosition()
+                ? entity.blockingPosition
+                : entity.position
+              ).x,
+            ),
+            y: Math.floor(
+              (entity.hasBlockingPosition()
+                ? entity.blockingPosition
+                : entity.position
+              ).y,
+            ),
           })
         ) {
           entityCollidables.push({

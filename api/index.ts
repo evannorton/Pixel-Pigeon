@@ -20,7 +20,29 @@ import {
   createEllipse,
   removeEllipse,
 } from "./classes/Ellipse";
-import { CreateEntityOptions, createEntity } from "./functions/createEntity";
+import {
+  CreateEntityOptions,
+  GetEntityCalculatedPathOptions,
+  MoveEntityOptions,
+  PathEntityOptions,
+  addEntityEllipse,
+  addEntityQuadrilateral,
+  addEntitySprite,
+  createEntity,
+  getEntityCalculatedPath,
+  getEntityFieldValue,
+  getEntityPosition,
+  isEntityPathing,
+  moveEntity,
+  pathEntity,
+  removeEntity,
+  removeEntitySprite,
+  setEntityBlockingPosition,
+  setEntityLevel,
+  setEntityPosition,
+  setEntityZIndex,
+  stopEntity,
+} from "./classes/Entity";
 import {
   CreateInputCollectionOptions,
   CreateInputCollectionOptionsKeyboardButton,
@@ -94,10 +116,6 @@ import {
   EntityQuadrilateral,
   EntitySprite,
 } from "./types/World";
-import {
-  GetEntityCalculatedPathOptions,
-  getEntityCalculatedPath,
-} from "./functions/getEntityCalculatedPath";
 import { GetEntityIDsOptions, getEntityIDs } from "./functions/getEntityIDs";
 import {
   GetRectangleCollisionDataOptions,
@@ -115,10 +133,8 @@ import {
   MakeHTTPRequestOptions,
   makeHTTPRequest,
 } from "./functions/makeHTTPRequest";
-import { MoveEntityOptions, moveEntity } from "./functions/moveEntity";
 import { NumLock } from "./types/NumLock";
 import { OverlapData } from "./types/OverlapData";
-import { PathEntityOptions, pathEntity } from "./functions/pathEntity";
 import { PathingEntityExclusion } from "./types/PathingEntityExclusion";
 import {
   PlayAudioSourceOptions,
@@ -130,16 +146,11 @@ import { Scriptable } from "./types/Scriptable";
 import { SetMainVolumeOptions, setMainVolume } from "./functions/setMainVolume";
 import { State } from "./classes/State";
 import { TextStyleAlign } from "pixi.js";
-import { addEntityEllipse } from "./functions/addEntityEllipse";
-import { addEntityQuadrilateral } from "./functions/addEntityQuadrilateral";
-import { addEntitySprite } from "./functions/addEntitySprite";
 import { exitLevel } from "./functions/exitLevel";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getDeltaTime } from "./functions/getDeltaTime";
-import { getEntityFieldValue } from "./functions/getEntityFieldValue";
 import { getEntityLevelID } from "./functions/getEntityLevelID";
-import { getEntityPosition } from "./functions/getEntityPosition";
 import { getEnvironmentVariable } from "./functions/getEnvironmentVariable";
 import { getGameHeight } from "./functions/getGameHeight";
 import { getGameWidth } from "./functions/getGameWidth";
@@ -147,7 +158,6 @@ import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroup
 import { goToLevel } from "./functions/goToLevel";
 import { handleError } from "./functions/handleError";
 import { initialize } from "./functions/initialize";
-import { isEntityPathing } from "./functions/isEntityPathing";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { muteVolume } from "./functions/muteVolume";
 import { onError } from "./functions/onError";
@@ -156,14 +166,7 @@ import { onTick } from "./functions/onTick";
 import { onWindowMessage } from "./functions/onWindowMessage";
 import { openURL } from "./functions/openURL";
 import { postWindowMessage } from "./functions/postWindowMessage";
-import { removeEntity } from "./functions/removeEntity";
-import { removeEntitySprite } from "./functions/removeEntitySprite";
-import { setEntityBlockingPosition } from "./functions/setEntityBlockingPosition";
-import { setEntityLevel } from "./functions/setEntityLevel";
-import { setEntityPosition } from "./functions/setEntityPosition";
-import { setEntityZIndex } from "./functions/setEntityZIndex";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
-import { stopEntity } from "./functions/stopEntity";
 import { takeScreenshot } from "./functions/takeScreenshot";
 import { unlockCameraFromEntity } from "./functions/unlockCameraFromEntity";
 import { unmuteVolume } from "./functions/unmuteVolume";
