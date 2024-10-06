@@ -3,7 +3,6 @@ import { Config } from "./types/Config";
 import { Dev } from "./types/Dev";
 import { Env } from "./types/Env";
 import { GamepadInput } from "./types/GamepadInput";
-import { Howl } from "howler";
 import { KeyboardInput } from "./types/KeyboardInput";
 import { LDTK } from "./types/LDTK";
 import { MouseCoords } from "./types/MouseCoords";
@@ -97,7 +96,6 @@ export const state: State<StateSchema> = new State<StateSchema>({
   type: null,
   world: null,
 });
-
 volumeTestHowl.on("load", (): void => {
   state.setValues({
     loadedAssets: state.values.loadedAssets + 1,
