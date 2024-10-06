@@ -27,8 +27,7 @@ import {
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { cleanStorage } from "./storage/cleanStorage";
 import { fireAlert } from "./fireAlert";
-import { getDefinable } from "./getDefinable";
-import { getDefinables } from "./getDefinables";
+import { getDefinable, getDefinables } from "definables";
 import { getStretchScale } from "./getStretchScale";
 import { goToPauseMenuSection } from "./goToPauseMenuSection";
 import { handleUncaughtError } from "./handleUncaughtError";

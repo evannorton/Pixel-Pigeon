@@ -1,7 +1,6 @@
-import { Definable } from "./Definable";
+import { Definable, getDefinable } from "definables";
 import { StorageAchievement } from "../types/Storage";
 import { getAchievementUnlockRenderStartTime } from "../functions/getAchievementUnlockRenderStartTime";
-import { getDefinable } from "../functions/getDefinable";
 import { getStorageItem } from "../functions/storage/getStorageItem";
 import { newgrounds } from "../newgrounds";
 import { setStorageItem } from "../functions/storage/setStorageItem";

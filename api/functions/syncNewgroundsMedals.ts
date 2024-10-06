@@ -1,8 +1,7 @@
 import { Achievement } from "../classes/Achievement";
 import { NewgroundsMedal } from "../types/Newgrounds";
 import { StorageAchievement } from "../types/Storage";
-import { getDefinable } from "./getDefinable";
-import { getDefinables } from "./getDefinables";
+import { getDefinable, getDefinables } from "definables";
 import { getStorageItem } from "./storage/getStorageItem";
 import { newgrounds } from "../newgrounds";
 import { setStorageItem } from "./storage/setStorageItem";

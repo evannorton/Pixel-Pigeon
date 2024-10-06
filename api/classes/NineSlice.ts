@@ -1,9 +1,7 @@
-import { Definable } from "./Definable";
+import { Definable, getDefinable } from "definables";
 import { ImageSource } from "./ImageSource";
 import { NineSlicePlane } from "pixi.js";
 import { Scriptable } from "../types/Scriptable";
-import { getDefinable } from "../functions/getDefinable";
-import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
@@ -58,7 +56,7 @@ export class NineSlice extends Definable {
   private readonly _width: number;
 
   public constructor(options: CreateNineSliceOptions) {
-    super(getToken());
+    super();
     this._imageSourceID = options.imagePath;
     this._pixiNineSlicePlane = new NineSlicePlane(
       this.imageSource.texture,

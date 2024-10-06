@@ -1,5 +1,5 @@
 import { AudioSource } from "../classes/AudioSource";
-import { getDefinables } from "./getDefinables";
+import { getDefinables } from "definables";
 
 export const muteVolume = (): void => {
   const toggleMuteInputElement: HTMLElement | null =

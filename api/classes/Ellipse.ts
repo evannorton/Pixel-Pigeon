@@ -2,13 +2,11 @@ import {
   CameraCoordinates,
   getCameraCoordinates,
 } from "../functions/getCameraCoordinates";
-import { Definable } from "./Definable";
+import { Definable, getDefinable } from "definables";
 import { Entity } from "./Entity";
 import { EntityEllipse } from "../types/World";
 import { Graphics } from "pixi.js";
 import { Scriptable } from "../types/Scriptable";
-import { getDefinable } from "../functions/getDefinable";
-import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
@@ -52,7 +50,7 @@ export class Ellipse extends Definable {
 
   private readonly _width: Scriptable<number>;
   public constructor(options: CreateEllipseOptions) {
-    super(getToken());
+    super();
     this._color = options.color;
     if (typeof options.coordinates !== "undefined") {
       this._coordinates = {

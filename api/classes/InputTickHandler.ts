@@ -1,9 +1,7 @@
-import { Definable } from "./Definable";
+import { Definable, getDefinable } from "definables";
 import { InputCollection } from "./InputCollection";
 import { KeyboardButton } from "../types/KeyboardButton";
 import { NumLock } from "../types/NumLock";
-import { getDefinable } from "../functions/getDefinable";
-import { getToken } from "../functions/getToken";
 import { state } from "../state";
 
 export interface CreateInputTickHandlerOptionsGroup<GroupID> {
@@ -38,7 +36,7 @@ export class InputTickHandler<GroupID extends string> extends Definable {
   private readonly _groups: InputTickHandlerGroup<GroupID>[];
 
   public constructor(options: CreateInputTickHandlerOptions<GroupID>) {
-    super(getToken());
+    super();
     this._groups = options.groups.map(
       (
         group: CreateInputTickHandlerOptionsGroup<GroupID>,

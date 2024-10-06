@@ -1,5 +1,5 @@
 import { Achievement } from "../classes/Achievement";
-import { getDefinables } from "./getDefinables";
+import { getDefinables } from "definables";
 
 export const updateAchievementsCount = (): void => {
   const achievementsAmountUnlockedElement: HTMLElement | null =

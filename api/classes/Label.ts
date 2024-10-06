@@ -1,11 +1,9 @@
 import { BitmapText, TextStyleAlign } from "pixi.js";
-import { Definable } from "./Definable";
+import { Definable, getDefinable } from "definables";
 import { Scriptable } from "../types/Scriptable";
 import { TextInfo } from "../types/TextInfo";
 import { arraysHaveSameValues } from "../functions/arraysHaveSameValues";
 import { getBitmapText } from "../functions/getBitmapText";
-import { getDefinable } from "../functions/getDefinable";
-import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
@@ -61,7 +59,7 @@ export class Label extends Definable {
   private _lastColor: string | null = null;
   private _lastTextInfo: TextInfo | null = null;
   public constructor(options: CreateLabelOptions) {
-    super(getToken());
+    super();
     this._color = options.color;
     this._coordinates = {
       condition: options.coordinates.condition,

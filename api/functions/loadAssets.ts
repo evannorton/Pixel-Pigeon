@@ -1,5 +1,5 @@
 import { ImageSource } from "../classes/ImageSource";
-import { getDefinables } from "./getDefinables";
+import { getDefinables } from "definables";
 import { handleUncaughtError } from "./handleUncaughtError";
 import { loadPixiAsset } from "./loadPixiAsset";
 

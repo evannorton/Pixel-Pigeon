@@ -1,6 +1,6 @@
 import { Achievement } from "../../classes/Achievement";
 import { StorageAchievement } from "../../types/Storage";
-import { getDefinables } from "../getDefinables";
+import { getDefinables } from "definables";
 import { getStorageItem } from "./getStorageItem";
 import { setStorageItem } from "./setStorageItem";
 import { state } from "../../state";

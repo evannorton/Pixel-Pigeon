@@ -7,7 +7,7 @@ import {
   WorldTilesetTile,
 } from "../types/World";
 import { Rectangle } from "../types/Rectangle";
-import { getDefinable } from "./getDefinable";
+import { getDefinable } from "definables";
 import { rectanglesOverlap } from "./rectanglesOverlap";
 import { state } from "../state";
 

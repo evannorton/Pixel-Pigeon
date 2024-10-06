@@ -1,7 +1,7 @@
 import { Application } from "pixi.js";
 import { Button } from "./Button";
 import { CollisionData } from "../types/CollisionData";
-import { Definable } from "./Definable";
+import { Definable, getDefinable } from "definables";
 import { js as EasyStar } from "easystarjs";
 import { Ellipse } from "./Ellipse";
 import {
@@ -22,10 +22,8 @@ import { PathingTileExclusion } from "../types/PathingTileExclusion";
 import { Quadrilateral } from "./Quadrilateral";
 import { Sprite } from "./Sprite";
 import { TilePosition } from "../types/TilePosition";
-import { getDefinable } from "../functions/getDefinable";
 import { getEntityRectangleOverlapData } from "../functions/getEntityRectangleOverlapData";
 import { getRectangleCollisionData } from "../functions/getRectangleCollisionData";
-import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 import { unlockCameraFromEntity } from "../functions/unlockCameraFromEntity";
@@ -88,8 +86,7 @@ export class Entity extends Definable {
   private readonly _width: number;
   private _zIndex: number;
   public constructor(options: CreateEntityOptions) {
-    const id: string = getToken();
-    super(id);
+    super();
     if (typeof options.buttons !== "undefined") {
       for (const entityButton of options.buttons) {
         const button: Button = getDefinable(Button, entityButton.buttonID);
@@ -100,7 +97,7 @@ export class Entity extends Definable {
         }
         button.entity = {
           entityButton,
-          entityID: id,
+          entityID: this._id,
         };
       }
     }
@@ -112,7 +109,7 @@ export class Entity extends Definable {
             "An attempt was made to attach sprite to entity that is already attached to another render condition.",
           );
         }
-        sprite.entityID = id;
+        sprite.entityID = this._id;
       }
     }
     if (typeof options.quadrilaterals !== "undefined") {
@@ -126,7 +123,7 @@ export class Entity extends Definable {
             "An attempt was made to attach quadrilateral to entity that is already attached to another render condition.",
           );
         }
-        quadrilateral.entityID = id;
+        quadrilateral.entityID = this._id;
       }
     }
     if (typeof options.ellipses !== "undefined") {
@@ -137,7 +134,7 @@ export class Entity extends Definable {
             "An attempt was made to attach ellipse to entity that is already attached to another render condition.",
           );
         }
-        ellipse.entityID = id;
+        ellipse.entityID = this._id;
       }
     }
     this._buttons =

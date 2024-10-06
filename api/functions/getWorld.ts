@@ -3,7 +3,7 @@ import { ImageSource } from "../classes/ImageSource";
 import { LDTK, LDTKTileCustomData, LDTKTileData } from "../types/LDTK";
 import { Level, Tileset, World, WorldTilesetTile } from "../types/World";
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
-import { getDefinable } from "./getDefinable";
+import { getDefinable } from "definables";
 import { state } from "../state";
 
 export const getWorld = (): World => {

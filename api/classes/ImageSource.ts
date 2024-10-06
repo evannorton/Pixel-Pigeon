@@ -5,7 +5,7 @@ import {
   Sprite,
   Texture,
 } from "pixi.js";
-import { Definable } from "./Definable";
+import { Definable } from "definables";
 import { getHexFromRGB } from "../functions/getHexFromRGB";
 import { handleUncaughtError } from "../functions/handleUncaughtError";
 import { loadPixiAsset } from "../functions/loadPixiAsset";

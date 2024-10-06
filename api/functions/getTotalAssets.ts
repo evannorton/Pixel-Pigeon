@@ -1,6 +1,6 @@
 import { AudioSource } from "../classes/AudioSource";
 import { ImageSource } from "../classes/ImageSource";
-import { getDefinables } from "./getDefinables";
+import { getDefinables } from "definables";
 
 export const getTotalAssets = (): number =>
   // Audio sources

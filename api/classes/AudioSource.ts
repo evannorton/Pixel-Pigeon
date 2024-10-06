@@ -1,9 +1,8 @@
-import { Definable } from "./Definable";
+import { Definable, getDefinable } from "definables";
 import { Howl } from "howler";
 import { VolumeChannel } from "./VolumeChannel";
 import { attemptGetWorld } from "../functions/attemptGetWorld";
 import { defaultVolume } from "../constants/defaultVolume";
-import { getDefinable } from "../functions/getDefinable";
 import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
 import { state } from "../state";
 

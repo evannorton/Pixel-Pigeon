@@ -1,4 +1,4 @@
-import { Definable } from "./Definable";
+import { Definable } from "definables";
 import { KeyboardButton } from "../types/KeyboardButton";
 import { NumLock } from "../types/NumLock";
 import {
@@ -11,7 +11,6 @@ import {
   addInputBodyNumlockWithoutInputElement,
 } from "../elements/addInputBodyElement";
 import { fireAlert } from "../functions/fireAlert";
-import { getToken } from "../functions/getToken";
 import { state } from "../state";
 
 export interface CreateInputCollectionOptionsKeyboardButton {
@@ -48,7 +47,7 @@ export class InputCollection extends Definable {
   private readonly _valuesKeyboardElement: HTMLSpanElement;
   private readonly _valuesMouseElement: HTMLSpanElement;
   public constructor(options: CreateInputCollectionOptions) {
-    super(getToken());
+    super();
     if (state.values.isInitialized) {
       throw new Error(
         `An attempt was made to create InputCollection "${this._id}" after initialization.`,

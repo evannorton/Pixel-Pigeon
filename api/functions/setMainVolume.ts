@@ -1,5 +1,5 @@
 import { AudioSource } from "../classes/AudioSource";
-import { getDefinables } from "./getDefinables";
+import { getDefinables } from "definables";
 
 export interface SetMainVolumeOptions {
   volume: number;

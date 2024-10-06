@@ -1,9 +1,6 @@
 import { AudioSource } from "./AudioSource";
-import { Definable } from "./Definable";
-import { getDefinable } from "../functions/getDefinable";
-import { getDefinables } from "../functions/getDefinables";
+import { Definable, getDefinable, getDefinables } from "definables";
 import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
-import { getToken } from "../functions/getToken";
 import { state } from "../state";
 
 export interface CreateVolumeChannelOptions {
@@ -24,7 +21,7 @@ export class VolumeChannel extends Definable {
     document.createElement("div");
 
   public constructor(options: CreateVolumeChannelOptions) {
-    super(getToken());
+    super();
     const volumeSlidersElement: HTMLElement | null =
       document.getElementById("volume-sliders");
     if (volumeSlidersElement === null) {

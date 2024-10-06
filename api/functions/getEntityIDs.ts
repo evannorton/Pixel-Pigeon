@@ -1,5 +1,5 @@
 import { Entity } from "../classes/Entity";
-import { getDefinable } from "./getDefinable";
+import { getDefinable } from "definables";
 import { state } from "../state";
 
 export interface GetEntityIDsOptions {

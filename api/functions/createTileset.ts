@@ -4,7 +4,7 @@ import {
   WorldTilesetTile,
   WorldTilesetTileAnimationFrame,
 } from "../types/World";
-import { getDefinable } from "./getDefinable";
+import { getDefinable } from "definables";
 import { state } from "../state";
 
 export interface CreateTilesetOptionsTileAnimationFrame {

@@ -1,6 +1,6 @@
 import { Entity } from "../classes/Entity";
 import { Level } from "../types/World";
-import { getDefinable } from "./getDefinable";
+import { getDefinable } from "definables";
 import { state } from "../state";
 
 export interface CameraCoordinates {

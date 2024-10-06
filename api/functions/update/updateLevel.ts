@@ -1,5 +1,5 @@
 import { Entity } from "../../classes/Entity";
-import { getDefinables } from "../getDefinables";
+import { getDefinables } from "definables";
 
 export const updateLevel = (): void => {
   for (const entity of getDefinables(Entity).values()) {

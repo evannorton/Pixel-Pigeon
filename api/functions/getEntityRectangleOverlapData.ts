@@ -7,7 +7,7 @@ import {
 } from "../types/World";
 import { OverlapData } from "../types/OverlapData";
 import { Rectangle } from "../types/Rectangle";
-import { getDefinable } from "./getDefinable";
+import { getDefinable } from "definables";
 import { rectanglesOverlap } from "./rectanglesOverlap";
 import { state } from "../state";
 

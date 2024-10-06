@@ -20,8 +20,7 @@ import { Sprite } from "../classes/Sprite";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { drawQuadrilateral } from "./draw/drawQuadrilateral";
 import { drawText } from "./draw/drawText";
-import { getDefinable } from "./getDefinable";
-import { getDefinables } from "./getDefinables";
+import { getDefinable, getDefinables } from "definables";
 import { getTotalAssets } from "./getTotalAssets";
 import { state } from "../state";
 

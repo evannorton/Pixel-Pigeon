@@ -1,12 +1,10 @@
-import { Definable } from "./Definable";
+import { Definable, getDefinable } from "definables";
 import { GamepadInput } from "../types/GamepadInput";
 import { InputCollection } from "./InputCollection";
 import { KeyboardButton } from "../types/KeyboardButton";
 import { KeyboardInput } from "../types/KeyboardInput";
 import { MouseInput } from "../types/MouseInput";
 import { NumLock } from "../types/NumLock";
-import { getDefinable } from "../functions/getDefinable";
-import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 
 /** Defines options for InputPressHandlers, which mainly is about what inputs to press and the callbacks */
@@ -25,7 +23,7 @@ export class InputPressHandler extends Definable {
   private readonly _onInput: () => void;
 
   public constructor(options: CreateInputPressHandlerOptions) {
-    super(getToken());
+    super();
     this._condition = options.condition;
     this._inputCollectionID = options.inputCollectionID;
     this._onInput = options.onInput;

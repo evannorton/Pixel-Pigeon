@@ -2,7 +2,7 @@ import {
   CameraCoordinates,
   getCameraCoordinates,
 } from "../functions/getCameraCoordinates";
-import { Definable } from "./Definable";
+import { Definable, getDefinable } from "definables";
 import { Entity } from "./Entity";
 import { EntitySprite } from "../types/World";
 import { GrayscaleFilter } from "@pixi/filter-grayscale";
@@ -13,9 +13,7 @@ import { RGB } from "../types/RGB";
 import { Scriptable } from "../types/Scriptable";
 import { TilePosition } from "../types/TilePosition";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
-import { getDefinable } from "../functions/getDefinable";
 import { getRGBFromHex } from "../functions/getRGBFromHex";
-import { getToken } from "../functions/getToken";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
@@ -153,7 +151,7 @@ export class Sprite extends Definable {
   private readonly _recolors: Scriptable<SpriteRecolor[]>;
 
   public constructor(options: CreateSpriteOptions) {
-    super(getToken());
+    super();
     const animationIDs: string[] = [];
     this._imageSourceID = options.imagePath;
     for (const animation of options.animations) {

@@ -1,6 +1,6 @@
 import { Button } from "../../classes/Button";
 import { Sprite } from "../../classes/Sprite";
-import { getDefinables } from "../getDefinables";
+import { getDefinables } from "definables";
 import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
 import { updateInput } from "./updateInput";

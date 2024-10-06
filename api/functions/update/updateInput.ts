@@ -2,7 +2,7 @@ import { GamepadInput } from "../../types/GamepadInput";
 import { InputPressHandler } from "../../classes/InputPressHandler";
 import { InputTickHandler } from "../../classes/InputTickHandler";
 import { assetsAreLoaded } from "../assetsAreLoaded";
-import { getDefinables } from "../getDefinables";
+import { getDefinables } from "definables";
 import { getGamepads } from "../getGamepads";
 import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";

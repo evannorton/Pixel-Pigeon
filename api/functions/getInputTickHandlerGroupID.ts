@@ -1,5 +1,5 @@
 import { InputTickHandler } from "../classes/InputTickHandler";
-import { getDefinable } from "./getDefinable";
+import { getDefinable } from "definables";
 
 /**
  * Gets the string GroupID that was used to create the {@link createInputTickHandler | InputTickHandler} by supplying the Handler's StringID
