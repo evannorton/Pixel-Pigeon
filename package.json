@@ -17,7 +17,7 @@
         "@typescript-eslint/eslint-plugin": "5.59.6",
         "@typescript-eslint/parser": "5.59.6",
         "archiver-promise": "1.0.0",
-        "definables": "evannorton/definables",
+        "definables": "evannorton/Definables",
         "dotenv": "16.4.5",
         "easystarjs": "0.4.4",
         "esbuild": "0.17.19",
