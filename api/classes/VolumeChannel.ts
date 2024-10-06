@@ -2,6 +2,7 @@ import { AudioSource } from "./AudioSource";
 import { Definable, getDefinable, getDefinables } from "definables";
 import { getMainAdjustedVolume } from "../functions/getMainAdjustedVolume";
 import { state } from "../state";
+import { volumeTestHowl } from "../howls/volumeTestHowl";
 
 export interface CreateVolumeChannelOptions {
   name: string;
@@ -48,10 +49,10 @@ export class VolumeChannel extends Definable {
     });
     this._volumeInputElement.addEventListener("mouseup", (e: Event): void => {
       const target: HTMLInputElement = e.target as HTMLInputElement;
-      state.values.volumeTestHowl.volume(
+      volumeTestHowl.volume(
         getMainAdjustedVolume(target.valueAsNumber) / 100,
       );
-      state.values.volumeTestHowl.play();
+      volumeTestHowl.play();
     });
     this._volumeSliderElement.appendChild(this._volumeLabelElement);
     this._volumeSliderElement.appendChild(this._volumeInputElement);

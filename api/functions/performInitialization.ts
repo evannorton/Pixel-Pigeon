@@ -38,6 +38,7 @@ import { syncNewgroundsMedals } from "./syncNewgroundsMedals";
 import { takeScreenshot } from "./takeScreenshot";
 import { tick } from "./tick";
 import { updateAchievementsCount } from "./updateAchievementsCount";
+import { volumeTestHowl } from "../howls/volumeTestHowl";
 
 export const performInitialization = async (): Promise<void> => {
   if (state.values.isInitialized) {
@@ -452,10 +453,10 @@ export const performInitialization = async (): Promise<void> => {
     }
   });
   mainVolumeSliderInputElement.addEventListener("mouseup", (): void => {
-    state.values.volumeTestHowl.volume(
+    volumeTestHowl.volume(
       (mainVolumeSliderInputElement as HTMLInputElement).valueAsNumber / 100,
     );
-    state.values.volumeTestHowl.play();
+    volumeTestHowl.play();
   });
   muteToggleInputElement.addEventListener("click", (): void => {
     if ((muteToggleInputElement as HTMLInputElement).checked) {
