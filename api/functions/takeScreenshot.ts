@@ -32,9 +32,7 @@ export const takeScreenshot = (): void => {
     scaleScreenshotInputElement instanceof HTMLInputElement
   ) {
     if (typeof navigator.clipboard === "undefined") {
-      toast.error(
-        "Failed to take screenshot: Your browser doesn't allow copying to clipboard.",
-      );
+      toast.error("Failed to take screenshot");
     } else {
       const canvas: ICanvas = state.values.app.renderer.extract.canvas(
         state.values.app.stage,
@@ -49,7 +47,7 @@ export const takeScreenshot = (): void => {
         typeof canvas.toDataURL === "undefined" ||
         typeof canvas.toBlob === "undefined"
       ) {
-        toast.error("Failed to take a screenshot: Your browser is too old.");
+        toast.error("Failed to take a screenshot");
       } else {
         const scale: number = Number(scaleScreenshotInputElement.value);
         const context: ICanvasRenderingContext2D | null =
@@ -73,21 +71,17 @@ export const takeScreenshot = (): void => {
           anchor.download = `${state.values.config.name} screenshot.png`;
           anchor.href = canvas.toDataURL();
           anchor.click();
-          toast.success("Your screenshot has been saved to your computer!");
+          toast.success("Screenshot saved");
         } else {
           canvas.toBlob((blob: Blob | null): void => {
             if (blob !== null) {
               navigator.clipboard
                 .write([new ClipboardItem({ "image/png": blob })])
                 .then((): void => {
-                  toast.success(
-                    "Your screenshot has been copied to your clipboard.",
-                  );
+                  toast.success("Screenshot copied to clipboard");
                 })
                 .catch((): void => {
-                  toast.error(
-                    "Failed to copy the screenshot: Please check your browser permissions.",
-                  );
+                  toast.error("Failed to copy screenshot to clipboard");
                 });
             }
           });

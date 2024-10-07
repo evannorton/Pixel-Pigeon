@@ -41,12 +41,10 @@ export const handleUncaughtError = (error: unknown): void => {
         navigator.clipboard
           .writeText(stack)
           .then((): void => {
-            toast.success("Successfully copied error to clipboard!");
+            toast.success("Error copied to clipboard");
           })
           .catch((clipboardError: unknown): void => {
-            toast.error(
-              "Failed to copy error to clipboard. See console for info.",
-            );
+            toast.error("Failed to copy error to clipboard");
             console.error("Failed to copy error to clipboard", clipboardError);
           });
       };
