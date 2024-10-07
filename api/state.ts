@@ -3,7 +3,6 @@ import { Config } from "./types/Config";
 import { Dev } from "./types/Dev";
 import { Env } from "./types/Env";
 import { GamepadInput } from "./types/GamepadInput";
-import { Howl } from "howler";
 import { KeyboardInput } from "./types/KeyboardInput";
 import { LDTK } from "./types/LDTK";
 import { MouseCoords } from "./types/MouseCoords";
@@ -12,7 +11,7 @@ import { Socket } from "socket.io-client";
 import { State } from "./classes/State";
 import { World } from "./types/World";
 import { attemptGetWorld } from "./functions/attemptGetWorld";
-import { defaultVolume } from "./constants/defaultVolume";
+import { volumeTestHowl } from "./howls/volumeTestHowl";
 
 interface StateSchema {
   readonly achievementUnlockRenderedAt: number | null;
@@ -53,16 +52,8 @@ interface StateSchema {
   readonly renderChildrenToDestroy: (BitmapText | Graphics)[];
   readonly socket: Socket | null;
   readonly type: string | null;
-  readonly volumeTestHowl: Howl;
   readonly world: World | null;
 }
-const volumeTestHowl: Howl = new Howl({
-  autoplay: false,
-  loop: false,
-  preload: true,
-  src: ["mp3/volume-test.mp3"],
-  volume: defaultVolume,
-});
 
 export const state: State<StateSchema> = new State<StateSchema>({
   achievementUnlockRenderedAt: null,
@@ -103,7 +94,6 @@ export const state: State<StateSchema> = new State<StateSchema>({
   renderChildrenToDestroy: [],
   socket: null,
   type: null,
-  volumeTestHowl,
   world: null,
 });
 volumeTestHowl.on("load", (): void => {
