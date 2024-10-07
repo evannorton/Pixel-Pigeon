@@ -1,5 +1,6 @@
 import { ICanvas, ICanvasRenderingContext2D, Rectangle } from "pixi.js";
 import { state } from "../state";
+import { toast } from "../constants/toasts";
 
 export const takeScreenshot = (): void => {
   if (state.values.config === null) {
@@ -31,7 +32,9 @@ export const takeScreenshot = (): void => {
     scaleScreenshotInputElement instanceof HTMLInputElement
   ) {
     if (typeof navigator.clipboard === "undefined") {
-      // TODO error toast
+      toast.error(
+        "Failed to take screenshot: Your browser doesn't allow copying to clipboard.",
+      );
     } else {
       const canvas: ICanvas = state.values.app.renderer.extract.canvas(
         state.values.app.stage,
@@ -46,7 +49,7 @@ export const takeScreenshot = (): void => {
         typeof canvas.toDataURL === "undefined" ||
         typeof canvas.toBlob === "undefined"
       ) {
-        // TODO error toast
+        toast.error("Failed to take a screenshot: Your browser is too old.");
       } else {
         const scale: number = Number(scaleScreenshotInputElement.value);
         const context: ICanvasRenderingContext2D | null =
@@ -70,17 +73,21 @@ export const takeScreenshot = (): void => {
           anchor.download = `${state.values.config.name} screenshot.png`;
           anchor.href = canvas.toDataURL();
           anchor.click();
-          // TODO success toast
+          toast.success("Your screenshot has been saved to your computer!");
         } else {
           canvas.toBlob((blob: Blob | null): void => {
             if (blob !== null) {
               navigator.clipboard
                 .write([new ClipboardItem({ "image/png": blob })])
                 .then((): void => {
-                  // TODO success toast
+                  toast.success(
+                    "Your screenshot has been copied to your clipboard.",
+                  );
                 })
                 .catch((): void => {
-                  // TODO error toast
+                  toast.error(
+                    "Failed to copy the screenshot: Please check your browser permissions.",
+                  );
                 });
             }
           });
