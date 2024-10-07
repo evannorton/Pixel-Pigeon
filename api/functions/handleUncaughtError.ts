@@ -1,6 +1,7 @@
 import { fireAlert } from "./fireAlert";
 import { getDefaultedError } from "./getDefaultedError";
 import { state } from "../state";
+import { toast } from "../constants/toasts";
 
 export const handleUncaughtError = (error: unknown): void => {
   if (state.values.hasErrored === false) {
@@ -39,8 +40,13 @@ export const handleUncaughtError = (error: unknown): void => {
       copyButtonElement.onclick = (): void => {
         navigator.clipboard
           .writeText(stack)
+          .then((): void => {
+            toast.success("Successfully copied error to clipboard!");
+          })
           .catch((clipboardError: unknown): void => {
-            // TODO: Add toast
+            toast.error(
+              "Failed to copy error to clipboard. See console for info.",
+            );
             console.error("Failed to copy error to clipboard", clipboardError);
           });
       };
