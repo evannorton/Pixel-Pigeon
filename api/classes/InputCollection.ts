@@ -21,24 +21,24 @@ export interface CreateInputCollectionOptions {
   /**
    * An array of numbers that correlate to inputs on a controller
    */
-  gamepadButtons?: number[];
+  gamepadButtons?: readonly number[];
   /**
    * An array of strings that represents different inputs on a keyboard
    */
-  keyboardButtons?: CreateInputCollectionOptionsKeyboardButton[];
+  keyboardButtons?: readonly CreateInputCollectionOptionsKeyboardButton[];
   /**
    * An array of numbers that represents different inputs on a mouse
    */
-  mouseButtons?: number[];
+  mouseButtons?: readonly number[];
   name: string;
 }
 export class InputCollection extends Definable {
   private readonly _buttonsAddElement: HTMLButtonElement;
   private readonly _buttonsClearElement: HTMLButtonElement;
   private readonly _buttonsResetElement: HTMLButtonElement;
-  private readonly _defaultGamepadButtons: number[];
-  private readonly _defaultKeyboardButtons: KeyboardButton[];
-  private readonly _defaultMouseButtons: number[];
+  private readonly _defaultGamepadButtons: readonly number[];
+  private readonly _defaultKeyboardButtons: readonly KeyboardButton[];
+  private readonly _defaultMouseButtons: readonly number[];
   private _gamepadButtons: number[];
   private _keyboardButtons: KeyboardButton[];
   private _mouseButtons: number[];
@@ -60,8 +60,8 @@ export class InputCollection extends Definable {
         `An attempt was made to add InputCollection "${this._id}" to the pause menu with no controls grid element in the DOM.`,
       );
     }
-    const gamepadButtons: number[] = options.gamepadButtons ?? [];
-    this._defaultGamepadButtons = [...gamepadButtons];
+    const gamepadButtons: readonly number[] = options.gamepadButtons ?? [];
+    this._defaultGamepadButtons = gamepadButtons;
     this._gamepadButtons = [...gamepadButtons];
     const keyboardButtons: KeyboardButton[] = (
       options.keyboardButtons ?? []
@@ -73,10 +73,10 @@ export class InputCollection extends Definable {
         value: keyboardButton.value,
       }),
     );
-    this._defaultKeyboardButtons = [...keyboardButtons];
-    this._keyboardButtons = [...keyboardButtons];
-    const mouseButtons: number[] = options.mouseButtons ?? [];
-    this._defaultMouseButtons = [...mouseButtons];
+    this._defaultKeyboardButtons = keyboardButtons;
+    this._keyboardButtons = keyboardButtons;
+    const mouseButtons: readonly number[] = options.mouseButtons ?? [];
+    this._defaultMouseButtons = mouseButtons;
     this._mouseButtons = [...mouseButtons];
     // Info
     const infoElement: HTMLDivElement = document.createElement("div");
