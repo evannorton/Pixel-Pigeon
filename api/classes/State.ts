@@ -46,7 +46,7 @@ export class State<StateSchema> {
    * state.setValues({ favoriteNumber });
    * ```
    */
-  public setValues(values: Partial<StateSchema>): void {
+  public setValues(values: Partial<Readonly<StateSchema>>): void {
     const newValues: Partial<StateSchema> = {};
     for (const key in values) {
       if (typeof values[key] !== "undefined") {
