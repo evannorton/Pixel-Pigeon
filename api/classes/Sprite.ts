@@ -14,6 +14,7 @@ import { Scriptable } from "../types/Scriptable";
 import { TilePosition } from "../types/TilePosition";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
 import { getRGBFromHex } from "../functions/getRGBFromHex";
+import { getRangeNormalizedNumber } from "../functions/getRangeNormalizedNumber";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
@@ -277,7 +278,11 @@ export class Sprite extends Definable {
     }
     const entity: Entity = getDefinable(Entity, entityID);
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
-    const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
+    const zIndex: number = getRangeNormalizedNumber(
+      entity.zIndex,
+      layerIndex,
+      layerIndex + 1,
+    );
     this.drawAtPosition(
       Math.floor(entity.position.x) +
         (entitySprite.x ?? 0) -

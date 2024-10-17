@@ -7,6 +7,7 @@ import { Entity } from "./Entity";
 import { EntityEllipse } from "../types/World";
 import { Graphics } from "pixi.js";
 import { Scriptable } from "../types/Scriptable";
+import { getRangeNormalizedNumber } from "../functions/getRangeNormalizedNumber";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
@@ -107,7 +108,11 @@ export class Ellipse extends Definable {
     layerIndex: number,
   ): void {
     const entity: Entity = getDefinable(Entity, entityID);
-    const zIndex: number = layerIndex + 1 / (1 + Math.exp(-entity.zIndex));
+    const zIndex: number = getRangeNormalizedNumber(
+      entity.zIndex,
+      layerIndex,
+      layerIndex + 1,
+    );
     const cameraCoordinates: CameraCoordinates = getCameraCoordinates();
     const x: number =
       Math.floor(entity.position.x) +
