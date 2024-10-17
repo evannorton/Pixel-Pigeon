@@ -210,7 +210,7 @@ export const performInitialization = async (): Promise<void> => {
   });
   addEventListener("keydown", (keydownEvent: KeyboardEvent): void => {
     const shouldPreventDirection: boolean =
-      document.activeElement instanceof HTMLElement === false;
+      document.activeElement === document.getElementById("screen");
     switch (keydownEvent.code) {
       case "ArrowDown":
       case "ArrowLeft":
