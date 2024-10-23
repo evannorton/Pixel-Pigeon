@@ -20,6 +20,7 @@ import { Sprite } from "../classes/Sprite";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { drawQuadrilateral } from "./draw/drawQuadrilateral";
 import { drawText } from "./draw/drawText";
+import { entitySpritePassesCondition } from "./entitySpritePassesCondition";
 import { getDefinable, getDefinables } from "definables";
 import { getTotalAssets } from "./getTotalAssets";
 import { state } from "../state";
@@ -178,7 +179,9 @@ export const render = (): void => {
           const entity: Entity = getDefinable(Entity, entityID);
           for (const entitySprite of entity.sprites) {
             const sprite: Sprite = getDefinable(Sprite, entitySprite.spriteID);
-            sprite.drawAtEntity(entityID, entitySprite, layerIndex);
+            if (entitySpritePassesCondition(entitySprite)) {
+              sprite.drawAtEntity(entityID, entitySprite, layerIndex);
+            }
           }
           for (const entityQuadrilateral of entity.quadrilaterals) {
             const quadrilateral: Quadrilateral = getDefinable(

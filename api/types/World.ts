@@ -47,6 +47,7 @@ export interface EntityEllipse {
   y?: number;
 }
 export interface EntitySprite {
+  condition?: () => boolean;
   spriteID: string;
   x?: number;
   y?: number;
