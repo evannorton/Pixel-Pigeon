@@ -139,7 +139,6 @@ interface SpriteAnimation {
 
 export class Sprite extends Definable {
   private _animationPlay: SpriteAnimationPlay | null = null;
-
   private readonly _animationID: Scriptable<string>;
   private readonly _animationStartedAt?: Scriptable<number>;
   private readonly _animations: SpriteAnimation[];
