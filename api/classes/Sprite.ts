@@ -149,7 +149,6 @@ export class Sprite extends Definable {
   private readonly _palette: Scriptable<string[]> = [];
   private readonly _pixiSprite: PixiSprite = new PixiSprite();
   private readonly _recolors: Scriptable<SpriteRecolor[]>;
-
   public constructor(options: CreateSpriteOptions) {
     super();
     const animationIDs: string[] = [];
