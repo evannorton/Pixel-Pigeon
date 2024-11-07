@@ -37,11 +37,13 @@ export interface EntityPosition {
   y: number;
 }
 export interface EntityQuadrilateral {
+  condition?: () => boolean;
   quadrilateralID: string;
   x?: number;
   y?: number;
 }
 export interface EntityEllipse {
+  condition?: () => boolean;
   ellipseID: string;
   x?: number;
   y?: number;

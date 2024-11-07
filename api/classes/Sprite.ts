@@ -13,6 +13,7 @@ import { RGB } from "../types/RGB";
 import { Scriptable } from "../types/Scriptable";
 import { TilePosition } from "../types/TilePosition";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
+import { entitySpritePassesCondition } from "../functions/entity-conditions/entitySpritePassesCondition";
 import { getRGBFromHex } from "../functions/getRGBFromHex";
 import { getRangeNormalizedNumber } from "../functions/getRangeNormalizedNumber";
 import { handleCaughtError } from "../functions/handleCaughtError";
@@ -136,6 +137,10 @@ interface SpriteAnimation {
   readonly id: string;
   readonly frames: SpriteAnimationFrame[];
 }
+interface SpriteEntity {
+  entityID: string;
+  entitySprite: EntitySprite;
+}
 
 export class Sprite extends Definable {
   private _animationPlay: SpriteAnimationPlay | null = null;
@@ -143,7 +148,7 @@ export class Sprite extends Definable {
   private readonly _animationStartedAt?: Scriptable<number>;
   private readonly _animations: SpriteAnimation[];
   private readonly _coordinates?: SpriteCoordinates;
-  private _entityID: string | null = null;
+  private _entity: SpriteEntity | null = null;
   private readonly _isGrayscale: Scriptable<boolean> = false;
   private readonly _imageSourceID: Scriptable<string>;
   private readonly _palette: Scriptable<string[]> = [];
@@ -206,11 +211,11 @@ export class Sprite extends Definable {
         : [];
   }
 
-  public get entityID(): string {
-    if (this._entityID !== null) {
-      return this._entityID;
+  public get entity(): SpriteEntity {
+    if (this._entity !== null) {
+      return this._entity;
     }
-    throw new Error(this.getAccessorErrorMessage("entityID"));
+    throw new Error(this.getAccessorErrorMessage("entity"));
   }
 
   private get imageSource(): ImageSource | null {
@@ -221,14 +226,16 @@ export class Sprite extends Definable {
     return null;
   }
 
-  public set entityID(entityID: string | null) {
-    this._entityID = entityID;
+  public set entity(entity: SpriteEntity | null) {
+    this._entity = entity;
   }
 
   public playAnimation(): void {
     if (
-      typeof this._coordinates === "undefined" ||
-      this.passesCoordinatesCondition()
+      (typeof this._coordinates !== "undefined" &&
+        this.passesCoordinatesCondition()) ||
+      (this._entity !== null &&
+        entitySpritePassesCondition(this._entity.entitySprite))
     ) {
       const animationID: string | null = this.getAnimationID();
       if (animationID === null) {
@@ -342,7 +349,7 @@ export class Sprite extends Definable {
     if (typeof this._coordinates !== "undefined") {
       return true;
     }
-    if (this._entityID !== null) {
+    if (this._entity !== null) {
       return true;
     }
     return false;

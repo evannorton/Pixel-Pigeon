@@ -20,7 +20,9 @@ import { Sprite } from "../classes/Sprite";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { drawQuadrilateral } from "./draw/drawQuadrilateral";
 import { drawText } from "./draw/drawText";
-import { entitySpritePassesCondition } from "./entitySpritePassesCondition";
+import { entityEllipsePassesCondition } from "./entity-conditions/entityEllipsePassesCondition";
+import { entityQuadrilateralPassesCondition } from "./entity-conditions/entityQuadrilateralPassesCondition";
+import { entitySpritePassesCondition } from "./entity-conditions/entitySpritePassesCondition";
 import { getDefinable, getDefinables } from "definables";
 import { getTotalAssets } from "./getTotalAssets";
 import { state } from "../state";
@@ -188,18 +190,22 @@ export const render = (): void => {
               Quadrilateral,
               entityQuadrilateral.quadrilateralID,
             );
-            quadrilateral.drawAtEntity(
-              entityID,
-              entityQuadrilateral,
-              layerIndex,
-            );
+            if (entityQuadrilateralPassesCondition(entityQuadrilateral)) {
+              quadrilateral.drawAtEntity(
+                entityID,
+                entityQuadrilateral,
+                layerIndex,
+              );
+            }
           }
           for (const entityEllipse of entity.ellipses) {
             const ellipse: Ellipse = getDefinable(
               Ellipse,
               entityEllipse.ellipseID,
             );
-            ellipse.drawAtEntity(entityID, entityEllipse, layerIndex);
+            if (entityEllipsePassesCondition(entityEllipse)) {
+              ellipse.drawAtEntity(entityID, entityEllipse, layerIndex);
+            }
           }
         }
       });

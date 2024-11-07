@@ -109,7 +109,10 @@ export class Entity extends Definable {
             "An attempt was made to attach sprite to entity that is already attached to another render condition.",
           );
         }
-        sprite.entityID = this._id;
+        sprite.entity = {
+          entityID: this._id,
+          entitySprite,
+        };
       }
     }
     if (typeof options.quadrilaterals !== "undefined") {
@@ -123,7 +126,10 @@ export class Entity extends Definable {
             "An attempt was made to attach quadrilateral to entity that is already attached to another render condition.",
           );
         }
-        quadrilateral.entityID = this._id;
+        quadrilateral.entity = {
+          entityID: this._id,
+          entityQuadrilateral,
+        };
       }
     }
     if (typeof options.ellipses !== "undefined") {
@@ -134,7 +140,10 @@ export class Entity extends Definable {
             "An attempt was made to attach ellipse to entity that is already attached to another render condition.",
           );
         }
-        ellipse.entityID = this._id;
+        ellipse.entity = {
+          entityEllipse,
+          entityID: this._id,
+        };
       }
     }
     this._buttons =
@@ -225,22 +234,31 @@ export class Entity extends Definable {
   public addEllipse(entityEllipse: EntityEllipse): void {
     this._ellipses.push(entityEllipse);
     const ellipse: Ellipse = getDefinable(Ellipse, entityEllipse.ellipseID);
-    ellipse.entityID = this._id;
+    ellipse.entity = {
+      entityEllipse,
+      entityID: this._id,
+    };
   }
 
   public addQuadrilateral(entityQuadrilateral: EntityQuadrilateral): void {
     this._quadrilaterals.push(entityQuadrilateral);
-    const ellipse: Quadrilateral = getDefinable(
+    const quadrilateral: Quadrilateral = getDefinable(
       Quadrilateral,
       entityQuadrilateral.quadrilateralID,
     );
-    ellipse.entityID = this._id;
+    quadrilateral.entity = {
+      entityID: this._id,
+      entityQuadrilateral,
+    };
   }
 
   public addSprite(entitySprite: EntitySprite): void {
     this._sprites.push(entitySprite);
     const sprite: Sprite = getDefinable(Sprite, entitySprite.spriteID);
-    sprite.entityID = this._id;
+    sprite.entity = {
+      entityID: this._id,
+      entitySprite,
+    };
   }
 
   public getCalculatedPath(

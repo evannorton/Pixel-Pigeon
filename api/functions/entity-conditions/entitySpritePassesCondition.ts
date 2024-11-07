@@ -1,5 +1,5 @@
-import { EntitySprite } from "../types/World";
-import { handleCaughtError } from "./handleCaughtError";
+import { EntitySprite } from "../../types/World";
+import { handleCaughtError } from "../handleCaughtError";
 
 export const entitySpritePassesCondition = (
   entitySprite: EntitySprite,

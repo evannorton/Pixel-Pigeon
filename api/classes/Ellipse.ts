@@ -40,11 +40,15 @@ interface EllipseCoordinates {
   readonly x: Scriptable<number>;
   readonly y: Scriptable<number>;
 }
+interface EllipseEntity {
+  entityID: string;
+  entityEllipse: EntityEllipse;
+}
 
 export class Ellipse extends Definable {
   private readonly _color: string;
   private readonly _coordinates?: EllipseCoordinates;
-  private _entityID: string | null = null;
+  private _entity: EllipseEntity | null = null;
   private readonly _height: Scriptable<number>;
   private readonly _opacity: Scriptable<number>;
   private readonly _pixiGraphics: Graphics = new Graphics();
@@ -65,15 +69,15 @@ export class Ellipse extends Definable {
     this._width = options.width;
   }
 
-  public get entityID(): string {
-    if (this._entityID !== null) {
-      return this._entityID;
+  public get entity(): EllipseEntity {
+    if (this._entity !== null) {
+      return this._entity;
     }
-    throw new Error(this.getAccessorErrorMessage("entityID"));
+    throw new Error(this.getAccessorErrorMessage("entity"));
   }
 
-  public set entityID(entityID: string | null) {
-    this._entityID = entityID;
+  public set entity(entity: EllipseEntity | null) {
+    this._entity = entity;
   }
 
   public clear(): void {
@@ -129,7 +133,7 @@ export class Ellipse extends Definable {
     if (typeof this._coordinates !== "undefined") {
       return true;
     }
-    if (this._entityID !== null) {
+    if (this._entity !== null) {
       return true;
     }
     return false;
