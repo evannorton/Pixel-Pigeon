@@ -614,17 +614,17 @@ export class Entity extends Definable {
   }
 
   public updateOverlap(): void {
-    const collisionData: CollisionData = getEntityRectangleOverlapData(
-      this._id,
-      {
-        height: this._height,
-        width: this._width,
-        x: Math.floor(this._position.x),
-        y: Math.floor(this._position.y),
-      },
-    );
-    if (collisionData.entityCollidables.length > 0 || collisionData.map) {
-      if (this._onOverlap !== null) {
+    if (this._onOverlap !== null) {
+      const collisionData: CollisionData = getEntityRectangleOverlapData(
+        this._id,
+        {
+          height: this._height,
+          width: this._width,
+          x: Math.floor(this._position.x),
+          y: Math.floor(this._position.y),
+        },
+      );
+      if (collisionData.entityCollidables.length > 0 || collisionData.map) {
         try {
           this._onOverlap(collisionData);
         } catch (error: unknown) {
