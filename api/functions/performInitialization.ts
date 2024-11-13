@@ -393,18 +393,18 @@ export const performInitialization = async (): Promise<void> => {
   screenElement.addEventListener("touchmove", (e: TouchEvent): void => {
     e.preventDefault();
     if (e.target instanceof HTMLCanvasElement) {
-      // const scale: number = getStretchScale();
-      // const rect: DOMRect = e.target.getBoundingClientRect();
+      const scale: number = getStretchScale();
+      const rect: DOMRect = e.target.getBoundingClientRect();
       const targetTouch: Touch | undefined = e.targetTouches[0];
       if (typeof targetTouch === "undefined") {
         throw new Error("Target touch is undefined.");
       }
-      // state.setValues({
-      //   mouseCoords: {
-      //     x: (targetTouch.clientX - rect.x) / scale,
-      //     y: (targetTouch.clientY - rect.y) / scale,
-      //   },
-      // });
+      state.setValues({
+        mouseCoords: {
+          x: (targetTouch.clientX - rect.x) / scale,
+          y: (targetTouch.clientY - rect.y) / scale,
+        },
+      });
     }
   });
   screenElement.addEventListener("touchstart", (e: TouchEvent): void => {
