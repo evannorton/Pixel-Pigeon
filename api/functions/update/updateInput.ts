@@ -61,6 +61,17 @@ export const updateInput = (): void => {
                 heldGamepadInput.button !== gamepadButtonIndex,
             ),
           });
+          const gamepadInput: GamepadInput = {
+            button: gamepadButtonIndex,
+          };
+          if (state.values.hasInteracted && assetsAreLoaded()) {
+            state.setValues({
+              releasedGamepadInputs: [
+                ...state.values.releasedGamepadInputs,
+                gamepadInput,
+              ],
+            });
+          }
         }
       },
     );
@@ -70,6 +81,15 @@ export const updateInput = (): void => {
     getDefinables(InputPressHandler).forEach(
       (inputPressHandler: InputPressHandler): void => {
         onInputs.push(inputPressHandler.getGamepadOnInput(pressedGamepadInput));
+      },
+    );
+  }
+  for (const releasedGamepadInput of state.values.releasedGamepadInputs) {
+    getDefinables(InputPressHandler).forEach(
+      (inputPressHandler: InputPressHandler): void => {
+        onInputs.push(
+          inputPressHandler.getGamepadOnRelease(releasedGamepadInput),
+        );
       },
     );
   }
@@ -84,6 +104,20 @@ export const updateInput = (): void => {
     getDefinables(InputPressHandler).forEach(
       (inputPressHandler: InputPressHandler): void => {
         onInputs.push(inputPressHandler.getKeyboardOnInput(keyboardPress));
+      },
+    );
+  }
+  for (const mouseRelease of state.values.releasedMouseInputs) {
+    getDefinables(InputPressHandler).forEach(
+      (inputPressHandler: InputPressHandler): void => {
+        onInputs.push(inputPressHandler.getMouseOnRelease(mouseRelease));
+      },
+    );
+  }
+  for (const keyboardRelease of state.values.releasedKeyboardInputs) {
+    getDefinables(InputPressHandler).forEach(
+      (inputPressHandler: InputPressHandler): void => {
+        onInputs.push(inputPressHandler.getKeyboardOnRelease(keyboardRelease));
       },
     );
   }
@@ -106,5 +140,8 @@ export const updateInput = (): void => {
     pressedGamepadInputs: [],
     pressedKeyboardInputs: [],
     pressedMouseInputs: [],
+    releasedGamepadInputs: [],
+    releasedKeyboardInputs: [],
+    releasedMouseInputs: [],
   });
 };

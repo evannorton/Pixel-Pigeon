@@ -262,6 +262,18 @@ export const performInitialization = async (): Promise<void> => {
           heldKeyboardInput.button !== keyupEvent.code,
       ),
     });
+    const keyboardInput: KeyboardInput = {
+      button: keyupEvent.code,
+      numLock: keyupEvent.getModifierState("NumLock"),
+    };
+    if (state.values.hasInteracted && assetsAreLoaded()) {
+      state.setValues({
+        releasedKeyboardInputs: [
+          ...state.values.releasedKeyboardInputs,
+          keyboardInput,
+        ],
+      });
+    }
   });
   addEventListener("mouseup", (mouseupEvent: MouseEvent): void => {
     switch (mouseupEvent.button) {
@@ -269,6 +281,14 @@ export const performInitialization = async (): Promise<void> => {
       case 4:
         mouseupEvent.preventDefault();
         break;
+    }
+    const mouseInput: MouseInput = {
+      button: mouseupEvent.button,
+    };
+    if (state.values.hasInteracted && assetsAreLoaded()) {
+      state.setValues({
+        releasedMouseInputs: [...state.values.releasedMouseInputs, mouseInput],
+      });
     }
   });
   addEventListener("error", (errorEvent: ErrorEvent): void => {

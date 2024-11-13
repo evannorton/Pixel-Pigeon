@@ -49,6 +49,9 @@ interface StateSchema {
   readonly pressedGamepadInputs: GamepadInput[];
   readonly pressedKeyboardInputs: KeyboardInput[];
   readonly pressedMouseInputs: MouseInput[];
+  readonly releasedGamepadInputs: GamepadInput[];
+  readonly releasedKeyboardInputs: KeyboardInput[];
+  readonly releasedMouseInputs: MouseInput[];
   readonly renderChildrenToDestroy: (BitmapText | Graphics)[];
   readonly socket: Socket | null;
   readonly type: string | null;
@@ -91,6 +94,9 @@ export const state: State<StateSchema> = new State<StateSchema>({
   pressedGamepadInputs: [],
   pressedKeyboardInputs: [],
   pressedMouseInputs: [],
+  releasedGamepadInputs: [],
+  releasedKeyboardInputs: [],
+  releasedMouseInputs: [],
   renderChildrenToDestroy: [],
   socket: null,
   type: null,
