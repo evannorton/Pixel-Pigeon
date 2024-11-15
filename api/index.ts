@@ -160,6 +160,7 @@ import { goToLevel } from "./functions/goToLevel";
 import { handleError } from "./functions/handleError";
 import { initialize } from "./functions/initialize";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
+import { mergeHUDElementReferences } from "./functions/mergeHUDElementReferences";
 import { muteVolume } from "./functions/muteVolume";
 import { onError } from "./functions/onError";
 import { onRun } from "./functions/onRun";
@@ -262,6 +263,7 @@ export {
   lockCameraToEntity,
   makeHTTPRequest,
   MakeHTTPRequestOptions,
+  mergeHUDElementReferences,
   moveEntity,
   MoveEntityOptions,
   muteVolume,
