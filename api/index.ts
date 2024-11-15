@@ -122,6 +122,7 @@ import {
   GetRectangleCollisionDataOptions,
   getRectangleCollisionData,
 } from "./functions/getRectangleCollisionData";
+import { HUDElementReferences } from "./types/HUDElementReferences";
 import {
   IsRectangleInLevelOptions,
   isRectangleInLevel,
@@ -166,6 +167,7 @@ import { onTick } from "./functions/onTick";
 import { onWindowMessage } from "./functions/onWindowMessage";
 import { openURL } from "./functions/openURL";
 import { postWindowMessage } from "./functions/postWindowMessage";
+import { removeHUDElements } from "./functions/removeHUDElements";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { takeScreenshot } from "./functions/takeScreenshot";
 import { unlockCameraFromEntity } from "./functions/unlockCameraFromEntity";
@@ -250,6 +252,7 @@ export {
   GetRectangleCollisionDataOptions,
   goToLevel,
   handleError,
+  HUDElementReferences,
   initialize,
   isEntityPathing,
   isRectangleInLevel,
@@ -261,6 +264,7 @@ export {
   MakeHTTPRequestOptions,
   moveEntity,
   MoveEntityOptions,
+  muteVolume,
   NumLock,
   onError,
   onRun,
@@ -279,6 +283,7 @@ export {
   removeEllipse,
   removeEntity,
   removeEntitySprite,
+  removeHUDElements,
   removeLabel,
   removeNineSlice,
   removeQuadrilateral,
@@ -288,7 +293,11 @@ export {
   setEntityLevel,
   setEntityPosition,
   setEntityZIndex,
+  setMainVolume,
+  SetMainVolumeOptions,
   setPauseMenuCondition,
+  setVolumeChannelVolume,
+  SetVolumeChannelVolumeOptions,
   State,
   stopAudioSource,
   stopEntity,
@@ -297,9 +306,4 @@ export {
   unlockAchievement,
   unlockCameraFromEntity,
   unmuteVolume,
-  muteVolume,
-  setMainVolume,
-  SetMainVolumeOptions,
-  setVolumeChannelVolume,
-  SetVolumeChannelVolumeOptions,
 };
