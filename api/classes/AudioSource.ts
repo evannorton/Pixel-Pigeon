@@ -26,7 +26,7 @@ export class AudioSource extends Definable {
       autoplay: false,
       loop: false,
       preload: true,
-      src: [`audio/${this._audioPath}.mp3`],
+      src: [`audio/${encodeURIComponent(this._audioPath)}.mp3`],
       volume: defaultVolume,
     });
     this._howl.on("end", (): void => {
