@@ -41,6 +41,7 @@ interface StateSchema {
   readonly levelID: string | null;
   readonly loadedAssets: number;
   readonly mouseCoords: MouseCoords | null;
+  readonly mousedownConsumed: boolean;
   readonly onErrorCallbacks: ((error: Error) => void)[];
   readonly onRunCallbacks: (() => void)[];
   readonly onTickCallbacks: (() => void)[];
@@ -86,6 +87,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   levelID: null,
   loadedAssets: 0,
   mouseCoords: null,
+  mousedownConsumed: false,
   onErrorCallbacks: [],
   onRunCallbacks: [],
   onTickCallbacks: [],

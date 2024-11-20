@@ -334,9 +334,12 @@ export const performInitialization = async (): Promise<void> => {
           },
         });
       }
-      for (const button of getDefinables(Button).values()) {
+      for (const button of Array.from(
+        getDefinables(Button).values(),
+      ).reverse()) {
         button.handleHeld();
       }
+      state.setValues({ mousedownConsumed: false });
     },
   );
   screenElement.addEventListener(
@@ -443,9 +446,10 @@ export const performInitialization = async (): Promise<void> => {
         },
       });
     }
-    for (const button of getDefinables(Button).values()) {
+    for (const button of Array.from(getDefinables(Button).values()).reverse()) {
       button.handleHeld();
     }
+    state.setValues({ mousedownConsumed: false });
   });
   pauseButtonElement.addEventListener("click", (): void => {
     document.body.classList.add("paused");
