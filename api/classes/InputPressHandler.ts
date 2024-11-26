@@ -150,3 +150,9 @@ export class InputPressHandler extends Definable {
 export const createInputPressHandler = (
   options: CreateInputPressHandlerOptions,
 ): string => new InputPressHandler(options).id;
+/**
+ * @param inputHandlerID - String inputHandlerID of the InputPressHandler to remove
+ */
+export const removeInputPressHandler = (inputHandlerID: string): void => {
+  getDefinable<InputPressHandler>(InputPressHandler, inputHandlerID).remove();
+};

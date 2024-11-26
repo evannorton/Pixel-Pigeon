@@ -52,6 +52,7 @@ import {
 import {
   CreateInputPressHandlerOptions,
   createInputPressHandler,
+  removeInputPressHandler,
 } from "./classes/InputPressHandler";
 import {
   CreateInputTickHandlerOptions,
@@ -286,6 +287,7 @@ export {
   removeEntity,
   removeEntitySprite,
   removeHUDElements,
+  removeInputPressHandler,
   removeLabel,
   removeNineSlice,
   removeQuadrilateral,

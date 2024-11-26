@@ -1,6 +1,7 @@
 import { HUDElementReferences } from "../types/HUDElementReferences";
 import { removeButton } from "../classes/Button";
 import { removeEllipse } from "../classes/Ellipse";
+import { removeInputPressHandler } from "../classes/InputPressHandler";
 import { removeLabel } from "../classes/Label";
 import { removeNineSlice } from "../classes/NineSlice";
 import { removeQuadrilateral } from "../classes/Quadrilateral";
@@ -14,6 +15,10 @@ export const removeHUDElements = (
   }
   for (const ellipseID of hudElementReferences.ellipseIDs ?? []) {
     removeEllipse(ellipseID);
+  }
+  for (const inputPressHandlerID of hudElementReferences.inputPressHandlerIDs ??
+    []) {
+    removeInputPressHandler(inputPressHandlerID);
   }
   for (const labelID of hudElementReferences.labelIDs ?? []) {
     removeLabel(labelID);
