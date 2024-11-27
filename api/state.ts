@@ -26,7 +26,6 @@ interface StateSchema {
   readonly config: Config | null;
   readonly currentTime: number;
   readonly dev: Dev | null;
-  readonly didBlur: boolean;
   readonly env: Env | null;
   readonly gameEnv: Record<string, unknown> | null;
   readonly gameID: string | null;
@@ -72,7 +71,6 @@ export const state: State<StateSchema> = new State<StateSchema>({
   config: null,
   currentTime: 0,
   dev: null,
-  didBlur: false,
   env: null,
   gameEnv: null,
   gameID: null,

@@ -8,18 +8,6 @@ import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
 
 export const updateInput = (): void => {
-  if (state.values.didBlur) {
-    state.setValues({
-      heldGamepadInputs: [],
-      heldKeyboardInputs: [],
-      heldMouseInputs: [],
-    });
-    getDefinables(InputTickHandler).forEach(
-      (inputTickHandler: InputTickHandler<string>): void => {
-        inputTickHandler.empty();
-      },
-    );
-  }
   getGamepads().forEach((gamepad: Gamepad): void => {
     gamepad.buttons.forEach(
       (gamepadButton: GamepadButton, gamepadButtonIndex: number): void => {
@@ -136,7 +124,6 @@ export const updateInput = (): void => {
     },
   );
   state.setValues({
-    didBlur: false,
     pressedGamepadInputs: [],
     pressedKeyboardInputs: [],
     pressedMouseInputs: [],

@@ -198,13 +198,41 @@ export const performInitialization = async (): Promise<void> => {
     getDefinables(Achievement).size.toString();
   screenElement.appendChild(app.renderer.view);
   app.ticker.add(tick);
-  addEventListener("resize", sizeScreen);
-  addEventListener("blur", (): void => {
+  addEventListener("focusout", (): void => {
+    if (state.values.hasInteracted && assetsAreLoaded()) {
+      for (const heldGamepadInput of state.values.heldGamepadInputs) {
+        state.setValues({
+          releasedGamepadInputs: [
+            ...state.values.releasedGamepadInputs,
+            heldGamepadInput,
+          ],
+        });
+      }
+      for (const heldKeyboardInput of state.values.heldKeyboardInputs) {
+        state.setValues({
+          releasedKeyboardInputs: [
+            ...state.values.releasedKeyboardInputs,
+            heldKeyboardInput,
+          ],
+        });
+      }
+      for (const heldMouseInput of state.values.heldMouseInputs) {
+        state.setValues({
+          releasedMouseInputs: [
+            ...state.values.releasedMouseInputs,
+            heldMouseInput,
+          ],
+        });
+      }
+    }
     state.setValues({
       addingKeyboardHeldValue: null,
-      didBlur: true,
+      heldGamepadInputs: [],
+      heldKeyboardInputs: [],
+      heldMouseInputs: [],
     });
   });
+  addEventListener("resize", sizeScreen);
   addEventListener("contextmenu", (contextmenuEvent: Event): void => {
     contextmenuEvent.preventDefault();
   });
