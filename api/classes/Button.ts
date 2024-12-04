@@ -5,6 +5,7 @@ import {
 import { Definable, getDefinable } from "definables";
 import { Entity } from "./Entity";
 import { EntityButton, EntityPosition } from "../types/World";
+import { Scriptable } from "../types/Scriptable";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
@@ -16,11 +17,11 @@ export interface CreateButtonOptionsCoordinates {
   /**
    * The X value on the screen where the Button is positioned
    */
-  x: number;
+  x: Scriptable<number>;
   /**
    * The Y value on the screen where the Button is positioned
    */
-  y: number;
+  y: Scriptable<number>;
 }
 export interface CreateButtonOptions {
   /**
@@ -36,8 +37,8 @@ export interface CreateButtonOptions {
 }
 interface ButtonCoordinates {
   readonly condition?: () => boolean;
-  readonly x: number;
-  readonly y: number;
+  readonly x: Scriptable<number>;
+  readonly y: Scriptable<number>;
 }
 interface ButtonEntity {
   entityID: string;
@@ -122,8 +123,13 @@ export class Button extends Definable {
         if (this.passesCoordinatesCondition() === false) {
           return false;
         }
-        x = this._coordinates.x;
-        y = this._coordinates.y;
+        const coordinatesX: number | null = this.getCoordinatesX();
+        const coordinatesY: number | null = this.getCoordinatesY();
+        if (coordinatesX === null || coordinatesY === null) {
+          return false;
+        }
+        x = coordinatesX;
+        y = coordinatesY;
       }
       if (this._entity !== null) {
         const entityPosition: EntityPosition = getDefinable(
@@ -177,6 +183,34 @@ export class Button extends Definable {
         handleCaughtError(error, `Button "${this._id}" onRelease`, true);
       }
     }
+  }
+
+  private getCoordinatesX(): number | null {
+    if (typeof this._coordinates !== "undefined") {
+      if (typeof this._coordinates.x === "number") {
+        return this._coordinates.x;
+      }
+      try {
+        return this._coordinates.x();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Button "${this._id}" coordinates x`, true);
+      }
+    }
+    return null;
+  }
+
+  private getCoordinatesY(): number | null {
+    if (typeof this._coordinates !== "undefined") {
+      if (typeof this._coordinates.y === "number") {
+        return this._coordinates.y;
+      }
+      try {
+        return this._coordinates.y();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Button "${this._id}" coordinates y`, true);
+      }
+    }
+    return null;
   }
 
   private passesCoordinatesCondition(): boolean {
