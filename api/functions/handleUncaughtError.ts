@@ -61,9 +61,11 @@ export const handleUncaughtError = (error: unknown): void => {
       errorMessageContainer.appendChild(copyButtonElement);
       bodyElement.appendChild(errorMessageContainer);
     }
-    fireAlert({
-      bodyElement,
-      title: "Error",
-    });
+    if (state.values.type === "zip") {
+      fireAlert({
+        bodyElement,
+        title: "Error",
+      });
+    }
   }
 };
