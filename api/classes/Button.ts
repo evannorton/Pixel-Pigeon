@@ -24,10 +24,10 @@ export interface CreateButtonOptionsCoordinates {
   y: Scriptable<number>;
 }
 export interface CreateButtonOptions {
+  allowsMousedownThrough?: boolean;
   /**
    * Coordinates that can be used to precisely define where the Button should be on the screen
    */
-  consumesInput?: boolean;
   coordinates?: CreateButtonOptionsCoordinates;
   height: number;
   onClick?: () => void;
@@ -46,7 +46,7 @@ interface ButtonEntity {
 }
 
 export class Button extends Definable {
-  private readonly _consumesInput: boolean;
+  private readonly _allowsMousedownThrough: boolean;
   private readonly _coordinates?: ButtonCoordinates;
   private _didClickOccur: boolean = false;
   private _didMousedownOccur: boolean = false;
@@ -61,7 +61,7 @@ export class Button extends Definable {
 
   public constructor(options: CreateButtonOptions) {
     super();
-    this._consumesInput = options.consumesInput ?? false;
+    this._allowsMousedownThrough = options.allowsMousedownThrough ?? false;
     if (typeof options.coordinates !== "undefined") {
       this._coordinates = {
         condition: options.coordinates.condition,
@@ -91,7 +91,7 @@ export class Button extends Definable {
     if (this.isHovered() && state.values.mousedownConsumed === false) {
       this._isHeld = true;
       this._didMousedownOccur = true;
-      if (this._consumesInput) {
+      if (this._allowsMousedownThrough === false) {
         state.setValues({ mousedownConsumed: true });
       }
     }
