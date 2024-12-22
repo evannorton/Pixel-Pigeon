@@ -28,6 +28,7 @@ export interface CreateNineSliceOptions {
    * Optional coordinates that can be used to precisely define where the NineSlice should be on the screen
    */
   coordinates: CreateNineSliceOptionsCoordinates;
+  coversEntities?: boolean;
   height: number;
   /**
    * String path to the sprite sheet, automatically starts in images folder**
@@ -50,6 +51,7 @@ interface NineSliceCoordinates {
 
 export class NineSlice extends Definable {
   private readonly _coordinates?: NineSliceCoordinates;
+  private readonly _coversEntities: boolean;
   private readonly _height: number;
   private readonly _imageSourceID: string;
   private readonly _pixiNineSlicePlane: NineSlicePlane;
@@ -70,8 +72,13 @@ export class NineSlice extends Definable {
       x: options.coordinates.x,
       y: options.coordinates.y,
     };
+    this._coversEntities = options.coversEntities ?? false;
     this._width = options.width;
     this._height = options.height;
+  }
+
+  public get coversEntities(): boolean {
+    return this._coversEntities;
   }
 
   private get imageSource(): ImageSource {
@@ -93,6 +100,39 @@ export class NineSlice extends Definable {
         );
       }
     }
+  }
+
+  public isHovered(): boolean {
+    if (state.values.mouseCoords !== null) {
+      let x: number | undefined;
+      let y: number | undefined;
+      if (typeof this._coordinates !== "undefined") {
+        if (this.passesCoordinatesCondition() === false) {
+          return false;
+        }
+        const coordinatesX: number | null = this.getCoordinatesX();
+        const coordinatesY: number | null = this.getCoordinatesY();
+        if (coordinatesX === null || coordinatesY === null) {
+          return false;
+        }
+        x = coordinatesX;
+        y = coordinatesY;
+      }
+      if (typeof x === "undefined" || typeof y === "undefined") {
+        throw new Error(
+          `NineSlice "${this._id}" attempted to check hover with no coordinates.`,
+        );
+      }
+      if (
+        state.values.mouseCoords.x >= x &&
+        state.values.mouseCoords.x < x + this._width &&
+        state.values.mouseCoords.y >= y &&
+        state.values.mouseCoords.y < y + this._height
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public remove(): void {

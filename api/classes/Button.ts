@@ -2,9 +2,10 @@ import {
   CameraCoordinates,
   getCameraCoordinates,
 } from "../functions/getCameraCoordinates";
-import { Definable, getDefinable } from "definables";
+import { Definable, getDefinable, getDefinables } from "definables";
 import { Entity } from "./Entity";
 import { EntityButton, EntityPosition } from "../types/World";
+import { NineSlice } from "./NineSlice";
 import { Scriptable } from "../types/Scriptable";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
@@ -118,6 +119,14 @@ export class Button extends Definable {
   }
 
   public isHovered(): boolean {
+    if (
+      this._entity !== null &&
+      Array.from(getDefinables(NineSlice)).some(
+        ([, nineSlice]: [string, NineSlice]): boolean => nineSlice.isHovered(),
+      )
+    ) {
+      return false;
+    }
     if (state.values.mouseCoords !== null) {
       let x: number | undefined;
       let y: number | undefined;
