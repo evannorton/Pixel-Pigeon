@@ -91,7 +91,9 @@ export class Button extends Definable {
     if (this.isHovered() && state.values.mousedownConsumed === false) {
       this._isHeld = true;
       this._didMousedownOccur = true;
-      state.setValues({ mousedownConsumed: true });
+      if (this._consumesInput) {
+        state.setValues({ mousedownConsumed: true });
+      }
     }
   }
 
