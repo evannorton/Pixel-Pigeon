@@ -14,7 +14,6 @@ body {
   align-items: center;
   color: white;
   cursor: url("./cursors/default.png"), default;
-  display: flex;
   font-family: sans-serif;
   font-size: 0.75em;
   image-rendering: optimizeSpeed;
@@ -22,7 +21,6 @@ body {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: -o-crisp-edges;
   image-rendering: pixelated;
-  justify-content: center;
   overflow: hidden;
   position: relative;
   user-select: none !important;
@@ -265,6 +263,7 @@ body:not(.paused) #unpause-button {
 #pause-buttons {
   position: absolute;
   pointer-events: none;
+  top: 0;
 }
 
 #pause-buttons img {

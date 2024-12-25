@@ -9,7 +9,14 @@ export const getStretchedWidth = (): number => {
   const aspectRatio: number =
     state.values.config.width / state.values.config.height;
   if (window.innerWidth > window.innerHeight) {
+    const height: number = Math.floor(window.innerWidth * (1 / aspectRatio));
+    if (height <= window.innerHeight) {
+      return Math.floor(window.innerWidth);
+    }
+  }
+  const width: number = Math.floor(window.innerHeight * aspectRatio);
+  if (width > window.innerWidth) {
     return Math.floor(window.innerWidth);
   }
-  return Math.floor(window.innerHeight * aspectRatio);
+  return width;
 };
