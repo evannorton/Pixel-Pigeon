@@ -1,4 +1,5 @@
-import { getStretchScale } from "./getStretchScale";
+import { getStretchedHeight } from "./getStretchedHeight";
+import { getStretchedWidth } from "./getStretchedWidth";
 import { state } from "../state";
 
 export const sizeScreen = (): void => {
@@ -7,9 +8,8 @@ export const sizeScreen = (): void => {
       "An attempt was made to size screen before config was loaded.",
     );
   }
-  const stretchScale: number = getStretchScale();
-  const screenWidth: number = state.values.config.width * stretchScale;
-  const screenHeight: number = state.values.config.height * stretchScale;
+  const screenWidth: number = getStretchedWidth();
+  const screenHeight: number = getStretchedHeight();
   const screenElement: HTMLElement | null = document.getElementById("screen");
   if (screenElement === null) {
     throw new Error(
@@ -49,8 +49,10 @@ export const sizeScreen = (): void => {
     state.values.config.width,
     state.values.config.height,
   );
-  const width: number = (lowerDimension / 20) * stretchScale;
-  const margin: number = (lowerDimension / 40) * stretchScale;
+  const width: number =
+    (lowerDimension / 20) * (screenWidth / state.values.config.width);
+  const margin: number =
+    (lowerDimension / 40) * (screenWidth / state.values.config.width);
   for (const element of document.getElementsByClassName("pause-toggle")) {
     if (!(element instanceof HTMLElement)) {
       throw new Error(

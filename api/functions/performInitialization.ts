@@ -28,7 +28,8 @@ import { assetsAreLoaded } from "./assetsAreLoaded";
 import { cleanStorage } from "./storage/cleanStorage";
 import { fireAlert } from "./fireAlert";
 import { getDefinable, getDefinables } from "definables";
-import { getStretchScale } from "./getStretchScale";
+import { getStretchedHeight } from "./getStretchedHeight";
+import { getStretchedWidth } from "./getStretchedWidth";
 import { goToPauseMenuSection } from "./goToPauseMenuSection";
 import { handleUncaughtError } from "./handleUncaughtError";
 import { loadAssets } from "./loadAssets";
@@ -444,7 +445,6 @@ export const performInitialization = async (): Promise<void> => {
   screenElement.addEventListener("touchmove", (e: TouchEvent): void => {
     e.preventDefault();
     if (e.target instanceof HTMLCanvasElement) {
-      const scale: number = getStretchScale();
       const rect: DOMRect = e.target.getBoundingClientRect();
       const targetTouch: Touch | undefined = e.targetTouches[0];
       if (typeof targetTouch === "undefined") {
@@ -452,8 +452,12 @@ export const performInitialization = async (): Promise<void> => {
       }
       state.setValues({
         mouseCoords: {
-          x: (targetTouch.clientX - rect.x) / scale,
-          y: (targetTouch.clientY - rect.y) / scale,
+          x:
+            (targetTouch.clientX - rect.x) /
+            (getStretchedWidth() / config.width),
+          y:
+            (targetTouch.clientY - rect.y) /
+            (getStretchedHeight() / config.height),
         },
       });
     }
@@ -461,7 +465,6 @@ export const performInitialization = async (): Promise<void> => {
   screenElement.addEventListener("touchstart", (e: TouchEvent): void => {
     e.preventDefault();
     if (e.target instanceof HTMLCanvasElement) {
-      const scale: number = getStretchScale();
       const rect: DOMRect = e.target.getBoundingClientRect();
       const targetTouch: Touch | undefined = e.targetTouches[0];
       if (typeof targetTouch === "undefined") {
@@ -469,8 +472,12 @@ export const performInitialization = async (): Promise<void> => {
       }
       state.setValues({
         mouseCoords: {
-          x: (targetTouch.clientX - rect.x) / scale,
-          y: (targetTouch.clientY - rect.y) / scale,
+          x:
+            (targetTouch.clientX - rect.x) /
+            (getStretchedWidth() / config.width),
+          y:
+            (targetTouch.clientY - rect.y) /
+            (getStretchedHeight() / config.height),
         },
       });
     }
