@@ -23,9 +23,6 @@ export const getBitmapText = (
   const isTooWide: boolean = maxWidth !== null && bitmapText.width > maxWidth;
   const isTooTall: boolean =
     maxLines !== null && bitmapText.textHeight > size * maxLines * 11;
-  if (isTooWide === false && isTooTall === false) {
-    return bitmapText;
-  }
   const filteredTrims: TextInfoTrim[] = trims.filter(
     (trim: TextInfoTrim): boolean =>
       trim.length > 0 && trim.index < text.length,
@@ -80,7 +77,17 @@ export const getBitmapText = (
     );
   }
   if (isTooWide) {
-    throw new Error(`Text exceeded maximum width: ${text}`);
+    if (maxWidth === null) {
+      throw new Error(
+        "Text exceeded maximum width without a maximum width set",
+      );
+    }
+    console.error(
+      `Text exceeded maximum width: "${text}" (${bitmapText.width} / ${maxWidth})`,
+    );
   }
-  throw new Error(`Text exceeded maximum lines: ${text}`);
+  if (isTooTall) {
+    console.error(`Text exceeded maximum lines: "${text}"`);
+  }
+  return bitmapText;
 };
