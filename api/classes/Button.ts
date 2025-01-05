@@ -142,7 +142,7 @@ export class Button extends Definable {
         x = coordinatesX;
         y = coordinatesY;
       }
-      if (this._entity !== null) {
+      if (this._entity !== null && state.values.levelID !== null) {
         const entityPosition: EntityPosition = getDefinable(
           Entity,
           this._entity.entityID,
@@ -151,12 +151,9 @@ export class Button extends Definable {
         x = Math.floor(entityPosition.x) - cameraCoordinates.x;
         y = Math.floor(entityPosition.y) - cameraCoordinates.y;
       }
-      if (typeof x === "undefined" || typeof y === "undefined") {
-        throw new Error(
-          `Button "${this._id}" attempted to check hover with no coordinates.`,
-        );
-      }
       if (
+        typeof x !== "undefined" &&
+        typeof y !== "undefined" &&
         state.values.mouseCoords.x >= x &&
         state.values.mouseCoords.x < x + this._width &&
         state.values.mouseCoords.y >= y &&
