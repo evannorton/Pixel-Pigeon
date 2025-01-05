@@ -6,7 +6,7 @@ import { toast } from "../constants/toasts";
 export const handleUncaughtError = (error: unknown): void => {
   if (state.values.hasErrored === false) {
     state.setValues({ hasErrored: true });
-    if (state.values.type === "zip") {
+    if (state.values.type === "dev") {
       const bodyElement: HTMLElement = document.createElement("div");
       const messageElement: HTMLParagraphElement = document.createElement("p");
       const defaultedError: Error = getDefaultedError(error);
