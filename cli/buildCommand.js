@@ -1,5 +1,5 @@
 const { join, resolve } = require("path");
-const nodeModulesPath = require("./nodeModulesPath");
+const getNodeModulePath = require("./getNodeModulePath");
 const randomString = require("./randomString");
 
 const buildID = randomString();
@@ -9,9 +9,9 @@ const commands = [
     `node ${join(__dirname, "clearOutput")}`,
     `node ${join(__dirname, "verifyImagesChunks")}`,
     `node ${join(__dirname, "createLib")}`,
-    `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(resolve(), "src", "tsconfig.json")} --outDir ${join(__dirname, "..", "game-lib")}`,
-    `${join(nodeModulesPath, ".bin", "tsc")} --preserveWatchOutput --p ${join(__dirname, "..", "hot-reload", "tsconfig.json")} --outDir ${join(__dirname, "..", "hot-reload-lib")}`,
-    `${join(nodeModulesPath, ".bin", "esbuild")} ${join(__dirname, "..", "hot-reload-lib", "index.js")} --bundle --sourcemap --outfile=${join(resolve(), "out", "library-script.js")}`,
+    `${getNodeModulePath([".bin", "tsc"])} --preserveWatchOutput --p ${join(resolve(), "src", "tsconfig.json")} --outDir ${join(__dirname, "..", "game-lib")}`,
+    `${getNodeModulePath([".bin", "tsc"])} --preserveWatchOutput --p ${join(__dirname, "..", "hot-reload", "tsconfig.json")} --outDir ${join(__dirname, "..", "hot-reload-lib")}`,
+    `${getNodeModulePath([".bin", "esbuild"])} ${join(__dirname, "..", "hot-reload-lib", "index.js")} --bundle --sourcemap --outfile=${join(resolve(), "out", "library-script.js")}`,
     `node ${join(__dirname, "buildGameBundle")}`,
     `node ${join(__dirname, "buildHTML")}`,
     `node ${join(__dirname, "buildNormalize")}`,
