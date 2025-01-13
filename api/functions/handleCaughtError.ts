@@ -23,7 +23,8 @@ export const handleCaughtError = (
   }
   switch (state.values.type) {
     case "dev":
-      throw defaultedError;
+      handleUncaughtError(defaultedError);
+      break;
     case "zip":
       console.error(`Error thrown in ${descriptor}.`, "\n", defaultedError);
       break;
