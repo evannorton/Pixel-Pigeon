@@ -1,4 +1,5 @@
 import { getDefaultedError } from "./getDefaultedError";
+import { handleUncaughtError } from "./handleUncaughtError";
 import { state } from "../state";
 
 export const handleCaughtError = (
@@ -18,6 +19,7 @@ export const handleCaughtError = (
         onErrorCallback(defaultedError);
       } catch (onErrorCallbackError: unknown) {
         handleCaughtError(onErrorCallbackError, "on error callback", false);
+        break;
       }
     }
   }
