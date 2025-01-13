@@ -779,11 +779,11 @@ export class Entity extends Definable {
         if (typeof matrix[y] === "undefined") {
           matrix[y] = [];
         }
-        if (typeof (matrix[y] as number[])[x] === "undefined") {
-          (matrix[y] as number[])[x] = 0;
+        if (typeof matrix[y][x] === "undefined") {
+          matrix[y][x] = 0;
         }
         if (this._collidesWithMap && matchedTile.isCollidable) {
-          (matrix[y] as number[])[x] = 1;
+          matrix[y][x] = 1;
         }
       }
       for (const layerEntityID of layer.entityIDs.values()) {
@@ -842,9 +842,9 @@ export class Entity extends Definable {
                   exclusion.tilePosition.y === y,
               )
             ) {
-              (matrix[y] as number[])[x] = 0;
+              matrix[y][x] = 0;
             } else {
-              (matrix[y] as number[])[x] = 1;
+              matrix[y][x] = 1;
             }
           }
         }
