@@ -1,3 +1,4 @@
+import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
 
 export interface ListenToSocketioEventOptions<Message extends object> {
@@ -11,6 +12,10 @@ export const listenToSocketioEvent = <Message extends object>(
     throw new Error("Attempted to listen to socket.io event with no socket.");
   }
   state.values.socket.on(options.event, (message: Message): void => {
-    options.onMessage(message);
+    try {
+      options.onMessage(message);
+    } catch (error) {
+      handleCaughtError(error, `SocketIO Event "${options.event}"`, true);
+    }
   });
 };
