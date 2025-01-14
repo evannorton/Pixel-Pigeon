@@ -39,8 +39,8 @@
         "socket.io-client": "4.6.1",
         "sweetalert2": "11.9.0",
         "ts-to-zod": "3.1.2",
-        "typedoc": "0.25.13",
-        "typedoc-plugin-missing-exports": "2.1.0",
+        "typedoc": "0.27.6",
+        "typedoc-plugin-missing-exports": "3.1.0",
         "typescript": "5.7.3",
         "zod": "3.21.4"
     },
