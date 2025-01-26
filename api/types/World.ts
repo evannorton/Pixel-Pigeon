@@ -1,4 +1,5 @@
 import { Sprite as PixiSprite, Texture } from "pixi.js";
+import { Scriptable } from "./Scriptable";
 
 /**
  * Stores information about Entity collisions.
@@ -51,8 +52,8 @@ export interface EntityEllipse {
 export interface EntitySprite {
   condition?: () => boolean;
   spriteID: string;
-  x?: number;
-  y?: number;
+  x?: Scriptable<number>;
+  y?: Scriptable<number>;
 }
 export interface Layer {
   readonly entityIDs: string[];
