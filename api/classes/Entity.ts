@@ -433,8 +433,8 @@ export class Entity extends Definable {
       rectangle: {
         height: this._height,
         width: this._width,
-        x: Math.floor(this._position.x),
-        y: Math.floor(this._position.y),
+        x: this._position.x,
+        y: this._position.y,
       },
     });
     if (
@@ -531,8 +531,8 @@ export class Entity extends Definable {
           rectangle: {
             height: this._height,
             width: this._width,
-            x: Math.floor(xEnd + pieceXEnd),
-            y: Math.floor(yEnd),
+            x: xEnd + pieceXEnd,
+            y: yEnd,
           },
         });
         const yCollisionData: CollisionData | null = getRectangleCollisionData({
@@ -541,8 +541,8 @@ export class Entity extends Definable {
           rectangle: {
             height: this._height,
             width: this._width,
-            x: Math.floor(xEnd),
-            y: Math.floor(yEnd + pieceYEnd),
+            x: xEnd,
+            y: yEnd + pieceYEnd,
           },
         });
         const bothCollisionData: CollisionData = getRectangleCollisionData({
@@ -551,8 +551,8 @@ export class Entity extends Definable {
           rectangle: {
             height: this._height,
             width: this._width,
-            x: Math.floor(xEnd + pieceXEnd),
-            y: Math.floor(yEnd + pieceYEnd),
+            x: xEnd + pieceXEnd,
+            y: yEnd + pieceYEnd,
           },
         });
         const canMoveX: boolean =

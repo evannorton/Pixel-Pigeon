@@ -41,8 +41,8 @@ export const getRectangleCollisionData = (
   if (
     options.rectangle.x < 0 ||
     options.rectangle.y < 0 ||
-    options.rectangle.x + options.rectangle.width > level.width ||
-    options.rectangle.y + options.rectangle.height > level.height
+    Math.floor(options.rectangle.x) + options.rectangle.width > level.width ||
+    Math.floor(options.rectangle.y) + options.rectangle.height > level.height
   ) {
     map = true;
   }
