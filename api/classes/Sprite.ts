@@ -437,26 +437,29 @@ export class Sprite extends Definable {
             const loopedDuration: number =
               frameIndex > 0
                 ? currentAnimation.frames
-                    .slice(0, frameIndex - 1)
+                    .slice(0, frameIndex)
                     .reduce(
                       (
                         accumulator: number,
                         loopedFrame: SpriteAnimationFrame,
                       ): number => accumulator + (loopedFrame.duration ?? 0),
                       0,
-                    ) + duration
+                    )
                 : 0;
             if (animationTime >= loopedDuration) {
+              const nextFrameIndex: number = frameIndex + 1;
               const nextLoopedDuration: number =
-                currentAnimation.frames
-                  .slice(0, frameIndex)
-                  .reduce(
-                    (
-                      accumulator: number,
-                      loopedFrame: SpriteAnimationFrame,
-                    ): number => accumulator + (loopedFrame.duration ?? 0),
-                    0,
-                  ) + duration;
+                nextFrameIndex > 0
+                  ? currentAnimation.frames
+                      .slice(0, nextFrameIndex)
+                      .reduce(
+                        (
+                          accumulator: number,
+                          loopedFrame: SpriteAnimationFrame,
+                        ): number => accumulator + (loopedFrame.duration ?? 0),
+                        0,
+                      )
+                  : 0;
               if (animationTime < nextLoopedDuration) {
                 return true;
               }
