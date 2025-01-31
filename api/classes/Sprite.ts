@@ -109,6 +109,7 @@ export interface CreateSpriteOptions {
    */
   isGrayscale?: Scriptable<boolean>;
   imagePath: Scriptable<string>;
+  opacity?: Scriptable<number>;
   palette?: Scriptable<string[]>;
   recolors?: Scriptable<CreateSpriteOptionsRecolor[]>;
 }
@@ -153,6 +154,7 @@ export class Sprite extends Definable {
   private _entity: SpriteEntity | null = null;
   private readonly _isGrayscale: Scriptable<boolean> = false;
   private readonly _imageSourceID: Scriptable<string>;
+  private readonly _opacity: Scriptable<number>;
   private readonly _palette: Scriptable<string[]> = [];
   private readonly _pixiSprite: PixiSprite = new PixiSprite();
   private readonly _recolors: Scriptable<SpriteRecolor[]>;
@@ -196,6 +198,7 @@ export class Sprite extends Definable {
       };
     }
     this._isGrayscale = options.isGrayscale ?? false;
+    this._opacity = options.opacity ?? 1;
     this._palette = Array.isArray(options.palette)
       ? [...options.palette]
       : typeof options.palette === "function"
@@ -382,76 +385,64 @@ export class Sprite extends Definable {
         }" attempted to draw with no animation.`,
       );
     }
-    const imageSource: ImageSource | null = this.imageSource;
-    if (imageSource !== null) {
-      for (const animation of this._animations) {
-        for (const frame of animation.frames) {
-          if (typeof frame.texture === "undefined") {
-            frame.texture = new Texture(
-              imageSource.texture.baseTexture,
-              new Rectangle(
-                frame.sourceX,
-                frame.sourceY,
-                frame.sourceWidth,
-                frame.sourceHeight,
-              ),
-            );
-          } else {
-            frame.texture.baseTexture = imageSource.texture.baseTexture;
+    const opacity: number | null = this.getOpacity();
+    if (opacity !== null) {
+      const imageSource: ImageSource | null = this.imageSource;
+      if (imageSource !== null) {
+        for (const animation of this._animations) {
+          for (const frame of animation.frames) {
+            if (typeof frame.texture === "undefined") {
+              frame.texture = new Texture(
+                imageSource.texture.baseTexture,
+                new Rectangle(
+                  frame.sourceX,
+                  frame.sourceY,
+                  frame.sourceWidth,
+                  frame.sourceHeight,
+                ),
+              );
+            } else {
+              frame.texture.baseTexture = imageSource.texture.baseTexture;
+            }
           }
         }
-      }
-      const animation: SpriteAnimationPlay = this._animationPlay;
-      const currentAnimation: SpriteAnimation | null =
-        this._animations.find(
-          (spriteAnimation: SpriteAnimation): boolean =>
-            spriteAnimation.id === animation.id,
-        ) ?? null;
-      if (currentAnimation === null) {
-        throw new Error(
-          `Sprite "${this._id}" does not contain an animation with ID "${this._animationPlay.id}".`,
+        const animation: SpriteAnimationPlay = this._animationPlay;
+        const currentAnimation: SpriteAnimation | null =
+          this._animations.find(
+            (spriteAnimation: SpriteAnimation): boolean =>
+              spriteAnimation.id === animation.id,
+          ) ?? null;
+        if (currentAnimation === null) {
+          throw new Error(
+            `Sprite "${this._id}" does not contain an animation with ID "${this._animationPlay.id}".`,
+          );
+        }
+        const animationContainsEndlessFrame: boolean =
+          currentAnimation.frames.some(
+            (frame: SpriteAnimationFrame): boolean =>
+              typeof frame.duration === "undefined",
+          );
+        const animationDuration: number = currentAnimation.frames.reduce(
+          (accumulator: number, frame: SpriteAnimationFrame): number =>
+            accumulator + (frame.duration ?? 0),
+          0,
         );
-      }
-      const animationContainsEndlessFrame: boolean =
-        currentAnimation.frames.some(
-          (frame: SpriteAnimationFrame): boolean =>
-            typeof frame.duration === "undefined",
-        );
-      const animationDuration: number = currentAnimation.frames.reduce(
-        (accumulator: number, frame: SpriteAnimationFrame): number =>
-          accumulator + (frame.duration ?? 0),
-        0,
-      );
-      const timeSinceAnimationStarted: number =
-        state.values.currentTime - this._animationPlay.startedAt;
-      const animationTime: number = animationContainsEndlessFrame
-        ? timeSinceAnimationStarted
-        : timeSinceAnimationStarted % animationDuration;
-      const currentAnimationFrame: SpriteAnimationFrame | null =
-        currentAnimation.frames.find(
-          (frame: SpriteAnimationFrame, frameIndex: number): boolean => {
-            const duration: number | null = frame.duration ?? null;
-            if (duration === null) {
-              return true;
-            }
-            const loopedDuration: number =
-              frameIndex > 0
-                ? currentAnimation.frames
-                    .slice(0, frameIndex)
-                    .reduce(
-                      (
-                        accumulator: number,
-                        loopedFrame: SpriteAnimationFrame,
-                      ): number => accumulator + (loopedFrame.duration ?? 0),
-                      0,
-                    )
-                : 0;
-            if (animationTime >= loopedDuration) {
-              const nextFrameIndex: number = frameIndex + 1;
-              const nextLoopedDuration: number =
-                nextFrameIndex > 0
+        const timeSinceAnimationStarted: number =
+          state.values.currentTime - this._animationPlay.startedAt;
+        const animationTime: number = animationContainsEndlessFrame
+          ? timeSinceAnimationStarted
+          : timeSinceAnimationStarted % animationDuration;
+        const currentAnimationFrame: SpriteAnimationFrame | null =
+          currentAnimation.frames.find(
+            (frame: SpriteAnimationFrame, frameIndex: number): boolean => {
+              const duration: number | null = frame.duration ?? null;
+              if (duration === null) {
+                return true;
+              }
+              const loopedDuration: number =
+                frameIndex > 0
                   ? currentAnimation.frames
-                      .slice(0, nextFrameIndex)
+                      .slice(0, frameIndex)
                       .reduce(
                         (
                           accumulator: number,
@@ -460,72 +451,89 @@ export class Sprite extends Definable {
                         0,
                       )
                   : 0;
-              if (animationTime < nextLoopedDuration) {
-                return true;
+              if (animationTime >= loopedDuration) {
+                const nextFrameIndex: number = frameIndex + 1;
+                const nextLoopedDuration: number =
+                  nextFrameIndex > 0
+                    ? currentAnimation.frames
+                        .slice(0, nextFrameIndex)
+                        .reduce(
+                          (
+                            accumulator: number,
+                            loopedFrame: SpriteAnimationFrame,
+                          ): number =>
+                            accumulator + (loopedFrame.duration ?? 0),
+                          0,
+                        )
+                    : 0;
+                if (animationTime < nextLoopedDuration) {
+                  return true;
+                }
               }
-            }
-            return false;
-          },
-        ) ?? null;
-      if (currentAnimationFrame === null) {
-        throw new Error(
-          `Sprite "${this._id}" could not get the current frame for animation "${this._animationPlay.id}".`,
-        );
-      }
-      if (typeof currentAnimationFrame.texture !== "undefined") {
-        this._pixiSprite.texture = currentAnimationFrame.texture;
-      }
-      this._pixiSprite.x = x;
-      this._pixiSprite.y = y;
-      this._pixiSprite.width = currentAnimationFrame.width;
-      this._pixiSprite.height = currentAnimationFrame.height;
-      this._pixiSprite.zIndex = zIndex;
-      this._pixiSprite.filters = [];
-      const palette: readonly string[] = this.getPallete();
-      const filterColors: [number, number][] = [];
-      if (palette.length > 0) {
-        for (const color of imageSource.colors) {
-          const rgb: RGB = getRGBFromHex(color);
-          const average: number = (rgb.b + rgb.g + rgb.r) / 3;
-          const closestColor: string | undefined = [...palette].sort(
-            (colorA: string, colorB: string): number => {
-              const rgbA: RGB = getRGBFromHex(colorA);
-              const rgbB: RGB = getRGBFromHex(colorB);
-              const averageA: number = (rgbA.b + rgbA.g + rgbA.r) / 3;
-              const averageB: number = (rgbB.b + rgbB.g + rgbB.r) / 3;
-              const diffA: number = Math.abs(averageA - average);
-              const diffB: number = Math.abs(averageB - average);
-              return diffA - diffB;
+              return false;
             },
-          )[0];
-          if (typeof closestColor === "undefined") {
-            throw new Error("Out of bounds colors index");
-          }
-          filterColors.push([
-            Number(`0x${color.substring(1)}`),
-            Number(`0x${closestColor.substring(1)}`),
-          ]);
+          ) ?? null;
+        if (currentAnimationFrame === null) {
+          throw new Error(
+            `Sprite "${this._id}" could not get the current frame for animation "${this._animationPlay.id}".`,
+          );
         }
+        if (typeof currentAnimationFrame.texture !== "undefined") {
+          this._pixiSprite.texture = currentAnimationFrame.texture;
+        }
+        this._pixiSprite.x = x;
+        this._pixiSprite.y = y;
+        this._pixiSprite.width = currentAnimationFrame.width;
+        this._pixiSprite.height = currentAnimationFrame.height;
+        this._pixiSprite.zIndex = zIndex;
+        this._pixiSprite.filters = [];
+        this._pixiSprite.alpha = opacity;
+        const palette: readonly string[] = this.getPallete();
+        const filterColors: [number, number][] = [];
+        if (palette.length > 0) {
+          for (const color of imageSource.colors) {
+            const rgb: RGB = getRGBFromHex(color);
+            const average: number = (rgb.b + rgb.g + rgb.r) / 3;
+            const closestColor: string | undefined = [...palette].sort(
+              (colorA: string, colorB: string): number => {
+                const rgbA: RGB = getRGBFromHex(colorA);
+                const rgbB: RGB = getRGBFromHex(colorB);
+                const averageA: number = (rgbA.b + rgbA.g + rgbA.r) / 3;
+                const averageB: number = (rgbB.b + rgbB.g + rgbB.r) / 3;
+                const diffA: number = Math.abs(averageA - average);
+                const diffB: number = Math.abs(averageB - average);
+                return diffA - diffB;
+              },
+            )[0];
+            if (typeof closestColor === "undefined") {
+              throw new Error("Out of bounds colors index");
+            }
+            filterColors.push([
+              Number(`0x${color.substring(1)}`),
+              Number(`0x${closestColor.substring(1)}`),
+            ]);
+          }
+        }
+        const recolors: readonly SpriteRecolor[] = this.getRecolors();
+        if (recolors.length > 0) {
+          filterColors.push(
+            ...recolors.map((recolor: SpriteRecolor): [number, number] => [
+              Number(`0x${recolor.fromColor.substring(1)}`),
+              Number(`0x${recolor.toColor.substring(1)}`),
+            ]),
+          );
+        }
+        if (filterColors.length > 0) {
+          this._pixiSprite.filters.push(
+            new MultiColorReplaceFilter(filterColors, 0.005),
+          );
+        }
+        const grayscale: boolean = this.getGrayscale();
+        if (grayscale) {
+          this._pixiSprite.filters.push(new GrayscaleFilter());
+        }
+        state.values.app.stage.addChild(this._pixiSprite);
       }
-      const recolors: readonly SpriteRecolor[] = this.getRecolors();
-      if (recolors.length > 0) {
-        filterColors.push(
-          ...recolors.map((recolor: SpriteRecolor): [number, number] => [
-            Number(`0x${recolor.fromColor.substring(1)}`),
-            Number(`0x${recolor.toColor.substring(1)}`),
-          ]),
-        );
-      }
-      if (filterColors.length > 0) {
-        this._pixiSprite.filters.push(
-          new MultiColorReplaceFilter(filterColors, 0.005),
-        );
-      }
-      const grayscale: boolean = this.getGrayscale();
-      if (grayscale) {
-        this._pixiSprite.filters.push(new GrayscaleFilter());
-      }
-      state.values.app.stage.addChild(this._pixiSprite);
     }
   }
 
@@ -633,6 +641,18 @@ export class Sprite extends Definable {
       handleCaughtError(error, `Sprite "${this._id}" imageSourceID`, true);
     }
     return null;
+  }
+
+  private getOpacity(): number | null {
+    if (typeof this._opacity === "number") {
+      return this._opacity;
+    }
+    try {
+      return this._opacity();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Ellipse "${this._id}" opacity`, true);
+      return null;
+    }
   }
 
   private getPallete(): readonly string[] {
