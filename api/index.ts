@@ -1,3 +1,14 @@
+import {
+  ApplyAudioSourceVolumeOptions,
+  FadeInAudioSourceVolumeOptions,
+  FadeOutAudioSourceVolumeOptions,
+  PlayAudioSourceOptions,
+  applyAudioSourceVolume,
+  fadeInAudioSourceVolume,
+  fadeOutAudioSourceVolume,
+  playAudioSource,
+  stopAudioSource,
+} from "./classes/AudioSource";
 import { CollisionData } from "./types/CollisionData";
 import {
   ConnectToSocketioServerOptions,
@@ -139,11 +150,6 @@ import {
 import { NumLock } from "./types/NumLock";
 import { OverlapData } from "./types/OverlapData";
 import { PathingEntityExclusion } from "./types/PathingEntityExclusion";
-import {
-  PlayAudioSourceOptions,
-  playAudioSource,
-  stopAudioSource,
-} from "./classes/AudioSource";
 import { Rectangle } from "./types/Rectangle";
 import { Scriptable } from "./types/Scriptable";
 import { SetMainVolumeOptions, setMainVolume } from "./functions/setMainVolume";
@@ -179,6 +185,8 @@ export {
   addEntityEllipse,
   addEntityQuadrilateral,
   addEntitySprite,
+  applyAudioSourceVolume,
+  ApplyAudioSourceVolumeOptions,
   CollisionData,
   connectToSocketioServer,
   ConnectToSocketioServerOptions,
@@ -236,6 +244,10 @@ export {
   EntityQuadrilateral,
   EntitySprite,
   exitLevel,
+  fadeInAudioSourceVolume,
+  FadeInAudioSourceVolumeOptions,
+  fadeOutAudioSourceVolume,
+  FadeOutAudioSourceVolumeOptions,
   getActiveLevelID,
   getCurrentTime,
   getDeltaTime,

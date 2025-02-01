@@ -13,9 +13,20 @@ interface Play {
   loopPoint?: number;
   volumeChannelID: string;
 }
+interface FadeInAction {
+  readonly duration: number;
+  readonly startedAt: number | null;
+}
+interface FadeOutAction {
+  readonly duration: number;
+  readonly startedAt: number | null;
+}
 
 export class AudioSource extends Definable {
   private readonly _audioPath: string;
+  private _fadeInAction: FadeInAction | null = null;
+  private _fadeOutAction: FadeOutAction | null = null;
+  private _fadeVolume: number = 0.5;
   private readonly _howl: Howl;
   private _play: Play | null = null;
 
@@ -35,6 +46,45 @@ export class AudioSource extends Definable {
     this._howl.on("load", (): void => {
       this.onHowlLoad();
     });
+  }
+
+  public applyVolume(volume: number): void {
+    if (this._fadeInAction !== null) {
+      if (this._fadeInAction.startedAt !== null) {
+        const percent: number = this._howl.volume() / this._fadeVolume;
+        const duration: number =
+          this._fadeInAction.duration -
+          (state.values.currentTime - this._fadeInAction.startedAt);
+        this._howl.fade(percent * volume, volume, duration);
+      }
+    } else if (this._fadeOutAction !== null) {
+      if (this._fadeOutAction.startedAt !== null) {
+        const percent: number = 1 - this._howl.volume() / this._fadeVolume;
+        const duration: number =
+          this._fadeOutAction.duration -
+          (state.values.currentTime - this._fadeOutAction.startedAt);
+        this._howl.fade(percent * volume, 0, duration);
+      }
+    } else {
+      this._howl.volume(volume);
+    }
+    this._fadeVolume = volume;
+  }
+
+  public fadeIn(duration: number): void {
+    this._fadeInAction = {
+      duration,
+      startedAt: state.values.currentTime,
+    };
+    this._howl.fade(0, this._fadeVolume, duration);
+  }
+
+  public fadeOut(duration: number): void {
+    this._fadeOutAction = {
+      duration,
+      startedAt: state.values.currentTime,
+    };
+    this._howl.fade(this._fadeVolume, 0, duration);
   }
 
   public isPlaying(): boolean {
@@ -109,6 +159,39 @@ export class AudioSource extends Definable {
     attemptGetWorld();
   }
 }
+export interface ApplyAudioSourceVolumeOptions {
+  volume: number;
+}
+export const applyAudioSourceVolume = (
+  audioSourceID: string,
+  options: ApplyAudioSourceVolumeOptions,
+): void => {
+  getDefinable<AudioSource>(AudioSource, audioSourceID).applyVolume(
+    options.volume,
+  );
+};
+export interface FadeInAudioSourceVolumeOptions {
+  duration: number;
+}
+export const fadeInAudioSourceVolume = (
+  audioSourceID: string,
+  options: FadeInAudioSourceVolumeOptions,
+): void => {
+  getDefinable<AudioSource>(AudioSource, audioSourceID).fadeIn(
+    options.duration,
+  );
+};
+export interface FadeOutAudioSourceVolumeOptions {
+  duration: number;
+}
+export const fadeOutAudioSourceVolume = (
+  audioSourceID: string,
+  options: FadeOutAudioSourceVolumeOptions,
+): void => {
+  getDefinable<AudioSource>(AudioSource, audioSourceID).fadeOut(
+    options.duration,
+  );
+};
 export interface PlayAudioSourceOptions {
   loopPoint?: number;
   volumeChannelID: string;
