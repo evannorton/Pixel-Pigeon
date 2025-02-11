@@ -185,12 +185,6 @@
         "allowDestructuring": true
       }
     ],
-    "@typescript-eslint/no-unnecessary-condition": [
-      "error",
-      {
-        "allowConstantLoopConditions": true
-      }
-    ],
     "@typescript-eslint/no-unnecessary-qualifier": [
       "error"
     ],
