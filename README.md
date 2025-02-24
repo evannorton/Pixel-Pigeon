@@ -92,6 +92,7 @@ Generate a unique ID for your game. Achievements will not persist across session
 
 ## Example games
 - [RetroMMO](https://github.com/evannorton/RetroMMO-Screen) by [@evannorton](https://github.com/evannorton)
+- [Circuit Break](https://github.com/evannorton/Circuit-Break) by [@evannorton](https://github.com/evannorton)
 - [Dungeon Deli](https://github.com/evannorton/Dungeon-Deli) by [@evannorton](https://github.com/evannorton)
 
 ## ESLint VS Code extension
