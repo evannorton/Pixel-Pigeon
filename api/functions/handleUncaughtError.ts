@@ -69,6 +69,7 @@ export const handleUncaughtError = (error: unknown): void => {
         bodyElement,
         title: "Error",
       });
+      throw error;
     }
   }
 };
