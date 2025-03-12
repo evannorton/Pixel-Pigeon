@@ -26,7 +26,6 @@ export class AudioSource extends Definable {
   private readonly _audioPath: string;
   private _fadeInAction: FadeInAction | null = null;
   private _fadeOutAction: FadeOutAction | null = null;
-  private _fadeVolume: number = defaultVolume;
   private readonly _howl: Howl;
   private _play: Play | null = null;
   private _volume: number = 1;
@@ -50,45 +49,82 @@ export class AudioSource extends Definable {
   }
 
   public applyVolume(volume: number): void {
+    if (this._play === null) {
+      throw new Error(
+        `An attempt was made to apply volume to AudioSource "${this._id}" with no play options.`,
+      );
+    }
+    this._volume = volume;
+    const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
+      VolumeChannel,
+      this._play.volumeChannelID,
+    );
+    const adjustedVolume: number =
+      volume *
+      (getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
+        100);
     if (this._fadeInAction !== null) {
       if (this._fadeInAction.startedAt !== null) {
-        const percent: number = this._howl.volume() / this._fadeVolume;
+        const percent: number = this._howl.volume() / adjustedVolume;
         const duration: number =
           this._fadeInAction.duration -
           (state.values.currentTime - this._fadeInAction.startedAt);
-        this._howl.fade(percent * volume, volume, duration);
+        this._howl.fade(percent * volume, adjustedVolume, duration);
       }
     } else if (this._fadeOutAction !== null) {
       if (this._fadeOutAction.startedAt !== null) {
-        const percent: number = 1 - this._howl.volume() / this._fadeVolume;
+        const percent: number = 1 - this._howl.volume() / adjustedVolume;
         const duration: number =
           this._fadeOutAction.duration -
           (state.values.currentTime - this._fadeOutAction.startedAt);
-        this._howl.fade(percent * volume, 0, duration);
+        this._howl.fade(percent * adjustedVolume, 0, duration);
       }
     } else {
-      if (this._play !== null) {
-        this._volume = volume;
-        this.updateVolume();
-      }
+      this.updateVolume();
     }
-    this._fadeVolume = volume;
   }
 
   public fadeIn(duration: number): void {
+    if (this._play === null) {
+      throw new Error(
+        `An attempt was made to apply volume to AudioSource "${this._id}" with no play options.`,
+      );
+    }
+    const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
+      VolumeChannel,
+      this._play.volumeChannelID,
+    );
     this._fadeInAction = {
       duration,
       startedAt: state.values.currentTime,
     };
-    this._howl.fade(0, this._fadeVolume, duration);
+    const adjustedVolume: number =
+      this._volume *
+      (getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
+        100);
+    this._howl.fade(0, adjustedVolume, duration);
   }
 
   public fadeOut(duration: number): void {
+    if (this._play === null) {
+      throw new Error(
+        `An attempt was made to apply volume to AudioSource "${this._id}" with no play options.`,
+      );
+    }
+    const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
+      VolumeChannel,
+      this._play.volumeChannelID,
+    );
+    const adjustedVolume: number =
+      this._volume *
+      (getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
+        100);
     this._fadeOutAction = {
       duration,
       startedAt: state.values.currentTime,
     };
-    this._howl.fade(this._fadeVolume, 0, duration);
+    this._howl.fade(adjustedVolume, 0, duration);
+    this._volume = 0;
   }
 
   public isPlaying(): boolean {
