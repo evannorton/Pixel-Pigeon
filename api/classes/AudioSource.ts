@@ -26,9 +26,10 @@ export class AudioSource extends Definable {
   private readonly _audioPath: string;
   private _fadeInAction: FadeInAction | null = null;
   private _fadeOutAction: FadeOutAction | null = null;
-  private _fadeVolume: number = 0.5;
+  private _fadeVolume: number = defaultVolume;
   private readonly _howl: Howl;
   private _play: Play | null = null;
+  private _volume: number = 1;
 
   public constructor(options: AudioSourceOptions) {
     super(options.audioPath);
@@ -66,7 +67,10 @@ export class AudioSource extends Definable {
         this._howl.fade(percent * volume, 0, duration);
       }
     } else {
-      this._howl.volume(volume);
+      if (this._play !== null) {
+        this._volume = volume;
+        this.updateVolume();
+      }
     }
     this._fadeVolume = volume;
   }
@@ -133,8 +137,11 @@ export class AudioSource extends Definable {
         this._play.volumeChannelID,
       );
       this._howl.volume(
-        getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
-          100,
+        this._volume *
+          (getMainAdjustedVolume(
+            volumeChannel.volumeSliderElement.valueAsNumber,
+          ) /
+            100),
       );
     }
   }
