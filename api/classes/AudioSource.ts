@@ -59,6 +59,9 @@ export class AudioSource extends Definable {
         `An attempt was made to apply volume to AudioSource "${this._id}" with no play options.`,
       );
     }
+    if (this._fadeOutAction !== null) {
+      this._fadeOutAction = null;
+    }
     const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
       VolumeChannel,
       this._play.volumeChannelID,
@@ -79,6 +82,9 @@ export class AudioSource extends Definable {
       throw new Error(
         `An attempt was made to apply volume to AudioSource "${this._id}" with no play options.`,
       );
+    }
+    if (this._fadeInAction !== null) {
+      this._fadeInAction = null;
     }
     const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
       VolumeChannel,
