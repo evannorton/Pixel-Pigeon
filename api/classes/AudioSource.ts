@@ -54,7 +54,6 @@ export class AudioSource extends Definable {
         `An attempt was made to apply volume to AudioSource "${this._id}" with no play options.`,
       );
     }
-    const previousVolume: number = this._volume;
     this._volume = volume;
     const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
       VolumeChannel,
@@ -65,16 +64,29 @@ export class AudioSource extends Definable {
       (getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
         100);
     if (this._fadeInAction !== null) {
-      if (this._fadeInAction.startedAt !== null) {
-        const percent: number = this._howl.volume() / previousVolume;
+      if (
+        this._fadeInAction.startedAt !== null &&
+        state.values.currentTime - this._fadeInAction.startedAt <
+          this._fadeInAction.duration
+      ) {
+        const percent: number =
+          (state.values.currentTime - this._fadeInAction.startedAt) /
+          this._fadeInAction.duration;
         const duration: number =
           this._fadeInAction.duration -
           (state.values.currentTime - this._fadeInAction.startedAt);
-        this._howl.fade(percent * volume, adjustedVolume, duration);
+        this._howl.fade(percent * adjustedVolume, adjustedVolume, duration);
       }
     } else if (this._fadeOutAction !== null) {
-      if (this._fadeOutAction.startedAt !== null) {
-        const percent: number = 1 - this._howl.volume() / previousVolume;
+      if (
+        this._fadeOutAction.startedAt !== null &&
+        state.values.currentTime - this._fadeOutAction.startedAt <
+          this._fadeOutAction.duration
+      ) {
+        const percent: number =
+          1 -
+          (state.values.currentTime - this._fadeOutAction.startedAt) /
+            this._fadeOutAction.duration;
         const duration: number =
           this._fadeOutAction.duration -
           (state.values.currentTime - this._fadeOutAction.startedAt);
