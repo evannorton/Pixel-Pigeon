@@ -502,13 +502,11 @@ export const performInitialization = async (): Promise<void> => {
   unpauseButtonElement.addEventListener("click", (): void => {
     document.body.classList.remove("paused");
     screenElement.focus();
+    for (const audioSource of getDefinables(AudioSource).values()) {
+      audioSource.updateVolume();
+    }
     for (const audioSourceID of state.values.pauseMenuPausedAudioSourceIDs) {
       getDefinable(AudioSource, audioSourceID).resume();
-    }
-  });
-  mainVolumeSliderInputElement.addEventListener("input", (): void => {
-    for (const [, audioSource] of getDefinables(AudioSource)) {
-      audioSource.updateVolume();
     }
   });
   mainVolumeSliderInputElement.addEventListener("mouseup", (): void => {

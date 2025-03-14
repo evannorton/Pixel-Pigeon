@@ -39,13 +39,6 @@ export class VolumeChannel extends Definable {
     this._volumeInputElement.min = "0";
     this._volumeInputElement.max = "100";
     this._volumeInputElement.value = "50";
-    this._volumeInputElement.addEventListener("input", (): void => {
-      for (const [, audioSource] of getDefinables(AudioSource)) {
-        if (audioSource.isPlayingInVolumeChannel(this._id)) {
-          audioSource.updateVolume();
-        }
-      }
-    });
     this._volumeInputElement.addEventListener("mouseup", (e: Event): void => {
       const target: HTMLInputElement = e.target as HTMLInputElement;
       volumeTestHowl.volume(getMainAdjustedVolume(target.valueAsNumber) / 100);

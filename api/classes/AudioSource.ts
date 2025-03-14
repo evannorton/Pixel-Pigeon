@@ -49,52 +49,8 @@ export class AudioSource extends Definable {
   }
 
   public applyVolume(volume: number): void {
-    if (this._play === null) {
-      throw new Error(
-        `An attempt was made to apply volume to AudioSource "${this._id}" with no play options.`,
-      );
-    }
     this._volume = volume;
-    const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
-      VolumeChannel,
-      this._play.volumeChannelID,
-    );
-    const adjustedVolume: number =
-      volume *
-      (getMainAdjustedVolume(volumeChannel.volumeSliderElement.valueAsNumber) /
-        100);
-    if (this._fadeInAction !== null) {
-      if (
-        this._fadeInAction.startedAt !== null &&
-        state.values.currentTime - this._fadeInAction.startedAt <
-          this._fadeInAction.duration
-      ) {
-        const percent: number =
-          (state.values.currentTime - this._fadeInAction.startedAt) /
-          this._fadeInAction.duration;
-        const duration: number =
-          this._fadeInAction.duration -
-          (state.values.currentTime - this._fadeInAction.startedAt);
-        this._howl.fade(percent * adjustedVolume, adjustedVolume, duration);
-      }
-    } else if (this._fadeOutAction !== null) {
-      if (
-        this._fadeOutAction.startedAt !== null &&
-        state.values.currentTime - this._fadeOutAction.startedAt <
-          this._fadeOutAction.duration
-      ) {
-        const percent: number =
-          1 -
-          (state.values.currentTime - this._fadeOutAction.startedAt) /
-            this._fadeOutAction.duration;
-        const duration: number =
-          this._fadeOutAction.duration -
-          (state.values.currentTime - this._fadeOutAction.startedAt);
-        this._howl.fade(percent * adjustedVolume, 0, duration);
-      }
-    } else {
-      this.updateVolume();
-    }
+    this.updateVolume();
   }
 
   public fadeIn(duration: number): void {
@@ -159,12 +115,12 @@ export class AudioSource extends Definable {
   }
 
   public play(playAudioOptions: PlayAudioSourceOptions): void {
-    this._howl.play();
     this._play = {
       loopPoint: playAudioOptions.loopPoint,
       volumeChannelID: playAudioOptions.volumeChannelID,
     };
     this.updateVolume();
+    this._howl.play();
   }
 
   public resume(): void {
@@ -185,13 +141,44 @@ export class AudioSource extends Definable {
         VolumeChannel,
         this._play.volumeChannelID,
       );
-      this._howl.volume(
+      const adjustedVolume: number =
         this._volume *
-          (getMainAdjustedVolume(
-            volumeChannel.volumeSliderElement.valueAsNumber,
-          ) /
-            100),
-      );
+        (getMainAdjustedVolume(
+          volumeChannel.volumeSliderElement.valueAsNumber,
+        ) /
+          100);
+      if (this._fadeInAction !== null) {
+        if (
+          this._fadeInAction.startedAt !== null &&
+          state.values.currentTime - this._fadeInAction.startedAt <
+            this._fadeInAction.duration
+        ) {
+          const percent: number =
+            (state.values.currentTime - this._fadeInAction.startedAt) /
+            this._fadeInAction.duration;
+          const duration: number =
+            this._fadeInAction.duration -
+            (state.values.currentTime - this._fadeInAction.startedAt);
+          this._howl.fade(percent * adjustedVolume, adjustedVolume, duration);
+        }
+      } else if (this._fadeOutAction !== null) {
+        if (
+          this._fadeOutAction.startedAt !== null &&
+          state.values.currentTime - this._fadeOutAction.startedAt <
+            this._fadeOutAction.duration
+        ) {
+          const percent: number =
+            1 -
+            (state.values.currentTime - this._fadeOutAction.startedAt) /
+              this._fadeOutAction.duration;
+          const duration: number =
+            this._fadeOutAction.duration -
+            (state.values.currentTime - this._fadeOutAction.startedAt);
+          this._howl.fade(percent * adjustedVolume, 0, duration);
+        }
+      } else {
+        this._howl.volume(adjustedVolume);
+      }
     }
   }
 
