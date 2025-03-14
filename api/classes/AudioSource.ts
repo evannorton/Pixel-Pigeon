@@ -54,6 +54,7 @@ export class AudioSource extends Definable {
         `An attempt was made to apply volume to AudioSource "${this._id}" with no play options.`,
       );
     }
+    const previousVolume: number = this._volume;
     this._volume = volume;
     const volumeChannel: VolumeChannel = getDefinable<VolumeChannel>(
       VolumeChannel,
@@ -65,7 +66,7 @@ export class AudioSource extends Definable {
         100);
     if (this._fadeInAction !== null) {
       if (this._fadeInAction.startedAt !== null) {
-        const percent: number = this._howl.volume() / adjustedVolume;
+        const percent: number = this._howl.volume() / previousVolume;
         const duration: number =
           this._fadeInAction.duration -
           (state.values.currentTime - this._fadeInAction.startedAt);
@@ -73,7 +74,7 @@ export class AudioSource extends Definable {
       }
     } else if (this._fadeOutAction !== null) {
       if (this._fadeOutAction.startedAt !== null) {
-        const percent: number = 1 - this._howl.volume() / adjustedVolume;
+        const percent: number = 1 - this._howl.volume() / previousVolume;
         const duration: number =
           this._fadeOutAction.duration -
           (state.values.currentTime - this._fadeOutAction.startedAt);
