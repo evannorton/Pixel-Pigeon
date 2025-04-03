@@ -360,9 +360,6 @@
       "error",
       "never"
     ],
-    "consistent-this": [
-      "error"
-    ],
     "constructor-super": [
       "error"
     ],
