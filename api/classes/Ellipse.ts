@@ -26,7 +26,7 @@ export interface CreateEllipseOptionsCoordinates {
   y: Scriptable<number>;
 }
 export interface CreateEllipseOptions {
-  color: string;
+  color: Scriptable<string>;
   /**
    * Coordinates that can be used to precisely define where the Ellipse should be on the screen
    */
@@ -46,7 +46,7 @@ interface EllipseEntity {
 }
 
 export class Ellipse extends Definable {
-  private readonly _color: string;
+  private readonly _color: Scriptable<string>;
   private readonly _coordinates?: EllipseCoordinates;
   private _entity: EllipseEntity | null = null;
   private readonly _height: Scriptable<number>;
@@ -153,9 +153,15 @@ export class Ellipse extends Definable {
     const opacity: number | null = this.getOpacity();
     const width: number | null = this.getWidth();
     const height: number | null = this.getHeight();
-    if (opacity !== null && width !== null && height !== null) {
-      this._pixiGraphics.beginFill(Number(`0x${this._color.substring(1)}`));
-      this._pixiGraphics.lineStyle(0, Number(`0x${this._color.substring(1)}`));
+    const color: string | null = this.getColor();
+    if (
+      opacity !== null &&
+      width !== null &&
+      height !== null &&
+      color !== null
+    ) {
+      this._pixiGraphics.beginFill(Number(`0x${color.substring(1)}`));
+      this._pixiGraphics.lineStyle(0, Number(`0x${color.substring(1)}`));
       const pixels: Map<
         number,
         {
@@ -216,6 +222,18 @@ export class Ellipse extends Definable {
       this._pixiGraphics.zIndex = zIndex;
       this._pixiGraphics.endFill();
       state.values.app.stage.addChild(this._pixiGraphics);
+    }
+  }
+
+  private getColor(): string | null {
+    if (typeof this._color === "string") {
+      return this._color;
+    }
+    try {
+      return this._color();
+    } catch (error: unknown) {
+      handleCaughtError(error, `Ellipse "${this._id}" color`, true);
+      return null;
     }
   }
 
