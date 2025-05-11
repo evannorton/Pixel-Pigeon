@@ -85,7 +85,7 @@ export const render = (): void => {
     drawText(
       {
         trims: [],
-        value: "Click to focus",
+        value: "Click to play",
       },
       "#ffffff",
       Math.floor(state.values.config.width / 2),
