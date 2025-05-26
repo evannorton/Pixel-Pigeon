@@ -1,6 +1,6 @@
 const { exec } = require("child_process");
 
-const lintProcess = exec(`linter lint ${process.argv[3]}`);
+const lintProcess = exec("linter lint ./src");
 
 lintProcess.stdout.on("data", (data) => {
   console.log(data);
