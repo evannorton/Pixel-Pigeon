@@ -1,20 +1,10 @@
-const { ESLint } = require("eslint");
-const { resolve, join } = require("path");
+const { exec } = require("child_process");
 
-const eslint = new ESLint({
-  cwd: resolve(),
-  resolvePluginsRelativeTo: join(__dirname, "..")
+const lintProcess = exec(`linter lint ${process.argv[3]}`);
+
+lintProcess.stdout.on("data", (data) => {
+  console.log(data);
 });
-
-eslint.lintFiles("./src").then((results) => {
-  let errorCount = 0;
-  for (const result of results) {
-    for (const message of result.messages) {
-      errorCount++;
-      console.error(`${result.filePath}:${message.line}:${message.column} ${message.message} (${message.ruleId})`);
-    }
-  }
-  if (errorCount > 0) {
-    process.exit(1);
-  }
+lintProcess.stderr.on("data", (data) => {
+  console.error(data);
 });
