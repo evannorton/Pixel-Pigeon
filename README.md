@@ -103,7 +103,7 @@ Create an `.eslintrc` with the following contents to use this extension.
     "project": "./src/tsconfig.json"
   },
   "extends": [
-    "./node_modules/pixel-pigeon/.eslintrc"
+    "./node_modules/linter/.eslintrc"
   ],
   "rules": {
     "no-restricted-imports": [
