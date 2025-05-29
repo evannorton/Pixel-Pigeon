@@ -34,46 +34,52 @@ export class InputPressHandler extends Definable {
   }
 
   public getGamepadOnInput(gamepadInput: GamepadInput): (() => void) | null {
-    const inputCollection: InputCollection | null = this.getInputCollection();
-    if (
-      inputCollection !== null &&
-      inputCollection.gamepadButtons.includes(gamepadInput.button)
-    ) {
-      return this.getOnInput();
+    if (this.passesCondition()) {
+      const inputCollection: InputCollection | null = this.getInputCollection();
+      if (
+        inputCollection !== null &&
+        inputCollection.gamepadButtons.includes(gamepadInput.button)
+      ) {
+        return this._onInput ?? null;
+      }
     }
     return null;
   }
 
   public getGamepadOnRelease(gamepadInput: GamepadInput): (() => void) | null {
-    const inputCollection: InputCollection | null = this.getInputCollection();
-    if (
-      inputCollection !== null &&
-      inputCollection.gamepadButtons.includes(gamepadInput.button)
-    ) {
-      return this.getOnRelease();
+    if (this.passesCondition()) {
+      const inputCollection: InputCollection | null = this.getInputCollection();
+      if (
+        inputCollection !== null &&
+        inputCollection.gamepadButtons.includes(gamepadInput.button)
+      ) {
+        return this._onRelease ?? null;
+      }
     }
     return null;
   }
 
   public getKeyboardOnInput(keyboardInput: KeyboardInput): (() => void) | null {
-    const inputCollection: InputCollection | null = this.getInputCollection();
-    if (
-      inputCollection !== null &&
-      inputCollection.keyboardButtons.some((key: KeyboardButton): boolean => {
-        if (key.value === keyboardInput.button) {
-          switch (key.numLock) {
-            case NumLock.Default:
-              return true;
-            case NumLock.With:
-              return keyboardInput.numLock;
-            case NumLock.Without:
-              return keyboardInput.numLock === false;
+    if (this.passesCondition()) {
+      const inputCollection: InputCollection | null = this.getInputCollection();
+      if (
+        inputCollection !== null &&
+        inputCollection.keyboardButtons.some((key: KeyboardButton): boolean => {
+          if (key.value === keyboardInput.button) {
+            switch (key.numLock) {
+              case NumLock.Default:
+                return true;
+              case NumLock.With:
+                return keyboardInput.numLock;
+              case NumLock.Without:
+                return keyboardInput.numLock === false;
+            }
           }
-        }
-        return false;
-      })
-    ) {
-      return this.getOnInput();
+          return false;
+        })
+      ) {
+        return this._onInput ?? null;
+      }
     }
     return null;
   }
@@ -81,46 +87,52 @@ export class InputPressHandler extends Definable {
   public getKeyboardOnRelease(
     keyboardInput: KeyboardInput,
   ): (() => void) | null {
-    const inputCollection: InputCollection | null = this.getInputCollection();
-    if (
-      inputCollection !== null &&
-      inputCollection.keyboardButtons.some((key: KeyboardButton): boolean => {
-        if (key.value === keyboardInput.button) {
-          switch (key.numLock) {
-            case NumLock.Default:
-              return true;
-            case NumLock.With:
-              return keyboardInput.numLock;
-            case NumLock.Without:
-              return keyboardInput.numLock === false;
+    if (this.passesCondition()) {
+      const inputCollection: InputCollection | null = this.getInputCollection();
+      if (
+        inputCollection !== null &&
+        inputCollection.keyboardButtons.some((key: KeyboardButton): boolean => {
+          if (key.value === keyboardInput.button) {
+            switch (key.numLock) {
+              case NumLock.Default:
+                return true;
+              case NumLock.With:
+                return keyboardInput.numLock;
+              case NumLock.Without:
+                return keyboardInput.numLock === false;
+            }
           }
-        }
-        return false;
-      })
-    ) {
-      return this.getOnRelease();
+          return false;
+        })
+      ) {
+        return this._onRelease ?? null;
+      }
     }
     return null;
   }
 
   public getMouseOnInput(mouseInput: MouseInput): (() => void) | null {
-    const inputCollection: InputCollection | null = this.getInputCollection();
-    if (
-      inputCollection !== null &&
-      inputCollection.mouseButtons.includes(mouseInput.button)
-    ) {
-      return this.getOnInput();
+    if (this.passesCondition()) {
+      const inputCollection: InputCollection | null = this.getInputCollection();
+      if (
+        inputCollection !== null &&
+        inputCollection.mouseButtons.includes(mouseInput.button)
+      ) {
+        return this._onInput ?? null;
+      }
     }
     return null;
   }
 
   public getMouseOnRelease(mouseInput: MouseInput): (() => void) | null {
-    const inputCollection: InputCollection | null = this.getInputCollection();
-    if (
-      inputCollection !== null &&
-      inputCollection.mouseButtons.includes(mouseInput.button)
-    ) {
-      return this.getOnRelease();
+    if (this.passesCondition()) {
+      const inputCollection: InputCollection | null = this.getInputCollection();
+      if (
+        inputCollection !== null &&
+        inputCollection.mouseButtons.includes(mouseInput.button)
+      ) {
+        return this._onRelease ?? null;
+      }
     }
     return null;
   }
@@ -137,20 +149,6 @@ export class InputPressHandler extends Definable {
         `InputPressHandler "${this._id}" inputCollectionID`,
         true,
       );
-    }
-    return null;
-  }
-
-  private getOnInput(): (() => void) | null {
-    if (typeof this._onInput !== "undefined" && this.passesCondition()) {
-      return this._onInput;
-    }
-    return null;
-  }
-
-  private getOnRelease(): (() => void) | null {
-    if (typeof this._onRelease !== "undefined" && this.passesCondition()) {
-      return this._onRelease;
     }
     return null;
   }
