@@ -1,5 +1,5 @@
 # Pixel Pigeon
-Game engine for EvanMMO's typescript games.
+Game engine for Evan's typescript games.
 
 ![funny-dancing-pigeon-bird-9ykm83a04cil1x1l](https://github.com/evannorton/pixel-pigeon/assets/35230033/3af48e87-34b8-4d1c-8af4-a7d5dbc1ce35)
 
