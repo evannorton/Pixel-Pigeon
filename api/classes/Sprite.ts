@@ -249,11 +249,15 @@ export class Sprite extends Definable {
         this._animationPlay === null ||
         animationID !== this._animationPlay.id
       ) {
-        const startedAt: number =
-          this.getAnimationStartedAt() ?? state.values.currentTime;
         this._animationPlay = {
           id: animationID,
-          startedAt,
+          startedAt: this.getAnimationStartedAt() ?? state.values.currentTime,
+        };
+      } else {
+        this._animationPlay = {
+          id: this._animationPlay.id,
+          startedAt:
+            this.getAnimationStartedAt() ?? this._animationPlay.startedAt,
         };
       }
     }
