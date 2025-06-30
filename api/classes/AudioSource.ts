@@ -212,34 +212,28 @@ export interface ApplyAudioSourceVolumeOptions {
   volume: number;
 }
 export const applyAudioSourceVolume = (
-  audioSourceID: string,
+  audioPath: string,
   options: ApplyAudioSourceVolumeOptions,
 ): void => {
-  getDefinable<AudioSource>(AudioSource, audioSourceID).applyVolume(
-    options.volume,
-  );
+  getDefinable<AudioSource>(AudioSource, audioPath).applyVolume(options.volume);
 };
 export interface FadeInAudioSourceVolumeOptions {
   duration: number;
 }
 export const fadeInAudioSourceVolume = (
-  audioSourceID: string,
+  audioPath: string,
   options: FadeInAudioSourceVolumeOptions,
 ): void => {
-  getDefinable<AudioSource>(AudioSource, audioSourceID).fadeIn(
-    options.duration,
-  );
+  getDefinable<AudioSource>(AudioSource, audioPath).fadeIn(options.duration);
 };
 export interface FadeOutAudioSourceVolumeOptions {
   duration: number;
 }
 export const fadeOutAudioSourceVolume = (
-  audioSourceID: string,
+  audioPath: string,
   options: FadeOutAudioSourceVolumeOptions,
 ): void => {
-  getDefinable<AudioSource>(AudioSource, audioSourceID).fadeOut(
-    options.duration,
-  );
+  getDefinable<AudioSource>(AudioSource, audioPath).fadeOut(options.duration);
 };
 export interface PlayAudioSourceOptions {
   loopPoint?: number;
@@ -247,7 +241,7 @@ export interface PlayAudioSourceOptions {
 }
 /**
  * Play the provided audio within the game
- * @param audioSourceID - Path to the audio that will be played. **STARTS IN THE `audio` FOLDER**
+ * @param audioPath - Path to the audio that will be played. **STARTS IN THE `audio` FOLDER**
  *
  * @example
  * ```ts
@@ -255,24 +249,24 @@ export interface PlayAudioSourceOptions {
  * ```
  */
 export const playAudioSource = (
-  audioSourceID: string,
+  audioPath: string,
   playAudioOptions: PlayAudioSourceOptions,
 ): void => {
   if (state.values.config === null) {
     throw new Error(
-      `An attempt was made to play AudioSource "${audioSourceID}" before config was loaded.`,
+      `An attempt was made to play AudioSource "${audioPath}" before config was loaded.`,
     );
   }
-  getDefinable<AudioSource>(AudioSource, audioSourceID).play(playAudioOptions);
+  getDefinable<AudioSource>(AudioSource, audioPath).play(playAudioOptions);
 };
 /**
  * Stop the provided audio within the game
- * @param audioSourceID - Path to the audio that will be stopped. **STARTS IN THE `audio` FOLDER**
+ * @param audioPath - Path to the audio that will be stopped. **STARTS IN THE `audio` FOLDER**
  * @example
  * ```ts
  * stopAudioSource("music"); // Stops {PROJECTFILE}/audio/music.mp3
  * ```
  */
-export const stopAudioSource = (audioSourceID: string): void => {
-  getDefinable<AudioSource>(AudioSource, audioSourceID).stop();
+export const stopAudioSource = (audioPath: string): void => {
+  getDefinable<AudioSource>(AudioSource, audioPath).stop();
 };
