@@ -102,6 +102,10 @@ export class AudioSource extends Definable {
     this._volume = 0;
   }
 
+  public getCurrentPosition(): number {
+    return this._howl.seek();
+  }
+
   public isPlaying(): boolean {
     return this._howl.playing();
   }
@@ -126,6 +130,7 @@ export class AudioSource extends Definable {
       volumeChannelID: playAudioOptions.volumeChannelID,
     };
     this.updateVolume();
+    this._howl.seek(playAudioOptions.startPoint ?? 0);
     this._howl.play();
   }
 
@@ -237,6 +242,7 @@ export const fadeOutAudioSourceVolume = (
 };
 export interface PlayAudioSourceOptions {
   loopPoint?: number;
+  startPoint?: number;
   volumeChannelID: string;
 }
 /**
@@ -270,3 +276,14 @@ export const playAudioSource = (
 export const stopAudioSource = (audioPath: string): void => {
   getDefinable<AudioSource>(AudioSource, audioPath).stop();
 };
+/**
+ * Get the current playback position of the provided audio within the game
+ * @param audioPath - Path to the audio to get the position from. **STARTS IN THE `audio` FOLDER**
+ * @returns The current position in seconds
+ * @example
+ * ```ts
+ * const currentPosition = getAudioSourceCurrentPosition("music"); // Gets current position of {PROJECTFILE}/audio/music.mp3
+ * ```
+ */
+export const getAudioSourceCurrentPosition = (audioPath: string): number =>
+  getDefinable<AudioSource>(AudioSource, audioPath).getCurrentPosition();
