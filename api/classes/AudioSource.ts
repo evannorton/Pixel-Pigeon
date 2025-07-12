@@ -99,7 +99,6 @@ export class AudioSource extends Definable {
       startedAt: state.values.currentTime,
     };
     this._howl.fade(adjustedVolume, 0, duration);
-    this._volume = 0;
   }
 
   public getCurrentPosition(): number {
@@ -125,6 +124,8 @@ export class AudioSource extends Definable {
   }
 
   public play(playAudioOptions: PlayAudioSourceOptions): void {
+    this._fadeInAction = null;
+    this._fadeOutAction = null;
     this._play = {
       loopPoint: playAudioOptions.loopPoint,
       volumeChannelID: playAudioOptions.volumeChannelID,
