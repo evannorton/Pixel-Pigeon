@@ -172,20 +172,21 @@ export class AudioSource extends Definable {
           this._fadeInAction.duration -
           (state.values.currentTime - this._fadeInAction.startedAt);
         this._howl.fade(percent * adjustedVolume, adjustedVolume, duration);
-      } else if (
-        this._fadeOutAction !== null &&
-        this._fadeOutAction.startedAt !== null &&
-        state.values.currentTime - this._fadeOutAction.startedAt <
-          this._fadeOutAction.duration
-      ) {
-        const percent: number =
-          1 -
-          (state.values.currentTime - this._fadeOutAction.startedAt) /
-            this._fadeOutAction.duration;
-        const duration: number =
-          this._fadeOutAction.duration -
-          (state.values.currentTime - this._fadeOutAction.startedAt);
-        this._howl.fade(percent * adjustedVolume, 0, duration);
+      } else if (this._fadeOutAction !== null) {
+        if (
+          this._fadeOutAction.startedAt !== null &&
+          state.values.currentTime - this._fadeOutAction.startedAt <
+            this._fadeOutAction.duration
+        ) {
+          const percent: number =
+            1 -
+            (state.values.currentTime - this._fadeOutAction.startedAt) /
+              this._fadeOutAction.duration;
+          const duration: number =
+            this._fadeOutAction.duration -
+            (state.values.currentTime - this._fadeOutAction.startedAt);
+          this._howl.fade(percent * adjustedVolume, 0, duration);
+        }
       } else {
         this._howl.volume(adjustedVolume);
       }
