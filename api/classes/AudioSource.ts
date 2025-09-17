@@ -131,7 +131,12 @@ export class AudioSource extends Definable {
       volumeChannelID: playAudioOptions.volumeChannelID,
     };
     this.updateVolume();
-    this._howl.seek(playAudioOptions.startPoint ?? 0);
+    if (
+      typeof playAudioOptions.startPoint !== "undefined" &&
+      playAudioOptions.startPoint > 0
+    ) {
+      this._howl.seek(playAudioOptions.startPoint);
+    }
     this._howl.play();
   }
 
@@ -201,7 +206,9 @@ export class AudioSource extends Definable {
     }
     if (typeof this._play.loopPoint !== "undefined") {
       this.stop();
-      this._howl.seek(this._play.loopPoint / 1000);
+      if (this._play.loopPoint > 0) {
+        this._howl.seek(this._play.loopPoint / 1000);
+      }
       this._howl.play();
     }
   }
