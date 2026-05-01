@@ -177,6 +177,8 @@ import { openURL } from "./functions/openURL";
 import { postWindowMessage } from "./functions/postWindowMessage";
 import { removeHUDElements } from "./functions/removeHUDElements";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
+import { setScreenshotClipboard } from "./functions/setScreenshotClipboard";
+import { setScreenshotScale } from "./functions/setScreenshotScale";
 import { takeScreenshot } from "./functions/takeScreenshot";
 import { unlockCameraFromEntity } from "./functions/unlockCameraFromEntity";
 import { unmuteVolume } from "./functions/unmuteVolume";
@@ -312,6 +314,8 @@ export {
   setMainVolume,
   SetMainVolumeOptions,
   setPauseMenuCondition,
+  setScreenshotClipboard,
+  setScreenshotScale,
   setVolumeChannelVolume,
   SetVolumeChannelVolumeOptions,
   State,

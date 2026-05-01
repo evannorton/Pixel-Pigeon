@@ -80,8 +80,12 @@ export const takeScreenshot = (): void => {
                 .then((): void => {
                   toast.success("Screenshot copied to clipboard");
                 })
-                .catch((): void => {
+                .catch((clipboardError: unknown): void => {
                   toast.error("Failed to copy screenshot to clipboard");
+                  console.error(
+                    "Failed to copy screenshot to clipboard",
+                    clipboardError,
+                  );
                 });
             }
           });
