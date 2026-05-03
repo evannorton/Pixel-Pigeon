@@ -8,6 +8,7 @@ import {
 } from "pixi.js";
 import { AudioSource } from "../classes/AudioSource";
 import { Button } from "../classes/Button";
+import { ClipboardMessage } from "../classes/ClipboardMessage";
 import { Config } from "../types/Config";
 import { Dev } from "../types/Dev";
 import { Env } from "../types/Env";
@@ -26,13 +27,14 @@ import {
 } from "../elements/addInputBodyElement";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { cleanStorage } from "./storage/cleanStorage";
+import { definableExists, getDefinable, getDefinables } from "definables";
 import { fireAlert } from "./fireAlert";
-import { getDefinable, getDefinables } from "definables";
 import { getStretchedHeight } from "./getStretchedHeight";
 import { getStretchedWidth } from "./getStretchedWidth";
 import { goToPauseMenuSection } from "./goToPauseMenuSection";
 import { handleUncaughtError } from "./handleUncaughtError";
 import { loadAssets } from "./loadAssets";
+import { onWindowMessage } from "./onWindowMessage";
 import { sizeScreen } from "./sizeScreen";
 import { state } from "../state";
 import { syncNewgroundsMedals } from "./syncNewgroundsMedals";
@@ -602,4 +604,55 @@ export const performInitialization = async (): Promise<void> => {
       addInputBodyBoxElement.focus();
     },
   );
+  onWindowMessage((message: unknown): void => {
+    if (typeof message !== "object") {
+      return;
+    }
+    if (message === null) {
+      return;
+    }
+    if ("type" in message === false) {
+      return;
+    }
+    switch (message.type) {
+      case "pp-clipboard-failure": {
+        if ("value" in message === false) {
+          return;
+        }
+        if (typeof message.value !== "string") {
+          return;
+        }
+        const clipboardMessageID: string = message.value;
+        if (definableExists(ClipboardMessage, clipboardMessageID) === false) {
+          return;
+        }
+        const clipboardMessage: ClipboardMessage = getDefinable(
+          ClipboardMessage,
+          clipboardMessageID,
+        );
+        clipboardMessage.onError();
+        clipboardMessage.remove();
+        break;
+      }
+      case "pp-clipboard-success": {
+        if ("value" in message === false) {
+          return;
+        }
+        if (typeof message.value !== "string") {
+          return;
+        }
+        const clipboardMessageID: string = message.value;
+        if (definableExists(ClipboardMessage, clipboardMessageID) === false) {
+          return;
+        }
+        const clipboardMessage: ClipboardMessage = getDefinable(
+          ClipboardMessage,
+          clipboardMessageID,
+        );
+        clipboardMessage.onSuccess();
+        clipboardMessage.remove();
+        break;
+      }
+    }
+  });
 };

@@ -2,6 +2,7 @@
 cli/build-id.json
 cli/configSchema.js
 cli/devSchema.js
+cli/envSchema.js
 cli/ldtkSchema.js
 cli/type.json
 cli/watchExec.json

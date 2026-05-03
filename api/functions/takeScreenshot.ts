@@ -1,6 +1,7 @@
 import { ICanvas, ICanvasRenderingContext2D, Rectangle } from "pixi.js";
 import { state } from "../state";
 import { toast } from "../constants/toasts";
+import { writeToClipboard } from "./writeToClipboard";
 
 export const takeScreenshot = (): void => {
   if (state.values.config === null) {
@@ -67,22 +68,22 @@ export const takeScreenshot = (): void => {
         anchor.download = `${state.values.config.name} screenshot.png`;
         anchor.href = canvas.toDataURL();
         anchor.click();
-        toast.success("Screenshot saved");
       } else {
         canvas.toBlob((blob: Blob | null): void => {
           if (blob !== null) {
-            navigator.clipboard
-              .write([new ClipboardItem({ "image/png": blob })])
-              .then((): void => {
-                toast.success("Screenshot copied to clipboard");
-              })
-              .catch((clipboardError: unknown): void => {
+            writeToClipboard({
+              data: blob,
+              onError: (clipboardError?: unknown): void => {
                 toast.error("Failed to copy screenshot to clipboard");
                 console.error(
                   "Failed to copy screenshot to clipboard",
                   clipboardError,
                 );
-              });
+              },
+              onSuccess: (): void => {
+                toast.success("Screenshot copied to clipboard");
+              },
+            });
           }
         });
       }

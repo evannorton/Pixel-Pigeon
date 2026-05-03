@@ -2,6 +2,7 @@
 const { z } = require("zod");
 
 envSchema = z.object({
+    clipboardMode: z.union([z.literal("navigator"), z.literal("post-message")]),
     newgroundsAppID: z.string().nullable(),
     newgroundsEncryptionKey: z.string().nullable()
 });

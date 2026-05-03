@@ -2,6 +2,7 @@ import { fireAlert } from "./fireAlert";
 import { getDefaultedError } from "./getDefaultedError";
 import { state } from "../state";
 import { toast } from "../constants/toasts";
+import { writeToClipboard } from "./writeToClipboard";
 
 export const handleUncaughtError = (error: unknown): void => {
   if (state.values.hasErrored === false) {
@@ -39,6 +40,19 @@ export const handleUncaughtError = (error: unknown): void => {
         copyButtonElement.style.alignItems = "center";
         copyButtonElement.title = "Copy the Stack Trace";
         copyButtonElement.onclick = (): void => {
+          writeToClipboard({
+            data: stack,
+            onError: (clipboardError?: unknown): void => {
+              toast.error("Failed to copy error to clipboard");
+              console.error(
+                "Failed to copy error to clipboard",
+                clipboardError,
+              );
+            },
+            onSuccess: (): void => {
+              toast.success("Error copied to clipboard");
+            },
+          });
           navigator.clipboard
             .writeText(stack)
             .then((): void => {

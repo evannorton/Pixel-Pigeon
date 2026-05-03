@@ -48,6 +48,7 @@ You may use the [Template Game](https://github.com/evannorton/Pixel-Pigeon-Templ
 5. Create a `pp-env.json` file at the root of your game's codebase.
 ```json
 {
+  "clipboardMode": "navigator",
   "newgroundsAppID": null,
   "newgroundsEncryptionKey": null
 }
