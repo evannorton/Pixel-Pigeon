@@ -155,11 +155,13 @@ import { Scriptable } from "./types/Scriptable";
 import { SetMainVolumeOptions, setMainVolume } from "./functions/setMainVolume";
 import { State } from "./classes/State";
 import { TextStyleAlign } from "pixi.js";
+import { clearMaxFPS } from "./functions/fps/clearMaxFPS";
 import { exitLevel } from "./functions/exitLevel";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getDeltaTime } from "./functions/getDeltaTime";
 import { getEnvironmentVariable } from "./functions/getEnvironmentVariable";
+import { getFPS } from "./functions/fps/getFPS";
 import { getGameHeight } from "./functions/getGameHeight";
 import { getGameWidth } from "./functions/getGameWidth";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
@@ -176,6 +178,7 @@ import { onWindowMessage } from "./functions/onWindowMessage";
 import { openURL } from "./functions/openURL";
 import { postWindowMessage } from "./functions/postWindowMessage";
 import { removeHUDElements } from "./functions/removeHUDElements";
+import { setMaxFPS } from "./functions/fps/setMaxFPS";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { setScreenshotClipboard } from "./functions/setScreenshotClipboard";
 import { setScreenshotScale } from "./functions/setScreenshotScale";
@@ -189,6 +192,7 @@ export {
   addEntitySprite,
   applyAudioSourceVolume,
   ApplyAudioSourceVolumeOptions,
+  clearMaxFPS,
   CollisionData,
   connectToSocketioServer,
   ConnectToSocketioServerOptions,
@@ -261,6 +265,7 @@ export {
   getEntityLevelID,
   getEntityPosition,
   getEnvironmentVariable,
+  getFPS,
   getGameHeight,
   getGameWidth,
   getInputTickHandlerGroupID,
@@ -313,6 +318,7 @@ export {
   setEntityZIndex,
   setMainVolume,
   SetMainVolumeOptions,
+  setMaxFPS,
   setPauseMenuCondition,
   setScreenshotClipboard,
   setScreenshotScale,
