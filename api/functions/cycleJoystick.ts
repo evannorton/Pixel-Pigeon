@@ -32,16 +32,70 @@ export const cycleJoystick = (): void => {
         top: "50%",
       },
       size,
+      threshold: 0.5,
       zone: joystickElement,
     });
     joystickElement.style.width = `${size}px`;
     joystickElement.style.height = `${size}px`;
     joystickElement.style.left = `${x}px`;
     joystickElement.style.top = `${y}px`;
-    // nipplejs does not export the event type
+    // eslint-disable-next-line @typescript-eslint/typedef
+    joystick.on("dir", (e): void => {
+      if (typeof e.data.direction === "undefined") {
+        return;
+      }
+      if (typeof e.data.direction.angle === "undefined") {
+        return;
+      }
+      if (state.values.heldJoystickDirection !== null) {
+        state.setValues({
+          releasedJoystickDirections: [
+            ...state.values.releasedJoystickDirections,
+            state.values.heldJoystickDirection,
+          ],
+        });
+      }
+      state.setValues({
+        heldJoystickDirection: e.data.direction.angle,
+      });
+      state.setValues({
+        pressedJoystickDirections: [
+          ...state.values.pressedJoystickDirections,
+          e.data.direction.angle,
+        ],
+      });
+    });
+    joystick.on("end", (): void => {
+      if (state.values.heldJoystickDirection !== null) {
+        state.setValues({
+          releasedJoystickDirections: [
+            ...state.values.releasedJoystickDirections,
+            state.values.heldJoystickDirection,
+          ],
+        });
+      }
+      state.setValues({
+        heldJoystickDirection: null,
+      });
+    });
     // eslint-disable-next-line @typescript-eslint/typedef
     joystick.on("move", (e): void => {
-      console.log("move", e);
+      if (
+        typeof e.data.direction === "undefined" ||
+        typeof e.data.direction.angle === "undefined"
+      ) {
+        if (state.values.heldJoystickDirection !== null) {
+          state.setValues({
+            releasedJoystickDirections: [
+              ...state.values.releasedJoystickDirections,
+              state.values.heldJoystickDirection,
+            ],
+          });
+        }
+        state.setValues({
+          heldJoystickDirection: null,
+        });
+      }
     });
     state.setValues({ joystick });
   }

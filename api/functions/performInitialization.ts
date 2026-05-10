@@ -229,10 +229,23 @@ export const performInitialization = async (): Promise<void> => {
           ],
         });
       }
+      if (state.values.heldJoystickDirection !== null) {
+        state.setValues({
+          releasedJoystickDirections: [
+            ...state.values.releasedJoystickDirections,
+            state.values.heldJoystickDirection,
+          ],
+        });
+      }
     }
     state.setValues({
+      addingGamepadHeldValues: [],
+      addingGamepadValue: null,
       addingKeyboardHeldValue: null,
+      addingKeyboardValue: null,
+      addingMouseValue: null,
       heldGamepadInputs: [],
+      heldJoystickDirection: null,
       heldKeyboardInputs: [],
       heldMouseInputs: [],
     });

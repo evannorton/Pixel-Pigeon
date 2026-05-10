@@ -34,6 +34,7 @@ interface StateSchema {
   readonly hasExecutedOnRunCallbacks: boolean;
   readonly hasInteracted: boolean;
   readonly heldGamepadInputs: GamepadInput[];
+  readonly heldJoystickDirection: "down" | "left" | "right" | "up" | null;
   readonly heldKeyboardInputs: KeyboardInput[];
   readonly heldMouseInputs: MouseInput[];
   readonly isInitialized: boolean;
@@ -50,9 +51,11 @@ interface StateSchema {
   readonly pauseMenuCondition: (() => boolean) | null;
   readonly pauseMenuPausedAudioSourceIDs: string[];
   readonly pressedGamepadInputs: GamepadInput[];
+  readonly pressedJoystickDirections: ("down" | "left" | "right" | "up")[];
   readonly pressedKeyboardInputs: KeyboardInput[];
   readonly pressedMouseInputs: MouseInput[];
   readonly releasedGamepadInputs: GamepadInput[];
+  readonly releasedJoystickDirections: ("down" | "left" | "right" | "up")[];
   readonly releasedKeyboardInputs: KeyboardInput[];
   readonly releasedMouseInputs: MouseInput[];
   readonly renderChildrenToDestroy: (BitmapText | Graphics)[];
@@ -81,6 +84,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   hasExecutedOnRunCallbacks: false,
   hasInteracted: false,
   heldGamepadInputs: [],
+  heldJoystickDirection: null,
   heldKeyboardInputs: [],
   heldMouseInputs: [],
   isInitialized: false,
@@ -97,9 +101,11 @@ export const state: State<StateSchema> = new State<StateSchema>({
   pauseMenuCondition: null,
   pauseMenuPausedAudioSourceIDs: [],
   pressedGamepadInputs: [],
+  pressedJoystickDirections: [],
   pressedKeyboardInputs: [],
   pressedMouseInputs: [],
   releasedGamepadInputs: [],
+  releasedJoystickDirections: [],
   releasedKeyboardInputs: [],
   releasedMouseInputs: [],
   renderChildrenToDestroy: [],

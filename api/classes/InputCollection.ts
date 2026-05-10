@@ -23,6 +23,10 @@ export interface CreateInputCollectionOptions {
    */
   gamepadButtons?: readonly number[];
   /**
+   * An array of directions that the joystick can move in
+   */
+  joystickDirections?: readonly ("down" | "left" | "right" | "up")[];
+  /**
    * An array of strings that represents different inputs on a keyboard
    */
   keyboardButtons?: readonly CreateInputCollectionOptionsKeyboardButton[];
@@ -37,9 +41,18 @@ export class InputCollection extends Definable {
   private readonly _buttonsClearElement: HTMLButtonElement;
   private readonly _buttonsResetElement: HTMLButtonElement;
   private readonly _defaultGamepadButtons: readonly number[];
+  private readonly _defaultJoystickDirections: readonly (
+    | "down"
+    | "left"
+    | "right"
+    | "up"
+  )[];
+
   private readonly _defaultKeyboardButtons: readonly KeyboardButton[];
   private readonly _defaultMouseButtons: readonly number[];
   private _gamepadButtons: number[];
+  private _joystickDirections: ("down" | "left" | "right" | "up")[];
+
   private _keyboardButtons: KeyboardButton[];
   private _mouseButtons: number[];
   private readonly _valuesEmptyElement: HTMLSpanElement;
@@ -63,6 +76,10 @@ export class InputCollection extends Definable {
     const gamepadButtons: readonly number[] = options.gamepadButtons ?? [];
     this._defaultGamepadButtons = gamepadButtons;
     this._gamepadButtons = [...gamepadButtons];
+    const joystickDirections: readonly ("down" | "left" | "right" | "up")[] =
+      options.joystickDirections ?? [];
+    this._defaultJoystickDirections = joystickDirections;
+    this._joystickDirections = [...joystickDirections];
     const keyboardButtons: KeyboardButton[] = (
       options.keyboardButtons ?? []
     ).map(
@@ -196,6 +213,15 @@ export class InputCollection extends Definable {
     return this._gamepadButtons;
   }
 
+  public get joystickDirections(): readonly (
+    | "down"
+    | "left"
+    | "right"
+    | "up"
+  )[] {
+    return this._joystickDirections;
+  }
+
   public get keyboardButtons(): readonly KeyboardButton[] {
     return this._keyboardButtons;
   }
@@ -206,6 +232,7 @@ export class InputCollection extends Definable {
 
   public resetToDefault(): void {
     this._gamepadButtons = [...this._defaultGamepadButtons];
+    this._joystickDirections = [...this._defaultJoystickDirections];
     this._keyboardButtons = [...this._defaultKeyboardButtons];
     this._mouseButtons = [...this._defaultMouseButtons];
     this.updateValuesElements();
@@ -213,6 +240,7 @@ export class InputCollection extends Definable {
 
   private clear(): void {
     this._gamepadButtons.length = 0;
+    this._joystickDirections.length = 0;
     this._keyboardButtons.length = 0;
     this._mouseButtons.length = 0;
   }

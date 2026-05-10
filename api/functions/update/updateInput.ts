@@ -88,13 +88,6 @@ export const updateInput = (): void => {
       },
     );
   }
-  for (const keyboardPress of state.values.pressedKeyboardInputs) {
-    getDefinables(InputPressHandler).forEach(
-      (inputPressHandler: InputPressHandler): void => {
-        onInputs.push(inputPressHandler.getKeyboardOnInput(keyboardPress));
-      },
-    );
-  }
   for (const mouseRelease of state.values.releasedMouseInputs) {
     getDefinables(InputPressHandler).forEach(
       (inputPressHandler: InputPressHandler): void => {
@@ -102,10 +95,37 @@ export const updateInput = (): void => {
       },
     );
   }
+  for (const keyboardPress of state.values.pressedKeyboardInputs) {
+    getDefinables(InputPressHandler).forEach(
+      (inputPressHandler: InputPressHandler): void => {
+        onInputs.push(inputPressHandler.getKeyboardOnInput(keyboardPress));
+      },
+    );
+  }
   for (const keyboardRelease of state.values.releasedKeyboardInputs) {
     getDefinables(InputPressHandler).forEach(
       (inputPressHandler: InputPressHandler): void => {
         onInputs.push(inputPressHandler.getKeyboardOnRelease(keyboardRelease));
+      },
+    );
+  }
+  for (const pressedJoystickDirection of state.values
+    .pressedJoystickDirections) {
+    getDefinables(InputPressHandler).forEach(
+      (inputPressHandler: InputPressHandler): void => {
+        onInputs.push(
+          inputPressHandler.getJoystickOnInput(pressedJoystickDirection),
+        );
+      },
+    );
+  }
+  for (const releasedJoystickDirection of state.values
+    .releasedJoystickDirections) {
+    getDefinables(InputPressHandler).forEach(
+      (inputPressHandler: InputPressHandler): void => {
+        onInputs.push(
+          inputPressHandler.getJoystickOnRelease(releasedJoystickDirection),
+        );
       },
     );
   }
@@ -125,9 +145,11 @@ export const updateInput = (): void => {
   );
   state.setValues({
     pressedGamepadInputs: [],
+    pressedJoystickDirections: [],
     pressedKeyboardInputs: [],
     pressedMouseInputs: [],
     releasedGamepadInputs: [],
+    releasedJoystickDirections: [],
     releasedKeyboardInputs: [],
     releasedMouseInputs: [],
   });

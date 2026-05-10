@@ -121,6 +121,18 @@ export class InputTickHandler<GroupID extends string> extends Definable {
         return true;
       }
     }
+    if (
+      inputCollection.joystickDirections.some(
+        (joystickDirection: "down" | "left" | "right" | "up"): boolean => {
+          if (joystickDirection === state.values.heldJoystickDirection) {
+            return true;
+          }
+          return false;
+        },
+      )
+    ) {
+      return true;
+    }
     return false;
   }
 }

@@ -59,6 +59,36 @@ export class InputPressHandler extends Definable {
     return null;
   }
 
+  public getJoystickOnInput(
+    joystickDirection: "down" | "left" | "right" | "up",
+  ): (() => void) | null {
+    if (this.passesCondition()) {
+      const inputCollection: InputCollection | null = this.getInputCollection();
+      if (
+        inputCollection !== null &&
+        inputCollection.joystickDirections.includes(joystickDirection)
+      ) {
+        return this._onInput ?? null;
+      }
+    }
+    return null;
+  }
+
+  public getJoystickOnRelease(
+    joystickDirection: "down" | "left" | "right" | "up",
+  ): (() => void) | null {
+    if (this.passesCondition()) {
+      const inputCollection: InputCollection | null = this.getInputCollection();
+      if (
+        inputCollection !== null &&
+        inputCollection.joystickDirections.includes(joystickDirection)
+      ) {
+        return this._onRelease ?? null;
+      }
+    }
+    return null;
+  }
+
   public getKeyboardOnInput(keyboardInput: KeyboardInput): (() => void) | null {
     if (this.passesCondition()) {
       const inputCollection: InputCollection | null = this.getInputCollection();
