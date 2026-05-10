@@ -26,6 +26,7 @@ export const cycleJoystick = (): void => {
         back: "rgba(255, 255, 255, 0.5)",
         front: "white",
       },
+      maxNumberOfJoysticks: 1,
       mode: "static",
       position: {
         left: "50%",
