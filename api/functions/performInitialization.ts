@@ -27,6 +27,7 @@ import {
 } from "../elements/addInputBodyElement";
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { cleanStorage } from "./storage/cleanStorage";
+import { cycleJoystick } from "./cycleJoystick";
 import { definableExists, getDefinable, getDefinables } from "definables";
 import { fireAlert } from "./fireAlert";
 import { getStretchedHeight } from "./getStretchedHeight";
@@ -201,6 +202,7 @@ export const performInitialization = async (): Promise<void> => {
     getDefinables(Achievement).size.toString();
   screenElement.appendChild(app.renderer.view);
   app.ticker.add(tick);
+  cycleJoystick();
   addEventListener("focusout", (): void => {
     if (state.values.hasInteracted && assetsAreLoaded()) {
       for (const heldGamepadInput of state.values.heldGamepadInputs) {

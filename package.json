@@ -25,6 +25,7 @@
         "linter": "evannorton/Linter",
         "mustache": "4.2.0",
         "nanoid": "4.0.2",
+        "nipplejs": "1.0.1",
         "nodemon": "2.0.22",
         "normalize.css": "8.0.1",
         "notyf": "3.10.0",

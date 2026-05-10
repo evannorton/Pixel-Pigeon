@@ -43,4 +43,12 @@ export const update = (): void => {
   } else {
     document.body.classList.remove("pausable");
   }
+  if (
+    state.values.joystickCondition !== null &&
+    state.values.joystickCondition()
+  ) {
+    document.body.classList.add("joystick-condition");
+  } else {
+    document.body.classList.remove("joystick-condition");
+  }
 };

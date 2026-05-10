@@ -439,3 +439,11 @@ body:not(.paused) #unpause-button {
 #copy-error-button:active {
   transform: translatey(0.1em);
 }
+
+#joystick {
+  position: absolute;
+}
+
+body:not(.joystick-condition) #joystick {
+  display: none;
+}

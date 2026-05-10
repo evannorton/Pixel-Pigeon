@@ -11,6 +11,7 @@ import { Socket } from "socket.io-client";
 import { State } from "./classes/State";
 import { World } from "./types/World";
 import { attemptGetWorld } from "./functions/attemptGetWorld";
+import { create } from "nipplejs";
 import { volumeTestHowl } from "./howls/volumeTestHowl";
 
 interface StateSchema {
@@ -36,6 +37,8 @@ interface StateSchema {
   readonly heldKeyboardInputs: KeyboardInput[];
   readonly heldMouseInputs: MouseInput[];
   readonly isInitialized: boolean;
+  readonly joystick: ReturnType<typeof create> | null;
+  readonly joystickCondition: (() => boolean) | null;
   readonly ldtk: LDTK | null;
   readonly levelID: string | null;
   readonly loadedAssets: number;
@@ -81,6 +84,8 @@ export const state: State<StateSchema> = new State<StateSchema>({
   heldKeyboardInputs: [],
   heldMouseInputs: [],
   isInitialized: false,
+  joystick: null,
+  joystickCondition: null,
   ldtk: null,
   levelID: null,
   loadedAssets: 0,

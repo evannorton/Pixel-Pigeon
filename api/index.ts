@@ -178,6 +178,7 @@ import { onWindowMessage } from "./functions/onWindowMessage";
 import { openURL } from "./functions/openURL";
 import { postWindowMessage } from "./functions/postWindowMessage";
 import { removeHUDElements } from "./functions/removeHUDElements";
+import { setJoystickCondition } from "./functions/setJoystickCondition";
 import { setMaxFPS } from "./functions/fps/setMaxFPS";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { setScreenshotClipboard } from "./functions/setScreenshotClipboard";
@@ -316,6 +317,7 @@ export {
   setEntityLevel,
   setEntityPosition,
   setEntityZIndex,
+  setJoystickCondition,
   setMainVolume,
   SetMainVolumeOptions,
   setMaxFPS,

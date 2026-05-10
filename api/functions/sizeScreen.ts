@@ -1,3 +1,4 @@
+import { cycleJoystick } from "./cycleJoystick";
 import { getStretchedHeight } from "./getStretchedHeight";
 import { getStretchedWidth } from "./getStretchedWidth";
 import { state } from "../state";
@@ -63,4 +64,5 @@ export const sizeScreen = (): void => {
     element.style.top = `${margin}px`;
     element.style.left = `${margin}px`;
   }
+  cycleJoystick();
 };
