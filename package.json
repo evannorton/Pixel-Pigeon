@@ -9,7 +9,7 @@
         "lint": "linter lint ./api",
         "lint:fix": "linter lint:fix ./api",
         "docs": "npx typedoc --plugin typedoc-plugin-missing-exports",
-        "postinstall": "patch-package"
+        "postinstall": "node scripts/applyPatchesAfterInstall.cjs"
     },
     "dependencies": {
         "@pixi/filter-grayscale": "5.1.1",
