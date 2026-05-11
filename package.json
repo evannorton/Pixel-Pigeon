@@ -8,8 +8,7 @@
     "scripts": {
         "lint": "linter lint ./api",
         "lint:fix": "linter lint:fix ./api",
-        "docs": "npx typedoc --plugin typedoc-plugin-missing-exports",
-        "postinstall": "node scripts/applyPatchesAfterInstall.cjs"
+        "docs": "npx typedoc --plugin typedoc-plugin-missing-exports"
     },
     "dependencies": {
         "@pixi/filter-grayscale": "5.1.1",
@@ -26,7 +25,7 @@
         "linter": "evannorton/Linter",
         "mustache": "4.2.0",
         "nanoid": "4.0.2",
-        "nipplejs": "1.0.1",
+        "nipplejs": "1.0.2",
         "nodemon": "2.0.22",
         "normalize.css": "8.0.1",
         "notyf": "3.10.0",
