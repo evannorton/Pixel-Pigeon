@@ -117,7 +117,6 @@ Create an `.eslintrc` with the following contents to use this extension.
 ## Running the engine locally
 1. Follow the "getting started" instructions to create a game somewhere on your PC, e.g. `D:\Code\My-Awesome-Game`.
 2. Clone the engine somewhere on your PC, e.g. `D:\Code\Pixel-Pigeon`.
-3. Inside of the engine directory, run `npm link`.
-4. Inside of the game directory, run `npm ci`.
-5. Inside of the game directory, run `npm link pixel-pigeon`.
+3. Inside of the engine directory, run `npm ci` and `npm link`.
+5. Inside of the game directory, run `npm ci` and`npm link pixel-pigeon`.
 6. You can now run your game like normal with `pigeon dev`. You must manually rerun this every time you make a local change to the engine, as hot reloading only listens for changes to your game's code.
