@@ -30,6 +30,7 @@
         "nodemon": "2.0.22",
         "normalize.css": "8.0.1",
         "notyf": "3.10.0",
+        "patch-package": "8.0.1",
         "pixi.js": "7.3.2",
         "prettier": "3.1.0",
         "socket.io": "4.6.1",
@@ -47,8 +48,5 @@
     },
     "bin": {
         "pigeon": "./cli/index.js"
-    },
-    "devDependencies": {
-        "patch-package": "^8.0.1"
     }
 }
