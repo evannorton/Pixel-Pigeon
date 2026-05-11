@@ -5,9 +5,12 @@ const path = require("path");
 const { spawnSync } = require("child_process");
 
 const packageRoot = path.resolve(__dirname, "..");
-const nestedNipplePath = path.join(packageRoot, "node_modules", "nipplejs");
 
 const candidateRoots = [...new Set([process.cwd(), packageRoot])];
+
+const deps = ["nipplejs"];
+const nestedPaths = deps.map(dep => path.join(packageRoot, "node_modules", dep));
+const actualDirs = deps.map(dep => resolvePackageDir(dep));
 
 function resolvePackageDir(packageName) {
     let resolved = null;
@@ -40,19 +43,19 @@ function removePathForReplace(targetPath) {
     fs.unlinkSync(targetPath);
 }
 
-function linkNestedNippleToResolvedInstall(actualNippleDir) {
-    if (pathsAreSamePath(nestedNipplePath, actualNippleDir) === true) {
+function linkNestedToResolvedInstall(actualDir, nestedPath) {
+    if (pathsAreSamePath(nestedPath, actualDir) === true) {
         return;
     }
     fs.mkdirSync(path.join(packageRoot, "node_modules"), { recursive: true });
-    removePathForReplace(nestedNipplePath);
-    const absoluteTarget = path.resolve(actualNippleDir);
+    removePathForReplace(nestedPath);
+    const absoluteTarget = path.resolve(actualDir);
     if (process.platform === "win32") {
-        fs.symlinkSync(absoluteTarget, nestedNipplePath, "junction");
+        fs.symlinkSync(absoluteTarget, nestedPath, "junction");
         return;
     }
-    const relativeTarget = path.relative(path.dirname(nestedNipplePath), absoluteTarget);
-    fs.symlinkSync(relativeTarget, nestedNipplePath, "dir");
+    const relativeTarget = path.relative(path.dirname(nestedPath), absoluteTarget);
+    fs.symlinkSync(relativeTarget, nestedPath, "dir");
 }
 
 function resolvePatchPackageEntry() {
@@ -69,13 +72,13 @@ function resolvePatchPackageEntry() {
     throw new Error("Could not resolve patch-package entry script.");
 }
 
-const actualNippleDir = resolvePackageDir("nipplejs");
-if (actualNippleDir === null) {
-    console.warn("[pixel-pigeon] nipplejs is not installed; skipping patches.");
-    process.exit(0);
+for (const [index] of deps.entries()) {
+    if (actualDirs[index] === null) {
+        console.warn(`[pixel-pigeon] ${deps[index]} is not installed; skipping patches.`);
+        process.exit(0);
+    }
+    linkNestedToResolvedInstall(actualDirs[index], nestedPaths[index]);
 }
-
-linkNestedNippleToResolvedInstall(actualNippleDir);
 
 const patchPackageEntry = resolvePatchPackageEntry();
 const patchResult = spawnSync(process.execPath, [patchPackageEntry], {
