@@ -8,7 +8,8 @@
     "scripts": {
         "lint": "linter lint ./api",
         "lint:fix": "linter lint:fix ./api",
-        "docs": "npx typedoc --plugin typedoc-plugin-missing-exports"
+        "docs": "npx typedoc --plugin typedoc-plugin-missing-exports",
+        "postinstall": "patch-package"
     },
     "dependencies": {
         "@pixi/filter-grayscale": "5.1.1",
@@ -46,5 +47,8 @@
     },
     "bin": {
         "pigeon": "./cli/index.js"
+    },
+    "devDependencies": {
+        "patch-package": "^8.0.1"
     }
 }
