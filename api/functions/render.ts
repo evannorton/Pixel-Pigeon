@@ -1,3 +1,9 @@
+import {
+  BitmapText,
+  Graphics,
+  Sprite as PixiSprite,
+  RenderTexture,
+} from "pixi.js";
 import { Button } from "../classes/Button";
 import {
   CameraCoordinates,
@@ -20,10 +26,10 @@ import {
   getTilemapDownsampledTilePixelSize,
 } from "./createTileHalfResolutionDoublingPixiResources";
 import { NineSlice } from "../classes/NineSlice";
-import { Sprite as PixiSprite, RenderTexture } from "pixi.js";
 import { Quadrilateral } from "../classes/Quadrilateral";
 import { Sprite } from "../classes/Sprite";
 import { assetsAreLoaded } from "./assetsAreLoaded";
+import { drawPixelScatter } from "./draw/drawPixelScatter";
 import { drawQuadrilateral } from "./draw/drawQuadrilateral";
 import { drawText } from "./draw/drawText";
 import { entityEllipsePassesCondition } from "./entity-conditions/entityEllipsePassesCondition";
@@ -48,7 +54,20 @@ export const render = (): void => {
   });
   state.values.app.stage.removeChildren();
   for (const child of state.values.renderChildrenToDestroy) {
-    child.destroy();
+    if (child instanceof BitmapText) {
+      child.destroy();
+    } else {
+      if (child instanceof Graphics) {
+        child.destroy();
+      } else {
+        if (child instanceof PixiSprite) {
+          child.destroy({
+            baseTexture: true,
+            texture: true,
+          });
+        }
+      }
+    }
   }
   state.setValues({ renderChildrenToDestroy: [] });
   if (!assetsAreLoaded()) {
@@ -299,6 +318,9 @@ export const render = (): void => {
     getDefinables(Label).forEach((label: Label): void => {
       label.drawAtCoordinates();
     });
+  }
+  if (state.values.pixelScatter !== null) {
+    drawPixelScatter();
   }
   state.values.app.stage.sortChildren();
   state.values.app.render();

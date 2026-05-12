@@ -5,6 +5,7 @@ import { handleCaughtError } from "../handleCaughtError";
 import { state } from "../../state";
 import { updateInput } from "./updateInput";
 import { updateLevel } from "./updateLevel";
+import { updatePixelScatter } from "./updatePixelScatter";
 
 export const update = (): void => {
   getDefinables(Button).forEach((button: Button): void => {
@@ -51,4 +52,5 @@ export const update = (): void => {
   } else {
     document.body.classList.remove("joystick-condition");
   }
+  updatePixelScatter();
 };

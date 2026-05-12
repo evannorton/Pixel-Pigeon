@@ -153,6 +153,10 @@ import { PathingEntityExclusion } from "./types/PathingEntityExclusion";
 import { Rectangle } from "./types/Rectangle";
 import { Scriptable } from "./types/Scriptable";
 import { SetMainVolumeOptions, setMainVolume } from "./functions/setMainVolume";
+import {
+  StartPixelScatterOptions,
+  startPixelScatter,
+} from "./functions/pixelScatter/startPixelScatter";
 import { State } from "./classes/State";
 import { TextStyleAlign } from "pixi.js";
 import { clearMaxFPS } from "./functions/fps/clearMaxFPS";
@@ -184,6 +188,7 @@ import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { setScreenshotClipboard } from "./functions/setScreenshotClipboard";
 import { setScreenshotScale } from "./functions/setScreenshotScale";
 import { setTilemapDownsampleScale } from "./functions/setTilemapDownsampleScale";
+import { stopPixelScatter } from "./functions/pixelScatter/stopPixelScatter";
 import { takeScreenshot } from "./functions/takeScreenshot";
 import { unlockCameraFromEntity } from "./functions/unlockCameraFromEntity";
 import { unmuteVolume } from "./functions/unmuteVolume";
@@ -328,12 +333,16 @@ export {
   setTilemapDownsampleScale,
   setVolumeChannelVolume,
   SetVolumeChannelVolumeOptions,
+  startPixelScatter,
+  StartPixelScatterOptions,
   State,
   stopAudioSource,
   stopEntity,
+  stopPixelScatter,
   takeScreenshot,
   TextStyleAlign,
   unlockAchievement,
   unlockCameraFromEntity,
   unmuteVolume,
 };
+export type { PixelScatter } from "./types/PixelScatter";

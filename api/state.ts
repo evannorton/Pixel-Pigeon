@@ -1,4 +1,9 @@
-import { Application, BitmapText, Graphics } from "pixi.js";
+import {
+  Application,
+  BitmapText,
+  Graphics,
+  Sprite as PixiSprite,
+} from "pixi.js";
 import { Config } from "./types/Config";
 import { Dev } from "./types/Dev";
 import { Env } from "./types/Env";
@@ -13,6 +18,7 @@ import { World } from "./types/World";
 import { attemptGetWorld } from "./functions/attemptGetWorld";
 import { create } from "nipplejs";
 import { volumeTestHowl } from "./howls/volumeTestHowl";
+import type { PixelScatter } from "./types/PixelScatter";
 
 interface StateSchema {
   readonly achievementUnlockRenderedAt: number | null;
@@ -50,6 +56,7 @@ interface StateSchema {
   readonly onTickCallbacks: (() => void)[];
   readonly pauseMenuCondition: (() => boolean) | null;
   readonly pauseMenuPausedAudioSourceIDs: string[];
+  readonly pixelScatter: PixelScatter | null;
   readonly pressedGamepadInputs: GamepadInput[];
   readonly pressedJoystickDirections: ("down" | "left" | "right" | "up")[];
   readonly pressedKeyboardInputs: KeyboardInput[];
@@ -58,7 +65,7 @@ interface StateSchema {
   readonly releasedJoystickDirections: ("down" | "left" | "right" | "up")[];
   readonly releasedKeyboardInputs: KeyboardInput[];
   readonly releasedMouseInputs: MouseInput[];
-  readonly renderChildrenToDestroy: (BitmapText | Graphics)[];
+  readonly renderChildrenToDestroy: (BitmapText | Graphics | PixiSprite)[];
   readonly socket: Socket | null;
   readonly tilemapDownsampleScale: number;
   readonly type: string | null;
@@ -101,6 +108,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   onTickCallbacks: [],
   pauseMenuCondition: null,
   pauseMenuPausedAudioSourceIDs: [],
+  pixelScatter: null,
   pressedGamepadInputs: [],
   pressedJoystickDirections: [],
   pressedKeyboardInputs: [],
