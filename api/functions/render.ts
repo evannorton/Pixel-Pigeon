@@ -14,7 +14,13 @@ import {
   WorldTilesetTile,
   WorldTilesetTileAnimationFrame,
 } from "../types/World";
+import {
+  type LayerTileTilemapDoublingPixiResourceSlots,
+  ensureLayerTileTilemapDoublingPixiResources,
+  getTilemapDownsampledTilePixelSize,
+} from "./createTileHalfResolutionDoublingPixiResources";
 import { NineSlice } from "../classes/NineSlice";
+import { Sprite as PixiSprite, RenderTexture } from "pixi.js";
 import { Quadrilateral } from "../classes/Quadrilateral";
 import { Sprite } from "../classes/Sprite";
 import { assetsAreLoaded } from "./assetsAreLoaded";
@@ -168,13 +174,79 @@ export const render = (): void => {
             } else {
               tile.pixiSprite.texture = matchedTile.texture;
             }
-            tile.pixiSprite.x = x;
-            tile.pixiSprite.y = y;
-            tile.pixiSprite.width = width;
-            tile.pixiSprite.height = height;
-            tile.pixiSprite.alpha = 1;
-            tile.pixiSprite.zIndex = layerIndex + 1 / (1 / Math.exp(0));
-            state.values.app.stage.addChild(tile.pixiSprite);
+            const tilemapDownsampleScale: number = Math.max(
+              1,
+              state.values.tilemapDownsampleScale,
+            );
+            if (tilemapDownsampleScale === 1) {
+              tile.pixiSprite.x = x;
+              tile.pixiSprite.y = y;
+              tile.pixiSprite.width = width;
+              tile.pixiSprite.height = height;
+              tile.pixiSprite.alpha = 1;
+              tile.pixiSprite.zIndex = layerIndex + 1 / (1 / Math.exp(0));
+              tile.pixiSprite.filters = [];
+              state.values.app.stage.addChild(tile.pixiSprite);
+            } else {
+              ensureLayerTileTilemapDoublingPixiResources(
+                tile as LayerTileTilemapDoublingPixiResourceSlots,
+                width,
+                tilemapDownsampleScale,
+              );
+              const tileHalfResolutionRenderTexture: RenderTexture | null =
+                tile.tileHalfResolutionRenderTexture;
+              const tileDoubledDisplayPixiSprite: PixiSprite | null =
+                tile.tileDoubledDisplayPixiSprite;
+              if (
+                tileHalfResolutionRenderTexture === null ||
+                tileDoubledDisplayPixiSprite === null
+              ) {
+                throw new Error(
+                  "Tile map doubling Pixi resources were not created after ensure.",
+                );
+              }
+              const downsampledTileWidth: number =
+                getTilemapDownsampledTilePixelSize(
+                  width,
+                  tilemapDownsampleScale,
+                );
+              const downsampledTileHeight: number =
+                getTilemapDownsampledTilePixelSize(
+                  height,
+                  tilemapDownsampleScale,
+                );
+              if (
+                tileHalfResolutionRenderTexture.baseTexture.width !==
+                  downsampledTileWidth ||
+                tileHalfResolutionRenderTexture.baseTexture.height !==
+                  downsampledTileHeight
+              ) {
+                tileHalfResolutionRenderTexture.resize(
+                  downsampledTileWidth,
+                  downsampledTileHeight,
+                  true,
+                );
+              }
+              tile.pixiSprite.x = 0;
+              tile.pixiSprite.y = 0;
+              tile.pixiSprite.width = downsampledTileWidth;
+              tile.pixiSprite.height = downsampledTileHeight;
+              tile.pixiSprite.alpha = 1;
+              tile.pixiSprite.filters = [];
+              state.values.app.renderer.render(tile.pixiSprite, {
+                clear: true,
+                renderTexture: tileHalfResolutionRenderTexture,
+              });
+              tileDoubledDisplayPixiSprite.x = x;
+              tileDoubledDisplayPixiSprite.y = y;
+              tileDoubledDisplayPixiSprite.width = width;
+              tileDoubledDisplayPixiSprite.height = height;
+              tileDoubledDisplayPixiSprite.alpha = 1;
+              tileDoubledDisplayPixiSprite.zIndex =
+                layerIndex + 1 / (1 / Math.exp(0));
+              tileDoubledDisplayPixiSprite.filters = [];
+              state.values.app.stage.addChild(tileDoubledDisplayPixiSprite);
+            }
           }
         }
         for (const entityID of layer.entityIDs) {

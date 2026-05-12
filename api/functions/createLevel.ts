@@ -1,5 +1,6 @@
 import { Layer } from "../types/World";
 import { Sprite } from "pixi.js";
+import { createTileHalfResolutionDoublingPixiResources } from "./createTileHalfResolutionDoublingPixiResources";
 import { state } from "../state";
 
 export interface CreateLevelOptionsLayerTile {
@@ -36,14 +37,38 @@ export const createLevel = (options: CreateLevelOptions): void => {
         id: layer.id,
         tileSize: options.tileSize,
         tiles: layer.tiles.map(
-          (tile: CreateLevelOptionsLayerTile): Layer["tiles"][0] => ({
-            pixiSprite: new Sprite(),
-            tilesetID: tile.tilesetID,
-            tilesetX: tile.tilesetX,
-            tilesetY: tile.tilesetY,
-            x: tile.x,
-            y: tile.y,
-          }),
+          (tile: CreateLevelOptionsLayerTile): Layer["tiles"][0] => {
+            if (state.values.tilemapDownsampleScale === 1) {
+              return {
+                pixiSprite: new Sprite(),
+                tileDoubledDisplayPixiSprite: null,
+                tileHalfResolutionRenderTexture: null,
+                tilesetID: tile.tilesetID,
+                tilesetX: tile.tilesetX,
+                tilesetY: tile.tilesetY,
+                x: tile.x,
+                y: tile.y,
+              };
+            }
+            const tileHalfResolutionDoublingPixiResources: ReturnType<
+              typeof createTileHalfResolutionDoublingPixiResources
+            > = createTileHalfResolutionDoublingPixiResources(
+              options.tileSize,
+              state.values.tilemapDownsampleScale,
+            );
+            return {
+              pixiSprite: new Sprite(),
+              tileDoubledDisplayPixiSprite:
+                tileHalfResolutionDoublingPixiResources.tileDoubledDisplayPixiSprite,
+              tileHalfResolutionRenderTexture:
+                tileHalfResolutionDoublingPixiResources.tileHalfResolutionRenderTexture,
+              tilesetID: tile.tilesetID,
+              tilesetX: tile.tilesetX,
+              tilesetY: tile.tilesetY,
+              x: tile.x,
+              y: tile.y,
+            };
+          },
         ),
       }),
     ),

@@ -3,6 +3,7 @@ import { ImageSource } from "../classes/ImageSource";
 import { LDTK, LDTKTileCustomData, LDTKTileData } from "../types/LDTK";
 import { Level, Tileset, World, WorldTilesetTile } from "../types/World";
 import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
+import { createTileHalfResolutionDoublingPixiResources } from "./createTileHalfResolutionDoublingPixiResources";
 import { getDefinable } from "definables";
 import { state } from "../state";
 
@@ -59,6 +60,19 @@ export const getWorld = (): World => {
                         matchedLDTKDefLayer.tilesetDefUid,
                     )?.identifier ?? null
                   : null;
+              const matchedLDTKTilesetForGridSize:
+                | LDTK["defs"]["tilesets"][0]
+                | undefined =
+                tilesetID !== null
+                  ? ldtk.defs.tilesets.find(
+                      (ldtkDefTileset: LDTK["defs"]["tilesets"][0]): boolean =>
+                        ldtkDefTileset.identifier === tilesetID,
+                    )
+                  : undefined;
+              const tilePixelSizeForHalfResolutionDoubling: number =
+                typeof matchedLDTKTilesetForGridSize !== "undefined"
+                  ? matchedLDTKTilesetForGridSize.tileGridSize
+                  : ldtkLayerInstance.__gridSize;
               return {
                 entityIDs,
                 id: ldtkLayerInstance.__identifier,
@@ -66,16 +80,46 @@ export const getWorld = (): World => {
                 tiles: ldtkLayerInstance.gridTiles.map(
                   (
                     ldtkGridTile: LDTK["levels"][0]["layerInstances"][0]["gridTiles"][0],
-                  ): Level["layers"][0]["tiles"][0] => ({
-                    pixiSprite: new PixiSprite(),
-                    tilesetID: tilesetID as string,
-                    tilesetX:
-                      ldtkGridTile.src[0] / ldtkLayerInstance.__gridSize,
-                    tilesetY:
-                      ldtkGridTile.src[1] / ldtkLayerInstance.__gridSize,
-                    x: ldtkGridTile.px[0],
-                    y: ldtkGridTile.px[1],
-                  }),
+                  ): Level["layers"][0]["tiles"][0] => {
+                    const tilemapDownsampleScale: number = Math.max(
+                      1,
+                      state.values.tilemapDownsampleScale,
+                    );
+                    if (tilemapDownsampleScale === 1) {
+                      return {
+                        pixiSprite: new PixiSprite(),
+                        tileDoubledDisplayPixiSprite: null,
+                        tileHalfResolutionRenderTexture: null,
+                        tilesetID: tilesetID as string,
+                        tilesetX:
+                          ldtkGridTile.src[0] / ldtkLayerInstance.__gridSize,
+                        tilesetY:
+                          ldtkGridTile.src[1] / ldtkLayerInstance.__gridSize,
+                        x: ldtkGridTile.px[0],
+                        y: ldtkGridTile.px[1],
+                      };
+                    }
+                    const tileHalfResolutionDoublingPixiResources: ReturnType<
+                      typeof createTileHalfResolutionDoublingPixiResources
+                    > = createTileHalfResolutionDoublingPixiResources(
+                      tilePixelSizeForHalfResolutionDoubling,
+                      tilemapDownsampleScale,
+                    );
+                    return {
+                      pixiSprite: new PixiSprite(),
+                      tileDoubledDisplayPixiSprite:
+                        tileHalfResolutionDoublingPixiResources.tileDoubledDisplayPixiSprite,
+                      tileHalfResolutionRenderTexture:
+                        tileHalfResolutionDoublingPixiResources.tileHalfResolutionRenderTexture,
+                      tilesetID: tilesetID as string,
+                      tilesetX:
+                        ldtkGridTile.src[0] / ldtkLayerInstance.__gridSize,
+                      tilesetY:
+                        ldtkGridTile.src[1] / ldtkLayerInstance.__gridSize,
+                      x: ldtkGridTile.px[0],
+                      y: ldtkGridTile.px[1],
+                    };
+                  },
                 ),
               };
             },

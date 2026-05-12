@@ -60,6 +60,7 @@ interface StateSchema {
   readonly releasedMouseInputs: MouseInput[];
   readonly renderChildrenToDestroy: (BitmapText | Graphics)[];
   readonly socket: Socket | null;
+  readonly tilemapDownsampleScale: number;
   readonly type: string | null;
   readonly world: World | null;
 }
@@ -110,6 +111,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   releasedMouseInputs: [],
   renderChildrenToDestroy: [],
   socket: null,
+  tilemapDownsampleScale: 1,
   type: null,
   world: null,
 });

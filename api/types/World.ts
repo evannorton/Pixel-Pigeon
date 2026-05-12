@@ -1,4 +1,4 @@
-import { Sprite as PixiSprite, Texture } from "pixi.js";
+import { Sprite as PixiSprite, RenderTexture, Texture } from "pixi.js";
 import { Scriptable } from "./Scriptable";
 
 /**
@@ -61,6 +61,8 @@ export interface Layer {
   readonly tileSize: number;
   readonly tiles: {
     readonly pixiSprite: PixiSprite;
+    tileDoubledDisplayPixiSprite: PixiSprite | null;
+    tileHalfResolutionRenderTexture: RenderTexture | null;
     readonly tilesetID: string;
     readonly tilesetX: number;
     readonly tilesetY: number;

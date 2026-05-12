@@ -183,6 +183,7 @@ import { setMaxFPS } from "./functions/fps/setMaxFPS";
 import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { setScreenshotClipboard } from "./functions/setScreenshotClipboard";
 import { setScreenshotScale } from "./functions/setScreenshotScale";
+import { setTilemapDownsampleScale } from "./functions/setTilemapDownsampleScale";
 import { takeScreenshot } from "./functions/takeScreenshot";
 import { unlockCameraFromEntity } from "./functions/unlockCameraFromEntity";
 import { unmuteVolume } from "./functions/unmuteVolume";
@@ -324,6 +325,7 @@ export {
   setPauseMenuCondition,
   setScreenshotClipboard,
   setScreenshotScale,
+  setTilemapDownsampleScale,
   setVolumeChannelVolume,
   SetVolumeChannelVolumeOptions,
   State,
