@@ -3,6 +3,7 @@ import {
   Application,
   BaseTexture,
   BitmapFont,
+  MIPMAP_MODES,
   SCALE_MODES,
   settings,
 } from "pixi.js";
@@ -186,6 +187,8 @@ export const performInitialization = async (): Promise<void> => {
   settings.ROUND_PIXELS = true;
   BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
   BitmapFont.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
+  BaseTexture.defaultOptions.mipmap = MIPMAP_MODES.OFF;
+  BitmapFont.defaultOptions.mipmap = MIPMAP_MODES.OFF;
   loadAssets();
   if (settings.RENDER_OPTIONS) {
     settings.RENDER_OPTIONS.hello = false;

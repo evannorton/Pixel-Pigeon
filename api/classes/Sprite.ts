@@ -8,10 +8,19 @@ import { EntitySprite } from "../types/World";
 import { GrayscaleFilter } from "@pixi/filter-grayscale";
 import { ImageSource } from "./ImageSource";
 import { MultiColorReplaceFilter } from "@pixi/filter-multi-color-replace";
-import { Sprite as PixiSprite, Rectangle, Texture } from "pixi.js";
+import {
+  Sprite as PixiSprite,
+  Rectangle,
+  RenderTexture,
+  Texture,
+} from "pixi.js";
 import { RGB } from "../types/RGB";
 import { Scriptable } from "../types/Scriptable";
 import { TilePosition } from "../types/TilePosition";
+import {
+  createNearestDownsampleRenderTexture,
+  getTilemapDownsampledTilePixelSize,
+} from "../functions/createTileHalfResolutionDoublingPixiResources";
 import { drawQuadrilateral } from "../functions/draw/drawQuadrilateral";
 import { entitySpritePassesCondition } from "../functions/entity-conditions/entitySpritePassesCondition";
 import { getEntitySpriteX } from "../functions/getEntitySpriteX";
@@ -101,14 +110,18 @@ export interface CreateSpriteOptions {
    */
   coordinates?: CreateSpriteOptionsCoordinates;
   /**
+   * Renders each frame at 1/scale resolution then nearest-filters to the frame size (same idea as tile map downsample). Omitted or `1` disables the extra pass.
+   */
+  downsampleScale?: Scriptable<number>;
+  /**
    * String path to the sprite sheet, automatically starts in images folder**
    * @example
    * ```ts
    * imagePath: "player", // The actual path to the file is {PROJECTFILE}/images/player.png
    * ```
    */
-  isGrayscale?: Scriptable<boolean>;
   imagePath: Scriptable<string>;
+  isGrayscale?: Scriptable<boolean>;
   opacity?: Scriptable<number>;
   palette?: Scriptable<string[]>;
   recolors?: Scriptable<CreateSpriteOptionsRecolor[]>;
@@ -151,6 +164,9 @@ export class Sprite extends Definable {
   private readonly _animationStartedAt?: Scriptable<number>;
   private readonly _animations: SpriteAnimation[];
   private readonly _coordinates?: SpriteCoordinates;
+  private _downsampleDisplayPixiSprite: PixiSprite | null = null;
+  private _downsampleRenderTexture: RenderTexture | null = null;
+  private readonly _downsampleScale: Scriptable<number>;
   private _entity: SpriteEntity | null = null;
   private readonly _isGrayscale: Scriptable<boolean> = false;
   private readonly _imageSourceID: Scriptable<string>;
@@ -197,6 +213,7 @@ export class Sprite extends Definable {
         y: options.coordinates.y,
       };
     }
+    this._downsampleScale = options.downsampleScale ?? 1;
     this._isGrayscale = options.isGrayscale ?? false;
     this._opacity = options.opacity ?? 1;
     this._palette = Array.isArray(options.palette)
@@ -366,6 +383,7 @@ export class Sprite extends Definable {
 
   public remove(): void {
     super.remove();
+    this.releaseDownsamplePixiResourcesIfPresent();
     this._pixiSprite.destroy();
     for (const animation of this._animations) {
       for (const frame of animation.frames) {
@@ -485,13 +503,6 @@ export class Sprite extends Definable {
         if (typeof currentAnimationFrame.texture !== "undefined") {
           this._pixiSprite.texture = currentAnimationFrame.texture;
         }
-        this._pixiSprite.x = x;
-        this._pixiSprite.y = y;
-        this._pixiSprite.width = currentAnimationFrame.width;
-        this._pixiSprite.height = currentAnimationFrame.height;
-        this._pixiSprite.zIndex = zIndex;
-        this._pixiSprite.filters = [];
-        this._pixiSprite.alpha = opacity;
         const palette: readonly string[] = this.getPallete();
         const filterColors: [number, number][] = [];
         if (palette.length > 0) {
@@ -527,16 +538,72 @@ export class Sprite extends Definable {
             ]),
           );
         }
-        if (filterColors.length > 0) {
-          this._pixiSprite.filters.push(
-            new MultiColorReplaceFilter(filterColors, 0.005),
-          );
-        }
         const grayscale: boolean = this.getGrayscale();
-        if (grayscale) {
-          this._pixiSprite.filters.push(new GrayscaleFilter());
+        if (filterColors.length > 0 && grayscale) {
+          this._pixiSprite.filters = [
+            new MultiColorReplaceFilter(filterColors, 0.005),
+            new GrayscaleFilter(),
+          ];
+        } else if (filterColors.length > 0) {
+          this._pixiSprite.filters = [
+            new MultiColorReplaceFilter(filterColors, 0.005),
+          ];
+        } else if (grayscale) {
+          this._pixiSprite.filters = [new GrayscaleFilter()];
+        } else {
+          this._pixiSprite.filters = null;
         }
-        state.values.app.stage.addChild(this._pixiSprite);
+        const worldWidth: number = currentAnimationFrame.width;
+        const worldHeight: number = currentAnimationFrame.height;
+        const downsampleScale: number = this.getDownsampleScale();
+        if (downsampleScale === 1) {
+          this.releaseDownsamplePixiResourcesIfPresent();
+          this._pixiSprite.x = x;
+          this._pixiSprite.y = y;
+          this._pixiSprite.width = worldWidth;
+          this._pixiSprite.height = worldHeight;
+          this._pixiSprite.zIndex = zIndex;
+          this._pixiSprite.alpha = opacity;
+          state.values.app.stage.addChild(this._pixiSprite);
+        } else {
+          const downsampledWidth: number = getTilemapDownsampledTilePixelSize(
+            worldWidth,
+            downsampleScale,
+          );
+          const downsampledHeight: number = getTilemapDownsampledTilePixelSize(
+            worldHeight,
+            downsampleScale,
+          );
+          this.ensureDownsamplePixiResources(
+            downsampledWidth,
+            downsampledHeight,
+          );
+          if (
+            this._downsampleRenderTexture === null ||
+            this._downsampleDisplayPixiSprite === null
+          ) {
+            throw new Error(
+              `Sprite "${this._id}" downsample Pixi resources were not created.`,
+            );
+          }
+          this._pixiSprite.x = 0;
+          this._pixiSprite.y = 0;
+          this._pixiSprite.width = downsampledWidth;
+          this._pixiSprite.height = downsampledHeight;
+          this._pixiSprite.alpha = 1;
+          state.values.app.renderer.render(this._pixiSprite, {
+            clear: true,
+            renderTexture: this._downsampleRenderTexture,
+          });
+          this._downsampleDisplayPixiSprite.x = x;
+          this._downsampleDisplayPixiSprite.y = y;
+          this._downsampleDisplayPixiSprite.width = worldWidth;
+          this._downsampleDisplayPixiSprite.height = worldHeight;
+          this._downsampleDisplayPixiSprite.zIndex = zIndex;
+          this._downsampleDisplayPixiSprite.alpha = opacity;
+          this._downsampleDisplayPixiSprite.filters = null;
+          state.values.app.stage.addChild(this._downsampleDisplayPixiSprite);
+        }
       }
     }
   }
@@ -591,6 +658,62 @@ export class Sprite extends Definable {
       }
     }
     return null;
+  }
+
+  private ensureDownsamplePixiResources(
+    downsampledWidth: number,
+    downsampledHeight: number,
+  ): void {
+    const existingRenderTextureMustBeRecreated: boolean =
+      this._downsampleRenderTexture !== null &&
+      this._downsampleRenderTexture.baseTexture.resolution !== 1;
+    if (existingRenderTextureMustBeRecreated) {
+      this.releaseDownsamplePixiResourcesIfPresent();
+    }
+    if (this._downsampleRenderTexture === null) {
+      this._downsampleRenderTexture = createNearestDownsampleRenderTexture(
+        downsampledWidth,
+        downsampledHeight,
+      );
+      this._downsampleDisplayPixiSprite = new PixiSprite(
+        this._downsampleRenderTexture,
+      );
+    } else if (
+      this._downsampleRenderTexture.baseTexture.width !== downsampledWidth ||
+      this._downsampleRenderTexture.baseTexture.height !== downsampledHeight
+    ) {
+      this._downsampleRenderTexture.resize(
+        downsampledWidth,
+        downsampledHeight,
+        true,
+      );
+    }
+  }
+
+  private getDownsampleScale(): number {
+    let rawScale: number = 1;
+    if (typeof this._downsampleScale === "number") {
+      rawScale = this._downsampleScale;
+    } else {
+      try {
+        rawScale = this._downsampleScale();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Sprite "${this._id}" downsampleScale`, true);
+        return 1;
+      }
+    }
+    return Math.max(1, rawScale);
+  }
+
+  private releaseDownsamplePixiResourcesIfPresent(): void {
+    if (this._downsampleDisplayPixiSprite !== null) {
+      this._downsampleDisplayPixiSprite.destroy({ texture: false });
+      this._downsampleDisplayPixiSprite = null;
+    }
+    if (this._downsampleRenderTexture !== null) {
+      this._downsampleRenderTexture.destroy(true);
+      this._downsampleRenderTexture = null;
+    }
   }
 
   private getCoordinatesX(): number | null {

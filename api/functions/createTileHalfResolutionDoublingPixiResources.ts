@@ -1,3 +1,4 @@
+import { MSAA_QUALITY } from "@pixi/constants";
 import { Sprite as PixiSprite, RenderTexture, SCALE_MODES } from "pixi.js";
 
 export interface LayerTileTilemapDoublingPixiResourceSlots {
@@ -8,6 +9,17 @@ export interface TileHalfResolutionDoublingPixiResources {
   readonly tileDoubledDisplayPixiSprite: PixiSprite;
   readonly tileHalfResolutionRenderTexture: RenderTexture;
 }
+export const createNearestDownsampleRenderTexture = (
+  downsampledWidth: number,
+  downsampledHeight: number,
+): RenderTexture =>
+  RenderTexture.create({
+    height: downsampledHeight,
+    multisample: MSAA_QUALITY.NONE,
+    resolution: 1,
+    scaleMode: SCALE_MODES.NEAREST,
+    width: downsampledWidth,
+  });
 export const getTilemapDownsampledTilePixelSize = (
   fullTilePixelSize: number,
   tilemapDownsampleScale: number,
@@ -29,11 +41,11 @@ export const createTileHalfResolutionDoublingPixiResources = (
     fullTilePixelSize,
     tilemapDownsampleScale,
   );
-  const tileHalfResolutionRenderTexture: RenderTexture = RenderTexture.create({
-    height: downsampledResolution,
-    scaleMode: SCALE_MODES.NEAREST,
-    width: downsampledResolution,
-  });
+  const tileHalfResolutionRenderTexture: RenderTexture =
+    createNearestDownsampleRenderTexture(
+      downsampledResolution,
+      downsampledResolution,
+    );
   const tileDoubledDisplayPixiSprite: PixiSprite = new PixiSprite(
     tileHalfResolutionRenderTexture,
   );
