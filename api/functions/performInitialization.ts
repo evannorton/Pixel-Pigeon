@@ -183,10 +183,10 @@ export const performInitialization = async (): Promise<void> => {
     achievement.updateInfoElements();
   });
   syncNewgroundsMedals();
-  loadAssets();
   settings.ROUND_PIXELS = true;
   BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
   BitmapFont.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
+  loadAssets();
   if (settings.RENDER_OPTIONS) {
     settings.RENDER_OPTIONS.hello = false;
   }
