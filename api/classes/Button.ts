@@ -7,6 +7,7 @@ import { Entity } from "./Entity";
 import { EntityButton, EntityPosition } from "../types/World";
 import { NineSlice } from "./NineSlice";
 import { Scriptable } from "../types/Scriptable";
+import { entityButtonPassesCondition } from "../functions/entity-conditions/entityButtonPassesCondition";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
 
@@ -124,6 +125,12 @@ export class Button extends Definable {
       Array.from(getDefinables(NineSlice)).some(
         ([, nineSlice]: [string, NineSlice]): boolean => nineSlice.isHovered(),
       )
+    ) {
+      return false;
+    }
+    if (
+      this._entity !== null &&
+      entityButtonPassesCondition(this._entity.entityButton) === false
     ) {
       return false;
     }

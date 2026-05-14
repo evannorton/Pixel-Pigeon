@@ -12,6 +12,7 @@ import { Scriptable } from "./Scriptable";
  */
 export interface EntityButton {
   buttonID: string;
+  condition?: () => boolean;
   onClick?: () => void;
 }
 export interface EntityCollidable {
