@@ -53,18 +53,6 @@ export const handleUncaughtError = (error: unknown): void => {
               toast.success("Error copied to clipboard");
             },
           });
-          navigator.clipboard
-            .writeText(stack)
-            .then((): void => {
-              toast.success("Error copied to clipboard");
-            })
-            .catch((clipboardError: unknown): void => {
-              toast.error("Failed to copy error to clipboard");
-              console.error(
-                "Failed to copy error to clipboard",
-                clipboardError,
-              );
-            });
         };
         copyButtonIconElement.src = "./svg/copy.svg";
         copyButtonIconElement.style.width = "2em";
