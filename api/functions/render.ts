@@ -109,6 +109,7 @@ export const render = (): void => {
     );
     drawText(
       {
+        colors: [],
         trims: [],
         value: "Click to play",
       },

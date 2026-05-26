@@ -1,17 +1,24 @@
-import { BitmapText, TextStyleAlign } from "pixi.js";
+import { Container, TextStyleAlign } from "pixi.js";
 import { Definable, getDefinable } from "definables";
 import { Scriptable } from "../types/Scriptable";
 import { TextInfo } from "../types/TextInfo";
 import { arraysHaveSameValues } from "../functions/arraysHaveSameValues";
-import { getBitmapText } from "../functions/getBitmapText";
+import { getLabelBitmapTextDisplayObject } from "../functions/getLabelBitmapTextDisplayObject";
 import { handleCaughtError } from "../functions/handleCaughtError";
 import { state } from "../state";
+import { textInfoColorsHaveSameValues } from "../functions/textInfoColorsHaveSameValues";
 
+export interface CreateLabelOptionsTextColor {
+  color: string;
+  index: number;
+  length: number;
+}
 export interface CreateLabelOptionsTextTrim {
   index: number;
   length: number;
 }
 export interface CreateLabelOptionsText {
+  colors?: CreateLabelOptionsTextColor[];
   trims?: CreateLabelOptionsTextTrim[];
   value: string;
 }
@@ -53,7 +60,7 @@ export class Label extends Definable {
   private readonly _horizontalAlignment: TextStyleAlign;
   private readonly _maxLines?: number;
   private readonly _maxWidth?: number;
-  private _pixiBitmapText: BitmapText | null = null;
+  private _pixiBitmapText: Container | null = null;
   private readonly _size: number;
   private readonly _text: Scriptable<CreateLabelOptionsText>;
   private _lastColor: string | null = null;
@@ -95,16 +102,21 @@ export class Label extends Definable {
           this._lastTextInfo === null ||
           textInfo.value !== this._lastTextInfo.value ||
           arraysHaveSameValues(textInfo.trims, this._lastTextInfo.trims) ===
-            false;
+            false ||
+          textInfoColorsHaveSameValues(
+            textInfo.colors,
+            this._lastTextInfo.colors,
+          ) === false;
         this._lastColor = color;
         this._lastTextInfo = textInfo;
         if (this._pixiBitmapText && shouldRefreshBitmap) {
           this._pixiBitmapText.destroy();
         }
         this._pixiBitmapText = shouldRefreshBitmap
-          ? getBitmapText(
+          ? getLabelBitmapTextDisplayObject(
               textInfo.value,
               textInfo.trims,
+              textInfo.colors,
               color,
               this._size,
               this._maxWidth ?? null,
@@ -190,6 +202,7 @@ export class Label extends Definable {
   private getTextInfo(): TextInfo | null {
     if (typeof this._text === "object") {
       return {
+        colors: this._text.colors ?? [],
         trims: this._text.trims ?? [],
         value: this._text.value,
       };
@@ -197,6 +210,7 @@ export class Label extends Definable {
     try {
       const text: CreateLabelOptionsText = this._text();
       return {
+        colors: text.colors ?? [],
         trims: text.trims ?? [],
         value: text.value,
       };
