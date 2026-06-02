@@ -204,7 +204,7 @@ export const performInitialization = async (): Promise<void> => {
     getDefinables(Achievement).size.toString();
   screenElement.appendChild(app.renderer.view);
   app.ticker.add(tick);
-  addEventListener("focusout", (): void => {
+  addEventListener("blur", (): void => {
     if (state.values.hasInteracted && assetsAreLoaded()) {
       for (const heldGamepadInput of state.values.heldGamepadInputs) {
         state.setValues({
