@@ -243,7 +243,11 @@ export class Sprite extends Definable {
   private get imageSource(): ImageSource | null {
     const imageSourceID: string | null = this.getImageSourceID();
     if (imageSourceID !== null) {
-      return getDefinable(ImageSource, imageSourceID);
+      try {
+        return getDefinable(ImageSource, imageSourceID);
+      } catch (error: unknown) {
+        handleCaughtError(error, `Sprite "${this._id}" imageSource`, true);
+      }
     }
     return null;
   }
