@@ -2,7 +2,7 @@ import {
   CameraCoordinates,
   getCameraCoordinates,
 } from "../functions/getCameraCoordinates";
-import { Definable, getDefinable } from "definables";
+import { Definable, definableExists, getDefinable } from "definables";
 import { Entity } from "./Entity";
 import { EntitySprite } from "../types/World";
 import { GrayscaleFilter } from "@pixi/filter-grayscale";
@@ -243,11 +243,15 @@ export class Sprite extends Definable {
   private get imageSource(): ImageSource | null {
     const imageSourceID: string | null = this.getImageSourceID();
     if (imageSourceID !== null) {
-      try {
-        return getDefinable(ImageSource, imageSourceID);
-      } catch (error: unknown) {
-        handleCaughtError(error, `Sprite "${this._id}" imageSource`, true);
+      if (definableExists(ImageSource, imageSourceID) === false) {
+        handleCaughtError(
+          new Error(`ImageSource "${imageSourceID}" does not exist.`),
+          `Sprite "${this._id}" imageSource`,
+          true,
+        );
+        return null;
       }
+      return getDefinable(ImageSource, imageSourceID);
     }
     return null;
   }
