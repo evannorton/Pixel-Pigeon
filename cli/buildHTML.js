@@ -1,7 +1,8 @@
-const { readFileSync, writeFileSync, existsSync } = require("fs");
+const { readFileSync, writeFileSync } = require("fs");
 const { join, resolve } = require("path");
 const Mustache = require("mustache");
 const randomString = require("./randomString");
+const getPPEnv = require("./getPPEnv");
 
 const runID = randomString();
 
@@ -9,10 +10,11 @@ writeFileSync(join(__dirname, "..", "run-id.json"), JSON.stringify(runID));
 
 const data = { runID };
 
-if (existsSync(join(resolve(), "pp-env.json"))) {
-  const res = JSON.parse(readFileSync(join(resolve(), "pp-env.json")).toString());
-  data.newgroundsAppID = res.newgroundsAppID;
-  data.newgroundsEncryptionKey = res.newgroundsEncryptionKey;
+const ppEnv = getPPEnv();
+
+if (ppEnv !== null) {
+  data.newgroundsAppID = ppEnv.newgroundsAppID;
+  data.newgroundsEncryptionKey = ppEnv.newgroundsEncryptionKey;
 }
 
 const config = JSON.parse(readFileSync(join(resolve(), "pp-config.json")).toString());

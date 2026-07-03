@@ -53,7 +53,6 @@ You may use the [Template Game](https://github.com/evannorton/Pixel-Pigeon-Templ
   "newgroundsEncryptionKey": null,
   "remoteAssetsURL": null
 }
-```
 6. Create a `project.ldtk` file at the root of your game's codebase, using the LDTK level editor.
 7. Create a `.gitignore` file at the root of your game's codebase.
 ```

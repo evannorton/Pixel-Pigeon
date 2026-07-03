@@ -51,19 +51,16 @@ if (existsSync(join("pp-dev.json"))) {
     }
 }
 
-if (existsSync(join("pp-env.json"))) {
-    const envString = readFileSync(join("pp-env.json")).toString();
+const getPPEnv = require("./getPPEnv");
+
+const ppEnv = getPPEnv();
+
+if (ppEnv !== null) {
     try {
-        JSON.parse(envString);
+        envSchema.parse(ppEnv);
     }
     catch (error) {
-        throw new Error("Your pp-env.json file is not valid JSON.");
-    }
-    try {
-        envSchema.parse(JSON.parse(envString));
-    }
-    catch (error) {
-        console.error("Your pp-env.json file does not match the schema.");
+        console.error("Your pp-env configuration does not match the schema.");
         throw error;
     }
 }
