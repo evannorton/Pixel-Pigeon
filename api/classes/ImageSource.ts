@@ -13,16 +13,19 @@ import { state } from "../state";
 
 interface ImageSourceOptions {
   readonly imagePath: string;
+  readonly remoteURL?: string | null;
 }
 
 export class ImageSource extends Definable {
   private readonly _colors: string[] = [];
   private readonly _imagePath: string;
+  private readonly _remoteURL: string | null;
   private _texture?: Texture;
 
   public constructor(options: ImageSourceOptions) {
     super(options.imagePath);
     this._imagePath = options.imagePath;
+    this._remoteURL = options.remoteURL ?? null;
   }
 
   public get colors(): readonly string[] {
@@ -37,7 +40,12 @@ export class ImageSource extends Definable {
   }
 
   public loadTexture(): void {
-    loadPixiAsset(`images/${this._imagePath}.png`)
+    const imageFilePath: string = `images/${this._imagePath}.png`;
+    const path: string =
+      this._remoteURL !== null
+        ? `${this._remoteURL}/${imageFilePath}`
+        : imageFilePath;
+    loadPixiAsset(path, this._remoteURL !== null)
       .then((texture: Texture): void => {
         this._texture = texture;
         this.loadColors();

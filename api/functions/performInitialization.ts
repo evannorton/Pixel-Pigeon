@@ -153,12 +153,48 @@ export const performInitialization = async (): Promise<void> => {
       audioPath,
     });
   }
+  if (env !== null && env.remoteAssetsURL !== null) {
+    const remoteAudioResponse: Response = await fetch(
+      `${env.remoteAssetsURL}/audio.json`,
+    );
+    const remoteAudioPaths: string[] =
+      (await remoteAudioResponse.json()) as string[];
+    for (const remoteAudioPath of remoteAudioPaths) {
+      if (audioPaths.includes(remoteAudioPath)) {
+        throw new Error(
+          `Remote audio path "${remoteAudioPath}" collides with a local audio path.`,
+        );
+      }
+      new AudioSource({
+        audioPath: remoteAudioPath,
+        remoteURL: env.remoteAssetsURL,
+      });
+    }
+  }
   const imagesResponse: Response = await fetch("./images.json");
   const imagePaths: string[] = (await imagesResponse.json()) as string[];
   for (const imagePath of imagePaths) {
     new ImageSource({
       imagePath,
     });
+  }
+  if (env !== null && env.remoteAssetsURL !== null) {
+    const remoteImagesResponse: Response = await fetch(
+      `${env.remoteAssetsURL}/images.json`,
+    );
+    const remoteImagePaths: string[] =
+      (await remoteImagesResponse.json()) as string[];
+    for (const remoteImagePath of remoteImagePaths) {
+      if (imagePaths.includes(remoteImagePath)) {
+        throw new Error(
+          `Remote image path "${remoteImagePath}" collides with a local image path.`,
+        );
+      }
+      new ImageSource({
+        imagePath: remoteImagePath,
+        remoteURL: env.remoteAssetsURL,
+      });
+    }
   }
   if (config.requireClickToFocus === false) {
     state.setValues({ hasInteracted: true });

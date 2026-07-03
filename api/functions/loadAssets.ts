@@ -4,9 +4,11 @@ import { handleUncaughtError } from "./handleUncaughtError";
 import { loadPixiAsset } from "./loadPixiAsset";
 
 export const loadAssets = (): void => {
-  loadPixiAsset("fonts/RetroPixels.fnt").catch((error: unknown): void => {
-    handleUncaughtError(error);
-  });
+  loadPixiAsset("fonts/RetroPixels.fnt", false).catch(
+    (error: unknown): void => {
+      handleUncaughtError(error);
+    },
+  );
   getDefinables(ImageSource).forEach((imageSource: ImageSource): void => {
     imageSource.loadTexture();
   });

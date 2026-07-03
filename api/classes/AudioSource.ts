@@ -8,6 +8,7 @@ import { state } from "../state";
 
 interface AudioSourceOptions {
   readonly audioPath: string;
+  readonly remoteURL?: string | null;
 }
 interface Play {
   loopPoint?: number;
@@ -33,11 +34,18 @@ export class AudioSource extends Definable {
   public constructor(options: AudioSourceOptions) {
     super(options.audioPath);
     this._audioPath = options.audioPath;
+    const audioFilePath: string = `audio/${encodeURIComponent(
+      this._audioPath,
+    )}.mp3`;
+    const src: string =
+      typeof options.remoteURL === "string"
+        ? `${options.remoteURL}/${audioFilePath}`
+        : audioFilePath;
     this._howl = new Howl({
       autoplay: false,
       loop: false,
       preload: true,
-      src: [`audio/${encodeURIComponent(this._audioPath)}.mp3`],
+      src: [src],
       volume: defaultVolume,
     });
     this._howl.on("end", (): void => {
