@@ -193,6 +193,7 @@ import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { setScreenshotClipboard } from "./functions/setScreenshotClipboard";
 import { setScreenshotScale } from "./functions/setScreenshotScale";
 import { setTilemapDownsampleScale } from "./functions/setTilemapDownsampleScale";
+import { setVideoRecordingScale } from "./functions/setVideoRecordingScale";
 import { stopPixelScatter } from "./functions/pixel-scatter/stopPixelScatter";
 import { stopVideoRecording } from "./functions/video-recording/stopVideoRecording";
 import { takeScreenshot } from "./functions/takeScreenshot";
@@ -338,6 +339,7 @@ export {
   setScreenshotClipboard,
   setScreenshotScale,
   setTilemapDownsampleScale,
+  setVideoRecordingScale,
   setVolumeChannelVolume,
   SetVolumeChannelVolumeOptions,
   startPixelScatter,

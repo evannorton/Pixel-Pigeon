@@ -37,7 +37,9 @@ import { handleUncaughtError } from "./handleUncaughtError";
 import { loadAssets } from "./loadAssets";
 import { onWindowMessage } from "./onWindowMessage";
 import { sizeScreen } from "./sizeScreen";
+import { startVideoRecording } from "./video-recording/startVideoRecording";
 import { state } from "../state";
+import { stopVideoRecording } from "./video-recording/stopVideoRecording";
 import { syncNewgroundsMedals } from "./syncNewgroundsMedals";
 import { takeScreenshot } from "./takeScreenshot";
 import { tick } from "./tick";
@@ -94,6 +96,13 @@ export const performInitialization = async (): Promise<void> => {
   if (screenshotButtonElement === null) {
     throw new Error(
       "An attempt was made to init with no screenshot button element in the DOM.",
+    );
+  }
+  const recordingButtonElement: HTMLElement | null =
+    document.getElementById("recording-button");
+  if (recordingButtonElement === null) {
+    throw new Error(
+      "An attempt was made to init with no recording button element in the DOM.",
     );
   }
   const controlsButtonElement: HTMLElement | null =
@@ -582,6 +591,15 @@ export const performInitialization = async (): Promise<void> => {
   });
   screenshotButtonElement.addEventListener("click", (): void => {
     takeScreenshot();
+  });
+  recordingButtonElement.addEventListener("click", (): void => {
+    if (state.values.videoRecording === null) {
+      startVideoRecording({});
+      recordingButtonElement.innerText = "Stop recording";
+    } else {
+      stopVideoRecording();
+      recordingButtonElement.innerText = "Start recording";
+    }
   });
   controlsButtonElement.addEventListener("click", (): void => {
     goToPauseMenuSection("controls");

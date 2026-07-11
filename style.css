@@ -174,6 +174,10 @@ body:not(.paused) #unpause-button {
   margin-bottom: 0.5em;
 }
 
+#scale-video-recording {
+  margin-bottom: 0.5em;
+}
+
 #volume-sliders:not(:last-child) {
   margin-bottom: 0.5em;
 }
@@ -225,6 +229,19 @@ body:not(.paused) #unpause-button {
 }
 
 #scale-screenshot-input:focus-visible {
+  outline: 1px solid white;
+}
+
+#scale-video-recording-input {
+  background-color: transparent;
+  color: white;
+  border: 0.05em solid white;
+  width: 2em;
+  text-align: center;
+  margin-left: 0.125em;
+}
+
+#scale-video-recording-input:focus-visible {
   outline: 1px solid white;
 }
 
