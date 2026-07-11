@@ -19,6 +19,7 @@ import { attemptGetWorld } from "./functions/attemptGetWorld";
 import { create } from "nipplejs";
 import { volumeTestHowl } from "./howls/volumeTestHowl";
 import type { PixelScatter } from "./types/PixelScatter";
+import type { VideoRecording } from "./types/VideoRecording";
 
 interface StateSchema {
   readonly achievementUnlockRenderedAt: number | null;
@@ -69,6 +70,7 @@ interface StateSchema {
   readonly socket: Socket | null;
   readonly tilemapDownsampleScale: number;
   readonly type: string | null;
+  readonly videoRecording: VideoRecording | null;
   readonly world: World | null;
 }
 
@@ -121,6 +123,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   socket: null,
   tilemapDownsampleScale: 1,
   type: null,
+  videoRecording: null,
   world: null,
 });
 volumeTestHowl.on("load", (): void => {

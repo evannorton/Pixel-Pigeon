@@ -157,7 +157,11 @@ import { SetMainVolumeOptions, setMainVolume } from "./functions/setMainVolume";
 import {
   StartPixelScatterOptions,
   startPixelScatter,
-} from "./functions/pixelScatter/startPixelScatter";
+} from "./functions/pixel-scatter/startPixelScatter";
+import {
+  StartVideoRecordingOptions,
+  startVideoRecording,
+} from "./functions/video-recording/startVideoRecording";
 import { State } from "./classes/State";
 import { TextStyleAlign } from "pixi.js";
 import { clearMaxFPS } from "./functions/fps/clearMaxFPS";
@@ -189,7 +193,8 @@ import { setPauseMenuCondition } from "./functions/setPauseMenuCondition";
 import { setScreenshotClipboard } from "./functions/setScreenshotClipboard";
 import { setScreenshotScale } from "./functions/setScreenshotScale";
 import { setTilemapDownsampleScale } from "./functions/setTilemapDownsampleScale";
-import { stopPixelScatter } from "./functions/pixelScatter/stopPixelScatter";
+import { stopPixelScatter } from "./functions/pixel-scatter/stopPixelScatter";
+import { stopVideoRecording } from "./functions/video-recording/stopVideoRecording";
 import { takeScreenshot } from "./functions/takeScreenshot";
 import { unlockCameraFromEntity } from "./functions/unlockCameraFromEntity";
 import { unmuteVolume } from "./functions/unmuteVolume";
@@ -337,14 +342,16 @@ export {
   SetVolumeChannelVolumeOptions,
   startPixelScatter,
   StartPixelScatterOptions,
+  startVideoRecording,
+  StartVideoRecordingOptions,
   State,
   stopAudioSource,
   stopEntity,
   stopPixelScatter,
+  stopVideoRecording,
   takeScreenshot,
   TextStyleAlign,
   unlockAchievement,
   unlockCameraFromEntity,
   unmuteVolume,
 };
-export type { PixelScatter } from "./types/PixelScatter";
