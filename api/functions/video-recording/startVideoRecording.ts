@@ -1,33 +1,5 @@
+import { renderVideoRecordingFrame } from "./renderVideoRecordingFrame";
 import { state } from "../../state";
-
-interface RenderScaledVideoRecordingFrameOptions {
-  readonly renderAnimationFrameRequestID: {
-    current: number;
-  };
-  readonly scaledCanvas: HTMLCanvasElement;
-  readonly scaledCanvasContext: CanvasRenderingContext2D;
-}
-const renderScaledVideoRecordingFrame = (
-  options: RenderScaledVideoRecordingFrameOptions,
-): void => {
-  if (state.values.app === null) {
-    throw new Error(
-      "An attempt was made to render a scaled video recording frame before app was created.",
-    );
-  }
-  options.scaledCanvasContext.drawImage(
-    state.values.app.renderer.view,
-    0,
-    0,
-    options.scaledCanvas.width,
-    options.scaledCanvas.height,
-  );
-  options.renderAnimationFrameRequestID.current = requestAnimationFrame(
-    (): void => {
-      renderScaledVideoRecordingFrame(options);
-    },
-  );
-};
 
 export interface StartVideoRecordingOptions {
   readonly frameRate?: number;
@@ -84,18 +56,6 @@ export const startVideoRecording = (
     );
   }
   scaledCanvasContext.imageSmoothingEnabled = false;
-  const renderAnimationFrameRequestID: { current: number } = {
-    current: 0,
-  };
-  const renderScaledVideoRecordingFrameOptions: RenderScaledVideoRecordingFrameOptions =
-    {
-      renderAnimationFrameRequestID,
-      scaledCanvas,
-      scaledCanvasContext,
-    };
-  renderAnimationFrameRequestID.current = requestAnimationFrame((): void => {
-    renderScaledVideoRecordingFrame(renderScaledVideoRecordingFrameOptions);
-  });
   const mediaStream: MediaStream = scaledCanvas.captureStream(
     options.frameRate,
   );
@@ -112,7 +72,9 @@ export const startVideoRecording = (
       mediaRecorder,
       mediaStream,
       recordedChunks,
-      renderAnimationFrameRequestID,
+      scaledCanvas,
+      scaledCanvasContext,
     },
   });
+  renderVideoRecordingFrame();
 };

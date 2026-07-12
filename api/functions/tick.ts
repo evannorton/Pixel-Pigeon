@@ -1,6 +1,7 @@
 import { assetsAreLoaded } from "./assetsAreLoaded";
 import { gameIsPaused } from "./gameIsPaused";
 import { render } from "./render";
+import { renderVideoRecordingFrame } from "./video-recording/renderVideoRecordingFrame";
 import { state } from "../state";
 import { update } from "./update/update";
 import { updateGamepadBinding } from "./updateGamepadBinding";
@@ -17,6 +18,9 @@ export const tick = (): void => {
       update();
     }
     render();
+    if (state.values.videoRecording !== null) {
+      renderVideoRecordingFrame();
+    }
   }
   updateGamepadBinding();
 };

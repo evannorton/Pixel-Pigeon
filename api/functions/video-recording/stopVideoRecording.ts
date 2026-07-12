@@ -16,9 +16,6 @@ export const stopVideoRecording = (): void => {
   const mediaStream: MediaStream = state.values.videoRecording.mediaStream;
   const recordedChunks: Blob[] = state.values.videoRecording.recordedChunks;
   const recordingName: string = state.values.config.name;
-  cancelAnimationFrame(
-    state.values.videoRecording.renderAnimationFrameRequestID.current,
-  );
   mediaRecorder.onstop = (): void => {
     const blob: Blob = new Blob(recordedChunks, {
       type: mediaRecorder.mimeType,
