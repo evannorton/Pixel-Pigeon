@@ -1,3 +1,4 @@
+import { Howler } from "howler";
 import { renderVideoRecordingFrame } from "./renderVideoRecordingFrame";
 import { state } from "../../state";
 
@@ -20,6 +21,11 @@ export const startVideoRecording = (
   if (typeof MediaRecorder === "undefined") {
     throw new Error(
       "An attempt was made to start video recording in an environment that does not support MediaRecorder.",
+    );
+  }
+  if (Howler.ctx === null || Howler.masterGain === null) {
+    throw new Error(
+      "An attempt was made to start video recording before Howler audio was initialized.",
     );
   }
   if (typeof options.frameRate !== "undefined" && options.frameRate <= 0) {
@@ -59,6 +65,12 @@ export const startVideoRecording = (
   const mediaStream: MediaStream = scaledCanvas.captureStream(
     options.frameRate,
   );
+  const audioDestination: MediaStreamAudioDestinationNode =
+    Howler.ctx.createMediaStreamDestination();
+  Howler.masterGain.connect(audioDestination);
+  for (const audioTrack of audioDestination.stream.getAudioTracks()) {
+    mediaStream.addTrack(audioTrack);
+  }
   const recordedChunks: Blob[] = [];
   const mediaRecorder: MediaRecorder = new MediaRecorder(mediaStream, {});
   mediaRecorder.ondataavailable = (blobEvent: BlobEvent): void => {
@@ -69,6 +81,7 @@ export const startVideoRecording = (
   mediaRecorder.start();
   state.setValues({
     videoRecording: {
+      audioDestination,
       mediaRecorder,
       mediaStream,
       recordedChunks,

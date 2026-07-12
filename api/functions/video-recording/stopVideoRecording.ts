@@ -1,3 +1,4 @@
+import { Howler } from "howler";
 import { state } from "../../state";
 
 export const stopVideoRecording = (): void => {
@@ -11,6 +12,8 @@ export const stopVideoRecording = (): void => {
       "An attempt was made to stop video recording while no recording was in progress.",
     );
   }
+  const audioDestination: MediaStreamAudioDestinationNode =
+    state.values.videoRecording.audioDestination;
   const mediaRecorder: MediaRecorder =
     state.values.videoRecording.mediaRecorder;
   const mediaStream: MediaStream = state.values.videoRecording.mediaStream;
@@ -33,6 +36,9 @@ export const stopVideoRecording = (): void => {
     }
   };
   mediaRecorder.stop();
+  if (Howler.masterGain !== null) {
+    Howler.masterGain.disconnect(audioDestination);
+  }
   state.setValues({
     videoRecording: null,
   });
