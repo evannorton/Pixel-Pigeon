@@ -2,18 +2,21 @@
   "compilerOptions": {
     "incremental": false,
     "target": "ES2017",
-    "module": "commonjs",
+    "module": "preserve",
     "outDir": "lib",
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "useUnknownInCatchVariables": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "customConditions": [
+      "browser"
+    ],
     "baseUrl": "./",
     "paths": {
       "pixel-pigeon/*": [
