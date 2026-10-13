@@ -47,6 +47,7 @@ interface StateSchema {
   readonly isInitialized: boolean;
   readonly joystick: ReturnType<typeof create> | null;
   readonly joystickCondition: (() => boolean) | null;
+  readonly joystickForce: number;
   readonly ldtk: LDTK | null;
   readonly levelID: string | null;
   readonly loadedAssets: number;
@@ -100,6 +101,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   isInitialized: false,
   joystick: null,
   joystickCondition: null,
+  joystickForce: 0,
   ldtk: null,
   levelID: null,
   loadedAssets: 0,

@@ -33,7 +33,7 @@ export const cycleJoystick = (): void => {
         top: "50%",
       },
       size,
-      threshold: 0.5,
+      threshold: 0.1,
       zone: joystickElement,
     });
     joystickElement.style.width = `${size}px`;
@@ -77,10 +77,14 @@ export const cycleJoystick = (): void => {
       }
       state.setValues({
         heldJoystickDirection: null,
+        joystickForce: 0,
       });
     });
     // eslint-disable-next-line @typescript-eslint/typedef
     joystick.on("move", (e): void => {
+      state.setValues({
+        joystickForce: e.data.force,
+      });
       if (
         typeof e.data.direction === "undefined" ||
         typeof e.data.direction.angle === "undefined"

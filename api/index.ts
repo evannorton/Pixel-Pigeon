@@ -174,6 +174,7 @@ import { getFPS } from "./functions/fps/getFPS";
 import { getGameHeight } from "./functions/getGameHeight";
 import { getGameWidth } from "./functions/getGameWidth";
 import { getInputTickHandlerGroupID } from "./functions/getInputTickHandlerGroupID";
+import { getJoystickForce } from "./functions/getJoystickForce";
 import { goToLevel } from "./functions/goToLevel";
 import { handleError } from "./functions/handleError";
 import { initialize } from "./functions/initialize";
@@ -284,6 +285,7 @@ export {
   getGameHeight,
   getGameWidth,
   getInputTickHandlerGroupID,
+  getJoystickForce,
   getRectangleCollisionData,
   GetRectangleCollisionDataOptions,
   goToLevel,

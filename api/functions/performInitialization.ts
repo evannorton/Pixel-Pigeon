@@ -294,6 +294,7 @@ export const performInitialization = async (): Promise<void> => {
       heldJoystickDirection: null,
       heldKeyboardInputs: [],
       heldMouseInputs: [],
+      joystickForce: 0,
     });
   });
   addEventListener("resize", sizeScreen);
