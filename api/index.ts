@@ -169,7 +169,7 @@ import { exitLevel } from "./functions/exitLevel";
 import { getActiveLevelID } from "./functions/getActiveLevelID";
 import { getCurrentTime } from "./functions/getCurrentTime";
 import { getDeltaTime } from "./functions/getDeltaTime";
-import { getEnvironmentVariable } from "./functions/getEnvironmentVariable";
+import { getEnvironmentVariable } from "./functions/environment-variables/getEnvironmentVariable";
 import { getFPS } from "./functions/fps/getFPS";
 import { getGameHeight } from "./functions/getGameHeight";
 import { getGameWidth } from "./functions/getGameWidth";
@@ -178,6 +178,7 @@ import { getJoystickForce } from "./functions/getJoystickForce";
 import { goToLevel } from "./functions/goToLevel";
 import { handleError } from "./functions/handleError";
 import { initialize } from "./functions/initialize";
+import { isEnvironmentVariableDefined } from "./functions/environment-variables/isEnvironmentVariableDefined";
 import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { mergeHUDElementReferences } from "./functions/mergeHUDElementReferences";
 import { muteVolume } from "./functions/muteVolume";
@@ -293,6 +294,7 @@ export {
   HUDElementReferences,
   initialize,
   isEntityPathing,
+  isEnvironmentVariableDefined,
   isRectangleInLevel,
   IsRectangleInLevelOptions,
   listenToSocketioEvent,
