@@ -122,6 +122,10 @@ export interface CreateSpriteOptions {
    */
   imagePath: Scriptable<string>;
   isGrayscale?: Scriptable<boolean>;
+  /**
+   * When true, every non-transparent pixel is drawn black. Transparent pixels stay transparent.
+   */
+  isSilhouette?: Scriptable<boolean>;
   opacity?: Scriptable<number>;
   palette?: Scriptable<string[]>;
   recolors?: Scriptable<CreateSpriteOptionsRecolor[]>;
@@ -170,6 +174,7 @@ export class Sprite extends Definable {
   private _entity: SpriteEntity | null = null;
   private readonly _isGrayscale: Scriptable<boolean> = false;
   private readonly _imageSourceID: Scriptable<string>;
+  private readonly _isSilhouette: Scriptable<boolean> = false;
   private readonly _opacity: Scriptable<number>;
   private readonly _palette: Scriptable<string[]> = [];
   private readonly _pixiSprite: PixiSprite = new PixiSprite();
@@ -215,6 +220,7 @@ export class Sprite extends Definable {
     }
     this._downsampleScale = options.downsampleScale ?? 1;
     this._isGrayscale = options.isGrayscale ?? false;
+    this._isSilhouette = options.isSilhouette ?? false;
     this._opacity = options.opacity ?? 1;
     this._palette = Array.isArray(options.palette)
       ? [...options.palette]
@@ -561,6 +567,7 @@ export class Sprite extends Definable {
         } else {
           this._pixiSprite.filters = null;
         }
+        this._pixiSprite.tint = this.getIsSilhouette() ? 0x000000 : 0xffffff;
         const worldWidth: number = currentAnimationFrame.width;
         const worldHeight: number = currentAnimationFrame.height;
         const downsampleScale: number = this.getDownsampleScale();
@@ -761,6 +768,20 @@ export class Sprite extends Definable {
         return this._isGrayscale();
       } catch (error: unknown) {
         handleCaughtError(error, `Sprite "${this._id}" grayscale`, true);
+      }
+    }
+    return false;
+  }
+
+  private getIsSilhouette(): boolean {
+    if (typeof this._isSilhouette !== "undefined") {
+      if (typeof this._isSilhouette === "boolean") {
+        return this._isSilhouette;
+      }
+      try {
+        return this._isSilhouette();
+      } catch (error: unknown) {
+        handleCaughtError(error, `Sprite "${this._id}" isSilhouette`, true);
       }
     }
     return false;
