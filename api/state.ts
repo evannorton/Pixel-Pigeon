@@ -54,6 +54,7 @@ interface StateSchema {
   readonly mouseCoords: MouseCoords | null;
   readonly mousedownConsumed: boolean;
   readonly onErrorCallbacks: ((error: Error) => void)[];
+  readonly onInputCollectionsChangeCallbacks: (() => void)[];
   readonly onRunCallbacks: (() => void)[];
   readonly onTickCallbacks: (() => void)[];
   readonly pauseMenuCondition: (() => boolean) | null;
@@ -108,6 +109,7 @@ export const state: State<StateSchema> = new State<StateSchema>({
   mouseCoords: null,
   mousedownConsumed: false,
   onErrorCallbacks: [],
+  onInputCollectionsChangeCallbacks: [],
   onRunCallbacks: [],
   onTickCallbacks: [],
   pauseMenuCondition: null,

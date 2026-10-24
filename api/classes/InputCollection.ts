@@ -10,6 +10,7 @@ import {
   addInputBodyNumlockWithoutElement,
   addInputBodyNumlockWithoutInputElement,
 } from "../elements/addInputBodyElement";
+import { emitInputCollectionsChange } from "../functions/emitInputCollectionsChange";
 import { fireAlert } from "../functions/fireAlert";
 import { state } from "../state";
 
@@ -51,6 +52,7 @@ export class InputCollection extends Definable {
   private readonly _defaultKeyboardButtons: readonly KeyboardButton[];
   private readonly _defaultMouseButtons: readonly number[];
   private _gamepadButtons: number[];
+  private readonly _name: string;
   private _joystickDirections: ("down" | "left" | "right" | "up")[];
 
   private _keyboardButtons: KeyboardButton[];
@@ -91,7 +93,8 @@ export class InputCollection extends Definable {
       }),
     );
     this._defaultKeyboardButtons = keyboardButtons;
-    this._keyboardButtons = keyboardButtons;
+    this._keyboardButtons = [...keyboardButtons];
+    this._name = options.name;
     const mouseButtons: readonly number[] = options.mouseButtons ?? [];
     this._defaultMouseButtons = mouseButtons;
     this._mouseButtons = [...mouseButtons];
@@ -102,7 +105,7 @@ export class InputCollection extends Definable {
     const nameSectionElement: HTMLDivElement = document.createElement("div");
     infoElement.appendChild(nameSectionElement);
     const nameTextElement: HTMLSpanElement = document.createElement("span");
-    nameTextElement.innerText = options.name;
+    nameTextElement.innerText = this._name;
     nameSectionElement.appendChild(nameTextElement);
     // Values section
     const valuesSectionElement: HTMLDivElement = document.createElement("div");
@@ -133,50 +136,27 @@ export class InputCollection extends Definable {
                 : addInputBodyNumlockWithoutInputElement.checked
                   ? NumLock.Without
                   : null;
-          const addingKeyboardButton: KeyboardButton | null =
-            state.values.addingKeyboardValue !== null && numLock !== null
-              ? {
-                  numLock,
-                  value: state.values.addingKeyboardValue,
-                }
-              : null;
-          if (addingKeyboardButton !== null) {
-            if (
-              this._keyboardButtons.some(
-                (keyboardButton: KeyboardButton): boolean =>
-                  keyboardButton.value === addingKeyboardButton.value &&
-                  keyboardButton.numLock === addingKeyboardButton.numLock,
-              ) === false
-            ) {
-              this._keyboardButtons.push(addingKeyboardButton);
-            }
+          if (state.values.addingKeyboardValue !== null && numLock !== null) {
+            this.bindKeyboardButton({
+              numLock,
+              value: state.values.addingKeyboardValue,
+            });
             state.setValues({
               addingKeyboardValue: null,
             });
           }
           if (state.values.addingMouseValue !== null) {
-            if (
-              this._mouseButtons.includes(state.values.addingMouseValue) ===
-              false
-            ) {
-              this._mouseButtons.push(state.values.addingMouseValue);
-            }
+            this.bindMouseButton(state.values.addingMouseValue);
             state.setValues({
               addingMouseValue: null,
             });
           }
           if (state.values.addingGamepadValue !== null) {
-            if (
-              this._gamepadButtons.includes(state.values.addingGamepadValue) ===
-              false
-            ) {
-              this._gamepadButtons.push(state.values.addingGamepadValue);
-            }
+            this.bindGamepadButton(state.values.addingGamepadValue);
             state.setValues({
               addingGamepadValue: null,
             });
           }
-          this.updateValuesElements();
         },
         showCancelButton: true,
         showConfirmButton: true,
@@ -193,8 +173,7 @@ export class InputCollection extends Definable {
     this._buttonsClearElement = document.createElement("button");
     this._buttonsClearElement.innerText = "Clear inputs";
     this._buttonsClearElement.addEventListener("click", (): void => {
-      this.clear();
-      this.updateValuesElements();
+      this.clearInputs();
     });
     this._buttonsResetElement = document.createElement("button");
     this._buttonsResetElement.innerText = "Reset to defaults";
@@ -226,8 +205,75 @@ export class InputCollection extends Definable {
     return this._keyboardButtons;
   }
 
+  public get name(): string {
+    return this._name;
+  }
+
   public get mouseButtons(): readonly number[] {
     return this._mouseButtons;
+  }
+
+  public matchesDefaultInputs(): boolean {
+    const gamepadButtonsMatch: boolean = this.inputValuesMatch(
+      this._gamepadButtons,
+      this._defaultGamepadButtons,
+    );
+    const joystickDirectionsMatch: boolean = this.inputValuesMatch(
+      this._joystickDirections,
+      this._defaultJoystickDirections,
+    );
+    const keyboardButtonsMatch: boolean = this.keyboardButtonsMatchDefaults();
+    const mouseButtonsMatch: boolean = this.inputValuesMatch(
+      this._mouseButtons,
+      this._defaultMouseButtons,
+    );
+    return (
+      gamepadButtonsMatch &&
+      joystickDirectionsMatch &&
+      keyboardButtonsMatch &&
+      mouseButtonsMatch
+    );
+  }
+
+  public bindGamepadButton(gamepadButton: number): void {
+    if (this._gamepadButtons.includes(gamepadButton) === false) {
+      this._gamepadButtons.push(gamepadButton);
+      this.updateValuesElements();
+      emitInputCollectionsChange();
+    }
+  }
+
+  public bindKeyboardButton(keyboardButton: KeyboardButton): void {
+    const hasKeyboardButton: boolean = this._keyboardButtons.some(
+      (existingKeyboardButton: KeyboardButton): boolean =>
+        existingKeyboardButton.value === keyboardButton.value &&
+        existingKeyboardButton.numLock === keyboardButton.numLock,
+    );
+    if (hasKeyboardButton === false) {
+      this._keyboardButtons.push({
+        numLock: keyboardButton.numLock,
+        value: keyboardButton.value,
+      });
+      this.updateValuesElements();
+      emitInputCollectionsChange();
+    }
+  }
+
+  public bindMouseButton(mouseButton: number): void {
+    if (this._mouseButtons.includes(mouseButton) === false) {
+      this._mouseButtons.push(mouseButton);
+      this.updateValuesElements();
+      emitInputCollectionsChange();
+    }
+  }
+
+  public clearInputs(): void {
+    this._gamepadButtons.length = 0;
+    this._joystickDirections.length = 0;
+    this._keyboardButtons.length = 0;
+    this._mouseButtons.length = 0;
+    this.updateValuesElements();
+    emitInputCollectionsChange();
   }
 
   public resetToDefault(): void {
@@ -236,13 +282,64 @@ export class InputCollection extends Definable {
     this._keyboardButtons = [...this._defaultKeyboardButtons];
     this._mouseButtons = [...this._defaultMouseButtons];
     this.updateValuesElements();
+    emitInputCollectionsChange();
   }
 
-  private clear(): void {
-    this._gamepadButtons.length = 0;
-    this._joystickDirections.length = 0;
-    this._keyboardButtons.length = 0;
-    this._mouseButtons.length = 0;
+  private inputValuesMatch<Value>(
+    values: readonly Value[],
+    defaultValues: readonly Value[],
+  ): boolean {
+    let valuesMatch: boolean = values.length === defaultValues.length;
+    if (valuesMatch) {
+      for (
+        let valueIndex: number = 0;
+        valueIndex < values.length;
+        valueIndex++
+      ) {
+        const value: Value | undefined = values[valueIndex];
+        const defaultValue: Value | undefined = defaultValues[valueIndex];
+        if (
+          typeof value === "undefined" ||
+          typeof defaultValue === "undefined"
+        ) {
+          throw new Error("Input value is missing.");
+        }
+        if (value !== defaultValue) {
+          valuesMatch = false;
+        }
+      }
+    }
+    return valuesMatch;
+  }
+
+  private keyboardButtonsMatchDefaults(): boolean {
+    let keyboardButtonsMatch: boolean =
+      this._keyboardButtons.length === this._defaultKeyboardButtons.length;
+    if (keyboardButtonsMatch) {
+      for (
+        let keyboardButtonIndex: number = 0;
+        keyboardButtonIndex < this._keyboardButtons.length;
+        keyboardButtonIndex++
+      ) {
+        const keyboardButton: KeyboardButton | undefined =
+          this._keyboardButtons[keyboardButtonIndex];
+        const defaultKeyboardButton: KeyboardButton | undefined =
+          this._defaultKeyboardButtons[keyboardButtonIndex];
+        if (
+          typeof keyboardButton === "undefined" ||
+          typeof defaultKeyboardButton === "undefined"
+        ) {
+          throw new Error("Keyboard button is missing.");
+        }
+        if (
+          keyboardButton.numLock !== defaultKeyboardButton.numLock ||
+          keyboardButton.value !== defaultKeyboardButton.value
+        ) {
+          keyboardButtonsMatch = false;
+        }
+      }
+    }
+    return keyboardButtonsMatch;
   }
 
   private updateValuesElements(): void {

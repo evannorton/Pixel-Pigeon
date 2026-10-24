@@ -9,6 +9,22 @@ import {
   playAudioSource,
   stopAudioSource,
 } from "./classes/AudioSource";
+import {
+  BindInputCollectionGamepadButtonOptions,
+  bindInputCollectionGamepadButton,
+} from "./functions/bindInputCollectionGamepadButton";
+import {
+  BindInputCollectionKeyboardButtonOptions,
+  bindInputCollectionKeyboardButton,
+} from "./functions/bindInputCollectionKeyboardButton";
+import {
+  BindInputCollectionMouseButtonOptions,
+  bindInputCollectionMouseButton,
+} from "./functions/bindInputCollectionMouseButton";
+import {
+  ClearInputCollectionOptions,
+  clearInputCollection,
+} from "./functions/clearInputCollection";
 import { CollisionData } from "./types/CollisionData";
 import {
   ConnectToSocketioServerOptions,
@@ -137,9 +153,14 @@ import {
 } from "./functions/getRectangleCollisionData";
 import { HUDElementReferences } from "./types/HUDElementReferences";
 import {
+  InputCollectionSnapshot,
+  getInputCollections,
+} from "./functions/getInputCollections";
+import {
   IsRectangleInLevelOptions,
   isRectangleInLevel,
 } from "./functions/isRectangleInLevel";
+import { KeyboardButton } from "./types/KeyboardButton";
 import {
   ListenToSocketioEventOptions,
   listenToSocketioEvent,
@@ -152,6 +173,10 @@ import { NumLock } from "./types/NumLock";
 import { OverlapData } from "./types/OverlapData";
 import { PathingEntityExclusion } from "./types/PathingEntityExclusion";
 import { Rectangle } from "./types/Rectangle";
+import {
+  ResetInputCollectionOptions,
+  resetInputCollection,
+} from "./functions/resetInputCollection";
 import { Scriptable } from "./types/Scriptable";
 import { SetMainVolumeOptions, setMainVolume } from "./functions/setMainVolume";
 import {
@@ -183,6 +208,7 @@ import { lockCameraToEntity } from "./functions/lockCameraToEntity";
 import { mergeHUDElementReferences } from "./functions/mergeHUDElementReferences";
 import { muteVolume } from "./functions/muteVolume";
 import { onError } from "./functions/onError";
+import { onInputCollectionsChange } from "./functions/emitInputCollectionsChange";
 import { onRun } from "./functions/onRun";
 import { onTick } from "./functions/onTick";
 import { onWindowMessage } from "./functions/onWindowMessage";
@@ -208,6 +234,14 @@ export {
   addEntitySprite,
   applyAudioSourceVolume,
   ApplyAudioSourceVolumeOptions,
+  bindInputCollectionGamepadButton,
+  BindInputCollectionGamepadButtonOptions,
+  bindInputCollectionKeyboardButton,
+  BindInputCollectionKeyboardButtonOptions,
+  bindInputCollectionMouseButton,
+  BindInputCollectionMouseButtonOptions,
+  clearInputCollection,
+  ClearInputCollectionOptions,
   clearMaxFPS,
   CollisionData,
   connectToSocketioServer,
@@ -285,6 +319,8 @@ export {
   getFPS,
   getGameHeight,
   getGameWidth,
+  getInputCollections,
+  InputCollectionSnapshot,
   getInputTickHandlerGroupID,
   getJoystickForce,
   getRectangleCollisionData,
@@ -293,6 +329,7 @@ export {
   handleError,
   HUDElementReferences,
   initialize,
+  KeyboardButton,
   isEntityPathing,
   isEnvironmentVariableDefined,
   isRectangleInLevel,
@@ -308,6 +345,7 @@ export {
   muteVolume,
   NumLock,
   onError,
+  onInputCollectionsChange,
   onRun,
   onTick,
   onWindowMessage,
@@ -330,6 +368,8 @@ export {
   removeNineSlice,
   removeQuadrilateral,
   removeSprite,
+  resetInputCollection,
+  ResetInputCollectionOptions,
   Scriptable,
   setEntityBlockingPosition,
   setEntityLevel,
